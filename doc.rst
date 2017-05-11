@@ -1,0 +1,135 @@
+==================================
+Preview\_generator's Documentation
+==================================
+
+------------
+Presentation
+------------
+
+This module is meant to be used inside applications to generate the
+preview of a document. The context of creation of this module (as an
+example of use context) was for Tracim, a github project
+(https://github.com/Tracim/tracim) where users can put file on a
+repository in order to share it with other users. The only way to find a
+file was with his name. Hence it was decided to generate previews of the
+files in order to ease the location of one.
+
+--------------
+Format handled
+--------------
+
+
++-----------------------+-----------+-------+--------+--------+
+|                       |   JPEG    | PDF   | TEXT   | HTML   |
++=======================+===========+=======+========+========+
+| PNG                   |     OK    |       |        |        |
++-----------------------+-----------+-------+--------+--------+
+| JPEG                  |     OK    |       |        |        |
++-----------------------+-----------+-------+--------+--------+
+| BMP                   |     OK    |       |        |        |
++-----------------------+-----------+-------+--------+--------+
+| GIF                   |     OK    |       |        |        |
++-----------------------+-----------+-------+--------+--------+
+| PDF                   |     OK    |       |        |        |
++-----------------------+-----------+-------+--------+--------+
+| Compressed            |           |       |    OK  |     OK |
+| files                 |           |       |        |        |
++-----------------------+-----------+-------+--------+--------+
+| Office files          |     OK    |  OK   |        |        |
+| (word, LibreOffice)   |           |       |        |        |
++-----------------------+-----------+-------+--------+--------+
+| Text                  |           |       |   OK   |        |
++-----------------------+-----------+-------+--------+--------+
+
+
+
+------------
+Installation
+------------
+
+`pip install preview_generator`
+
+------------------------------------------------------------------------
+
+----
+Uses
+----
+
+Getting a preview
+-----------------
+
+.. code:: python
+
+  from PyPreviewGenerator.manager import *
+  manager = PreviewManager(path='/home/user/Pictures/')
+  path_to_file = manager.get_jpeg_preview(
+    file_path='/home/user/Pictures/myfile.gif',
+    height=100,
+    width=100,
+  )
+  print('Preview created at path : ', path_to_file)
+
+
+
+
+The preview manager
+-------------------
+
+.. code:: python
+
+  preview_manager = PreviewManager(cache_path)
+
+*args :*
+
+   *cache_path : a String of the path to the directory where the cache file will be stored*
+
+*returns :*
+
+  *a PreviewManager Object*
+
+The builders
+------------
+
+Here is the way it is meant to be used
+
+For Office types into PDF :
+===========================
+
+.. code:: python
+
+  preview_manager = PreviewManager(cache_path)
+  preview = preview_manager.get_pdf_preview(file_path,page=page_id)
+
+-> Will create a preview from an office file into a pdf file
+
+*args :*
+
+  *file_path : the String of the path where is the file you want to get the preview*
+
+  *page : the page you want to get. If not mentioned all the pages will be returned*
+
+*returns :*
+
+  *a FileIO stream of bytes of the pdf preview*
+
+For images(GIF, BMP, PNG, JPEG) into jpeg:
+==========================================
+
+.. code:: python
+
+  preview_manager = PreviewManager(cache_path)
+  preview = preview_manager.get_jpeg_preview(file_path,height=1024,width=526)
+
+-> Will create a preview from an image file into a jpeg file of size 1024 * 526
+
+*args :*
+
+  *file_path : the String of the path where is the file you want to get the preview*
+
+  *height : height of the preview in pixels*
+
+  *width : width of the preview in pixels. If not mentioned, width will be the same as height*
+
+*returns :*
+
+  *a FileIO stream of byte*s of the jpeg preview*
