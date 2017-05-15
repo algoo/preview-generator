@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+# python setup.py sdist upload -r pypi
 
 
 try:
@@ -37,14 +38,14 @@ if py_version != (3, 2):
 setup(
     name='PyPreviewGenerator',
     # this must be the same as the name above
-    version='0.1.6',
+    version='0.1.16',
     description='Generation of file previews',
     long_description=documentation,
     author='Algoo',
-    author_email='clemalex20@gmail.com',
-    url='https://github.com/herawo/file_previewer_poc',
-    download_url='https://github.com/herawo/file_previewer_poc/archive/0.1.tar.gz',
-    keywords=['preview', 'preview_generator', 'thumbnail'],
+    author_email='contact@algoo.fr',
+    url='https://github.com/algoo/preview-generator',
+    download_url='',
+    keywords=['preview', 'preview_generator', 'thumbnail', 'cache'],
     classifiers=[],
     packages=find_packages(exclude=['ez_setup']),
     install_requires=install_requires,

@@ -12,7 +12,7 @@ class PdfPreviewBuilder(PreviewBuilder):
 
     mimetype = ['application/pdf']
 
-    def build_jpeg_preview(self, file_path, cache_path, page_id: int, extension='.jpg', size=(256,256)):
+    def build_jpeg_preview(self, file_path, preview_name, cache_path, page_id: int, extension='.jpg', size=(256,256)):
         """
         generate the pdf small preview
         """
@@ -21,7 +21,6 @@ class PdfPreviewBuilder(PreviewBuilder):
         # except OSError:
         #     pass
 
-        file_name = self.get_file_hash(file_path, size)
         with open(file_path, 'rb') as pdf:
             input_pdf = PdfFileReader(pdf)
             output_pdf = PdfFileWriter()
@@ -32,7 +31,7 @@ class PdfPreviewBuilder(PreviewBuilder):
             result = file_converter.pdf_to_jpeg(output_stream, size)
 
             with open('{path}_{page_id}_{extension}'.format(
-                            path=cache_path + file_name,
+                            path=cache_path + preview_name,
                             page_id=page_id,
                             extension=extension
                     ), 'wb') as jpeg:
@@ -41,21 +40,19 @@ class PdfPreviewBuilder(PreviewBuilder):
                     jpeg.write(buffer)
                     buffer = result.read(1024)
 
-    def get_page_number(self, file_path, cache_path):
+    def get_page_number(self, file_path, preview_name, cache_path):
 
         # try:
         #     os.mkdir(cache_path.format(d_id=document_id)+'/')
         # except OSError:
         #     pass
 
-        file_name = self.get_file_hash(file_path)
-
-        with open(cache_path + file_name + '_page_nb', 'w') as count:
+        with open(cache_path + preview_name + '_page_nb', 'w') as count:
             count.seek(0, 0)
 
             with open(file_path, 'rb') as doc:
                 inputpdf = PdfFileReader(doc)
                 count.write(str(inputpdf.numPages))
-        with open(cache_path + file_name + '_page_nb', 'r') as count:
+        with open(cache_path + preview_name + '_page_nb', 'r') as count:
             count.seek(0, 0)
             return count.read()

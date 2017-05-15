@@ -7,7 +7,7 @@ class JpegPreviewBuilder(ImagePreviewBuilder):
 
     mimetype = ['image/jpeg']
 
-    def build_jpeg_preview(self, file_path, cache_path, page_id: int, extension='.jpeg', size=(256,256)):
+    def build_jpeg_preview(self, file_path, preview_name, cache_path, page_id: int, extension='.jpeg', size=(256,256)):
         """
         generate the jpeg preview
         """
@@ -17,11 +17,10 @@ class JpegPreviewBuilder(ImagePreviewBuilder):
         # except OSError:
         #     pass
 
-        file_name = self.get_file_hash(file_path, size)
         with open(file_path, 'rb') as img:
             result = file_converter.image_to_jpeg_wand(img, size)
             with open('{path}{extension}'.format(
-                            path=cache_path + file_name,
+                            path=cache_path + preview_name,
                             extension=extension
                     ),
                     'wb') as jpeg:

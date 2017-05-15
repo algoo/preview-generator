@@ -1,3 +1,4 @@
+README.txt
 setup.py
 PyPreviewGenerator/__init__.py
 PyPreviewGenerator/factory.py

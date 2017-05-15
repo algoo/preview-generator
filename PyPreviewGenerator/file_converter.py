@@ -73,9 +73,9 @@ def pdf_to_jpeg(pdf, size=(256,256)):
             return output
 
 
-def office_to_pdf(odt, cache_path, file_name):
+def  office_to_pdf(odt, cache_path, file_name):
     print('convert office document to pdf ')
-
+    print(file_name)
     try:
         os.mkdir(cache_path + file_name + '_flag')
     except OSError:
@@ -125,7 +125,6 @@ def office_to_pdf(odt, cache_path, file_name):
         )
     except OSError:
         pass
-
     with open('{path}{file_name}.pdf'.format(
         path=cache_path,
         file_name=file_name
@@ -169,7 +168,22 @@ def zip_to_html(zip):
 
 
 def zip_to_json(zip)->BytesIO:
-    a = 1
+    import json
+    zz = zipfile.ZipFile(zip)
+    output = BytesIO()
+    files = []
+    dictionnary = {}
+    for line, info in enumerate(zz.filelist):
+        date = '%d-%02d-%02d %02d:%02d:%02d' % info.date_time[:6]
+        files.append(['', '', ''])
+        files[line][0] = info.filename
+        files[line][1] = info.file_size
+        files[line][2] = date
+    dictionnary['file'] = files
+    content = json.dumps(dictionnary)
+    output.write(str.encode(content))
+    output.seek(0, 0)
+    return output
 
 def html_to_html(html)->BytesIO:
     a = 1

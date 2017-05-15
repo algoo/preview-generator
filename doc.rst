@@ -6,61 +6,77 @@ Preview\_generator's Documentation
 Presentation
 ------------
 
-This module is meant to be used inside applications to generate the
-preview of a document. The context of creation of this module (as an
-example of use context) was for Tracim, a github project
-(https://github.com/Tracim/tracim) where users can put file on a
-repository in order to share it with other users. The only way to find a
-file was with his name. Hence it was decided to generate previews of the
-files in order to ease the location of one.
+This module allows to generate jpeg, pdf, text or html preview for virtually any kind of files including a cache management.
+It allows to generate preview for a given page and put it in cache. The context of creation of this module (as an example of use context) was for **Tracim**, a github project (https://github.com/Tracim/tracim) where users can put file on a
+repository in order to share it with other users. The only way to find a file was with his name. Hence it was decided to generate previews of the files in order to ease the location of one. **Only works on Linux**.
+
+It is distributed with MIT license (https://choosealicense.com/licenses/mit/)
 
 --------------
 Format handled
 --------------
 
 
-+-----------------------+-----------+-------+--------+--------+
-|                       |   JPEG    | PDF   | TEXT   | HTML   |
-+=======================+===========+=======+========+========+
-| PNG                   |     OK    |       |        |        |
-+-----------------------+-----------+-------+--------+--------+
-| JPEG                  |     OK    |       |        |        |
-+-----------------------+-----------+-------+--------+--------+
-| BMP                   |     OK    |       |        |        |
-+-----------------------+-----------+-------+--------+--------+
-| GIF                   |     OK    |       |        |        |
-+-----------------------+-----------+-------+--------+--------+
-| PDF                   |     OK    |       |        |        |
-+-----------------------+-----------+-------+--------+--------+
-| Compressed            |           |       |    OK  |     OK |
-| files                 |           |       |        |        |
-+-----------------------+-----------+-------+--------+--------+
-| Office files          |     OK    |  OK   |        |        |
-| (word, LibreOffice)   |           |       |        |        |
-+-----------------------+-----------+-------+--------+--------+
-| Text                  |           |       |   OK   |        |
-+-----------------------+-----------+-------+--------+--------+
-
++-----------------------+-----------+--------+--------+--------+-------+
+|                       |   JPEG    |  PDF   | TEXT   | HTML   |  JSON |
++=======================+===========+========+========+========+=======+
+| PNG                   |    ☑      |        |        |        |       |
++-----------------------+-----------+--------+--------+--------+-------+
+| JPEG                  |    ☑      |        |        |        |       |
++-----------------------+-----------+--------+--------+--------+-------+
+| BMP                   |    ☑      |        |        |        |       |
++-----------------------+-----------+--------+--------+--------+-------+
+| GIF                   |    ☑      |        |        |        |       |
++-----------------------+-----------+--------+--------+--------+-------+
+| PDF                   |    ☑      |        |        |        |       |
++-----------------------+-----------+--------+--------+--------+-------+
+| Compressed            |           |        |   ☑    |   ☑    |   ☑   |
+| files                 |           |        |        |        |       |
++-----------------------+-----------+--------+--------+--------+-------+
+| Office files          |       ☑   |   ☑    |        |        |       |
+| (word, LibreOffice)   |           |        |        |        |       |
++-----------------------+-----------+--------+--------+--------+-------+
+| Text                  |           |        |   ☑    |        |       |
++-----------------------+-----------+--------+--------+--------+-------+
 
 
 ------------
 Installation
 ------------
 
-`pip install preview_generator`
+`pip install PyPreviewGenerator`
 
-------------------------------------------------------------------------
 
-----
-Uses
-----
+-----------
+Requirement
+-----------
+
+This package uses several libraries :
+
+  - wand
+  - python-magick
+  - pillow
+  - PyPDF2
+
+These should be automatically installed with the `pip install PyPreviewGenerator` command. But if some error occurs quoting one of these library, try to manually install them with a simple `pip install ...`
+
+**WARNING!** about **LibreOffice**
+
+If you want to use the conversion from an office file to pdf or jpeg, ensure that **LibreOffice** is already installed on the computer because the conversion is made by the Libreoffice's export feature.
+
+LibreOffice's download page : https://fr.libreoffice.org/download/libreoffice-stable/
+
+
+-----
+Usage
+-----
 
 Getting a preview
 -----------------
 
 .. code:: python
 
-  from PyPreviewGenerator.manager import *
+  from PyPreviewGenerator.manager import PreviewManager
   manager = PreviewManager(path='/home/user/Pictures/')
   path_to_file = manager.get_jpeg_preview(
     file_path='/home/user/Pictures/myfile.gif',
@@ -93,7 +109,7 @@ The builders
 Here is the way it is meant to be used
 
 For Office types into PDF :
-===========================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
@@ -112,8 +128,8 @@ For Office types into PDF :
 
   *a FileIO stream of bytes of the pdf preview*
 
-For images(GIF, BMP, PNG, JPEG) into jpeg:
-==========================================
+For images(GIF, BMP, PNG, JPEG, PDF) into jpeg :
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
@@ -132,4 +148,15 @@ For images(GIF, BMP, PNG, JPEG) into jpeg:
 
 *returns :*
 
-  *a FileIO stream of byte*s of the jpeg preview*
+  *a FileIO stream of bytes of the jpeg preview*
+
+Other conversions :
+~~~~~~~~~~~~~~~~~~~
+
+The principle is the same as above
+
+**Zip to text or html :** will build a list of files into texte/html inside the json
+
+**Office to jpeg :** will build the pdf out of the office file and then build the jpeg.
+
+**Text to text :** mainly just a copy stored in the cache
