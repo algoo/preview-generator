@@ -1,5 +1,6 @@
 from io import BytesIO
 
+import typing
 from PyPDF2 import PdfFileReader
 from PyPDF2 import PdfFileWriter
 
@@ -12,14 +13,10 @@ class PdfPreviewBuilder(PreviewBuilder):
 
     mimetype = ['application/pdf']
 
-    def build_jpeg_preview(self, file_path, preview_name, cache_path, page_id: int, extension='.jpg', size=(256,256)):
+    def build_jpeg_preview(self, file_path: str, preview_name: str, cache_path: str, page_id: int, extension: str='.jpg', size: typing.Tuple[int, int]=(256,256)) -> None:
         """
         generate the pdf small preview
         """
-        # try:
-        #     os.mkdir(cache_path.format(d_id=document_id))
-        # except OSError:
-        #     pass
 
         with open(file_path, 'rb') as pdf:
             input_pdf = PdfFileReader(pdf)
@@ -40,12 +37,7 @@ class PdfPreviewBuilder(PreviewBuilder):
                     jpeg.write(buffer)
                     buffer = result.read(1024)
 
-    def get_page_number(self, file_path, preview_name, cache_path):
-
-        # try:
-        #     os.mkdir(cache_path.format(d_id=document_id)+'/')
-        # except OSError:
-        #     pass
+    def get_page_number(self, file_path: str, preview_name: str, cache_path: str) -> int:
 
         with open(cache_path + preview_name + '_page_nb', 'w') as count:
             count.seek(0, 0)

@@ -10,10 +10,8 @@ PyPreviewGenerator.egg-info/dependency_links.txt
 PyPreviewGenerator.egg-info/requires.txt
 PyPreviewGenerator.egg-info/top_level.txt
 PyPreviewGenerator/preview/__init__.py
-PyPreviewGenerator/preview/bmp_preview.py
 PyPreviewGenerator/preview/generic_preview.py
-PyPreviewGenerator/preview/gif_preview.py
-PyPreviewGenerator/preview/jpeg_preview.py
+PyPreviewGenerator/preview/image_preview.py
 PyPreviewGenerator/preview/odt_preview.py
 PyPreviewGenerator/preview/pdf_preview.py
 PyPreviewGenerator/preview/png_preview.py

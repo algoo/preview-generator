@@ -2,7 +2,7 @@ from PyPreviewGenerator import file_converter
 from PyPreviewGenerator.preview.generic_preview import ImagePreviewBuilder
 
 
-class PngPreviewBuilder(ImagePreviewBuilder):
+class ImagePreviewBuilderPillow(ImagePreviewBuilder):
 
     mimetype = ['image/png']
 
@@ -10,12 +10,6 @@ class PngPreviewBuilder(ImagePreviewBuilder):
         """
         generate the jpg preview
         """
-
-        # try:
-        #     os.mkdir(cache_path.format(d_id=document_id))
-        # except OSError:
-        #     pass
-
         with open(file_path, 'rb') as img:
             result = file_converter.image_to_jpeg_pillow(img, size)
             with open(

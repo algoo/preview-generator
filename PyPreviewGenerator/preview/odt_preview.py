@@ -2,6 +2,7 @@ import os
 import time
 from io import BytesIO
 
+import typing
 from PyPDF2 import PdfFileReader
 from PyPDF2 import PdfFileWriter
 
@@ -50,17 +51,12 @@ class OfficePreviewBuilder(PreviewBuilder):
         'application/vnd.oasis.opendocument.database',
         'application/vnd.oasis.opendocument.image',
         'application/vnd.openofficeorg.extension'
-    ]
+    ] # type: typing.List[str]
 
-    def build_jpeg_preview(self, file_path, preview_name, cache_path, page_id: int, extension='.jpg', size=(256,256)):
+    def build_jpeg_preview(self, file_path: str, preview_name: str, cache_path: str, page_id: int, extension: str='.jpg', size: typing.Tuple[int, int]=(256,256)) -> None:
         """
         generate the text preview
         """
-
-        # try:
-        #     os.mkdir(cache_path.format(d_id=document_id)+'/')
-        # except OSError:
-        #     pass
 
 
         with open(file_path, 'rb') as odt:
@@ -79,6 +75,7 @@ class OfficePreviewBuilder(PreviewBuilder):
                     time.sleep(2)
                     self.build_pdf_preview(
                         file_path=file_path,
+                        preview_name=preview_name,
                         cache_path=cache_path,
                         extension=extension
                     )
@@ -109,12 +106,7 @@ class OfficePreviewBuilder(PreviewBuilder):
                     buffer = result2.read(1024)
 
 
-    def get_page_number(self, file_path, preview_name, cache_path):
-
-        # try:
-        #     os.mkdir(cache_path.format(d_id=document_id)+'/')
-        # except OSError:
-        #     pass
+    def get_page_number(self, file_path: str, preview_name: str, cache_path: str) -> str:
 
         if not os.path.exists(cache_path + preview_name + '.pdf'):
             self.build_pdf_preview(
@@ -140,15 +132,10 @@ class OfficePreviewBuilder(PreviewBuilder):
 
 
 
-    def build_pdf_preview(self, file_path, preview_name, cache_path, extension='.pdf'):
+    def build_pdf_preview(self, file_path: str, preview_name: str, cache_path: str, extension: str='.pdf') -> None:
         """
         generate the pdf large preview
         """
-
-        # try:
-        #     os.mkdir(cache_path.format(d_id=document_id))
-        # except OSError:
-        #     pass
 
         with open(file_path, 'rb') as odt:
 
@@ -162,7 +149,11 @@ class OfficePreviewBuilder(PreviewBuilder):
             else:
                 if os.path.exists(cache_path + preview_name + '_flag'):
                     time.sleep(2)
-                    self.build_pdf_preview(file_path, cache_path, extension)
+                    self.build_pdf_preview(
+                        file_path=file_path,
+                        preview_name=preview_name,
+                        cache_path=cache_path,
+                        extension=extension)
                 else:
                     result = file_converter.office_to_pdf(odt, cache_path, preview_name)
 
@@ -173,7 +164,7 @@ class OfficePreviewBuilder(PreviewBuilder):
                     buffer = result.read(1024)
 
 
-    def cache_file_process_already_running(self, file_name) -> bool:
+    def cache_file_process_already_running(self, file_name: str) -> bool:
         if os.path.exists(file_name + '_flag'):
             return True
         else:

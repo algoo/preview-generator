@@ -30,6 +30,7 @@ class PreviewManager(object):
 
         mimetype = self.factory.get_document_mimetype(file_path)
         builder = self.factory.get_preview_builder(mimetype)
+        print(builder.__class__)
         extension = '.jpeg'
         preview_name=self.get_file_hash(file_path, size)
         return builder.get_jpeg_preview(

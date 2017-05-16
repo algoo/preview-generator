@@ -2,34 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="be9959bf-1855-4d6d-a152-2450b2d6966f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test_lib/the_gif.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test_lib/the_odt.odt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test_lib/the_pdf.pdf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test_lib/the_png.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test_lib/the_zip.zip" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/README.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test_lib/test_all.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test_lib/test_gif_to_jpeg.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test_lib/test_odt_to_jpeg.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test_lib/test_pdf_to_jpeg.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test_lib/test_png_to_jpeg.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test_lib/text_zip_to_text.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/image_preview.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/bmp_preview.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/gif_preview.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/jpeg_preview.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/PKG-INFO" afterPath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/PKG-INFO" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/SOURCES.txt" afterPath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/SOURCES.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/file_converter.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/file_converter.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/manager.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/manager.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/bmp_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/bmp_preview.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/gif_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/gif_preview.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/jpeg_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/jpeg_preview.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/png_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/png_preview.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/text_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/text_preview.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/zip_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/zip_preview.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc.rst" afterPath="$PROJECT_DIR$/doc.rst" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/setup.py" afterPath="$PROJECT_DIR$/setup.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -49,95 +36,37 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="file_converter.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/file_converter.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="671">
-              <caret line="177" column="30" lean-forward="false" selection-start-line="177" selection-start-column="30" selection-end-line="177" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="generic_preview.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1000">
-              <caret line="28" column="43" lean-forward="false" selection-start-line="28" selection-start-column="43" selection-end-line="28" selection-end-column="43" />
-              <folding>
-                <marker date="1494840364522" expanded="true" signature="405:1085" ph="..." />
-                <marker date="1494840364522" expanded="true" signature="919:957" ph="..." />
-                <marker date="1494840364522" expanded="true" signature="1371:1390" ph="..." />
-                <marker date="1494840364522" expanded="true" signature="1599:1624" ph="..." />
-                <marker date="1494840364522" expanded="true" signature="1833:1857" ph="..." />
-                <marker date="1494840364522" expanded="true" signature="2039:2120" ph="..." />
-                <marker date="1494840364522" expanded="true" signature="2710:2778" ph="..." />
-                <marker date="1494840364522" expanded="true" signature="4622:4652" ph="..." />
-                <marker date="1494840364522" expanded="true" signature="5683:5713" ph="..." />
-                <marker date="1494840364522" expanded="true" signature="7468:7550" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="setup.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/setup.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="40" column="19" lean-forward="false" selection-start-line="40" selection-start-column="19" selection-end-line="40" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="doc.rst" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/doc.rst">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="9" column="50" lean-forward="false" selection-start-line="9" selection-start-column="50" selection-end-line="9" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="odt_preview.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="902">
-              <caret line="166" column="87" lean-forward="false" selection-start-line="166" selection-start-column="87" selection-end-line="166" selection-end-column="87" />
+            <state relative-caret-position="602">
+              <caret line="55" column="150" lean-forward="false" selection-start-line="55" selection-start-column="126" selection-end-line="55" selection-end-column="150" />
               <folding>
-                <marker date="1494841554895" expanded="true" signature="274:4636" ph="..." />
-                <marker date="1494841554895" expanded="true" signature="2720:2758" ph="..." />
+                <marker date="1494943750007" expanded="true" signature="288:4653" ph="..." />
+                <marker date="1494943750007" expanded="true" signature="2774:2841" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="manager.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/manager.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="302">
-              <caret line="19" column="52" lean-forward="false" selection-start-line="19" selection-start-column="52" selection-end-line="19" selection-end-column="52" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-                <marker date="1494841586510" expanded="true" signature="118:302" ph="..." />
-                <marker date="1494841586510" expanded="true" signature="207:211" ph="..." />
-                <marker date="1494841586510" expanded="true" signature="677:723" ph="..." />
-                <marker date="1494841586510" expanded="true" signature="1346:1370" ph="..." />
-                <marker date="1494841586510" expanded="true" signature="1877:1896" ph="..." />
-                <marker date="1494841586510" expanded="true" signature="2380:2399" ph="..." />
-                <marker date="1494841586510" expanded="true" signature="2884:2903" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pdf_preview.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="pdf_preview.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="851">
-              <caret line="55" column="43" lean-forward="false" selection-start-line="55" selection-start-column="43" selection-end-line="55" selection-end-column="43" />
+            <state relative-caret-position="160">
+              <caret line="15" column="169" lean-forward="false" selection-start-line="15" selection-start-column="169" selection-end-line="15" selection-end-column="169" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="image_preview.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/image_preview.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="11" column="151" lean-forward="false" selection-start-line="11" selection-start-column="127" selection-end-line="11" selection-end-column="151" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -162,6 +91,13 @@
       <find>t</find>
       <find>tur</find>
       <find>turb</find>
+      <find>cur</find>
+      <find>curr</find>
+      <find>curre</find>
+      <find>curren</find>
+      <find>current</find>
+      <find>current_</find>
+      <find>current_dir</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -199,19 +135,21 @@
         <option value="$PROJECT_DIR$/test_lib/test_all.py" />
         <option value="$PROJECT_DIR$/test_lib/test_gif_to_jpeg.py" />
         <option value="$PROJECT_DIR$/test_lib/test_png_to_jpeg.py" />
-        <option value="$PROJECT_DIR$/PyPreviewGenerator/file_converter.py" />
-        <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py" />
+        <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/zip_preview.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/bmp_preview.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/gif_preview.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/jpeg_preview.py" />
-        <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py" />
+        <option value="$PROJECT_DIR$/PyPreviewGenerator/manager.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/png_preview.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/text_preview.py" />
-        <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/zip_preview.py" />
-        <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py" />
-        <option value="$PROJECT_DIR$/PyPreviewGenerator/manager.py" />
         <option value="$PROJECT_DIR$/doc.rst" />
-        <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/PyPreviewGenerator/file_converter.py" />
+        <option value="$PROJECT_DIR$/t.py" />
+        <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py" />
+        <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/image_preview.py" />
+        <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py" />
+        <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py" />
       </list>
     </option>
   </component>
@@ -243,6 +181,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -267,24 +206,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="test_lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="previewer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="previewer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test_lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cache" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -336,12 +257,11 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../preview_generator" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -652,24 +572,25 @@
     <frame x="-1" y="27" width="1922" height="1174" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26923078" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" x="1060" y="127" width="761" height="974" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32851636" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32851636" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14850427" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32851636" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39980733" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32851636" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -686,92 +607,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
-          <caret line="57" column="6" lean-forward="false" selection-start-line="57" selection-start-column="6" selection-end-line="57" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/previewer/builder.py" />
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/gif_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="7" column="14" lean-forward="false" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
-          <folding>
-            <marker date="1494840364522" expanded="true" signature="405:1085" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="919:957" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="1371:1390" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="1599:1624" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="1833:1857" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="2039:2120" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="2710:2778" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="4622:4652" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="5683:5713" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="7468:7550" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="8" column="47" lean-forward="false" selection-start-line="8" selection-start-column="47" selection-end-line="8" selection-end-column="47" />
-          <folding>
-            <marker date="1494841554895" expanded="true" signature="274:4636" ph="..." />
-            <marker date="1494841554895" expanded="true" signature="2720:2758" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/manager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="14" lean-forward="false" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-            <marker date="1494841586510" expanded="true" signature="118:302" ph="..." />
-            <marker date="1494841586510" expanded="true" signature="207:211" ph="..." />
-            <marker date="1494841586510" expanded="true" signature="677:723" ph="..." />
-            <marker date="1494841586510" expanded="true" signature="1346:1370" ph="..." />
-            <marker date="1494841586510" expanded="true" signature="1877:1896" ph="..." />
-            <marker date="1494841586510" expanded="true" signature="2380:2399" ph="..." />
-            <marker date="1494841586510" expanded="true" signature="2884:2903" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/jpeg_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="2" column="14" lean-forward="false" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/file_converter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="6" column="8" lean-forward="false" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="20">
@@ -820,22 +655,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
           <caret line="8" column="1" lean-forward="false" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/factory.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="39" column="47" lean-forward="false" selection-start-line="39" selection-start-column="47" selection-end-line="39" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tgenv/lib/python3.4/site-packages/PIL/Image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-23">
-          <caret line="1747" column="8" lean-forward="false" selection-start-line="1747" selection-start-column="8" selection-end-line="1747" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -896,13 +715,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_lib/test_pdf_to_jpeg.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="6" column="41" lean-forward="false" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
@@ -921,141 +733,200 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/bmp_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="19" column="58" lean-forward="false" selection-start-line="19" selection-start-column="58" selection-end-line="19" selection-end-column="58" />
-          <folding>
-            <element signature="e#0#45#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/zip_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="782">
-          <caret line="47" column="47" lean-forward="false" selection-start-line="47" selection-start-column="47" selection-end-line="47" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#45#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/png_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="22" column="54" lean-forward="false" selection-start-line="22" selection-start-column="54" selection-end-line="22" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/text_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="20" column="54" lean-forward="false" selection-start-line="20" selection-start-column="54" selection-end-line="20" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#45#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/gif_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="19" column="58" lean-forward="false" selection-start-line="19" selection-start-column="58" selection-end-line="19" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/jpeg_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="22" column="58" lean-forward="false" selection-start-line="22" selection-start-column="58" selection-end-line="22" selection-end-column="58" />
-          <folding>
-            <element signature="e#1#46#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/file_converter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="671">
-          <caret line="177" column="30" lean-forward="false" selection-start-line="177" selection-start-column="30" selection-end-line="177" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/manager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="19" column="52" lean-forward="false" selection-start-line="19" selection-start-column="52" selection-end-line="19" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-            <marker date="1494841586510" expanded="true" signature="118:302" ph="..." />
-            <marker date="1494841586510" expanded="true" signature="207:211" ph="..." />
-            <marker date="1494841586510" expanded="true" signature="677:723" ph="..." />
-            <marker date="1494841586510" expanded="true" signature="1346:1370" ph="..." />
-            <marker date="1494841586510" expanded="true" signature="1877:1896" ph="..." />
-            <marker date="1494841586510" expanded="true" signature="2380:2399" ph="..." />
-            <marker date="1494841586510" expanded="true" signature="2884:2903" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="851">
-          <caret line="55" column="43" lean-forward="false" selection-start-line="55" selection-start-column="43" selection-end-line="55" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="902">
-          <caret line="166" column="87" lean-forward="false" selection-start-line="166" selection-start-column="87" selection-end-line="166" selection-end-column="87" />
-          <folding>
-            <marker date="1494841554895" expanded="true" signature="274:4636" ph="..." />
-            <marker date="1494841554895" expanded="true" signature="2720:2758" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1000">
-          <caret line="28" column="43" lean-forward="false" selection-start-line="28" selection-start-column="43" selection-end-line="28" selection-end-column="43" />
-          <folding>
-            <marker date="1494840364522" expanded="true" signature="405:1085" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="919:957" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="1371:1390" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="1599:1624" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="1833:1857" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="2039:2120" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="2710:2778" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="4622:4652" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="5683:5713" ph="..." />
-            <marker date="1494840364522" expanded="true" signature="7468:7550" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/bmp_preview.py" />
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/gif_preview.py" />
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/jpeg_preview.py" />
     <entry file="file://$PROJECT_DIR$/doc.rst">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="9" column="50" lean-forward="false" selection-start-line="9" selection-start-column="50" selection-end-line="9" selection-end-column="50" />
+        <state relative-caret-position="440">
+          <caret line="22" column="69" lean-forward="false" selection-start-line="22" selection-start-column="69" selection-end-line="22" selection-end-column="69" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="40" column="19" lean-forward="false" selection-start-line="40" selection-start-column="19" selection-end-line="40" selection-end-column="19" />
+        <state relative-caret-position="360">
+          <caret line="18" column="14" lean-forward="false" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/text_preview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="11" lean-forward="false" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/zip_preview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="780">
+          <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="51" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tgenv/lib/python3.4/site-packages/PIL/Image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="457">
+          <caret line="506" column="13" lean-forward="false" selection-start-line="506" selection-start-column="13" selection-end-line="506" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/factory.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="780">
+          <caret line="39" column="47" lean-forward="false" selection-start-line="39" selection-start-column="47" selection-end-line="39" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/lol.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/lol.jpeg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/mdr.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/mdr_resize.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/file_converter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="740">
+          <caret line="203" column="31" lean-forward="false" selection-start-line="203" selection-start-column="31" selection-end-line="203" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/file_converter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.cache/.fr-burt7u/PyPreviewGenerator-0.1.16/PyPreviewGenerator/file_converter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_lib/test_pdf_to_jpeg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="2" column="43" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/png_preview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="11" column="11" lean-forward="false" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2017.1/system/python_stubs/-1583074416/builtins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="337">
+          <caret line="5388" column="8" lean-forward="false" selection-start-line="5388" selection-start-column="8" selection-end-line="5388" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/t.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="9" column="5" lean-forward="false" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1980">
+          <caret line="99" column="0" lean-forward="false" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+            <marker date="1494855207280" expanded="true" signature="118:302" ph="..." />
+            <marker date="1494855207280" expanded="true" signature="207:211" ph="..." />
+            <marker date="1494855207280" expanded="true" signature="677:723" ph="..." />
+            <marker date="1494855207280" expanded="true" signature="1379:1403" ph="..." />
+            <marker date="1494855207280" expanded="true" signature="1910:1929" ph="..." />
+            <marker date="1494855207280" expanded="true" signature="2413:2432" ph="..." />
+            <marker date="1494855207280" expanded="true" signature="2917:2936" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="760">
+          <caret line="38" column="150" lean-forward="false" selection-start-line="38" selection-start-column="126" selection-end-line="38" selection-end-column="150" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <marker date="1494942937319" expanded="true" signature="678:1486" ph="..." />
+            <marker date="1494942937319" expanded="true" signature="1282:1350" ph="..." />
+            <marker date="1494942937319" expanded="true" signature="1815:1839" ph="..." />
+            <marker date="1494942937319" expanded="true" signature="2071:2101" ph="..." />
+            <marker date="1494942937319" expanded="true" signature="2333:2362" ph="..." />
+            <marker date="1494942937319" expanded="true" signature="2552:2676" ph="..." />
+            <marker date="1494942937319" expanded="true" signature="3274:3358" ph="..." />
+            <marker date="1494942937319" expanded="true" signature="5206:5241" ph="..." />
+            <marker date="1494942937319" expanded="true" signature="6321:6356" ph="..." />
+            <marker date="1494942937319" expanded="true" signature="8193:8319" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="602">
+          <caret line="55" column="150" lean-forward="false" selection-start-line="55" selection-start-column="126" selection-end-line="55" selection-end-column="150" />
+          <folding>
+            <marker date="1494943750007" expanded="true" signature="288:4653" ph="..." />
+            <marker date="1494943750007" expanded="true" signature="2774:2841" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/image_preview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="11" column="151" lean-forward="false" selection-start-line="11" selection-start-column="127" selection-end-line="11" selection-end-column="151" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="15" column="169" lean-forward="false" selection-start-line="15" selection-start-column="169" selection-end-line="15" selection-end-column="169" />
           <folding />
         </state>
       </provider>

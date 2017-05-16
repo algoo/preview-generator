@@ -4,17 +4,31 @@ from io import BytesIO
 from PIL import Image
 from wand.color import Color
 from wand.image import Image as WImage
+import json
 
 
 
-def image_to_jpeg_pillow(png, size=(256, 256)) -> BytesIO:
-    print('Converting png to jpeg of size ', size)
-    temp = Image.new('RGB', size, (255, 255, 255))
+def image_to_jpeg_pillow(png, preview_size=(256, 256)) -> BytesIO:
+    print('Converting png to jpeg of size ', preview_size)
+    temp = Image.new('RGB', (preview_size[1], preview_size[0]), (255, 255, 255))
+    print(temp.size)
     with Image.open(png) as image:
-        height, width = image.size
-        box = (0, 0, height, width)
+        b, a = image.size
+        x, y = preview_size
+        size_rate = (a/b)/(x/y)
+        if size_rate > 1:
+            a = int(a * (y / b))
+            b = int(b * (y / b))
+        else:
+            b = int(b * (x / a))
+            a = int(a * (x / a))
+        image = image.resize((b, a))
+        left = int((b/2)-(y/2))
+        top = int((a/2)-(x/2))
+        width = left + y
+        height = top + x
+        box = (left, top, width, height)
         layer_copied = image.crop(box)
-        layer_copied = layer_copied.resize(size)
         try:
             temp.paste(layer_copied, (0, 0), layer_copied)
         except ValueError:
@@ -25,20 +39,31 @@ def image_to_jpeg_pillow(png, size=(256, 256)) -> BytesIO:
         return output
 
 
-def image_to_jpeg_wand(jpeg, size=(256, 256)):
+def image_to_jpeg_wand(jpeg, preview_size=(256, 256)):
     '''
     for jpeg, gif and bmp
     :param jpeg: 
     :param size: 
     :return: 
     '''
-    print('Converting an image to jpeg of size ', size)
-
-    with WImage(file=jpeg) as jpeg2:
-        jpeg_cp = WImage(jpeg2)
-        jpeg_cp.resize(size[0], size[1])
-
-        content_as_bytes = jpeg_cp.make_blob('jpeg')
+    print('Converting an image to jpeg of size ', preview_size)
+    with WImage(file=jpeg) as image:
+        b, a = image.size
+        x, y = preview_size
+        size_rate = (a / b) / (x / y)
+        if size_rate > 1:
+            a = int(a * (y / b))
+            b = int(b * (y / b))
+        else:
+            b = int(b * (x / a))
+            a = int(a * (x / a))
+        image.resize(b, a)
+        left = int((b / 2) - (y / 2))
+        top = int((a / 2) - (x / 2))
+        width = left + y
+        height = top + x
+        image.crop(left, top, width, height)
+        content_as_bytes = image.make_blob('jpeg')
         output = BytesIO()
         output.write(content_as_bytes)
         output.seek(0, 0)
@@ -64,16 +89,14 @@ def pdf_to_jpeg(pdf, size=(256,256)):
                 left=0
             )
             image.crop(0, 0, width=breadth, height=breadth)
-            image.resize(size[0], size[1])
-
+            # image.resize(size[1], size[0])
             content_as_bytes = image.make_blob('jpeg')
             output = BytesIO()
             output.write(content_as_bytes)
             output.seek(0, 0)
             return output
 
-
-def  office_to_pdf(odt, cache_path, file_name):
+def office_to_pdf(odt, cache_path: str, file_name):
     print('convert office document to pdf ')
     print(file_name)
     try:
@@ -168,7 +191,6 @@ def zip_to_html(zip):
 
 
 def zip_to_json(zip)->BytesIO:
-    import json
     zz = zipfile.ZipFile(zip)
     output = BytesIO()
     files = []
@@ -187,3 +209,23 @@ def zip_to_json(zip)->BytesIO:
 
 def html_to_html(html)->BytesIO:
     a = 1
+
+def image_to_json(img):
+    print('Converting image to json')
+    info={}
+    with Image.open(img) as image:
+        info['height'] = image.size[0]
+        info['width'] = image.size[1]
+        output = BytesIO()
+        try:
+            image.save(output, 'JPEG')
+        except OSError:
+            image.save(output, 'GIF')
+        contents = output.getvalue()
+        output.close()
+        info['size'] = len(contents)
+    output = BytesIO()
+    content = json.dumps(info)
+    output.write(str.encode(content))
+    output.seek(0, 0)
+    return output

@@ -9,12 +9,6 @@ class TextPreviewBuilder(OnePagePreviewBuilder):
         """
         generate the text preview
         """
-
-        # try:
-        #     os.mkdir(cache_path.format(d_id=document_id))
-        # except OSError:
-        #     pass
-
         with open(file_path, 'rb') as img:
             result = file_converter.txt_to_txt(img)
             with open('{path}{extension}'.format(
