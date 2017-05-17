@@ -32,7 +32,6 @@ testpkgs = []
 install_requires = ['python-magic', 'Wand', 'PyPDF2', 'Pillow']
 
 if py_version >= (3, 5):
-    # Babel not available on 3.2
     install_requires.append("typing")
 
 setup(
