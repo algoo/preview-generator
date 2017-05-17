@@ -23,7 +23,7 @@ except ImportError:
 here = os.path.abspath(os.path.dirname(__file__))
 
 try:
-    documentation = open(os.path.join(here, 'doc.rst')).read()
+    documentation = open(os.path.join(here, 'README.rst')).read()
 except IOError:
     documentation = ''
 

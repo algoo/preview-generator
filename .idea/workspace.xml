@@ -3,18 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="be9959bf-1855-4d6d-a152-2450b2d6966f" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/PKG-INFO" afterPath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/PKG-INFO" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/factory.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/factory.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/file_converter.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/file_converter.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/manager.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/manager.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/png_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/png_preview.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/text_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/text_preview.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/zip_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/zip_preview.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc.rst" afterPath="$PROJECT_DIR$/doc.rst" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/setup.py" afterPath="$PROJECT_DIR$/setup.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -36,7 +24,7 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="file_converter.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="file_converter.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/file_converter.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="181">
@@ -73,21 +61,19 @@
       <file leaf-file-name="doc.rst" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/doc.rst">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="453">
-              <caret line="85" column="2" lean-forward="false" selection-start-line="85" selection-start-column="2" selection-end-line="85" selection-end-column="2" />
+            <state relative-caret-position="848">
+              <caret line="272" column="0" lean-forward="true" selection-start-line="272" selection-start-column="0" selection-end-line="272" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_gif_to_jpeg.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test_lib/test_gif_to_jpeg.py">
+      <file leaf-file-name="setup.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="11" selection-end-column="49" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="500">
+              <caret line="25" column="51" lean-forward="false" selection-start-line="25" selection-start-column="51" selection-end-line="25" selection-end-column="51" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -248,13 +234,13 @@
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/zip_preview.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/factory.py" />
         <option value="$PROJECT_DIR$/t.py" />
-        <option value="$PROJECT_DIR$/setup.py" />
-        <option value="$PROJECT_DIR$/doc.rst" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/manager.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/file_converter.py" />
+        <option value="$PROJECT_DIR$/doc.rst" />
+        <option value="$PROJECT_DIR$/setup.py" />
       </list>
     </option>
   </component>
@@ -600,6 +586,24 @@
       <module name="PREVIEWER" />
       <method />
     </configuration>
+    <configuration default="true" type="docs" factoryName="Docutils task">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PREVIEWER" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="docutils_input_file" value="" />
+      <option name="docutils_output_file" value="" />
+      <option name="docutils_params" value="" />
+      <option name="docutils_task" value="" />
+      <option name="docutils_open_in_browser" value="false" />
+      <method />
+    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-interpreter>project</node-interpreter>
       <node-options />
@@ -697,13 +701,13 @@
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32851636" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32851636" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15010683" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32851636" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32851636" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39980733" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -895,16 +899,8 @@
         <state relative-caret-position="180">
           <caret line="9" column="42" lean-forward="false" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="47" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1000">
-          <caret line="50" column="28" lean-forward="false" selection-start-line="50" selection-start-column="28" selection-end-line="50" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1026,14 +1022,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/doc.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="453">
-          <caret line="85" column="2" lean-forward="false" selection-start-line="85" selection-start-column="2" selection-end-line="85" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/file_converter.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="181">
@@ -1041,6 +1029,22 @@
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doc.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="848">
+          <caret line="272" column="0" lean-forward="true" selection-start-line="272" selection-start-column="0" selection-end-line="272" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="25" column="51" lean-forward="false" selection-start-line="25" selection-start-column="51" selection-end-line="25" selection-end-column="51" />
+          <folding />
         </state>
       </provider>
     </entry>

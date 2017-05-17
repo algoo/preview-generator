@@ -51,6 +51,14 @@ Installation
 Requirement
 -----------
 
+Some packages are needed but may also be already on your OS. You can check if they are already installed or you can just try to install PyPreviewGenerator and if the `pip install PyPreviewGenerator` command fails, do :
+
+`apt-get install zlib1g-dev`
+
+`apt-get install libjpeg-dev`
+
+and try `pip install PyPreviewGenerator` again.
+
 This package uses several libraries :
 
   - wand
@@ -58,7 +66,7 @@ This package uses several libraries :
   - pillow
   - PyPDF2
 
-These should be automatically installed with the `pip install PyPreviewGenerator` command. But if some error occurs quoting one of these library, try to install them 1 by 1 with a simple `pip install ...` to locate the problem
+These should be automatically installed with the `pip install PyPreviewGenerator` command. But if some error occurs quoting one of these library, try to install them 1 by 1 with a simple `pip install ...` to locate the library that causes the problem.
 
 **WARNING!** about **LibreOffice**
 
@@ -122,7 +130,7 @@ For Office types into PDF :
 
   *file_path : the String of the path where is the file you want to get the preview*
 
-  *page : the page you want to get. If not mentioned all the pages will be returned*
+  *page : the page you want to get. If not mentioned all the pages will be returned. First page is page 0*
 
 *returns :*
 
@@ -160,3 +168,105 @@ The principle is the same as above
 **Office to jpeg :** will build the pdf out of the office file and then build the jpeg.
 
 **Text to text :** mainly just a copy stored in the cache
+
+
+---------------
+Cache mechanism
+---------------
+
+
+Naming :
+--------
+
+The name of the preview generated in the cache directory will be :
+
+{file_name}-[{size}-]{file_md5sum}[({page})]{extension}
+  file_name = the name of the file you asked for a preview without the extension.
+
+  size = the size you asked for the preview. In case of a Jpeg preview.
+
+  file_md5sum = the md5sum of the entire path of the file. To avoid conflicts like files that have the same name but are in different directory.
+
+  page = the page asked in case of pdf or office document preview.
+
+  extensions = the extension of the preview (.jpeg for a jpeg, .txt for a text, etc)
+
+
+Example :
+---------
+
+These scripts :
+
+GIF to JPEG :
+~~~~~~~~~~~~~
+
+
+.. code:: python
+
+  import os
+  from PyPreviewGenerator.manager import PreviewManager
+  current_dir = os.path.dirname(os.path.abspath(__file__)) +'/'
+
+  manager = PreviewManager(path=current_dir + 'cache')
+  path_to_file = manager.get_jpeg_preview(
+      file_path=current_dir + 'the_gif.gif',
+      height=512,
+      width=512,
+  )
+
+  print('Preview created at path : ', path_to_file)
+
+will print
+
+  Preview created at path : the_gif-512x512-60dc9ef46936cc4fff2fe60bb07d4260.jpeg
+
+ODT to JPEG :
+~~~~~~~~~~~~~
+
+.. code:: python
+
+  import os
+  from PyPreviewGenerator.manager import PreviewManager
+  current_dir = os.path.dirname(os.path.abspath(__file__)) +'/'
+
+  manager = PreviewManager(path=current_dir + 'cache')
+  path_to_file = manager.get_jpeg_preview(
+      file_path=current_dir + 'the_odt.odt',
+      page=1,
+      height=1024,
+      width=1024,
+  )
+
+  print('Preview created at path : ', path_to_file)
+
+will print
+
+  Preview created at path : the_odt-1024x1024-c8b37debbc45fa96466e5e1382f6bd2e(1).jpeg
+
+ZIP to Text :
+~~~~~~~~~~~~~
+.. code:: python
+
+  import os
+  from PyPreviewGenerator.manager import PreviewManager
+  current_dir = os.path.dirname(os.path.abspath(__file__)) +'/'
+
+  manager = PreviewManager(path=current_dir + 'cache')
+  path_to_file = manager.get_text_preview(
+      file_path=current_dir + 'the_zip.zip',
+  )
+
+  print('Preview created at path : ', path_to_file)
+
+will print
+
+  Preview created at path : the_zip-a733739af8006558720be26c4dc5569a.txt
+
+
+
+
+
+
+
+
+
