@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="be9959bf-1855-4d6d-a152-2450b2d6966f" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/doc.rst" afterPath="$PROJECT_DIR$/README.rst" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/PKG-INFO" afterPath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/PKG-INFO" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/SOURCES.txt" afterPath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/SOURCES.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/requires.txt" afterPath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/requires.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.rst" afterPath="$PROJECT_DIR$/README.rst" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/setup.py" afterPath="$PROJECT_DIR$/setup.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,8 +32,8 @@
       <file leaf-file-name="file_converter.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/file_converter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="201" column="0" lean-forward="false" selection-start-line="201" selection-start-column="0" selection-end-line="218" selection-end-column="17" />
+            <state relative-caret-position="441">
+              <caret line="205" column="23" lean-forward="true" selection-start-line="205" selection-start-column="23" selection-end-line="205" selection-end-column="23" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -41,6 +46,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="440">
               <caret line="29" column="40" lean-forward="false" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="image_preview.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/image_preview.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="160">
+              <caret line="11" column="151" lean-forward="false" selection-start-line="11" selection-start-column="127" selection-end-line="11" selection-end-column="151" />
               <folding />
             </state>
           </provider>
@@ -61,8 +76,8 @@
       <file leaf-file-name="README.rst" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.rst">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="848">
-              <caret line="272" column="0" lean-forward="false" selection-start-line="272" selection-start-column="0" selection-end-line="272" selection-end-column="0" />
+            <state relative-caret-position="507">
+              <caret line="287" column="0" lean-forward="true" selection-start-line="287" selection-start-column="0" selection-end-line="287" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -71,8 +86,8 @@
       <file leaf-file-name="setup.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="33" column="24" lean-forward="false" selection-start-line="33" selection-start-column="24" selection-end-line="33" selection-end-column="24" />
+            <state relative-caret-position="161">
+              <caret line="38" column="19" lean-forward="false" selection-start-line="38" selection-start-column="19" selection-end-line="38" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -81,8 +96,8 @@
       <file leaf-file-name="generic_preview.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="115" column="44" lean-forward="false" selection-start-line="115" selection-start-column="44" selection-end-line="115" selection-end-column="44" />
+            <state relative-caret-position="678">
+              <caret line="240" column="47" lean-forward="false" selection-start-line="240" selection-start-column="26" selection-end-line="240" selection-end-column="47" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
                 <marker date="1495025566694" expanded="true" signature="736:1519" ph="..." />
@@ -110,21 +125,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_odt_to_jpeg.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test_lib/test_odt_to_jpeg.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="12" selection-end-column="49" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="odt_preview.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="48">
-              <caret line="94" column="49" lean-forward="false" selection-start-line="94" selection-start-column="49" selection-end-line="94" selection-end-column="49" />
+            <state relative-caret-position="-652">
+              <caret line="83" column="57" lean-forward="true" selection-start-line="83" selection-start-column="29" selection-end-line="83" selection-end-column="57" />
               <folding>
                 <marker date="1495024759007" expanded="true" signature="288:4653" ph="..." />
                 <marker date="1495024759007" expanded="true" signature="2774:2841" ph="..." />
@@ -240,6 +245,7 @@
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/file_converter.py" />
         <option value="$PROJECT_DIR$/doc.rst" />
+        <option value="$PROJECT_DIR$/README.rst" />
         <option value="$PROJECT_DIR$/setup.py" />
       </list>
     </option>
@@ -850,16 +856,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/image_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="11" column="151" lean-forward="false" selection-start-line="11" selection-start-column="127" selection-end-line="11" selection-end-column="151" />
-          <folding>
-            <element signature="e#0#13#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/t.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -940,17 +936,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="94" column="49" lean-forward="false" selection-start-line="94" selection-start-column="49" selection-end-line="94" selection-end-column="49" />
-          <folding>
-            <marker date="1495024759007" expanded="true" signature="288:4653" ph="..." />
-            <marker date="1495024759007" expanded="true" signature="2774:2841" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test_lib/test_pdf_to_jpeg.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="20">
@@ -1004,8 +989,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="115" column="44" lean-forward="false" selection-start-line="115" selection-start-column="44" selection-end-line="115" selection-end-column="44" />
+        <state relative-caret-position="678">
+          <caret line="240" column="47" lean-forward="false" selection-start-line="240" selection-start-column="26" selection-end-line="240" selection-end-column="47" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
             <marker date="1495025566694" expanded="true" signature="736:1519" ph="..." />
@@ -1022,10 +1007,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/image_preview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="11" column="151" lean-forward="false" selection-start-line="11" selection-start-column="127" selection-end-line="11" selection-end-column="151" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-652">
+          <caret line="83" column="57" lean-forward="true" selection-start-line="83" selection-start-column="29" selection-end-line="83" selection-end-column="57" />
+          <folding>
+            <marker date="1495024759007" expanded="true" signature="288:4653" ph="..." />
+            <marker date="1495024759007" expanded="true" signature="2774:2841" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/file_converter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="201" column="0" lean-forward="false" selection-start-line="201" selection-start-column="0" selection-end-line="218" selection-end-column="17" />
+        <state relative-caret-position="441">
+          <caret line="205" column="23" lean-forward="true" selection-start-line="205" selection-start-column="23" selection-end-line="205" selection-end-column="23" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -1034,16 +1038,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.rst">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="848">
-          <caret line="272" column="0" lean-forward="false" selection-start-line="272" selection-start-column="0" selection-end-line="272" selection-end-column="0" />
+        <state relative-caret-position="507">
+          <caret line="287" column="0" lean-forward="true" selection-start-line="287" selection-start-column="0" selection-end-line="287" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="33" column="24" lean-forward="false" selection-start-line="33" selection-start-column="24" selection-end-line="33" selection-end-column="24" />
+        <state relative-caret-position="161">
+          <caret line="38" column="19" lean-forward="false" selection-start-line="38" selection-start-column="19" selection-end-line="38" selection-end-column="19" />
           <folding />
         </state>
       </provider>

@@ -263,10 +263,25 @@ will print
   Preview created at path : the_zip-a733739af8006558720be26c4dc5569a.txt
 
 
+--------------------
+Adding new feature :
+--------------------
 
+Before all, I'd be glad if you could share your new feature with everybody. So if you want to, you can fork it on github ( https://github.com/algoo/preview-generator) and submit new features.
 
+If you want to add a new preview builder to handle documents of type **foo** into **jpeg** (for example) here is how to proceed :
 
+ - **Warning** If you need to look at other builders to find out how to proceed, avoid looking at any of the Office to something. It is a particular case and could misslead you.
+ - Create a new class FooPreviewBuilder in a file foo_preview.py in PyPreviewGenerator/preview
+ - Make him inherit from the logical PreviewBuilder class
 
+   * if it handles several pages it will be `class FooPreviewBuilder(PreviewBuilder)`
+   * for single page it will be `class FooPreviewBuilder(OnePagePreviewBuilder)`
+   * ...
+ - define you own `build_jpeg_preview(...)` (in the case we want to make **foo** into **jpeg**) based on the same principle as other build_{type}_preview(...)
+ - Inside this build_jpeg_preview(...) you will call a method file_converter.foo_to_jpeg(...)
+ - Define your foo_to_jpeg(...) method in PyPreviewGenerator.file_converter.py
 
-
-
+   * inputs must be a stream of bytes and optional informations like a number of pages, a size, ...
+   * output must also be a stream of bytes
+ - Maybe you'll need to redefine some methods like `get_page_number()` or `exists_preview()` in your FooPreviewBuilder class

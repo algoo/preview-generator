@@ -2,4 +2,3 @@ python-magic
 Wand
 PyPDF2
 Pillow
-Babel

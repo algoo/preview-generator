@@ -1,6 +1,6 @@
-Metadata-Version: 1.0
+Metadata-Version: 1.2
 Name: PyPreviewGenerator
-Version: 0.1.17
+Version: 0.1.19
 Summary: Generation of file previews
 Home-page: https://github.com/algoo/preview-generator
 Author: Algoo
@@ -59,6 +59,14 @@ Description: ==================================
         Requirement
         -----------
         
+        Some packages are needed but may also be already on your OS. You can check if they are already installed or you can just try to install PyPreviewGenerator and if the `pip install PyPreviewGenerator` command fails, do :
+        
+        `apt-get install zlib1g-dev`
+        
+        `apt-get install libjpeg-dev`
+        
+        and try `pip install PyPreviewGenerator` again.
+        
         This package uses several libraries :
         
           - wand
@@ -66,7 +74,7 @@ Description: ==================================
           - pillow
           - PyPDF2
         
-        These should be automatically installed with the `pip install PyPreviewGenerator` command. But if some error occurs quoting one of these library, try to manually install them with a simple `pip install ...`
+        These should be automatically installed with the `pip install PyPreviewGenerator` command. But if some error occurs quoting one of these library, try to install them 1 by 1 with a simple `pip install ...` to locate the library that causes the problem.
         
         **WARNING!** about **LibreOffice**
         
@@ -130,7 +138,7 @@ Description: ==================================
         
           *file_path : the String of the path where is the file you want to get the preview*
         
-          *page : the page you want to get. If not mentioned all the pages will be returned*
+          *page : the page you want to get. If not mentioned all the pages will be returned. First page is page 0*
         
         *returns :*
         
@@ -168,5 +176,125 @@ Description: ==================================
         **Office to jpeg :** will build the pdf out of the office file and then build the jpeg.
         
         **Text to text :** mainly just a copy stored in the cache
+        
+        
+        ---------------
+        Cache mechanism
+        ---------------
+        
+        
+        Naming :
+        --------
+        
+        The name of the preview generated in the cache directory will be :
+        
+        {file_name}-[{size}-]{file_md5sum}[({page})]{extension}
+          file_name = the name of the file you asked for a preview without the extension.
+        
+          size = the size you asked for the preview. In case of a Jpeg preview.
+        
+          file_md5sum = the md5sum of the entire path of the file. To avoid conflicts like files that have the same name but are in different directory.
+        
+          page = the page asked in case of pdf or office document preview.
+        
+          extensions = the extension of the preview (.jpeg for a jpeg, .txt for a text, etc)
+        
+        
+        Example :
+        ---------
+        
+        These scripts :
+        
+        GIF to JPEG :
+        ~~~~~~~~~~~~~
+        
+        
+        .. code:: python
+        
+          import os
+          from PyPreviewGenerator.manager import PreviewManager
+          current_dir = os.path.dirname(os.path.abspath(__file__)) +'/'
+        
+          manager = PreviewManager(path=current_dir + 'cache')
+          path_to_file = manager.get_jpeg_preview(
+              file_path=current_dir + 'the_gif.gif',
+              height=512,
+              width=512,
+          )
+        
+          print('Preview created at path : ', path_to_file)
+        
+        will print
+        
+          Preview created at path : the_gif-512x512-60dc9ef46936cc4fff2fe60bb07d4260.jpeg
+        
+        ODT to JPEG :
+        ~~~~~~~~~~~~~
+        
+        .. code:: python
+        
+          import os
+          from PyPreviewGenerator.manager import PreviewManager
+          current_dir = os.path.dirname(os.path.abspath(__file__)) +'/'
+        
+          manager = PreviewManager(path=current_dir + 'cache')
+          path_to_file = manager.get_jpeg_preview(
+              file_path=current_dir + 'the_odt.odt',
+              page=1,
+              height=1024,
+              width=1024,
+          )
+        
+          print('Preview created at path : ', path_to_file)
+        
+        will print
+        
+          Preview created at path : the_odt-1024x1024-c8b37debbc45fa96466e5e1382f6bd2e(1).jpeg
+        
+        ZIP to Text :
+        ~~~~~~~~~~~~~
+        .. code:: python
+        
+          import os
+          from PyPreviewGenerator.manager import PreviewManager
+          current_dir = os.path.dirname(os.path.abspath(__file__)) +'/'
+        
+          manager = PreviewManager(path=current_dir + 'cache')
+          path_to_file = manager.get_text_preview(
+              file_path=current_dir + 'the_zip.zip',
+          )
+        
+          print('Preview created at path : ', path_to_file)
+        
+        will print
+        
+          Preview created at path : the_zip-a733739af8006558720be26c4dc5569a.txt
+        
+        
+        --------------------
+        Adding new feature :
+        --------------------
+        
+        Before all, I'd be glad if you could share your new feature with everybody. So if you want to, you can fork it on github ( https://github.com/algoo/preview-generator) and submit new features.
+        
+        If you want to add a new preview builder to handle documents of type **foo** into **jpeg** (for example) here is how to proceed :
+        
+         - **Warning** If you need to look at other builders to find out how to proceed, avoid looking at any of the Office to something. It is a particular case and could misslead you.
+         - Create a new class FooPreviewBuilder in a file foo_preview.py in PyPreviewGenerator/preview
+         - Make him inherit from the logical PreviewBuilder class
+        
+           * if it handles several pages it will be `class FooPreviewBuilder(PreviewBuilder)`
+           * for single page it will be `class FooPreviewBuilder(OnePagePreviewBuilder)`
+           * ...
+         - define you own `build_jpeg_preview(...)` (in the case we want to make **foo** into **jpeg**) based on the same principle as other build_{type}_preview(...)
+         - Inside this build_jpeg_preview(...) you will call a method file_converter.foo_to_jpeg(...)
+         - Define your foo_to_jpeg(...) method in PyPreviewGenerator.file_converter.py
+        
+           * inputs must be a stream of bytes and optional informations like a number of pages, a size, ...
+           * output must also be a stream of bytes
+         - Maybe you'll need to redefine some methods like `get_page_number()` or `exists_preview()` in your FooPreviewBuilder class
+        
 Keywords: preview,preview_generator,thumbnail,cache
 Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3.4
+Requires-Python: >=3.4
