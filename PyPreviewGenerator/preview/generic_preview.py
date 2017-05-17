@@ -10,12 +10,16 @@ from PyPreviewGenerator import file_converter
 from PyPreviewGenerator.factory import PreviewBuilderFactory
 
 
+class PreviewBuilderInterface(object):
+    pass
+
+
 class PreviewBuilderMeta(type):
-    def __new__(mcs, *args: str, **kwargs: int) -> typing.Type[PreviewBuilder]:
+    def __new__(mcs, *args: str, **kwargs: int) -> typing.Type['PreviewBuilder']:
         cls = super().__new__(mcs, *args, **kwargs)
-        if not issubclass(cls, PreviewBuilder):
-            raise Exception('This should be use with a PreviewBuilder class')
-        cls = typing.cast(typing.Type[PreviewBuilder], cls)
+        # if not issubclass(cls, PreviewBuilder):
+        #     raise Exception('This should be use with a PreviewBuilder class')
+        cls = typing.cast(typing.Type['PreviewBuilder'], cls)
         cls.register()
         return cls
 
@@ -25,7 +29,7 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
     mimetype=[] # type: typing.List[str]
 
     def __init__(self) -> None:
-        print('New Preview Builder')
+        pass
 
     @classmethod
     def get_mimetypes_supported(cls) -> typing.List[str]:
@@ -33,7 +37,7 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
 
     def get_page_number(self, preview_name: str, file_path: str, cache_path: str) -> int:
         raise Exception('Number of pages not supported for this kind of Preview'
-                        ' Builder. Preview builder must implement a '\
+                        ' Builder. Preview builder must implement a '
                         'get_page_number method')
 
     def build_jpeg_preview(self, file_path: str, preview_name: str, cache_path: str, page_id: int, extension: str='.jpg', size: typing.Tuple[int, int]=(256, 256)) -> None:
@@ -110,7 +114,6 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
             ) as handler:
                 input_pdf = PdfFileReader(handler)
                 output_pdf = PdfFileWriter()
-                print(page)
                 output_pdf.addPage(input_pdf.getPage(int(page)))
 
                 output_stream = BytesIO()
@@ -185,7 +188,7 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
                 extension=extension
             )
         else:
-            full_path = '{path}_{page_id}_{extension}'.format(
+            full_path = '{path}({page_id}){extension}'.format(
                 path=path,
                 page_id=page_id,
                 extension=extension

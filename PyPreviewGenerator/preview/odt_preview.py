@@ -92,7 +92,7 @@ class OfficePreviewBuilder(PreviewBuilder):
             result2 = file_converter.pdf_to_jpeg(output_stream, size)
 
             with open(
-                    '{path}{file_name}_{page_id}_{extension}'.format(
+                    '{path}{file_name}({page_id}){extension}'.format(
                         file_name=preview_name,
                         path=cache_path,
                         page_id=page_id,

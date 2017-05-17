@@ -1,6 +1,8 @@
 import hashlib
 import os
 
+import typing
+
 from PyPreviewGenerator.factory import PreviewBuilderFactory
 
 
@@ -9,19 +11,23 @@ class PreviewManager(object):
     cache_path = ''
     factory = PreviewBuilderFactory()
 
-    def __init__(self, path: str):
+    def __init__(self, path: str) -> None:
+        try:
+            os.makedirs(path)
+        except OSError:
+            pass
         if path[-1] != '/':
             path = path + '/'
         self.cache_path = path
 
-    def get_nb_page(self, file_path, cache_path):
+    def get_nb_page(self, file_path: str, cache_path: str) -> int:
         mimetype = self.factory.get_document_mimetype(file_path)
         builder = self.factory.get_preview_builder(mimetype)
         preview_name = self.get_file_hash(file_path)
         page_nb = builder.get_page_number(file_path, preview_name, cache_path)
         return page_nb
 
-    def get_jpeg_preview(self, file_path: str, page=None, height=256, width=None, force: bool=False):
+    def get_jpeg_preview(self, file_path: str, page: int=None, height: int=256, width: int=None, force: bool=False) -> str:
 
         if width == None:
             width = height
@@ -30,7 +36,6 @@ class PreviewManager(object):
 
         mimetype = self.factory.get_document_mimetype(file_path)
         builder = self.factory.get_preview_builder(mimetype)
-        print(builder.__class__)
         extension = '.jpeg'
         preview_name=self.get_file_hash(file_path, size)
         return builder.get_jpeg_preview(
@@ -43,7 +48,7 @@ class PreviewManager(object):
             size=size
         )
 
-    def get_pdf_preview(self, file_path: str, page='full', force: bool=False):
+    def get_pdf_preview(self, file_path: str, page: int=-1, force: bool=False) -> str:
 
         mimetype = self.factory.get_document_mimetype(file_path)
         builder = self.factory.get_preview_builder(mimetype)
@@ -58,7 +63,7 @@ class PreviewManager(object):
             page=page,
         )
 
-    def get_text_preview(self, file_path: str, page=0, force: bool=False):
+    def get_text_preview(self, file_path: str, force: bool=False) -> str:
 
         mimetype = self.factory.get_document_mimetype(file_path)
         builder = self.factory.get_preview_builder(mimetype)
@@ -72,7 +77,7 @@ class PreviewManager(object):
             extension=extension
         )
 
-    def get_html_preview(self, file_path: str, page=0, force: bool=False):
+    def get_html_preview(self, file_path: str, force: bool=False) -> str:
         mimetype = self.factory.get_document_mimetype(file_path)
         builder = self.factory.get_preview_builder(mimetype)
         extension = '.html'
@@ -85,7 +90,7 @@ class PreviewManager(object):
             extension=extension,
         )
 
-    def get_json_preview(self, file_path: str, page=0, force: bool=False):
+    def get_json_preview(self, file_path: str, force: bool=False) -> str:
         mimetype = self.factory.get_document_mimetype(file_path)
         builder = self.factory.get_preview_builder(mimetype)
         extension = '.json'
@@ -98,7 +103,7 @@ class PreviewManager(object):
             extension=extension
         )
 
-    def get_file_hash(self, file_path, size=None):
+    def get_file_hash(self, file_path: str, size: typing.Tuple[int, int]=None) -> str:
         if '.' in file_path:
             tab_str = file_path.split('.')
             file_path=''

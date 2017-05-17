@@ -10,7 +10,7 @@ class ZipPreviewBuilder(OnePagePreviewBuilder):
                 'application/x-tar'
                 ]
 
-    def build_text_preview(self, file_path, preview_name, cache_path, page_id: int=0, extension='.txt'):
+    def build_text_preview(self, file_path: str, preview_name: str, cache_path: str, page_id: int=0, extension: str='.txt') -> None:
         """
         generate the text preview
         """
@@ -24,7 +24,7 @@ class ZipPreviewBuilder(OnePagePreviewBuilder):
                     buffer = result.read(1024)
 
 
-    def build_html_preview(self, file_path, preview_name, cache_path, extension='.html'):
+    def build_html_preview(self, file_path: str, preview_name: str, cache_path: str, extension: str='.html') -> None:
         """
         generate the text preview
         """
@@ -38,7 +38,7 @@ class ZipPreviewBuilder(OnePagePreviewBuilder):
                     buffer = result.read(1024)
 
 
-    def build_json_preview(self, file_path, preview_name, cache_path, page_id: int=0, extension='.json'):
+    def build_json_preview(self, file_path: str, preview_name: str, cache_path: str, page_id: int=0, extension: str='.json') -> None:
         """
         generate the json preview
         """

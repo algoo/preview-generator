@@ -1,15 +1,16 @@
 import magic
+import typing
 
 
 class PreviewBuilderFactory(object):
 
-    _instance = None
-    builders_classes = []
+    _instance = None # type: PreviewBuilderFactory
+    builders_classes = [] # type: typing.List[PreviewBuilder]
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
-    def get_preview_builder(self, mimetype: str):
+    def get_preview_builder(self, mimetype: str) -> typing.Type['PreviewBuilder']:
 
         for builder_class in self.builders_classes:
             for mimetype_supported in builder_class.get_mimetypes_supported():
@@ -19,7 +20,7 @@ class PreviewBuilderFactory(object):
         return None
 
 
-    def get_document_mimetype(self, file_path) -> str:
+    def get_document_mimetype(self, file_path: str) -> str:
         """ 
         return the mimetype of the file. see python module mimetype
         """
@@ -28,13 +29,13 @@ class PreviewBuilderFactory(object):
         return str
 
     @classmethod
-    def get_instance(cls):
+    def get_instance(cls) -> 'PreviewBuilderFactory':
         if not PreviewBuilderFactory._instance:
             cls._instance = PreviewBuilderFactory()
 
         return cls._instance
 
-    def register_builder(self, builder):
+    def register_builder(self, builder: typing.Type['PreviewBuilder']) -> None:
         self.builders_classes.append(builder)
 
 from PyPreviewGenerator.preview.generic_preview import PreviewBuilder

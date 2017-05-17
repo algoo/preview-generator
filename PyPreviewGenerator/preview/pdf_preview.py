@@ -27,7 +27,7 @@ class PdfPreviewBuilder(PreviewBuilder):
             output_stream.seek(0, 0)
             result = file_converter.pdf_to_jpeg(output_stream, size)
 
-            with open('{path}_{page_id}_{extension}'.format(
+            with open('{path}({page_id}){extension}'.format(
                             path=cache_path + preview_name,
                             page_id=page_id,
                             extension=extension

@@ -31,14 +31,13 @@ testpkgs = []
 
 install_requires = ['python-magic', 'Wand', 'PyPDF2', 'Pillow']
 
-if py_version != (3, 2):
+if py_version >= (3, 5):
     # Babel not available on 3.2
-    install_requires.append("Babel")
+    install_requires.append("typing")
 
 setup(
     name='PyPreviewGenerator',
-    # this must be the same as the name above
-    version='0.1.16',
+    version='0.1.17',
     description='Generation of file previews',
     long_description=documentation,
     author='Algoo',
@@ -46,9 +45,10 @@ setup(
     url='https://github.com/algoo/preview-generator',
     download_url='',
     keywords=['preview', 'preview_generator', 'thumbnail', 'cache'],
-    classifiers=[],
+    classifiers=['Programming Language :: Python :: 3.4'],
     packages=find_packages(exclude=['ez_setup']),
     install_requires=install_requires,
+    python_requires='>=3.4',
     include_package_data=True,
     test_suite='nose.collector',
     tests_require=testpkgs,

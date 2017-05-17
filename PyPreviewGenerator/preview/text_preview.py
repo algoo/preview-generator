@@ -5,7 +5,7 @@ class TextPreviewBuilder(OnePagePreviewBuilder):
 
     mimetype = ['text/plain']
 
-    def build_text_preview(self, file_path, preview_name, cache_path, page_id: int=0, extension='.txt'):
+    def build_text_preview(self, file_path: str, preview_name: str, cache_path: str, page_id: int=0, extension: str='.txt') -> None:
         """
         generate the text preview
         """

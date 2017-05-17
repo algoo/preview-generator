@@ -58,7 +58,7 @@ This package uses several libraries :
   - pillow
   - PyPDF2
 
-These should be automatically installed with the `pip install PyPreviewGenerator` command. But if some error occurs quoting one of these library, try to manually install them with a simple `pip install ...`
+These should be automatically installed with the `pip install PyPreviewGenerator` command. But if some error occurs quoting one of these library, try to install them 1 by 1 with a simple `pip install ...` to locate the problem
 
 **WARNING!** about **LibreOffice**
 

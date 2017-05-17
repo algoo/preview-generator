@@ -1,5 +1,6 @@
 import os
 import zipfile
+import typing
 from io import BytesIO
 from PIL import Image
 from wand.color import Color
@@ -8,10 +9,8 @@ import json
 
 
 
-def image_to_jpeg_pillow(png, preview_size=(256, 256)) -> BytesIO:
-    print('Converting png to jpeg of size ', preview_size)
+def image_to_jpeg_pillow(png: typing.Union[str, typing.IO[bytes]], preview_size: typing.Tuple[int, int]=(256, 256)) -> BytesIO:
     temp = Image.new('RGB', (preview_size[1], preview_size[0]), (255, 255, 255))
-    print(temp.size)
     with Image.open(png) as image:
         b, a = image.size
         x, y = preview_size
@@ -39,14 +38,13 @@ def image_to_jpeg_pillow(png, preview_size=(256, 256)) -> BytesIO:
         return output
 
 
-def image_to_jpeg_wand(jpeg, preview_size=(256, 256)):
+def image_to_jpeg_wand(jpeg: typing.Union[str, typing.IO[bytes]], preview_size: typing.Tuple[int, int]=(256, 256)) -> BytesIO:
     '''
     for jpeg, gif and bmp
     :param jpeg: 
     :param size: 
     :return: 
     '''
-    print('Converting an image to jpeg of size ', preview_size)
     with WImage(file=jpeg) as image:
         b, a = image.size
         x, y = preview_size
@@ -69,9 +67,8 @@ def image_to_jpeg_wand(jpeg, preview_size=(256, 256)):
         output.seek(0, 0)
         return output
 
-def pdf_to_jpeg(pdf, size=(256,256)):
+def pdf_to_jpeg(pdf: typing.Union[str, typing.IO[bytes]], size: typing.Tuple[int, int]=(256,256)) -> BytesIO:
 
-    print('convert pdf to jpeg of size ', size)
     with WImage(file=pdf) as img:
         height, width = img.size
         if height < width:
@@ -96,9 +93,7 @@ def pdf_to_jpeg(pdf, size=(256,256)):
             output.seek(0, 0)
             return output
 
-def office_to_pdf(odt, cache_path: str, file_name):
-    print('convert office document to pdf ')
-    print(file_name)
+def office_to_pdf(odt: typing.IO[bytes], cache_path: str, file_name: str) -> BytesIO:
     try:
         os.mkdir(cache_path + file_name + '_flag')
     except OSError:
@@ -159,27 +154,24 @@ def office_to_pdf(odt, cache_path: str, file_name):
 
         return output
 
-def txt_to_txt(text):
+def txt_to_txt(text: typing.Union[str, typing.IO[bytes]]) -> typing.Union[str, typing.IO[bytes]]:
     return text
 
-def zip_to_txt(zip):
-
+def zip_to_txt(zip: typing.IO[bytes]) -> BytesIO:
     zz = zipfile.ZipFile(zip)
     output = BytesIO()
     for line, info in enumerate(zz.filelist):
         date = "%d-%02d-%02d %02d:%02d:%02d" % info.date_time[:6]
-        # output.seek(0, 0)
         output.write(str.encode("%-46s %s %12d\n" % (info.filename, date, info.file_size)))
     output.seek(0, 0)
     return output
 
-def zip_to_html(zip):
-    zz = zipfile.ZipFile(zip)
+def zip_to_html(zip: typing.IO[bytes]) -> BytesIO:
+    zz = zipfile.ZipFile(zip)  # type: ignore
     output = BytesIO()
     output.write(str.encode('<p><ul>'))
     for line, info in enumerate(zz.filelist):
         date = "%d-%02d-%02d %02d:%02d:%02d" % info.date_time[:6]
-        # output.seek(0, 0)
         output.write(
             str.encode(
                 "<li>%-46s %s %12d</li>\n" % (info.filename, date, info.file_size)
@@ -190,8 +182,8 @@ def zip_to_html(zip):
     return output
 
 
-def zip_to_json(zip)->BytesIO:
-    zz = zipfile.ZipFile(zip)
+def zip_to_json(zip: typing.IO[bytes]) -> BytesIO:
+    zz = zipfile.ZipFile(zip)  # type: ignore
     output = BytesIO()
     files = []
     dictionnary = {}
@@ -207,11 +199,7 @@ def zip_to_json(zip)->BytesIO:
     output.seek(0, 0)
     return output
 
-def html_to_html(html)->BytesIO:
-    a = 1
-
-def image_to_json(img):
-    print('Converting image to json')
+def image_to_json(img: typing.Union[str, typing.IO[bytes]]) -> BytesIO :
     info={}
     with Image.open(img) as image:
         info['height'] = image.size[0]
