@@ -11,7 +11,6 @@ from PyPreviewGenerator.preview.generic_preview import PreviewBuilder
 
 
 class OfficePreviewBuilder(PreviewBuilder):
-
     mimetype = [
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'application/vnd.oasis.opendocument.text',
@@ -51,13 +50,15 @@ class OfficePreviewBuilder(PreviewBuilder):
         'application/vnd.oasis.opendocument.database',
         'application/vnd.oasis.opendocument.image',
         'application/vnd.openofficeorg.extension'
-    ] # type: typing.List[str]
+    ]  # type: typing.List[str]
 
-    def build_jpeg_preview(self, file_path: str, preview_name: str, cache_path: str, page_id: int, extension: str='.jpg', size: typing.Tuple[int, int]=(256,256)) -> None:
+    def build_jpeg_preview(self, file_path: str, preview_name: str,
+                           cache_path: str, page_id: int,
+                           extension: str = '.jpg',
+                           size: typing.Tuple[int, int] = (256, 256)) -> None:
         """
         generate the text preview
         """
-
 
         with open(file_path, 'rb') as odt:
             if os.path.exists(
@@ -71,7 +72,8 @@ class OfficePreviewBuilder(PreviewBuilder):
                     ), 'rb')
 
             else:
-                if self.cache_file_process_already_running(cache_path + preview_name):
+                if self.cache_file_process_already_running(
+                                cache_path + preview_name):
                     time.sleep(2)
                     self.build_pdf_preview(
                         file_path=file_path,
@@ -81,7 +83,8 @@ class OfficePreviewBuilder(PreviewBuilder):
                     )
 
                 else:
-                    result = file_converter.office_to_pdf(odt, cache_path, preview_name)
+                    result = file_converter.office_to_pdf(odt, cache_path,
+                                                          preview_name)
 
             input_pdf = PdfFileReader(result)
             output_pdf = PdfFileWriter()
@@ -91,22 +94,29 @@ class OfficePreviewBuilder(PreviewBuilder):
             output_stream.seek(0, 0)
             result2 = file_converter.pdf_to_jpeg(output_stream, size)
 
-            with open(
-                    '{path}{file_name}({page_id}){extension}'.format(
-                        file_name=preview_name,
-                        path=cache_path,
-                        page_id=page_id,
-                        extension=extension
-                    ),
-                    'wb') \
-            as jpeg:
+            if page_id == -1:
+                preview_path = '{path}{file_name}{extension}'.format(
+                    file_name=preview_name,
+                    path=cache_path,
+                    extension=extension
+                )
+            else :
+                preview_path = '{path}{file_name}({page_id}){extension}'.format(
+                    file_name=preview_name,
+                    path=cache_path,
+                    page_id=page_id,
+                    extension=extension
+                )
+
+
+            with open(preview_path,'wb') as jpeg:
                 buffer = result2.read(1024)
                 while buffer:
                     jpeg.write(buffer)
                     buffer = result2.read(1024)
 
-
-    def get_page_number(self, file_path: str, preview_name: str, cache_path: str) -> str:
+    def get_page_number(self, file_path: str, preview_name: str,
+                        cache_path: str) -> int:
 
         if not os.path.exists(cache_path + preview_name + '.pdf'):
             self.build_pdf_preview(
@@ -126,13 +136,11 @@ class OfficePreviewBuilder(PreviewBuilder):
                 count.write(str(inputpdf.numPages))
         with open(cache_path + preview_name + '_page_nb', 'r') as count:
             count.seek(0, 0)
-            return count.read()
+            page_nb = count.read()
+            return int(page_nb)
 
-
-
-
-
-    def build_pdf_preview(self, file_path: str, preview_name: str, cache_path: str, extension: str='.pdf') -> None:
+    def build_pdf_preview(self, file_path: str, preview_name: str,
+                          cache_path: str, extension: str = '.pdf') -> None:
         """
         generate the pdf large preview
         """
@@ -140,10 +148,10 @@ class OfficePreviewBuilder(PreviewBuilder):
         with open(file_path, 'rb') as odt:
 
             if os.path.exists('{path}.pdf'.format(
-                        path=cache_path + preview_name,
+                    path=cache_path + preview_name,
             )):
                 result = open('{path}.pdf'.format(
-                        path=cache_path + preview_name,
+                    path=cache_path + preview_name,
                 ), 'rb')
 
             else:
@@ -155,14 +163,14 @@ class OfficePreviewBuilder(PreviewBuilder):
                         cache_path=cache_path,
                         extension=extension)
                 else:
-                    result = file_converter.office_to_pdf(odt, cache_path, preview_name)
+                    result = file_converter.office_to_pdf(odt, cache_path,
+                                                          preview_name)
 
             with open(cache_path + preview_name + extension, 'wb') as pdf:
                 buffer = result.read(1024)
                 while buffer:
                     pdf.write(buffer)
                     buffer = result.read(1024)
-
 
     def cache_file_process_already_running(self, file_name: str) -> bool:
         if os.path.exists(file_name + '_flag'):

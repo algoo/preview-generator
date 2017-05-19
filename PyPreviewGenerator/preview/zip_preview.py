@@ -1,8 +1,8 @@
 from PyPreviewGenerator import file_converter
 from PyPreviewGenerator.preview.generic_preview import OnePagePreviewBuilder
 
-class ZipPreviewBuilder(OnePagePreviewBuilder):
 
+class ZipPreviewBuilder(OnePagePreviewBuilder):
     mimetype = ['application/x-compressed',
                 'application/x-zip-compressed',
                 'application/zip',
@@ -10,7 +10,9 @@ class ZipPreviewBuilder(OnePagePreviewBuilder):
                 'application/x-tar'
                 ]
 
-    def build_text_preview(self, file_path: str, preview_name: str, cache_path: str, page_id: int=0, extension: str='.txt') -> None:
+    def build_text_preview(self, file_path: str, preview_name: str,
+                           cache_path: str, page_id: int = 0,
+                           extension: str = '.txt') -> None:
         """
         generate the text preview
         """
@@ -23,8 +25,8 @@ class ZipPreviewBuilder(OnePagePreviewBuilder):
                     jpeg.write(buffer)
                     buffer = result.read(1024)
 
-
-    def build_html_preview(self, file_path: str, preview_name: str, cache_path: str, extension: str='.html') -> None:
+    def build_html_preview(self, file_path: str, preview_name: str,
+                           cache_path: str, extension: str = '.html') -> None:
         """
         generate the text preview
         """
@@ -37,8 +39,9 @@ class ZipPreviewBuilder(OnePagePreviewBuilder):
                     jpeg.write(buffer)
                     buffer = result.read(1024)
 
-
-    def build_json_preview(self, file_path: str, preview_name: str, cache_path: str, page_id: int=0, extension: str='.json') -> None:
+    def build_json_preview(self, file_path: str, preview_name: str,
+                           cache_path: str, page_id: int = 0,
+                           extension: str = '.json') -> None:
         """
         generate the json preview
         """
@@ -50,5 +53,3 @@ class ZipPreviewBuilder(OnePagePreviewBuilder):
                 while buffer:
                     jpeg.write(buffer)
                     buffer = result.read(1024)
-
-

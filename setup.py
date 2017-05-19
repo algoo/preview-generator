@@ -36,7 +36,7 @@ if py_version >= (3, 5):
 
 setup(
     name='PyPreviewGenerator',
-    version='0.1.19',
+    version='0.1.20',
     description='Generation of file previews',
     long_description=documentation,
     author='Algoo',
@@ -51,9 +51,10 @@ setup(
     include_package_data=True,
     test_suite='nose.collector',
     tests_require=testpkgs,
-    package_data={'preview_generator': [
-        'i18n/*/LC_MESSAGES/*.mo',
-        'templates/*/*',
-        'public/*/*'
+    package_data={
+        'preview_generator': [
+            'i18n/*/LC_MESSAGES/*.mo',
+            'templates/*/*',
+            'public/*/*'
     ]}
 )

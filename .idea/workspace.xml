@@ -2,11 +2,38 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="be9959bf-1855-4d6d-a152-2450b2d6966f" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/the_bmp.bmp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/the_jpeg.jpeg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/test_html.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/test_jpeg.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/test_json.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/test_pdf.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/test_text.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/the_text.txt" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview_generator" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test_lib/test_all.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test_lib/test_gif_to_jpeg.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test_lib/test_odt_to_jpeg.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test_lib/test_pdf_to_jpeg.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test_lib/test_png_to_jpeg.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test_lib/text_zip_to_text.py" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test_lib/the_gif.gif" afterPath="$PROJECT_DIR$/tests/the_gif.gif" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test_lib/the_odt.odt" afterPath="$PROJECT_DIR$/tests/the_odt.odt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test_lib/the_pdf.pdf" afterPath="$PROJECT_DIR$/tests/the_pdf.pdf" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test_lib/the_png.png" afterPath="$PROJECT_DIR$/tests/the_png.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test_lib/the_zip.zip" afterPath="$PROJECT_DIR$/tests/the_zip.zip" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/PKG-INFO" afterPath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/PKG-INFO" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/SOURCES.txt" afterPath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/SOURCES.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/requires.txt" afterPath="$PROJECT_DIR$/PyPreviewGenerator.egg-info/requires.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.rst" afterPath="$PROJECT_DIR$/README.rst" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/factory.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/factory.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/file_converter.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/file_converter.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/manager.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/manager.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/__init__.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/image_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/image_preview.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/png_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/png_preview.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/text_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/text_preview.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PyPreviewGenerator/preview/zip_preview.py" afterPath="$PROJECT_DIR$/PyPreviewGenerator/preview/zip_preview.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/setup.py" afterPath="$PROJECT_DIR$/setup.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,14 +44,16 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/previewer$test_png_to_jpeg.coverage" NAME="test_png_to_jpeg Coverage Results" MODIFIED="1494582488456" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_lib" />
-    <SUITE FILE_PATH="coverage/previewer$text_zip_to_text.coverage" NAME="text_zip_to_text Coverage Results" MODIFIED="1495024916085" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_lib" />
+    <SUITE FILE_PATH="coverage/previewer$test_png_to_jpeg.coverage" NAME="test_png_to_jpeg Coverage Results" MODIFIED="1495116288363" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_lib" />
+    <SUITE FILE_PATH="coverage/previewer$text_zip_to_text.coverage" NAME="text_zip_to_text Coverage Results" MODIFIED="1495095832028" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_lib" />
+    <SUITE FILE_PATH="coverage/previewer$unit_tests.coverage" NAME="unit_tests Coverage Results" MODIFIED="1495200660174" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/previewer$test_gif_to_jpeg.coverage" NAME="test_gif_to_jpeg Coverage Results" MODIFIED="1494581310433" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_lib" />
     <SUITE FILE_PATH="coverage/previewer$t.coverage" NAME="t Coverage Results" MODIFIED="1494947374571" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/previewer$test_pdf_to_jpeg.coverage" NAME="test_pdf_to_jpeg Coverage Results" MODIFIED="1495024799791" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_lib" />
     <SUITE FILE_PATH="coverage/previewer$Nosetests_in_test_all_py.coverage" NAME="Nosetests in test_all.py Coverage Results" MODIFIED="1494584916490" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/previewer$test_fail.coverage" NAME="test_fail Coverage Results" MODIFIED="1495102569940" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_lib" />
     <SUITE FILE_PATH="coverage/previewer$test_odt_to_jpeg.coverage" NAME="test_odt_to_jpeg Coverage Results" MODIFIED="1495024770420" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_lib" />
-    <SUITE FILE_PATH="coverage/previewer$test_all.coverage" NAME="test_all Coverage Results" MODIFIED="1494947361297" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_lib" />
+    <SUITE FILE_PATH="coverage/previewer$test_all.coverage" NAME="test_all Coverage Results" MODIFIED="1495108801953" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_lib" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
@@ -32,8 +61,8 @@
       <file leaf-file-name="file_converter.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/file_converter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="441">
-              <caret line="205" column="23" lean-forward="true" selection-start-line="205" selection-start-column="23" selection-end-line="205" selection-end-column="23" />
+            <state relative-caret-position="1660">
+              <caret line="83" column="4" lean-forward="false" selection-start-line="83" selection-start-column="4" selection-end-line="83" selection-end-column="4" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -41,43 +70,39 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pdf_preview.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py">
+      <file leaf-file-name="factory.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/factory.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="29" column="40" lean-forward="false" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="40" />
+            <state relative-caret-position="200">
+              <caret line="11" column="33" lean-forward="false" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="image_preview.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/image_preview.py">
+      <file leaf-file-name="manager.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/manager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="11" column="151" lean-forward="false" selection-start-line="11" selection-start-column="127" selection-end-line="11" selection-end-column="151" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="text_zip_to_text.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test_lib/text_zip_to_text.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="9" column="49" lean-forward="true" selection-start-line="9" selection-start-column="49" selection-end-line="9" selection-end-column="49" />
+            <state relative-caret-position="1561">
+              <caret line="114" column="23" lean-forward="false" selection-start-line="114" selection-start-column="23" selection-end-line="114" selection-end-column="23" />
               <folding>
-                <element signature="e#0#9#0" expanded="true" />
+                <marker date="1495196812280" expanded="true" signature="133:408" ph="..." />
+                <marker date="1495196812280" expanded="true" signature="221:225" ph="..." />
+                <marker date="1495196812280" expanded="true" signature="800:915" ph="..." />
+                <marker date="1495196812280" expanded="true" signature="1549:1600" ph="..." />
+                <marker date="1495196812280" expanded="true" signature="2116:2127" ph="..." />
+                <marker date="1495196812280" expanded="true" signature="2620:2631" ph="..." />
+                <marker date="1495196812280" expanded="true" signature="3125:3136" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.rst" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.rst">
+      <file leaf-file-name="odt_preview.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="507">
-              <caret line="287" column="0" lean-forward="true" selection-start-line="287" selection-start-column="0" selection-end-line="287" selection-end-column="0" />
+            <state relative-caret-position="-399">
+              <caret line="100" column="39" lean-forward="false" selection-start-line="100" selection-start-column="39" selection-end-line="100" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -86,8 +111,28 @@
       <file leaf-file-name="setup.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
+            <state relative-caret-position="201">
               <caret line="38" column="19" lean-forward="false" selection-start-line="38" selection-start-column="19" selection-end-line="38" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pdf_preview.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="460">
+              <caret line="42" column="17" lean-forward="false" selection-start-line="42" selection-start-column="17" selection-end-line="42" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="image_preview.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/image_preview.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="43" lean-forward="false" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -96,63 +141,40 @@
       <file leaf-file-name="generic_preview.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="678">
-              <caret line="240" column="47" lean-forward="false" selection-start-line="240" selection-start-column="26" selection-end-line="240" selection-end-column="47" />
+            <state relative-caret-position="3621">
+              <caret line="263" column="24" lean-forward="false" selection-start-line="263" selection-start-column="24" selection-end-line="263" selection-end-column="24" />
               <folding>
-                <element signature="e#0#9#0" expanded="true" />
-                <marker date="1495025566694" expanded="true" signature="736:1519" ph="..." />
-                <marker date="1495025566694" expanded="true" signature="1315:1383" ph="..." />
-                <marker date="1495025566694" expanded="true" signature="1848:1872" ph="..." />
-                <marker date="1495025566694" expanded="true" signature="2104:2134" ph="..." />
-                <marker date="1495025566694" expanded="true" signature="2366:2395" ph="..." />
-                <marker date="1495025566694" expanded="true" signature="2585:2709" ph="..." />
-                <marker date="1495025566694" expanded="true" signature="3307:3391" ph="..." />
-                <marker date="1495025566694" expanded="true" signature="5211:5246" ph="..." />
-                <marker date="1495025566694" expanded="true" signature="6326:6361" ph="..." />
-                <marker date="1495025566694" expanded="true" signature="8198:8324" ph="..." />
+                <marker date="1495196812192" expanded="true" signature="760:1754" ph="..." />
+                <marker date="1495196812192" expanded="true" signature="1492:1618" ph="..." />
+                <marker date="1495196812192" expanded="true" signature="2138:2164" ph="..." />
+                <marker date="1495196812192" expanded="true" signature="2423:2484" ph="..." />
+                <marker date="1495196812192" expanded="true" signature="2743:2803" ph="..." />
+                <marker date="1495196812192" expanded="true" signature="2993:3223" ph="..." />
+                <marker date="1495196812192" expanded="true" signature="3980:4116" ph="..." />
+                <marker date="1495196812192" expanded="true" signature="5968:6028" ph="..." />
+                <marker date="1495196812192" expanded="true" signature="7261:7321" ph="..." />
+                <marker date="1495196812192" expanded="true" signature="9331:9497" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_pdf_to_jpeg.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test_lib/test_pdf_to_jpeg.py">
+      <file leaf-file-name="test_pdf.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/test_pdf.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="2" column="43" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+            <state relative-caret-position="220">
+              <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="odt_preview.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py">
+      <file leaf-file-name="test_jpeg.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/test_jpeg.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-652">
-              <caret line="83" column="57" lean-forward="true" selection-start-line="83" selection-start-column="29" selection-end-line="83" selection-end-column="57" />
-              <folding>
-                <marker date="1495024759007" expanded="true" signature="288:4653" ph="..." />
-                <marker date="1495024759007" expanded="true" signature="2774:2841" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="manager.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/manager.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-818">
-              <caret line="37" column="60" lean-forward="false" selection-start-line="37" selection-start-column="60" selection-end-line="37" selection-end-column="60" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-                <marker date="1495023298273" expanded="true" signature="133:409" ph="..." />
-                <marker date="1495023298273" expanded="true" signature="222:226" ph="..." />
-                <marker date="1495023298273" expanded="true" signature="801:862" ph="..." />
-                <marker date="1495023298273" expanded="true" signature="1492:1517" ph="..." />
-                <marker date="1495023298273" expanded="true" signature="2031:2042" ph="..." />
-                <marker date="1495023298273" expanded="true" signature="2533:2544" ph="..." />
-                <marker date="1495023298273" expanded="true" signature="3036:3047" ph="..." />
-              </folding>
+            <state relative-caret-position="81">
+              <caret line="126" column="30" lean-forward="false" selection-start-line="126" selection-start-column="30" selection-end-line="126" selection-end-column="30" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -168,24 +190,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>s</find>
-      <find>sq</find>
-      <find>sql</find>
-      <find>sqlac</find>
-      <find>sqlal</find>
-      <find>sqla</find>
-      <find>t</find>
-      <find>tur</find>
-      <find>turb</find>
-      <find>cur</find>
-      <find>curr</find>
-      <find>curre</find>
-      <find>curren</find>
-      <find>current</find>
-      <find>current_</find>
-      <find>current_dir</find>
-      <find>(</find>
-      <find>(&quot;</find>
       <find>p</find>
       <find>pr</find>
       <find>pri</find>
@@ -193,6 +197,29 @@
       <find>print(r'</find>
       <find>print(r</find>
       <find>print('</find>
+      <find>('page</find>
+      <find>(+'page</find>
+      <find>(+page</find>
+      <find>page</find>
+      <find>(page</find>
+      <find>if page_id \=\= \-1\:\n                preview_path \= \'\{path\}\{file_name\}\{extension\}\'\.format\(\n                    file_name\=preview_name\,\n                    path\=cache_path\,\n                    extension\=extension\n                \)\n            else \:\n                preview_path \= \'\{path\}\{file_name\}\(\{page_id\}\)\{extension\}\'\.format\(\n                    file_name\=preview_name\,\n                    path\=cache_path\,\n                    page_id\=page_id\,\n                    extension\=extension\n                \)\n\n\n            with open\(preview_path\,\'wb\'\) as jpeg\:</find>
+      <find>(</find>
+      <find>({</find>
+      <find>({p</find>
+      <find>({pa</find>
+      <find>({pag</find>
+      <find>({page</find>
+      <find>_</find>
+      <find>_id</find>
+      <find>_i</find>
+      <find>{</find>
+      <find>{p</find>
+      <find>{pa</find>
+      <find>{page</find>
+      <find>{page_</find>
+      <find>{page_i</find>
+      <find>{page_id</find>
+      <find>{page_id}</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -205,9 +232,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/previewer/__init__.py" />
-        <option value="$PROJECT_DIR$/previewer/auth.py" />
-        <option value="$PROJECT_DIR$/previewer/preview/jpeg_preview.py" />
         <option value="$PROJECT_DIR$/previewer/preview/gif_preview.py" />
         <option value="$PROJECT_DIR$/previewer/builder.py" />
         <option value="$PROJECT_DIR$/previewer/file_converter.py" />
@@ -227,25 +251,37 @@
         <option value="$PROJECT_DIR$/test_lib/test_pdf_to_jpeg.py" />
         <option value="$PROJECT_DIR$/test_lib/cache/text_zip_to_text.py" />
         <option value="$PROJECT_DIR$/test_lib/text_zip_to_text.py" />
-        <option value="$PROJECT_DIR$/test_lib/test_all.py" />
         <option value="$PROJECT_DIR$/test_lib/test_gif_to_jpeg.py" />
-        <option value="$PROJECT_DIR$/test_lib/test_png_to_jpeg.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/bmp_preview.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/gif_preview.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/jpeg_preview.py" />
+        <option value="$PROJECT_DIR$/t.py" />
+        <option value="$PROJECT_DIR$/doc.rst" />
+        <option value="$PROJECT_DIR$/README.rst" />
+        <option value="$PROJECT_DIR$/test_lib/test_png_to_jpeg.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/image_preview.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/png_preview.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/text_preview.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/zip_preview.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/factory.py" />
-        <option value="$PROJECT_DIR$/t.py" />
-        <option value="$PROJECT_DIR$/PyPreviewGenerator/manager.py" />
+        <option value="$PROJECT_DIR$/test_lib/test_all.py" />
+        <option value="$PROJECT_DIR$/test_lib/test_pdf.py" />
+        <option value="$PROJECT_DIR$/test_lib/test_jpeg" />
+        <option value="$PROJECT_DIR$/test_lib/test_json.py" />
+        <option value="$PROJECT_DIR$/test_lib/test_text.py" />
+        <option value="$PROJECT_DIR$/test_lib/test_fail.py" />
+        <option value="$PROJECT_DIR$/test_lib/test_jpeg.py" />
+        <option value="$PROJECT_DIR$/test_lib/test_html.py" />
+        <option value="$PROJECT_DIR$/tests/test_json.py" />
+        <option value="$PROJECT_DIR$/tests/test_text.py" />
+        <option value="$PROJECT_DIR$/PyPreviewGenerator/file_converter.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py" />
+        <option value="$PROJECT_DIR$/PyPreviewGenerator/manager.py" />
         <option value="$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py" />
-        <option value="$PROJECT_DIR$/PyPreviewGenerator/file_converter.py" />
-        <option value="$PROJECT_DIR$/doc.rst" />
-        <option value="$PROJECT_DIR$/README.rst" />
+        <option value="$PROJECT_DIR$/tests/test_pdf.py" />
+        <option value="$PROJECT_DIR$/tests/test_html.py" />
+        <option value="$PROJECT_DIR$/tests/test_jpeg.py" />
         <option value="$PROJECT_DIR$/setup.py" />
       </list>
     </option>
@@ -278,7 +314,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -301,7 +336,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="test_lib" />
+              <option name="myItemId" value="tgenv" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -315,7 +350,21 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="test_lib" />
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="previewer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="previewer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -369,15 +418,34 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="previewer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="previewer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PyPreviewGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".mypy_cache" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.General" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -400,26 +468,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.text_zip_to_text">
-    <configuration default="false" name="test_odt_to_jpeg" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="$PROJECT_DIR$/../Preview/venv/bin/python" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_lib" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="PREVIEWER" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_lib/test_odt_to_jpeg.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python tests.unit_tests">
     <configuration default="false" name="text_zip_to_text" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -433,7 +482,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="PREVIEWER" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_lib/text_zip_to_text.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_lib/test_json.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -458,25 +507,6 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="t" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="$PROJECT_DIR$/../Preview/venv/bin/python" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="PREVIEWER" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/t.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
     <configuration default="false" name="test_pdf_to_jpeg" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -490,7 +520,45 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="PREVIEWER" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_lib/test_pdf_to_jpeg.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_lib/test_text.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="test_fail" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../Preview/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_lib" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PREVIEWER" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_lib/test_fail.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="test_png_to_jpeg" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../Preview/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_lib" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PREVIEWER" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_lib/test_html.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -663,20 +731,55 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method />
     </configuration>
-    <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.test_odt_to_jpeg" />
+    <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PREVIEWER" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method />
+    </configuration>
+    <configuration default="false" name="unit_tests" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="$PROJECT_DIR$/tgenv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PREVIEWER" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method />
+    </configuration>
+    <list size="6">
+      <item index="0" class="java.lang.String" itemvalue="Python tests.unit_tests" />
       <item index="1" class="java.lang.String" itemvalue="Python.text_zip_to_text" />
       <item index="2" class="java.lang.String" itemvalue="Python.test_all" />
-      <item index="3" class="java.lang.String" itemvalue="Python.t" />
-      <item index="4" class="java.lang.String" itemvalue="Python.test_pdf_to_jpeg" />
+      <item index="3" class="java.lang.String" itemvalue="Python.test_pdf_to_jpeg" />
+      <item index="4" class="java.lang.String" itemvalue="Python.test_fail" />
+      <item index="5" class="java.lang.String" itemvalue="Python.test_png_to_jpeg" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.text_zip_to_text" />
-        <item index="1" class="java.lang.String" itemvalue="Python.test_pdf_to_jpeg" />
-        <item index="2" class="java.lang.String" itemvalue="Python.test_odt_to_jpeg" />
-        <item index="3" class="java.lang.String" itemvalue="Python.t" />
-        <item index="4" class="java.lang.String" itemvalue="Python.test_all" />
+        <item index="0" class="java.lang.String" itemvalue="Python.test_png_to_jpeg" />
+        <item index="1" class="java.lang.String" itemvalue="Python.test_all" />
+        <item index="2" class="java.lang.String" itemvalue="Python.test_fail" />
+        <item index="3" class="java.lang.String" itemvalue="Python.text_zip_to_text" />
+        <item index="4" class="java.lang.String" itemvalue="Python.test_pdf_to_jpeg" />
       </list>
     </recent_temporary>
   </component>
@@ -700,6 +803,24 @@
     <history-entry file="Nosetests_in_test_all_py - 2017.05.12 at 12h 28m 36s.xml">
       <configuration name="Nosetests in test_all.py" configurationId="tests" />
     </history-entry>
+    <history-entry file="unit_tests - 2017.05.19 at 14h 52m 54s.xml">
+      <configuration name="unit_tests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="unit_tests - 2017.05.19 at 15h 26m 19s.xml">
+      <configuration name="unit_tests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="unit_tests - 2017.05.19 at 15h 30m 01s.xml">
+      <configuration name="unit_tests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="unit_tests - 2017.05.19 at 15h 30m 10s.xml">
+      <configuration name="unit_tests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="unit_tests - 2017.05.19 at 15h 30m 16s.xml">
+      <configuration name="unit_tests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="unit_tests - 2017.05.19 at 15h 31m 14s.xml">
+      <configuration name="unit_tests" configurationId="tests" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="27" width="1922" height="1174" extended-state="6" />
@@ -707,17 +828,18 @@
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32851636" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32851636" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27297008" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15010683" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32851636" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15331197" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32851636" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39980733" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -735,83 +857,13 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/test_lib/test_gif_to_jpeg.py</url>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="11" />
+      <option name="time" value="15" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/previewer/auth.py" />
-    <entry file="file://$PROJECT_DIR$/previewer/model.py.template" />
-    <entry file="file://$PROJECT_DIR$/../test_lib/test.py" />
-    <entry file="file://$PROJECT_DIR$/../save list" />
-    <entry file="file://$PROJECT_DIR$/tgenv/README.rst" />
-    <entry file="file://$PROJECT_DIR$/previewer/builder.py" />
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../test_lib/venv/bin/wheel">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../test_lib/venv/bin/activate">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../test_lib/test_preview_generator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="8" column="1" lean-forward="false" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator.egg-info/dependency_links.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator.egg-info/PKG-INFO">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="17" lean-forward="false" selection-start-line="0" selection-start-column="17" selection-end-line="0" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_lib/cache/the_gif.gif-100x100-4ae5c2a223816e753df924136070c254.jpeg" />
     <entry file="file://$PROJECT_DIR$/test_lib/cache/the_gif.gif-1000x1000-4ae5c2a223816e753df924136070c254.jpeg" />
     <entry file="file://$PROJECT_DIR$/test_lib/cache/the_png-1000x1000-6504edca058aa2176527d66e55b6fd9d.jpeg" />
-    <entry file="file://$PROJECT_DIR$/test_lib/test_all.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="13" column="13" lean-forward="true" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
@@ -819,24 +871,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_lib/test_png_to_jpeg.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/bmp_preview.py" />
     <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/gif_preview.py" />
     <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/jpeg_preview.py" />
-    <entry file="file://$PROJECT_DIR$/tgenv/lib/python3.4/site-packages/PIL/Image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="457">
-          <caret line="506" column="13" lean-forward="false" selection-start-line="506" selection-start-column="13" selection-end-line="506" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/lol.png" />
     <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/lol.jpeg" />
     <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/mdr.png" />
@@ -856,6 +893,141 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/cache/the_gif-512x512-60dc9ef46936cc4fff2fe60bb07d4260.jpeg" />
+    <entry file="file://$PROJECT_DIR$/test_lib/cache/the_odt-512x512-c8b37debbc45fa96466e5e1382f6bd2e_1_.jpeg" />
+    <entry file="file:///usr/lib/python3.4/zipfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="898" column="8" lean-forward="false" selection-start-line="898" selection-start-column="8" selection-end-line="898" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/cache/the_zip-a733739af8006558720be26c4dc5569a.txt" />
+    <entry file="file://$PROJECT_DIR$/tests/the_gif.gif">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/the_png.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_lib/test_all.py" />
+    <entry file="file://$PROJECT_DIR$/README.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="877">
+          <caret line="287" column="0" lean-forward="false" selection-start-line="287" selection-start-column="0" selection-end-line="287" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/the_text.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_fail.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/the_bmp.bmp">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tgenv/lib/python3.4/site-packages/PIL/Image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2317">
+          <caret line="2373" column="4" lean-forward="false" selection-start-line="2373" selection-start-column="4" selection-end-line="2373" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/cache/the_pdf-512x512-9cb38fd20b98a864f75f080af5280295(-1).jpeg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/cache/the_pdf-512x512-9cb38fd20b98a864f75f080af5280295.jpeg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/cache/the_png-512x512-a12f58d58b64888f5af61cddc692ab41.jpeg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/cache/the_png-256x256-a12f58d58b64888f5af61cddc692ab41.jpeg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/cache/the_jpeg-708d64790c23acb91e22d6518e3168dc.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_text.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="18" column="44" lean-forward="false" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_json.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="18" column="44" lean-forward="false" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/zip_preview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="13" column="43" lean-forward="false" selection-start-line="13" selection-start-column="43" selection-end-line="13" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/text_preview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="9" column="43" lean-forward="false" selection-start-line="9" selection-start-column="43" selection-end-line="9" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/png_preview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="9" column="43" lean-forward="false" selection-start-line="9" selection-start-column="43" selection-end-line="9" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_html.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="12" column="0" lean-forward="false" selection-start-line="11" selection-start-column="44" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/t.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -864,95 +1036,83 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/file_converter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1660">
+          <caret line="83" column="4" lean-forward="false" selection-start-line="83" selection-start-column="4" selection-end-line="83" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/factory.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="760">
-          <caret line="38" column="14" lean-forward="false" selection-start-line="38" selection-start-column="14" selection-end-line="38" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/zip_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="762">
-          <caret line="40" column="132" lean-forward="false" selection-start-line="40" selection-start-column="132" selection-end-line="40" selection-end-column="132" />
+        <state relative-caret-position="200">
+          <caret line="11" column="33" lean-forward="false" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/lib/python3.4/zipfile.py">
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/manager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2913">
-          <caret line="909" column="13" lean-forward="false" selection-start-line="909" selection-start-column="13" selection-end-line="909" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/png_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="9" column="42" lean-forward="false" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="47" />
+        <state relative-caret-position="1561">
+          <caret line="114" column="23" lean-forward="false" selection-start-line="114" selection-start-column="23" selection-end-line="114" selection-end-column="23" />
           <folding>
-            <element signature="e#0#13#0" expanded="false" />
+            <marker date="1495196812280" expanded="true" signature="133:408" ph="..." />
+            <marker date="1495196812280" expanded="true" signature="221:225" ph="..." />
+            <marker date="1495196812280" expanded="true" signature="800:915" ph="..." />
+            <marker date="1495196812280" expanded="true" signature="1549:1600" ph="..." />
+            <marker date="1495196812280" expanded="true" signature="2116:2127" ph="..." />
+            <marker date="1495196812280" expanded="true" signature="2620:2631" ph="..." />
+            <marker date="1495196812280" expanded="true" signature="3125:3136" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/text_preview.py">
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="7" column="131" lean-forward="false" selection-start-line="7" selection-start-column="131" selection-end-line="7" selection-end-column="131" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_lib/test_gif_to_jpeg.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="11" selection-end-column="49" />
+        <state relative-caret-position="3621">
+          <caret line="263" column="24" lean-forward="false" selection-start-line="263" selection-start-column="24" selection-end-line="263" selection-end-column="24" />
           <folding>
-            <element signature="e#0#9#0" expanded="false" />
+            <marker date="1495196812192" expanded="true" signature="760:1754" ph="..." />
+            <marker date="1495196812192" expanded="true" signature="1492:1618" ph="..." />
+            <marker date="1495196812192" expanded="true" signature="2138:2164" ph="..." />
+            <marker date="1495196812192" expanded="true" signature="2423:2484" ph="..." />
+            <marker date="1495196812192" expanded="true" signature="2743:2803" ph="..." />
+            <marker date="1495196812192" expanded="true" signature="2993:3223" ph="..." />
+            <marker date="1495196812192" expanded="true" signature="3980:4116" ph="..." />
+            <marker date="1495196812192" expanded="true" signature="5968:6028" ph="..." />
+            <marker date="1495196812192" expanded="true" signature="7261:7321" ph="..." />
+            <marker date="1495196812192" expanded="true" signature="9331:9497" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_lib/cache/the_gif-512x512-60dc9ef46936cc4fff2fe60bb07d4260.jpeg">
+    <entry file="file://$PROJECT_DIR$/tests/cache/the_odt-256x256-a5fac00aeaebc45514810da618be85fb(1).jpeg">
       <provider selected="true" editor-type-id="images">
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_lib/cache/the_odt-512x512-c8b37debbc45fa96466e5e1382f6bd2e_1_.jpeg">
+    <entry file="file://$PROJECT_DIR$/tests/cache/the_odt-256x256-a5fac00aeaebc45514810da618be85fb.jpeg">
       <provider selected="true" editor-type-id="images">
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_lib/test_odt_to_jpeg.py">
+    <entry file="file://$PROJECT_DIR$/tests/cache/the_odt-512x512-a5fac00aeaebc45514810da618be85fb.jpeg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_pdf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="12" selection-end-column="49" />
+        <state relative-caret-position="220">
+          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_lib/test_pdf_to_jpeg.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="2" column="43" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="29" column="40" lean-forward="false" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_lib/cache/the_zip-a733739af8006558720be26c4dc5569a.txt">
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/plugins/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -960,93 +1120,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_lib/text_zip_to_text.py">
+    <entry file="file://$PROJECT_DIR$/tests/test_jpeg.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="9" column="49" lean-forward="true" selection-start-line="9" selection-start-column="49" selection-end-line="9" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/manager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-818">
-          <caret line="37" column="60" lean-forward="false" selection-start-line="37" selection-start-column="60" selection-end-line="37" selection-end-column="60" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-            <marker date="1495023298273" expanded="true" signature="133:409" ph="..." />
-            <marker date="1495023298273" expanded="true" signature="222:226" ph="..." />
-            <marker date="1495023298273" expanded="true" signature="801:862" ph="..." />
-            <marker date="1495023298273" expanded="true" signature="1492:1517" ph="..." />
-            <marker date="1495023298273" expanded="true" signature="2031:2042" ph="..." />
-            <marker date="1495023298273" expanded="true" signature="2533:2544" ph="..." />
-            <marker date="1495023298273" expanded="true" signature="3036:3047" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/generic_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="678">
-          <caret line="240" column="47" lean-forward="false" selection-start-line="240" selection-start-column="26" selection-end-line="240" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-            <marker date="1495025566694" expanded="true" signature="736:1519" ph="..." />
-            <marker date="1495025566694" expanded="true" signature="1315:1383" ph="..." />
-            <marker date="1495025566694" expanded="true" signature="1848:1872" ph="..." />
-            <marker date="1495025566694" expanded="true" signature="2104:2134" ph="..." />
-            <marker date="1495025566694" expanded="true" signature="2366:2395" ph="..." />
-            <marker date="1495025566694" expanded="true" signature="2585:2709" ph="..." />
-            <marker date="1495025566694" expanded="true" signature="3307:3391" ph="..." />
-            <marker date="1495025566694" expanded="true" signature="5211:5246" ph="..." />
-            <marker date="1495025566694" expanded="true" signature="6326:6361" ph="..." />
-            <marker date="1495025566694" expanded="true" signature="8198:8324" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/image_preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="11" column="151" lean-forward="false" selection-start-line="11" selection-start-column="127" selection-end-line="11" selection-end-column="151" />
+        <state relative-caret-position="81">
+          <caret line="126" column="30" lean-forward="false" selection-start-line="126" selection-start-column="30" selection-end-line="126" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/odt_preview.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-652">
-          <caret line="83" column="57" lean-forward="true" selection-start-line="83" selection-start-column="29" selection-end-line="83" selection-end-column="57" />
-          <folding>
-            <marker date="1495024759007" expanded="true" signature="288:4653" ph="..." />
-            <marker date="1495024759007" expanded="true" signature="2774:2841" ph="..." />
-          </folding>
+        <state relative-caret-position="-399">
+          <caret line="100" column="39" lean-forward="false" selection-start-line="100" selection-start-column="39" selection-end-line="100" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/file_converter.py">
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/image_preview.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="205" column="23" lean-forward="true" selection-start-line="205" selection-start-column="23" selection-end-line="205" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="180">
+          <caret line="12" column="43" lean-forward="false" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.rst">
+    <entry file="file://$PROJECT_DIR$/PyPreviewGenerator/preview/pdf_preview.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="507">
-          <caret line="287" column="0" lean-forward="true" selection-start-line="287" selection-start-column="0" selection-end-line="287" selection-end-column="0" />
+        <state relative-caret-position="460">
+          <caret line="42" column="17" lean-forward="false" selection-start-line="42" selection-start-column="17" selection-end-line="42" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
+        <state relative-caret-position="201">
           <caret line="38" column="19" lean-forward="false" selection-start-line="38" selection-start-column="19" selection-end-line="38" selection-end-column="19" />
           <folding />
         </state>

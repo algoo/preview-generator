@@ -8,12 +8,13 @@ from PyPreviewGenerator import file_converter
 from PyPreviewGenerator.preview.generic_preview import PreviewBuilder
 
 
-
 class PdfPreviewBuilder(PreviewBuilder):
-
     mimetype = ['application/pdf']
 
-    def build_jpeg_preview(self, file_path: str, preview_name: str, cache_path: str, page_id: int, extension: str='.jpg', size: typing.Tuple[int, int]=(256,256)) -> None:
+    def build_jpeg_preview(self, file_path: str, preview_name: str,
+                           cache_path: str, page_id: int,
+                           extension: str = '.jpg',
+                           size: typing.Tuple[int, int] = (256, 256)) -> None:
         """
         generate the pdf small preview
         """
@@ -27,18 +28,27 @@ class PdfPreviewBuilder(PreviewBuilder):
             output_stream.seek(0, 0)
             result = file_converter.pdf_to_jpeg(output_stream, size)
 
-            with open('{path}({page_id}){extension}'.format(
-                            path=cache_path + preview_name,
-                            page_id=page_id,
-                            extension=extension
-                    ), 'wb') as jpeg:
+            if page_id == -1:
+                preview_path = '{path}{file_name}{extension}'.format(
+                    file_name=preview_name,
+                    path=cache_path,
+                    extension=extension
+                )
+            else:
+                preview_path = '{path}{file_name}({page_id}){extension}'.format(
+                    file_name=preview_name,
+                    path=cache_path,
+                    page_id=page_id,
+                    extension=extension
+                )
+            with open(preview_path, 'wb') as jpeg:
                 buffer = result.read(1024)
                 while buffer:
                     jpeg.write(buffer)
                     buffer = result.read(1024)
 
-    def get_page_number(self, file_path: str, preview_name: str, cache_path: str) -> int:
-
+    def get_page_number(self, file_path: str, preview_name: str,
+                        cache_path: str) -> int:
         with open(cache_path + preview_name + '_page_nb', 'w') as count:
             count.seek(0, 0)
 

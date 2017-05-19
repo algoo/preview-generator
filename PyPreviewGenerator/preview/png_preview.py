@@ -4,10 +4,12 @@ from PyPreviewGenerator.preview.generic_preview import ImagePreviewBuilder
 
 
 class ImagePreviewBuilderPillow(ImagePreviewBuilder):
-
     mimetype = ['image/png']
 
-    def build_jpeg_preview(self, file_path: str, preview_name: str, cache_path: str, page_id: int, extension: str='.jpeg', size: typing.Tuple[int, int]=(256,256)) -> None:
+    def build_jpeg_preview(self, file_path: str, preview_name: str,
+                           cache_path: str, page_id: int,
+                           extension: str = '.jpeg',
+                           size: typing.Tuple[int, int] = (256, 256)) -> None:
         """
         generate the jpg preview
         """
