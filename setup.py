@@ -31,13 +31,13 @@ testpkgs = []
 
 install_requires = ['python-magic', 'Wand', 'PyPDF2', 'Pillow']
 
-if py_version >= (3, 5):
+if py_version <= (3, 5):
     install_requires.append("typing")
 
 setup(
-    name='PyPreviewGenerator',
-    version='0.1.20',
-    description='Generation of file previews',
+    name='preview-generator',
+    version='0.1.22',
+    description='Documentation modification : old repository',
     long_description=documentation,
     author='Algoo',
     author_email='contact@algoo.fr',

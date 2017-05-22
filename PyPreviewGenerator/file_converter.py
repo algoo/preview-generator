@@ -219,8 +219,17 @@ def zip_to_html(zip: typing.IO[bytes]) -> BytesIO:
         date = "%d-%02d-%02d %02d:%02d:%02d" % info.date_time[:6]
         output.write(
             str.encode(
-                "<li>%-46s %s %12d</li>\n" % (
-                info.filename, date, info.file_size)
+                '<li>file {line}</li>'
+                '<ul>'
+                '<li>name : {name}</li>'
+                '<li>size : {size}</li>'
+                '<li>date : {date}</li>'
+                '</ul>'.format(
+                    line=line,
+                    name=info.filename,
+                    size=info.file_size,
+                    date=date,
+                    )
             )
         )
     output.write(str.encode('</ul></p>'))
@@ -236,8 +245,8 @@ def zip_to_json(zip: typing.IO[bytes]) -> BytesIO:
     dictionnary = {}
     for line, info in enumerate(zz.infolist()):
         date = '%d-%02d-%02d %02d:%02d:%02d' % info.date_time[:6]
-        files.append([info.filename, info.file_size, date])
-    dictionnary['file'] = files
+        files.append(dict(name=info.filename, size=info.file_size, date=date))
+    dictionnary['files'] = files
     content = json.dumps(dictionnary)
     output.write(str.encode(content))
     output.seek(0, 0)

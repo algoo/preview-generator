@@ -1,6 +1,7 @@
 import hashlib
 import os
 
+import logging
 import typing
 
 from PyPreviewGenerator.factory import PreviewBuilderFactory
@@ -39,15 +40,19 @@ class PreviewManager(object):
         builder = self.factory.get_preview_builder(mimetype)
         extension = '.jpeg'
         preview_name = self.get_file_hash(file_path, size)
-        return builder.get_jpeg_preview(
-            file_path=file_path,
-            preview_name=preview_name,
-            page_id=page,
-            cache_path=self.cache_path,
-            extension=extension,
-            force=force,
-            size=size
-        )
+        try:
+            return builder.get_jpeg_preview(
+                file_path=file_path,
+                preview_name=preview_name,
+                page_id=page,
+                cache_path=self.cache_path,
+                extension=extension,
+                force=force,
+                size=size
+            )
+        except AttributeError:
+            raise Exception('Error while getting the file the file preview')
+
 
     def get_pdf_preview(self, file_path: str, page: int = -1,
                         force: bool = False) -> str:
@@ -56,14 +61,17 @@ class PreviewManager(object):
         builder = self.factory.get_preview_builder(mimetype)
         extension = '.pdf'
         preview_name = self.get_file_hash(file_path)
-        return builder.get_pdf_preview(
-            file_path=file_path,
-            preview_name=preview_name,
-            cache_path=self.cache_path,
-            force=force,
-            extension=extension,
-            page=page,
-        )
+        try:
+            return builder.get_pdf_preview(
+                file_path=file_path,
+                preview_name=preview_name,
+                cache_path=self.cache_path,
+                force=force,
+                extension=extension,
+                page=page,
+            )
+        except AttributeError:
+            raise Exception('Error while getting the file the file preview')
 
     def get_text_preview(self, file_path: str, force: bool = False) -> str:
 
@@ -71,39 +79,49 @@ class PreviewManager(object):
         builder = self.factory.get_preview_builder(mimetype)
         extension = '.txt'
         preview_name = self.get_file_hash(file_path)
-        return builder.get_text_preview(
-            file_path=file_path,
-            preview_name=preview_name,
-            cache_path=self.cache_path,
-            force=force,
-            extension=extension
-        )
+        try:
+            return builder.get_text_preview(
+                file_path=file_path,
+                preview_name=preview_name,
+                cache_path=self.cache_path,
+                force=force,
+                extension=extension
+            )
+        except AttributeError:
+            raise Exception('Error while getting the file the file preview')
 
     def get_html_preview(self, file_path: str, force: bool = False) -> str:
         mimetype = self.factory.get_document_mimetype(file_path)
         builder = self.factory.get_preview_builder(mimetype)
         extension = '.html'
         preview_name = self.get_file_hash(file_path)
-        return builder.get_html_preview(
-            file_path=file_path,
-            preview_name=preview_name,
-            cache_path=self.cache_path,
-            force=force,
-            extension=extension,
-        )
+        try:
+            return builder.get_html_preview(
+                file_path=file_path,
+                preview_name=preview_name,
+                cache_path=self.cache_path,
+                force=force,
+                extension=extension,
+            )
+        except AttributeError:
+            raise Exception('Error while getting the file the file preview')
 
     def get_json_preview(self, file_path: str, force: bool = False) -> str:
         mimetype = self.factory.get_document_mimetype(file_path)
+        logging.info('Mimetype of the document is :' + mimetype)
         builder = self.factory.get_preview_builder(mimetype)
         extension = '.json'
         preview_name = self.get_file_hash(file_path)
-        return builder.get_json_preview(
-            file_path=file_path,
-            preview_name=preview_name,
-            cache_path=self.cache_path,
-            force=force,
-            extension=extension
-        )
+        try:
+            return builder.get_json_preview(
+                file_path=file_path,
+                preview_name=preview_name,
+                cache_path=self.cache_path,
+                force=force,
+                extension=extension
+            )
+        except AttributeError:
+            raise Exception('Error while getting the file the file preview')
 
     def get_file_hash(self, file_path: str,
                       size: typing.Tuple[int, int] = None) -> str:

@@ -7,7 +7,10 @@ class ZipPreviewBuilder(OnePagePreviewBuilder):
                 'application/x-zip-compressed',
                 'application/zip',
                 'multipart/x-zip',
-                'application/x-tar'
+                'application/x-tar',
+                'application/x-gzip',
+                'application/x-gtar',
+                'application/x-tgz',
                 ]
 
     def build_text_preview(self, file_path: str, preview_name: str,
@@ -53,3 +56,34 @@ class ZipPreviewBuilder(OnePagePreviewBuilder):
                 while buffer:
                     jpeg.write(buffer)
                     buffer = result.read(1024)
+
+
+class TargzPreviewBuilder(OnePagePreviewBuilder):
+    mimetype = ['application/gzip',
+                'application/gtar',
+                'application/tgz',
+                ]
+
+    def build_text_preview(self, file_path: str, preview_name: str,
+                           cache_path: str, page_id: int = 0,
+                           extension: str = '.txt') -> None:
+        """
+        generate the text preview
+        """
+        raise Exception("Not implemented for tar gz document")
+
+    def build_html_preview(self, file_path: str, preview_name: str,
+                           cache_path: str, extension: str = '.html') -> None:
+        """
+        generate the text preview
+        """
+        raise Exception("Not implemented for tar gz document")
+
+    def build_json_preview(self, file_path: str, preview_name: str,
+                           cache_path: str, page_id: int = 0,
+                           extension: str = '.json') -> None:
+        """
+        generate the json preview
+        """
+        raise Exception("Not implemented for tar gz document")
+

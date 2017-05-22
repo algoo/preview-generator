@@ -2,6 +2,9 @@
 Preview\_generator's Documentation
 ==================================
 
+
+Old repository : https://pypi.python.org/pypi?%3Aaction=pkg_edit&name=PyPreviewGenerator
+
 ------------
 Presentation
 ------------
