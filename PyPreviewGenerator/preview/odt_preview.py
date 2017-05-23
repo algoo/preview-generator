@@ -101,7 +101,7 @@ class OfficePreviewBuilder(PreviewBuilder):
                     extension=extension
                 )
             else :
-                preview_path = '{path}{file_name}({page_id}){extension}'.format(
+                preview_path = '{path}{file_name}{extension}'.format(
                     file_name=preview_name,
                     path=cache_path,
                     page_id=page_id,

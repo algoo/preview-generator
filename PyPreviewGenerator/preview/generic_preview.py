@@ -19,8 +19,6 @@ class PreviewBuilderMeta(type):
     def __new__(mcs, *args: str, **kwargs: int) -> typing.Type[
         'PreviewBuilder']:
         cls = super().__new__(mcs, *args, **kwargs)
-        # if not issubclass(cls, PreviewBuilder):
-        #     raise Exception('This should be use with a PreviewBuilder class')
         cls = typing.cast(typing.Type['PreviewBuilder'], cls)
         cls.register()
         return cls
@@ -91,8 +89,9 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
                          size: typing.Tuple[int, int] = (256, 256),
                          force: bool = False) -> str:
 
-        if not self.exists_preview(cache_path + preview_name, page_id,
-                                   extension) or force:
+        if not self.exists_preview(
+                        cache_path + preview_name, extension
+        ) or force:
             self.build_jpeg_preview(
                 file_path=file_path,
                 preview_name=preview_name,
@@ -105,10 +104,9 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         if page_id == -1:
             return cache_path + preview_name + extension
         else:
-            return '{cache}{file}({page}){ext}'.format(
+            return '{cache}{file}{ext}'.format(
                 cache=cache_path,
                 file=preview_name,
-                page=page_id,
                 ext=extension,
             )
 
@@ -128,13 +126,14 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
                 extension=extension
             )
 
-        if page == -1:
+        if page == -1 or page == None:
             return cache_path + preview_name + extension
         else:
             with open(
-                    '{path}{file_name}.pdf'.format(
+                    '{path}{file_name}{extension}'.format(
                         path=cache_path,
-                        file_name=preview_name
+                        file_name=preview_name,
+                        extension=extension
                     ),
                     'rb'
             ) as handler:
@@ -146,7 +145,7 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
                 output_pdf.write(output_stream)
                 output_stream.seek(0, 0)
 
-                with open('{path}{file_name}({page}){extension}'.format(
+                with open('{path}{file_name}{extension}'.format(
                         path=cache_path,
                         file_name=preview_name,
                         page=page,
@@ -158,10 +157,9 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
                     while buffer:
                         paged_pdf.write(buffer)
                         buffer = output_stream.read(1024)
-            return '{path}{file_name}({page}){extension}'.format(
+            return '{path}{file_name}{extension}'.format(
                 path=cache_path,
                 file_name=preview_name,
-                page=page,
                 extension=extension
             )
 
@@ -179,7 +177,11 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
                 cache_path=cache_path,
                 extension=extension
             )
-        return cache_path + preview_name + extension
+        return '{cache}{file}{ext}'.format(
+            cache=cache_path,
+            file=preview_name,
+            ext=extension,
+        )
 
     def get_json_preview(self, file_path: str, preview_name: str,
                          cache_path: str, extension: str = '.json',
@@ -211,24 +213,21 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
                 cache_path=cache_path,
                 extension=extension
             )
-        return cache_path + preview_name + extension
+        return '{cache}{file}{ext}'.format(
+            cache=cache_path,
+            file=preview_name,
+            ext=extension,
+        )
 
-    def exists_preview(self, path: str, page_id: int = None,
+    def exists_preview(self, path: str,
                        extension: str = '') -> bool:
         """
         return true if the cache file exists
         """
-        if page_id == None or page_id == -1:
-            full_path = '{path}{extension}'.format(
-                path=path,
-                extension=extension
-            )
-        else:
-            full_path = '{path}({page_id}){extension}'.format(
-                path=path,
-                page_id=page_id,
-                extension=extension
-            )
+        full_path = '{path}{extension}'.format(
+            path=path,
+            extension=extension
+        )
 
         if os.path.exists(full_path):
             return True

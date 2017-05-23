@@ -36,8 +36,8 @@ if py_version <= (3, 5):
 
 setup(
     name='preview-generator',
-    version='0.1.22',
-    description='Documentation modification : old repository',
+    version='0.1.24',
+    description='Generation of file previews',
     long_description=documentation,
     author='Algoo',
     author_email='contact@algoo.fr',
@@ -49,12 +49,13 @@ setup(
     install_requires=install_requires,
     python_requires='>=3.4',
     include_package_data=True,
-    test_suite='nose.collector',
+    test_suite='py.test', #TODO : change test_suite
     tests_require=testpkgs,
     package_data={
         'preview_generator': [
             'i18n/*/LC_MESSAGES/*.mo',
             'templates/*/*',
             'public/*/*'
-    ]}
+        ]
+    }
 )

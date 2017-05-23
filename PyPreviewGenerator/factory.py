@@ -17,7 +17,7 @@ class PreviewBuilderFactory(object):
                 if mimetype == mimetype_supported:
                     return builder_class()
 
-        return None
+        raise Exception('Mimetype not supported')
 
     def get_document_mimetype(self, file_path: str) -> str:
         """ 

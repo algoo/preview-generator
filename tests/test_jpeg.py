@@ -4,7 +4,10 @@ from PIL import Image
 current_dir = os.path.dirname(os.path.abspath(__file__)) +'/'
 
 def test_gif_to_jpeg():
-    manager = PreviewManager(path=current_dir + 'cache')
+    manager = PreviewManager(
+        path=current_dir + 'cache',
+        create_folder=True
+    )
     path_to_file = manager.get_jpeg_preview(
         file_path=current_dir + 'the_gif.gif',
         height=512,
@@ -17,7 +20,10 @@ def test_gif_to_jpeg():
         assert jpeg.width == 512
 
 def test_gif_to_jpeg_no_size():
-    manager = PreviewManager(path=current_dir + 'cache')
+    manager = PreviewManager(
+        path=current_dir + 'cache',
+        create_folder=True
+    )
     path_to_file = manager.get_jpeg_preview(
         file_path=current_dir + 'the_gif.gif',
     )
@@ -29,7 +35,10 @@ def test_gif_to_jpeg_no_size():
 
 
 def test_png_to_jpeg():
-    manager = PreviewManager(path=current_dir + 'cache')
+    manager = PreviewManager(
+        path=current_dir + 'cache',
+        create_folder=True
+    )
     path_to_file = manager.get_jpeg_preview(
         file_path=current_dir + 'the_png.png',
         height=512,
@@ -42,7 +51,10 @@ def test_png_to_jpeg():
         assert jpeg.width == 512
 
 def test_png_to_jpeg_no_size():
-    manager = PreviewManager(path=current_dir + 'cache')
+    manager = PreviewManager(
+        path=current_dir + 'cache',
+        create_folder=True
+    )
     path_to_file = manager.get_jpeg_preview(
         file_path=current_dir + 'the_png.png',
     )
@@ -53,7 +65,10 @@ def test_png_to_jpeg_no_size():
         assert jpeg.width == 256
 
 def test_bmp_to_jpeg():
-    manager = PreviewManager(path=current_dir + 'cache')
+    manager = PreviewManager(
+        path=current_dir + 'cache',
+        create_folder=True
+    )
     path_to_file = manager.get_jpeg_preview(
         file_path=current_dir + 'the_bmp.bmp',
         height=512,
@@ -66,7 +81,10 @@ def test_bmp_to_jpeg():
         assert jpeg.width == 512
 
 def test_bmp_to_jpeg_no_size():
-    manager = PreviewManager(path=current_dir + 'cache')
+    manager = PreviewManager(
+        path=current_dir + 'cache',
+        create_folder=True
+    )
     path_to_file = manager.get_jpeg_preview(
         file_path=current_dir + 'the_bmp.bmp',
     )
@@ -77,7 +95,10 @@ def test_bmp_to_jpeg_no_size():
         assert jpeg.width == 256
 
 def test_pdf_to_jpeg():
-    manager = PreviewManager(path=current_dir + 'cache')
+    manager = PreviewManager(
+        path=current_dir + 'cache',
+        create_folder=True
+    )
     path_to_file = manager.get_jpeg_preview(
         file_path=current_dir + 'the_pdf.pdf',
         height=512,
@@ -90,7 +111,10 @@ def test_pdf_to_jpeg():
         assert jpeg.width == 512
 
 def test_pdf_to_jpeg_no_size():
-    manager = PreviewManager(path=current_dir + 'cache')
+    manager = PreviewManager(
+        path=current_dir + 'cache',
+        create_folder=True
+    )
     path_to_file = manager.get_jpeg_preview(
         file_path=current_dir + 'the_pdf.pdf',
     )
@@ -101,11 +125,15 @@ def test_pdf_to_jpeg_no_size():
         assert jpeg.width == 256
 
 def test_odt_to_jpeg():
-    manager = PreviewManager(path=current_dir + 'cache')
+    manager = PreviewManager(
+        path=current_dir + 'cache',
+        create_folder=True
+    )
     path_to_file = manager.get_jpeg_preview(
         file_path=current_dir + 'the_odt.odt',
         height=512,
-        width=512
+        width=512,
+        page=1
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
@@ -114,9 +142,13 @@ def test_odt_to_jpeg():
         assert jpeg.width == 512
 
 def test_odt_to_jpeg_no_size():
-    manager = PreviewManager(path=current_dir + 'cache')
+    manager = PreviewManager(
+        path=current_dir + 'cache',
+        create_folder=True
+    )
     path_to_file = manager.get_jpeg_preview(
         file_path=current_dir + 'the_odt.odt',
+        page=1
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
@@ -125,7 +157,10 @@ def test_odt_to_jpeg_no_size():
         assert jpeg.width == 256
 
 def test_odt_to_jpeg_no_page():
-    manager = PreviewManager(path=current_dir + 'cache')
+    manager = PreviewManager(
+        path=current_dir + 'cache',
+        create_folder=True
+    )
     path_to_file = manager.get_jpeg_preview(
         file_path=current_dir + 'the_odt.odt',
         height=512,
@@ -138,7 +173,10 @@ def test_odt_to_jpeg_no_page():
         assert jpeg.width == 512
 
 def test_odt_to_jpeg_no_size_no_page():
-    manager = PreviewManager(path=current_dir + 'cache')
+    manager = PreviewManager(
+        path=current_dir + 'cache',
+        create_folder=True
+    )
     path_to_file = manager.get_jpeg_preview(
         file_path=current_dir + 'the_odt.odt',
     )
