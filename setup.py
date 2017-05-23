@@ -36,7 +36,7 @@ if py_version <= (3, 5):
 
 setup(
     name='preview-generator',
-    version='0.1.24',
+    version='0.1.26',
     description='Generation of file previews',
     long_description=documentation,
     author='Algoo',

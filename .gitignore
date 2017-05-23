@@ -1,0 +1,6 @@
+# compilation files
+*.pyc
+
+
+# cache
+__pycache__
