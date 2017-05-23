@@ -4,3 +4,16 @@
 
 # cache
 __pycache__
+
+# IDE
+
+
+
+.cache/
+.eggs/
+.mypy_cache/
+PyPreviewGenerator/.mypy_cache/
+/dist
+preview_generator.egg-info/
+/tgenv*
+/venv*
