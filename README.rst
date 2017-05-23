@@ -3,7 +3,7 @@ Preview\_generator's Documentation
 ==================================
 
 
-Old repository : https://pypi.python.org/pypi?%3Aaction=pkg_edit&name=PyPreviewGenerator
+Old repository : https://pypi.python.org/pypi?%3Aaction=pkg_edit&name=preview-generator
 
 ------------
 Presentation
@@ -33,8 +33,7 @@ Format handled
 +-----------------------+-----------+--------+--------+--------+-------+
 | PDF                   |    ☑      |        |        |        |       |
 +-----------------------+-----------+--------+--------+--------+-------+
-| Compressed            |           |        |   ☑    |   ☑    |   ☑   |
-| files                 |           |        |        |        |       |
+| Zip files             |           |        |   ☑    |   ☑    |   ☑   |
 +-----------------------+-----------+--------+--------+--------+-------+
 | Office files          |       ☑   |   ☑    |        |        |       |
 | (word, LibreOffice)   |           |        |        |        |       |
@@ -47,20 +46,20 @@ Format handled
 Installation
 ------------
 
-`pip install PyPreviewGenerator`
+`pip install preview-generator`
 
 
 -----------
 Requirement
 -----------
 
-Some packages are needed but may also be already on your OS. You can check if they are already installed or you can just try to install PyPreviewGenerator and if the `pip install PyPreviewGenerator` command fails, do :
+Some packages are needed but may also be already on your OS. You can check if they are already installed or you can just try to install preview-generator and if the `pip install preview-generator` command fails, do :
 
 `apt-get install zlib1g-dev`
 
 `apt-get install libjpeg-dev`
 
-and try `pip install PyPreviewGenerator` again.
+and try `pip install preview-generator` again.
 
 This package uses several libraries :
 
@@ -69,7 +68,7 @@ This package uses several libraries :
   - pillow
   - PyPDF2
 
-These should be automatically installed with the `pip install PyPreviewGenerator` command. But if some error occurs quoting one of these library, try to install them 1 by 1 with a simple `pip install ...` to locate the library that causes the problem.
+These should be automatically installed with the `pip install preview-generator` command. But if some error occurs quoting one of these library, try to install them 1 by 1 with a simple `pip install ...` to locate the library that causes the problem.
 
 **WARNING!** about **LibreOffice**
 
@@ -87,8 +86,8 @@ Getting a preview
 
 .. code:: python
 
-  from PyPreviewGenerator.manager import PreviewManager
-  manager = PreviewManager(path='/home/user/Pictures/')
+  from preview-generator.manager import PreviewManager
+  manager = PreviewManager(path='/home/user/Pictures/', create_folder= True)
   path_to_file = manager.get_jpeg_preview(
     file_path='/home/user/Pictures/myfile.gif',
     height=100,
@@ -109,6 +108,7 @@ The preview manager
 *args :*
 
    *cache_path : a String of the path to the directory where the cache file will be stored*
+   *create_folder : a boolean, when True will TRY to create the cache folder*
 
 *returns :*
 
@@ -117,7 +117,7 @@ The preview manager
 The builders
 ------------
 
-Here is the way it is meant to be used
+Here is the way it is meant to be used assuming that cache_path is an existing directory
 
 For Office types into PDF :
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -133,7 +133,9 @@ For Office types into PDF :
 
   *file_path : the String of the path where is the file you want to get the preview*
 
-  *page : the page you want to get. If not mentioned all the pages will be returned. First page is page 0*
+  *page : the int of the page you want to get. If not mentioned all the pages will be returned. First page is page 0*
+
+  *use_original_filename : a boolean that mention if the original file name should appear in the preview name. True by default*
 
 *returns :*
 
@@ -156,6 +158,8 @@ For images(GIF, BMP, PNG, JPEG, PDF) into jpeg :
   *height : height of the preview in pixels*
 
   *width : width of the preview in pixels. If not mentioned, width will be the same as height*
+
+  *use_original_filename : a boolean that mention if the original file name should appear in the preview name. True by default*
 
 *returns :*
 
@@ -207,7 +211,7 @@ GIF to JPEG :
 .. code:: python
 
   import os
-  from PyPreviewGenerator.manager import PreviewManager
+  from preview-generator.manager import PreviewManager
   current_dir = os.path.dirname(os.path.abspath(__file__)) +'/'
 
   manager = PreviewManager(path=current_dir + 'cache')
@@ -229,7 +233,7 @@ ODT to JPEG :
 .. code:: python
 
   import os
-  from PyPreviewGenerator.manager import PreviewManager
+  from preview-generator.manager import PreviewManager
   current_dir = os.path.dirname(os.path.abspath(__file__)) +'/'
 
   manager = PreviewManager(path=current_dir + 'cache')
@@ -244,14 +248,14 @@ ODT to JPEG :
 
 will print
 
-  Preview created at path : the_odt-1024x1024-c8b37debbc45fa96466e5e1382f6bd2e(1).jpeg
+  Preview created at path : the_odt-1024x1024-c8b37debbc45fa96466e5e1382f6bd2e-page1.jpeg
 
 ZIP to Text :
 ~~~~~~~~~~~~~
 .. code:: python
 
   import os
-  from PyPreviewGenerator.manager import PreviewManager
+  from preview-generator.manager import PreviewManager
   current_dir = os.path.dirname(os.path.abspath(__file__)) +'/'
 
   manager = PreviewManager(path=current_dir + 'cache')
@@ -275,15 +279,15 @@ Before all, I'd be glad if you could share your new feature with everybody. So i
 If you want to add a new preview builder to handle documents of type **foo** into **jpeg** (for example) here is how to proceed :
 
  - **Warning** If you need to look at other builders to find out how to proceed, avoid looking at any of the Office to something. It is a particular case and could misslead you.
- - Create a new class FooPreviewBuilder in a file foo_preview.py in PyPreviewGenerator/preview
+ - Create a new class FooPreviewBuilder in a file foo_preview.py in preview-generator/preview
  - Make him inherit from the logical PreviewBuilder class
 
    * if it handles several pages it will be `class FooPreviewBuilder(PreviewBuilder)`
    * for single page it will be `class FooPreviewBuilder(OnePagePreviewBuilder)`
    * ...
- - define you own `build_jpeg_preview(...)` (in the case we want to make **foo** into **jpeg**) based on the same principle as other build_{type}_preview(...)
+ - define your own `build_jpeg_preview(...)` (in the case we want to make **foo** into **jpeg**) based on the same principle as other build_{type}_preview(...)
  - Inside this build_jpeg_preview(...) you will call a method file_converter.foo_to_jpeg(...)
- - Define your foo_to_jpeg(...) method in PyPreviewGenerator.file_converter.py
+ - Define your foo_to_jpeg(...) method in preview-generator.file_converter.py
 
    * inputs must be a stream of bytes and optional informations like a number of pages, a size, ...
    * output must also be a stream of bytes
