@@ -40,6 +40,9 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
 
     def get_page_number(self, file_path: str, preview_name: str,
                         cache_path: str) -> int:
+        '''
+        Get the number of page of the document
+        '''
         raise Exception(
             'Number of pages not supported for this kind of Preview'
             ' Builder. Your preview builder must implement a '
