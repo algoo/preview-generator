@@ -1,0 +1,13 @@
+sudo: false
+language: python
+python: "3.4"
+
+
+install:
+  - python setup.py
+
+# command to run tests
+script: "cd ${TRAVIS_BUILD_DIR} && pytest tests"
+
+
+                              
