@@ -40,9 +40,12 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
 
     def get_page_number(self, file_path: str, preview_name: str,
                         cache_path: str) -> int:
-        raise Exception('Number of pages not supported for this kind of Preview'
-                        ' Builder. Preview builder must implement a '
-                        'get_page_number method')
+        raise Exception(
+            'Number of pages not supported for this kind of Preview'
+            ' Builder. Your preview builder must implement a '
+            'get_page_number method with the same signature as in'
+            'PreviewBuilder'
+        )
 
     def build_jpeg_preview(self, file_path: str, preview_name: str,
                            cache_path: str, page_id: int,
