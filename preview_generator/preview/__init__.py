@@ -15,7 +15,7 @@ __all__ = [ basename(f)[:-3] for f in modules if isfile(f)]
 for file in __all__:
     if file == '__init__':
         continue
-    imp = 'from PyPreviewGenerator.preview.{file} import *'.format(
+    imp = 'from preview_generator.preview.{file} import *'.format(
         file=file
     )
     exec(imp)

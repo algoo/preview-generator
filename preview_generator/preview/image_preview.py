@@ -1,7 +1,7 @@
 import typing
 
-from PyPreviewGenerator import file_converter
-from PyPreviewGenerator.preview.generic_preview import ImagePreviewBuilder
+from preview_generator import file_converter
+from preview_generator.preview.generic_preview import ImagePreviewBuilder
 
 
 class ImagePreviewBuilderWand(ImagePreviewBuilder):

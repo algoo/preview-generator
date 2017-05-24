@@ -3,7 +3,7 @@ Preview\_generator's Documentation
 ==================================
 
 
-Old repository : https://pypi.python.org/pypi?%3Aaction=pkg_edit&name=preview-generator
+Old repository : https://pypi.python.org/pypi/PyPreviewGenerator/0.1.20
 
 ------------
 Presentation

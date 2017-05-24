@@ -6,8 +6,8 @@ import typing
 from PyPDF2 import PdfFileReader
 from PyPDF2 import PdfFileWriter
 
-from PyPreviewGenerator import file_converter
-from PyPreviewGenerator.preview.generic_preview import PreviewBuilder
+from preview_generator import file_converter
+from preview_generator.preview.generic_preview import PreviewBuilder
 
 
 class OfficePreviewBuilder(PreviewBuilder):

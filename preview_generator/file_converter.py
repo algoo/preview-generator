@@ -3,11 +3,14 @@ import zipfile
 
 import logging
 import typing
-from io import BytesIO, FileIO
+from io import BytesIO
 from PIL import Image
 from wand.color import Color
 from wand.image import Image as WImage
 import json
+from subprocess import DEVNULL
+from subprocess import STDOUT
+from subprocess import check_call
 
 
 def image_to_jpeg_pillow(png: typing.Union[str, typing.IO[bytes]],
@@ -153,14 +156,33 @@ def office_to_pdf(odt: typing.IO[bytes], cache_path: str,
             pass
 
         # TODO There's probably a cleaner way to convert to pdf
-        os.system('libreoffice --headless --convert-to pdf:writer_pdf_Export '
-                  + '{path}{extension}'.format(
-            path=cache_path,
-            extension=file_name
+
+        # os.system('libreoffice --headless --convert-to pdf:writer_pdf_Export '
+        #           + '{path}{extension}'.format(
+        #                 path=cache_path,
+        #                 extension=file_name
+        #             )
+        #           + ' --outdir ' + cache_path
+        #           + ' -env:UserInstallation='
+        #           + 'file:///tmp/LibreOffice_Conversion_${USER}'
+        #           )
+
+        check_call(
+            [
+                'libreoffice',
+                '--headless',
+                '--convert-to',
+                'pdf:writer_pdf_Export',
+                '{path}{extension}'.format(
+                    path=cache_path,
+                    extension=file_name
+                ),
+                '--outdir',
+                cache_path,
+                '-env:UserInstallation=file:///tmp/LibreOffice_Conversion_${USER}',
+            ],
+            stdout=DEVNULL, stderr=STDOUT
         )
-                  + ' --outdir ' + cache_path
-                  + ' -env:UserInstallation='
-                  + 'file:///tmp/LibreOffice_Conversion_${USER}')
 
     try:
         logging.info('Removing directory' + cache_path + file_name + '_flag')

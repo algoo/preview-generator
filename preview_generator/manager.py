@@ -4,7 +4,7 @@ import os
 import logging
 import typing
 
-from PyPreviewGenerator.factory import PreviewBuilderFactory
+from preview_generator.factory import PreviewBuilderFactory
 
 
 class PreviewManager(object):

@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from PyPreviewGenerator.manager import PreviewManager
+from preview_generator.manager import PreviewManager
 current_dir = os.path.dirname(os.path.abspath(__file__)) +'/'
 
 def test_zip_to_html_no_cache_creation():

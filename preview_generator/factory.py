@@ -38,7 +38,7 @@ class PreviewBuilderFactory(object):
         self.builders_classes.append(builder)
 
 
-from PyPreviewGenerator.preview.generic_preview import PreviewBuilder
+from preview_generator.preview.generic_preview import PreviewBuilder
 
 for cls in PreviewBuilder.__subclasses__():
     cls.register()

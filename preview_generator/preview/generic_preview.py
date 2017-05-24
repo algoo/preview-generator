@@ -6,9 +6,9 @@ import typing
 from PyPDF2 import PdfFileReader
 from PyPDF2 import PdfFileWriter
 
-from PyPreviewGenerator import file_converter
+from preview_generator import file_converter
 
-from PyPreviewGenerator.factory import PreviewBuilderFactory
+from preview_generator.factory import PreviewBuilderFactory
 
 
 class PreviewBuilderInterface(object):

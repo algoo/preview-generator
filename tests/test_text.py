@@ -1,5 +1,5 @@
 import os
-from PyPreviewGenerator.manager import PreviewManager
+from preview_generator.manager import PreviewManager
 current_dir = os.path.dirname(os.path.abspath(__file__)) +'/'
 
 def test_text_to_text():
