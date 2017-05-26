@@ -2,10 +2,13 @@ sudo: false
 language: python
 python: "3.4"
 
-before_script:
-  -
 install:
-  - python setup.py
+  - pip install wand
+  - pip install PyPDF2
+  - pip install typing
+  - pip install pillow
+  - pip install python-magic
+  - pip install pytest
 
 # command to run tests
 script: "cd ${TRAVIS_BUILD_DIR} && pytest tests"
