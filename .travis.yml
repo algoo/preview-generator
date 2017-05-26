@@ -8,6 +8,7 @@ install:
   - pip install typing
   - pip install pillow
   - pip install python-magic
+  - pip install preview-generator
   - pip install pytest
 
 # command to run tests
