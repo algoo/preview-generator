@@ -274,7 +274,7 @@ will print
 Adding new feature :
 --------------------
 
-Before all, I'd be glad if you could share your new feature with everybody. So if you want to, you can fork it on github ( https://github.com/algoo/preview-generator) and submit new features.
+Before all, I'd be glad if you could share your new feature with everybody. So if you want to, you can fork it on github ( https://github.com/algoo/preview-generator) (see `Developer Installation`_) and submit new features.
 
 If you want to add a new preview builder to handle documents of type **foo** into **jpeg** (for example) here is how to proceed :
 
@@ -292,3 +292,24 @@ If you want to add a new preview builder to handle documents of type **foo** int
    * inputs must be a stream of bytes and optional informations like a number of pages, a size, ...
    * output must also be a stream of bytes
  - Maybe you'll need to redefine some methods like `get_page_number()` or `exists_preview()` in your FooPreviewBuilder class
+
+
+----------------------
+Developer Installation
+----------------------
+From scratch on a terminal :
+  - create the project directory (we will name it "the_project" but you can name it the way you want) : `mkdir the_project`
+  - `cd the_project`
+  - `git clone https://github.com/algoo/preview-generator`
+  - building your environment :
+     * install python virtualenv builder : `sudo apt install python3-venv`
+     * build your virtual env (I can say that it work with python 3.4 but did not try with other versions)(env will be called "myenv", you can name it the way you want): `python3.4 -m venv myenv`
+     * if it's not already, activate it : `source myenv/bin/activate`. (`deactivate` to deactivate)
+  - install dependencies :
+     * `apt-get install zlib1g-dev`
+     * `apt-get install libjpeg-dev`
+     * `pip install wand`
+     * `pip install python-magick`
+     * `pip install pilow`
+     * `pip install PyPDF2`
+     * `pip install typing`
