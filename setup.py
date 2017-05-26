@@ -36,14 +36,14 @@ if py_version <= (3, 5):
 
 setup(
     name='preview-generator',
-    version='0.1.30',
+    version='0.1.32',
     description='Generation of file previews',
     long_description=documentation,
     author='Algoo',
     author_email='contact@algoo.fr',
     url='https://github.com/algoo/preview-generator',
     download_url='',
-    keywords=['preview', 'preview_generator', 'thumbnail', 'cache'],
+    keywords=['preview', 'preview-generator', 'thumbnail', 'cache'],
     classifiers=['Programming Language :: Python :: 3.4'],
     packages=find_packages(exclude=['ez_setup']),
     install_requires=install_requires,
@@ -52,7 +52,7 @@ setup(
     test_suite='py.test', #TODO : change test_suite
     tests_require=testpkgs,
     package_data={
-        'preview_generator': [
+        'preview-generator': [
             'i18n/*/LC_MESSAGES/*.mo',
             'templates/*/*',
             'public/*/*'

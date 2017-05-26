@@ -274,7 +274,7 @@ will print
 Adding new feature :
 --------------------
 
-Before all, I'd be glad if you could share your new feature with everybody. So if you want to, you can fork it on github ( https://github.com/algoo/preview-generator) (see `Developer Installation`_) and submit new features.
+Before all, I'd be glad if you could share your new feature with everybody. So if you want to, you can fork it on github ( https://github.com/algoo/preview-generator) (see `Developer’s Kit`_) and submit new features.
 
 If you want to add a new preview builder to handle documents of type **foo** into **jpeg** (for example) here is how to proceed :
 
@@ -294,11 +294,17 @@ If you want to add a new preview builder to handle documents of type **foo** int
  - Maybe you'll need to redefine some methods like `get_page_number()` or `exists_preview()` in your FooPreviewBuilder class
 
 
-----------------------
-Developer Installation
-----------------------
+---------------
+Developer’s Kit
+---------------
+
+
+Installation (dev) :
+--------------------
+
+
 From scratch on a terminal :
-  - create the project directory (we will name it "the_project" but you can name it the way you want) : `mkdir the_project`
+  - create your project directory (we will name it "the_project" but you can name it the way you want) : `mkdir the_project`
   - `cd the_project`
   - `git clone https://github.com/algoo/preview-generator`
   - building your environment :
@@ -310,6 +316,16 @@ From scratch on a terminal :
      * `apt-get install libjpeg-dev`
      * `pip install wand`
      * `pip install python-magick`
-     * `pip install pilow`
+     * `pip install pillow`
      * `pip install PyPDF2`
-     * `pip install typing`
+     * if you use python 3.5 or less `pip install typing`
+
+Running Pytest :
+----------------
+ Pytest is a motor for unit testing
+
+* `pip install pytest`
+* go into the "tests" directory : `cd path/to/you/project/directory/tests`
+* run `py.test`
+
+
