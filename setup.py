@@ -47,7 +47,7 @@ setup(
     classifiers=['Programming Language :: Python :: 3.4'],
     packages=find_packages(exclude=['ez_setup']),
     install_requires=install_requires,
-    python_requires='>=3.4',
+    python_requires='>= 3.4',
     include_package_data=True,
     test_suite='py.test', #TODO : change test_suite
     tests_require=testpkgs,

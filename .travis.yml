@@ -1,6 +1,9 @@
 sudo: false
 language: python
-python: "3.4"
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
 
 addons:
   apt:
@@ -8,11 +11,7 @@ addons:
     - libreoffice
 
 install:
-  - pip install wand
-  - pip install PyPDF2
-  - pip install typing
-  - pip install pillow
-  - pip install python-magic
+  - python setup.py install
   - pip install preview-generator
   - pip install pytest
 
