@@ -263,7 +263,7 @@ def zip_to_json(zip: typing.IO[bytes]) -> BytesIO:
     logging.info('Converting zip to json')
     zz = zipfile.ZipFile(zip)
     output = BytesIO()
-    files = []  # type: typing.List[typing.List[typing.Union[str,int]]]
+    files = []
     dictionnary = {}
     for line, info in enumerate(zz.infolist()):
         date = '%d-%02d-%02d %02d:%02d:%02d' % info.date_time[:6]
