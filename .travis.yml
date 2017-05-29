@@ -16,7 +16,9 @@ install:
   - pip install pytest
 
 # command to run tests
-script: "cd ${TRAVIS_BUILD_DIR} && py.test tests"
+script:
+  - "cd ${TRAVIS_BUILD_DIR} && py.test tests"
+  - "cd ${TRAVIS_BUILD_DIR}/preview_generator && mypy --ignore-missing-imports --disallow-untyped-defs"
 
 
                               

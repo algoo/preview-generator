@@ -254,28 +254,16 @@ class OnePagePreviewBuilder(PreviewBuilder):
                         cache_path: str) -> int:
         return 1
 
-    def exists_preview(self, path: str, page_id: int = None,
-                       extension: str = '') -> bool:
-        """
-        return true if the cache file exists
-        """
-        full_path = '{path}{extension}'.format(
-            path=path,
-            extension=extension
-        )
-        if os.path.exists(full_path):
-            return True
-        else:
-            return False
-
     def get_jpeg_preview(
             self, file_path: str, preview_name: str, cache_path: str,
             page_id: int, extension: str = '.jpeg',
             size: typing.Tuple[int, int] = (256, 256),
             force: bool = False) -> str:
 
-        if (not self.exists_preview(cache_path + preview_name, page_id,
-                                    extension)) or force:
+        if (not self.exists_preview(
+                path=cache_path + preview_name,
+                extension=extension)
+            )or force:
             self.build_jpeg_preview(
                 file_path=file_path,
                 preview_name=preview_name,
