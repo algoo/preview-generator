@@ -49,7 +49,10 @@ class OfficePreviewBuilder(PreviewBuilder):
         'application/vnd.oasis.opendocument.formula',
         'application/vnd.oasis.opendocument.database',
         'application/vnd.oasis.opendocument.image',
-        'application/vnd.openofficeorg.extension'
+        'application/vnd.openofficeorg.extension',
+        'text/plain',
+        'text/html',
+        'application/xml',
     ]  # type: typing.List[str]
 
     def build_jpeg_preview(self, file_path: str, preview_name: str,

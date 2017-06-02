@@ -21,7 +21,8 @@ class PreviewManager(object):
             path = path + '/'
         self.cache_path = path
 
-    def get_nb_page(self, file_path: str, cache_path: str) -> int:
+    def get_nb_page(self, file_path: str) -> int:
+        cache_path = self.cache_path
         mimetype = self.factory.get_document_mimetype(file_path)
         builder = self.factory.get_preview_builder(mimetype)
 
