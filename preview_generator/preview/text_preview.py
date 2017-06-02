@@ -4,7 +4,7 @@ from preview_generator.preview.generic_preview import OnePagePreviewBuilder
 
 
 class TextPreviewBuilder(OnePagePreviewBuilder):
-    mimetype = []
+    mimetype = ['']
 
     def build_text_preview(self, file_path: str, preview_name: str,
                            cache_path: str, page_id: int = 0,
