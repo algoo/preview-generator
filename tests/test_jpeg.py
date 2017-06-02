@@ -3,7 +3,19 @@ from preview_generator.manager import PreviewManager
 from PIL import Image
 current_dir = os.path.dirname(os.path.abspath(__file__)) +'/'
 
+def test_text_to_jpeg():
+    manager = PreviewManager(
+        path=current_dir + 'cache',
+        create_folder=True
+    )
+    path_to_file = manager.get_jpeg_preview(
+        file_path=current_dir + 'the_text.txt'
+    )
+    assert os.path.exists(path_to_file) == True
+    assert os.path.getsize(path_to_file) > 0
+
 def test_gif_to_jpeg():
+
     manager = PreviewManager(
         path=current_dir + 'cache',
         create_folder=True
