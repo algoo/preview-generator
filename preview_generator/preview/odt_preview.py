@@ -50,10 +50,7 @@ class OfficePreviewBuilder(PreviewBuilder):
         'application/vnd.oasis.opendocument.database',
         'application/vnd.oasis.opendocument.image',
         'application/vnd.openofficeorg.extension',
-        'text/plain',
-        'text/html',
-        'application/xml',
-    ]  # type: typing.List[str]
+        ]  # type: typing.List[str]
 
     def build_jpeg_preview(self, file_path: str, preview_name: str,
                            cache_path: str, page_id: int,
@@ -78,16 +75,20 @@ class OfficePreviewBuilder(PreviewBuilder):
                 if self.cache_file_process_already_running(
                                 cache_path + preview_name):
                     time.sleep(2)
-                    self.build_pdf_preview(
+                    self.build_jpeg_preview(
                         file_path=file_path,
                         preview_name=preview_name,
                         cache_path=cache_path,
-                        extension=extension
+                        extension=extension,
+                        page_id=page_id
                     )
 
                 else:
-                    result = file_converter.office_to_pdf(odt, cache_path,
-                                                          preview_name)
+                    result = file_converter.office_to_pdf(
+                        odt,
+                        cache_path,
+                        preview_name
+                    )
 
             input_pdf = PdfFileReader(result)
             output_pdf = PdfFileWriter()
@@ -97,22 +98,13 @@ class OfficePreviewBuilder(PreviewBuilder):
             output_stream.seek(0, 0)
             result2 = file_converter.pdf_to_jpeg(output_stream, size)
 
-            if page_id == -1:
-                preview_path = '{path}{file_name}{extension}'.format(
-                    file_name=preview_name,
-                    path=cache_path,
-                    extension=extension
-                )
-            else :
-                preview_path = '{path}{file_name}{extension}'.format(
-                    file_name=preview_name,
-                    path=cache_path,
-                    page_id=page_id,
-                    extension=extension
-                )
+            preview_path = '{path}{file_name}{extension}'.format(
+                file_name=preview_name,
+                path=cache_path,
+                extension=extension
+            )
 
-
-            with open(preview_path,'wb') as jpeg:
+            with open(preview_path, 'wb') as jpeg:
                 buffer = result2.read(1024)
                 while buffer:
                     jpeg.write(buffer)

@@ -2,9 +2,12 @@ import hashlib
 import os
 
 import logging
+from time import sleep
+
 import typing
 
 from preview_generator.factory import PreviewBuilderFactory
+from preview_generator.preview.odt_preview import OfficePreviewBuilder
 
 
 class PreviewManager(object):
@@ -48,12 +51,40 @@ class PreviewManager(object):
         mimetype = self.factory.get_document_mimetype(file_path)
         builder = self.factory.get_preview_builder(mimetype)
         extension = '.jpeg'
-        preview_name = self.get_file_hash(
-            file_path=file_path,
-            size=size,
-            page=page,
-            use_original_filename=use_original_filename
-        )
+        if isinstance(builder, OfficePreviewBuilder):
+            preview_name = self.get_file_hash(
+                file_path=file_path,
+                use_original_filename=use_original_filename
+            )
+            mimetype = self.factory.get_document_mimetype(file_path)
+            builder = self.factory.get_preview_builder(mimetype)
+            file_path = builder.get_pdf_preview(
+                file_path=file_path,
+                preview_name=preview_name,
+                cache_path=self.cache_path,
+                extension=extension,
+                force=force,
+            )
+            preview_name = self.get_file_hash(
+                file_path=file_path,
+                size=size,
+                page=page,
+                use_original_filename=False
+            )
+        else:
+            preview_name = self.get_file_hash(
+                file_path=file_path,
+                size=size,
+                page=page,
+                use_original_filename=False
+            )
+
+        mimetype = self.factory.get_document_mimetype(file_path)
+        builder = self.factory.get_preview_builder(mimetype)
+
+        print("FILE_PATH:", file_path)
+        sleep(2)
+
         try:
             return builder.get_jpeg_preview(
                 file_path=file_path,
@@ -182,7 +213,7 @@ class PreviewManager(object):
             for index in range(0, len(tab_str) - 1):
                 file_path = file_path + tab_str[index]
 
-        file_name  = []
+        file_name = []
         if use_original_filename == True :
             file_name.append(os.path.basename(file_path))
         if size != None :

@@ -1,10 +1,15 @@
 import typing
 from preview_generator import file_converter
 from preview_generator.preview.generic_preview import OnePagePreviewBuilder
+from preview_generator.preview.odt_preview import OfficePreviewBuilder
 
 
-class TextPreviewBuilder(OnePagePreviewBuilder):
-    mimetype = ['']
+class TextPreviewBuilder(OfficePreviewBuilder):
+    mimetype = [
+        'text/plain',
+        'text/html',
+        'application/xml',
+    ]  # type: typing.List[str]
 
     def build_text_preview(self, file_path: str, preview_name: str,
                            cache_path: str, page_id: int = 0,
