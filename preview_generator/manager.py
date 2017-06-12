@@ -58,14 +58,11 @@ class PreviewManager(object):
                 file_path=file_path,
                 use_original_filename=use_original_filename
             )
-            mimetype = self.factory.get_document_mimetype(file_path)
-            builder = self.factory.get_preview_builder(mimetype)
-            file_path = builder.get_pdf_preview(
+            file_path = self.get_pdf_preview(
                 file_path=file_path,
-                preview_name=preview_name,
-                cache_path=self.cache_path,
-                extension=extension,
+                page=page,
                 force=force,
+                use_original_filename=use_original_filename
             )
             preview_name = self.get_file_hash(
                 file_path=file_path,
@@ -88,7 +85,7 @@ class PreviewManager(object):
         sleep(2)
 
         try:
-            if not builder.exists_preview(
+            if not self.exists_preview(
                     self.cache_path + preview_name,
                     extension
             ) or force:
@@ -130,7 +127,7 @@ class PreviewManager(object):
             use_original_filename=use_original_filename
         )
         try:
-            if not builder.exists_preview(
+            if not builder.self(
                     path=self.cache_path + preview_name,
                     extension=extension) or force:
                 builder.build_pdf_preview(
@@ -193,7 +190,7 @@ class PreviewManager(object):
             file_path=file_path,
             use_original_filename=use_original_filename)
         try:
-            if not builder.exists_preview(
+            if not self.exists_preview(
                     path=self.cache_path + preview_name,
                     extension=extension
             ) or force:
@@ -225,7 +222,7 @@ class PreviewManager(object):
             use_original_filename=use_original_filename
         )
         try:
-            if not builder.exists_preview(
+            if not self.exists_preview(
                 self.cache_path + preview_name,
                 extension=extension
             ) or force:
@@ -258,7 +255,7 @@ class PreviewManager(object):
             use_original_filename=use_original_filename
         )
         try:
-            if not builder.exists_preview(
+            if not self.exists_preview(
                 path=self.cache_path + preview_name,
                 extension=extension
             ) or force:
@@ -299,4 +296,22 @@ class PreviewManager(object):
             file_name.append('page{page}'.format(page=page))
 
         return '-'.join(file_name)
+
+    def exists_preview(
+            self,
+            path: str,
+            extension: str = ''
+    ) -> bool:
+        """
+        return true if the cache file exists
+        """
+        full_path = '{path}{extension}'.format(
+            path=path,
+            extension=extension
+        )
+
+        if os.path.exists(full_path):
+            return True
+        else:
+            return False
 
