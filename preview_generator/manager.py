@@ -5,6 +5,8 @@ import logging
 from time import sleep
 
 import typing
+from PyPDF2 import PdfFileReader, PdfFileWriter
+from io import BytesIO
 
 from preview_generator.factory import PreviewBuilderFactory
 from preview_generator.preview.odt_preview import OfficePreviewBuilder
@@ -86,15 +88,27 @@ class PreviewManager(object):
         sleep(2)
 
         try:
-            return builder.get_jpeg_preview(
-                file_path=file_path,
-                preview_name=preview_name,
-                page_id=page,
-                cache_path=self.cache_path,
-                extension=extension,
-                force=force,
-                size=size
-            )
+            if not builder.exists_preview(
+                    self.cache_path + preview_name,
+                    extension
+            ) or force:
+                builder.build_jpeg_preview(
+                    file_path=file_path,
+                    preview_name=preview_name,
+                    cache_path=self.cache_path,
+                    page_id=page,
+                    extension=extension,
+                    size=size
+                )
+
+            if page == -1:
+                return self.cache_path + preview_name + extension
+            else:
+                return '{cache}{file}{ext}'.format(
+                    cache=self.cache_path,
+                    file=preview_name,
+                    ext=extension,
+                )
         except AttributeError:
             raise Exception('Error while getting the file the file preview')
 
@@ -116,14 +130,52 @@ class PreviewManager(object):
             use_original_filename=use_original_filename
         )
         try:
-            return builder.get_pdf_preview(
-                file_path=file_path,
-                preview_name=preview_name,
-                cache_path=self.cache_path,
-                force=force,
-                extension=extension,
-                page=page,
-            )
+            if not builder.exists_preview(
+                    path=self.cache_path + preview_name,
+                    extension=extension) or force:
+                builder.build_pdf_preview(
+                    file_path=file_path,
+                    preview_name=preview_name,
+                    cache_path=self.cache_path,
+                    extension=extension
+                )
+
+            if page == -1 or page == None:
+                return self.cache_path + preview_name + extension
+            else:
+                with open(
+                        '{path}{file_name}{extension}'.format(
+                            path=self.cache_path,
+                            file_name=preview_name,
+                            extension=extension
+                        ),
+                        'rb'
+                ) as handler:
+                    input_pdf = PdfFileReader(handler)
+                    output_pdf = PdfFileWriter()
+                    output_pdf.addPage(input_pdf.getPage(page))
+
+                    output_stream = BytesIO()
+                    output_pdf.write(output_stream)
+                    output_stream.seek(0, 0)
+
+                    with open('{path}{file_name}{extension}'.format(
+                            path=self.cache_path,
+                            file_name=preview_name,
+                            page=page,
+                            extension=extension
+                    ), 'wb') \
+                            as paged_pdf:
+                        output_stream.seek(0, 0)
+                        buffer = output_stream.read(1024)
+                        while buffer:
+                            paged_pdf.write(buffer)
+                            buffer = output_stream.read(1024)
+                return '{path}{file_name}{extension}'.format(
+                    path=self.cache_path,
+                    file_name=preview_name,
+                    extension=extension
+                )
         except AttributeError:
             raise Exception('Error while getting the file the file preview')
 
@@ -141,12 +193,20 @@ class PreviewManager(object):
             file_path=file_path,
             use_original_filename=use_original_filename)
         try:
-            return builder.get_text_preview(
-                file_path=file_path,
-                preview_name=preview_name,
-                cache_path=self.cache_path,
-                force=force,
-                extension=extension
+            if not builder.exists_preview(
+                    path=self.cache_path + preview_name,
+                    extension=extension
+            ) or force:
+                builder.build_text_preview(
+                    file_path=file_path,
+                    preview_name=preview_name,
+                    cache_path=self.cache_path,
+                    extension=extension
+                )
+            return '{cache}{file}{ext}'.format(
+                cache=self.cache_path,
+                file=preview_name,
+                ext=extension,
             )
         except AttributeError:
             raise Exception('Error while getting the file the file preview')
@@ -165,12 +225,20 @@ class PreviewManager(object):
             use_original_filename=use_original_filename
         )
         try:
-            return builder.get_html_preview(
-                file_path=file_path,
-                preview_name=preview_name,
-                cache_path=self.cache_path,
-                force=force,
-                extension=extension,
+            if not builder.exists_preview(
+                self.cache_path + preview_name,
+                extension=extension
+            ) or force:
+                builder.build_html_preview(
+                    file_path=file_path,
+                    preview_name=preview_name,
+                    cache_path=self.cache_path,
+                    extension=extension
+                )
+            return '{cache}{file}{ext}'.format(
+                cache=self.cache_path,
+                file=preview_name,
+                ext=extension,
             )
         except AttributeError:
             raise Exception('Error while getting the file the file preview')
@@ -190,13 +258,17 @@ class PreviewManager(object):
             use_original_filename=use_original_filename
         )
         try:
-            return builder.get_json_preview(
-                file_path=file_path,
-                preview_name=preview_name,
-                cache_path=self.cache_path,
-                force=force,
+            if not builder.exists_preview(
+                path=self.cache_path + preview_name,
                 extension=extension
-            )
+            ) or force:
+                builder.build_json_preview(
+                    file_path=file_path,
+                    preview_name=preview_name,
+                    cache_path=self.cache_path,
+                    extension=extension
+                )
+            return self.cache_path + preview_name + extension
         except AttributeError:
             raise Exception('Error while getting the file the file preview')
 
@@ -227,23 +299,4 @@ class PreviewManager(object):
             file_name.append('page{page}'.format(page=page))
 
         return '-'.join(file_name)
-
-
-
-
-
-        # if size == None:
-        #     file_name = os.path.basename(file_path)
-        # else:
-        #     file_name = '{fn}-{fh}x{fw}'.format(
-        #         fn=os.path.basename(file_path),
-        #         fh=str(size[0]),
-        #         fw=str(size[1]),
-        #     )
-        #
-        # file_hash = hashlib.md5(file_path.encode('utf-8')).hexdigest()
-        # if page == -1 or page == None:
-        #     return '{fn}-{fh}'.format(fn=file_name, fh=file_hash)
-        # else:
-        #     return '{fn}-{fh}-page{page}'.format(fn=file_name, fh=file_hash, page=page)
 

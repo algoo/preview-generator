@@ -225,8 +225,11 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
             ext=extension,
         )
 
-    def exists_preview(self, path: str,
-                       extension: str = '') -> bool:
+    def exists_preview(
+            self,
+            path: str,
+            extension: str = ''
+    ) -> bool:
         """
         return true if the cache file exists
         """
