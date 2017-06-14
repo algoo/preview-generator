@@ -135,7 +135,8 @@ class OfficePreviewBuilder(PreviewBuilder):
             return int(page_nb)
 
     def build_pdf_preview(self, file_path: str, preview_name: str,
-                          cache_path: str, extension: str = '.pdf') -> None:
+                          cache_path: str, extension: str = '.pdf',
+                          page_id: int = 0) -> None:
         """
         generate the pdf large preview
         """

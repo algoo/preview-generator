@@ -60,7 +60,8 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         raise Exception("Not implemented for this kind of document")
 
     def build_pdf_preview(self, file_path: str, preview_name: str,
-                          cache_path: str, extension: str = '.pdf') -> None:
+                          cache_path: str, page_id: int = 0,
+                          extension: str = '.pdf') -> None:
         """
         generate the jpeg preview
         """
@@ -102,26 +103,6 @@ class OnePagePreviewBuilder(PreviewBuilder):
     def get_page_number(self, file_path: str, preview_name: str,
                         cache_path: str) -> int:
         return 1
-
-    def get_jpeg_preview(
-            self, file_path: str, preview_name: str, cache_path: str,
-            page_id: int, extension: str = '.jpeg',
-            size: typing.Tuple[int, int] = (256, 256),
-            force: bool = False) -> str:
-
-        if (not self.exists_preview(
-                path=cache_path + preview_name,
-                extension=extension)
-            )or force:
-            self.build_jpeg_preview(
-                file_path=file_path,
-                preview_name=preview_name,
-                cache_path=cache_path,
-                page_id=page_id,
-                extension=extension,
-                size=size
-            )
-        return cache_path + preview_name + extension
 
 
 class ImagePreviewBuilder(OnePagePreviewBuilder):

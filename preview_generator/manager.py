@@ -81,9 +81,6 @@ class PreviewManager(object):
         mimetype = self.factory.get_document_mimetype(file_path)
         builder = self.factory.get_preview_builder(mimetype)
 
-        print("FILE_PATH:", file_path)
-        sleep(2)
-
         try:
             if not self.exists_preview(
                     self.cache_path + preview_name,
@@ -127,47 +124,24 @@ class PreviewManager(object):
             use_original_filename=use_original_filename
         )
         try:
-            if not builder.self(
+            if not self.exists_preview(
                     path=self.cache_path + preview_name,
                     extension=extension) or force:
                 builder.build_pdf_preview(
                     file_path=file_path,
                     preview_name=preview_name,
                     cache_path=self.cache_path,
-                    extension=extension
+                    extension=extension,
+                    page_id=page
                 )
 
             if page == -1 or page == None:
-                return self.cache_path + preview_name + extension
+                return '{path}{file_name}{extension}'.format(
+                    path=self.cache_path,
+                    file_name=preview_name,
+                    extension=extension
+                )
             else:
-                with open(
-                        '{path}{file_name}{extension}'.format(
-                            path=self.cache_path,
-                            file_name=preview_name,
-                            extension=extension
-                        ),
-                        'rb'
-                ) as handler:
-                    input_pdf = PdfFileReader(handler)
-                    output_pdf = PdfFileWriter()
-                    output_pdf.addPage(input_pdf.getPage(page))
-
-                    output_stream = BytesIO()
-                    output_pdf.write(output_stream)
-                    output_stream.seek(0, 0)
-
-                    with open('{path}{file_name}{extension}'.format(
-                            path=self.cache_path,
-                            file_name=preview_name,
-                            page=page,
-                            extension=extension
-                    ), 'wb') \
-                            as paged_pdf:
-                        output_stream.seek(0, 0)
-                        buffer = output_stream.read(1024)
-                        while buffer:
-                            paged_pdf.write(buffer)
-                            buffer = output_stream.read(1024)
                 return '{path}{file_name}{extension}'.format(
                     path=self.cache_path,
                     file_name=preview_name,
