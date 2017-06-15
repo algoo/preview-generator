@@ -30,6 +30,7 @@ class PreviewManager(object):
         mimetype = self.factory.get_document_mimetype(file_path)
         builder = self.factory.get_preview_builder(mimetype)
         size = builder.get_original_size(file_path)
+        return size
 
 
     def get_nb_page(self, file_path: str) -> int:

@@ -60,8 +60,8 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         raise Exception("Not implemented for this kind of document")
 
     def build_pdf_preview(self, file_path: str, preview_name: str,
-                          cache_path: str, page_id: int = 0,
-                          extension: str = '.pdf') -> None:
+                          cache_path: str, extension: str = '.pdf',
+                          page_id: int = -1) -> None:
         """
         generate the jpeg preview
         """
