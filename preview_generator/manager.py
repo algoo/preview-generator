@@ -26,6 +26,12 @@ class PreviewManager(object):
             path = path + '/'
         self.cache_path = path
 
+    def get_original_size(self, file_path: str) -> typing.Tuple[int,int]:
+        mimetype = self.factory.get_document_mimetype(file_path)
+        builder = self.factory.get_preview_builder(mimetype)
+        size = builder.get_original_size(file_path)
+
+
     def get_nb_page(self, file_path: str) -> int:
         cache_path = self.cache_path
         mimetype = self.factory.get_document_mimetype(file_path)
@@ -42,13 +48,19 @@ class PreviewManager(object):
             height: int = 256,
             width: int = None,
             force: bool = False,
-            use_original_filename: bool = True
+            use_original_filename: bool = True,
+            with_original_size: bool = False,
     ) -> str:
+
+        if with_original_size:
+            width = None
+            height = None
 
         if width == None:
             width = height
 
         size = (height, width)
+
 
         mimetype = self.factory.get_document_mimetype(file_path)
         builder = self.factory.get_preview_builder(mimetype)
@@ -105,7 +117,6 @@ class PreviewManager(object):
                 )
         except AttributeError:
             raise Exception('Error while getting the file the file preview')
-
 
     def get_pdf_preview(
             self,
