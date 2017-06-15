@@ -285,12 +285,12 @@ def image_to_json(img: typing.Union[str, typing.IO[bytes]]) -> BytesIO:
     output.seek(0, 0)
     return output
 
-def get_image_size(img: typing.Union[str, typing.IO[bytes]]) -> int:
-    with WImage(file=img) as img:
-        return img.size
+def get_image_size(img: typing.IO[bytes]) -> typing.Tuple[int, int]:
+    with WImage(file=img) as image:
+        return image.size
 
-def get_pdf_size(pdf: typing.Union[str, typing.IO[bytes]], page_id: int) -> int:
+def get_pdf_size(pdf: typing.Union[str, typing.IO[bytes]], page_id: int) -> typing.Tuple[int, int]:
     input_pdf = PdfFileReader(pdf)
     page = input_pdf.getPage(page_id).mediaBox
-    size = (page.getUpperRight_x(), page.getUpperRight_y())
+    size = (int(page.getUpperRight_x()), int(page.getUpperRight_y()))
     return size
