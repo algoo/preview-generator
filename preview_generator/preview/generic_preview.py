@@ -90,9 +90,14 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         """
         raise Exception("Not implemented for this kind of document")
 
+    def get_original_size(self, file_path: str, page_id: int=-1) -> typing.Tuple[int, int]:
+        raise Exception("Not implemented for this kind of document")
+
     @classmethod
     def register(cls) -> None:
         PreviewBuilderFactory.get_instance().register_builder(cls)
+
+
 
 
 class OnePagePreviewBuilder(PreviewBuilder):

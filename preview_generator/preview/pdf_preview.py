@@ -91,3 +91,10 @@ class PdfPreviewBuilder(PreviewBuilder):
         with open(cache_path + preview_name + '_page_nb', 'r') as count:
             count.seek(0, 0)
             return count.read()
+
+    def get_original_size(self, file_path: str, page_id: int=-1) -> typing.Tuple[int, int]:
+        if page_id <= -1 or page_id == None:
+            page_id = 0
+        with open(file_path, 'rb') as pdf:
+            size = file_converter.get_pdf_size(pdf, page_id)
+            return size

@@ -5,6 +5,7 @@ import logging
 import typing
 from io import BytesIO
 from PIL import Image
+from PyPDF2 import PdfFileReader
 from wand.color import Color
 from wand.image import Image as WImage
 import json
@@ -156,17 +157,6 @@ def office_to_pdf(odt: typing.IO[bytes], cache_path: str,
             pass
 
         # TODO There's probably a cleaner way to convert to pdf
-
-        # os.system('libreoffice --headless --convert-to pdf:writer_pdf_Export '
-        #           + '{path}{extension}'.format(
-        #                 path=cache_path,
-        #                 extension=file_name
-        #             )
-        #           + ' --outdir ' + cache_path
-        #           + ' -env:UserInstallation='
-        #           + 'file:///tmp/LibreOffice_Conversion_${USER}'
-        #           )
-
         check_call(
             [
                 'libreoffice',
@@ -294,3 +284,13 @@ def image_to_json(img: typing.Union[str, typing.IO[bytes]]) -> BytesIO:
     output.write(str.encode(content))
     output.seek(0, 0)
     return output
+
+def get_image_size(img: typing.Union[str, typing.IO[bytes]]) -> int:
+    with WImage(file=img) as img:
+        return img.size
+
+def get_pdf_size(pdf: typing.Union[str, typing.IO[bytes]], page_id: int) -> int:
+    input_pdf = PdfFileReader(pdf)
+    page = input_pdf.getPage(page_id).mediaBox
+    size = (page.getUpperRight_x(), page.getUpperRight_y())
+    return size

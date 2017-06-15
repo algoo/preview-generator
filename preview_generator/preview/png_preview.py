@@ -26,3 +26,8 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
                 while buffer:
                     jpeg.write(buffer)
                     buffer = result.read(1024)
+
+    def get_original_size(self, file_path: str, page_id: int=-1) -> typing.Tuple[int, int]:
+        with open(file_path, 'rb') as img:
+            size = file_converter.get_image_size(img)
+            return size

@@ -26,10 +26,10 @@ class PreviewManager(object):
             path = path + '/'
         self.cache_path = path
 
-    def get_original_size(self, file_path: str) -> typing.Tuple[int,int]:
+    def get_original_size(self, file_path: str, page: int =-1) -> typing.Tuple[int, int]:
         mimetype = self.factory.get_document_mimetype(file_path)
         builder = self.factory.get_preview_builder(mimetype)
-        size = builder.get_original_size(file_path)
+        size = builder.get_original_size(file_path, page)
         return size
 
 
