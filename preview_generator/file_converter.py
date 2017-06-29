@@ -16,7 +16,7 @@ def txt_to_txt(text: typing.IO[typing.Any]) -> typing.IO[typing.Any]:
 
 
 class ImageDataJsonEncoder(JSONEncoder):
-    def default(self, obj):
+    def default(self, obj: typing.Any) -> str:
         if isinstance(obj, bytes):
             try:
                 return obj.decode('ascii')
@@ -27,7 +27,7 @@ class ImageDataJsonEncoder(JSONEncoder):
 
 
 def image_to_json(
-        img: typing.Union[str, typing.IO[bytes]],
+        img: typing.IO[bytes],
         filesize: int=0
 ) -> BytesIO:
     logging.info('Converting image to json')

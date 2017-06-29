@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import typing
 
-def get_subclasses_recursively(_class, _seen=None):
+
+def get_subclasses_recursively(_class: type, _seen: set=None) -> typing.Generator:
     """
     itersubclasses(cls)
 
@@ -34,7 +36,7 @@ def get_subclasses_recursively(_class, _seen=None):
     try:
         subs = _class.__subclasses__()
     except TypeError:  # fails only when cls is type
-        subs = _class.__subclasses__(_class)
+        subs = _class.__subclasses__(_class)  # type: ignore
     for sub in subs:
         if sub not in _seen:
             _seen.add(sub)
@@ -44,13 +46,13 @@ def get_subclasses_recursively(_class, _seen=None):
 
 
 class ImgDims(object):
-    def __init__(self, width, height):
+    def __init__(self, width: int, height: int) -> None:
         self.width = width
         self.height = height
 
 
 class CropDims(object):
-    def __init__(self, left, top, right, bottom):
+    def __init__(self, left: int, top: int, right: int, bottom: int) -> None:
         self.left = left
         self.top = top
         self.right = right

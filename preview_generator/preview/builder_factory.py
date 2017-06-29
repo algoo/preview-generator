@@ -10,12 +10,12 @@ import typing
 from preview_generator.exception import UnsupportedMimeType
 from preview_generator.exception import BuilderNotLoaded
 from preview_generator.utils import get_subclasses_recursively
-
+from preview_generator.preview.generic_preview import PreviewBuilder
 
 class PreviewBuilderFactory(object):
 
     _instance = None  # type: PreviewBuilderFactory
-    builders_classes = []  # type: typing.List[PreviewBuilder]
+    builders_classes = []  # type: typing.List[typing.Any]
 
     def __init__(self) -> None:
         self.builders_loaded = False
@@ -23,7 +23,7 @@ class PreviewBuilderFactory(object):
     def get_preview_builder(
             self,
             mimetype: str
-    ) -> typing.Type['PreviewBuilder']:
+    ) -> 'PreviewBuilder':
 
         if not self.builders_loaded:
             raise BuilderNotLoaded()
@@ -44,7 +44,7 @@ class PreviewBuilderFactory(object):
         str, encoding = mimetypes.guess_type(file_path)
         return str
 
-    def load_builders(self, force=False):
+    def load_builders(self, force: bool=False) -> None:
         """
         Loads all builders found in preview_generator.preview.builder module
         :return: None
@@ -97,7 +97,7 @@ def get_builder_modules(builder_folder: str) -> typing.List[str]:
     return module_names
 
 
-def import_builder_module(name):
+def import_builder_module(name: str) -> None:
     logging.debug('Builder module loading: {}'.format(name))
     _import = 'from preview_generator.preview.builder.{module} import *'.format(module=name)  # nopep8
     exec(_import)
