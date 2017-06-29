@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 # python setup.py sdist upload -r pypi
 
 
@@ -36,15 +35,19 @@ if py_version <= (3, 5):
 
 setup(
     name='preview_generator',
-    version='0.1.45',
-    description='Generation of file previews',
+    version='0.1.46',
+    description='A library for generating preview (thumbnails, text or json overview) for file-based content',
     long_description=documentation,
     author='Algoo',
     author_email='contact@algoo.fr',
     url='https://github.com/algoo/preview_generator',
     download_url='',
     keywords=['preview', 'preview_generator', 'thumbnail', 'cache'],
-    classifiers=['Programming Language :: Python :: 3.4'],
+    classifiers=[
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6'
+    ],
     packages=find_packages(exclude=['ez_setup']),
     install_requires=install_requires,
     python_requires='>= 3.4',

@@ -1,14 +1,17 @@
+# -*- coding: utf-8 -*-
+
 import typing
+
 from preview_generator import file_converter
-from preview_generator.preview.generic_preview import OnePagePreviewBuilder
-from preview_generator.preview.odt_preview import OfficePreviewBuilder
+from preview_generator.preview.builder.office__libreoffice import OfficePreviewBuilderLibreoffice  # nopep8
 
 
-class TextPreviewBuilder(OfficePreviewBuilder):
+class PlainTextPreviewBuilder(OfficePreviewBuilderLibreoffice):
     mimetype = [
         'text/plain',
         'text/html',
         'application/xml',
+        'application/javascript'
     ]  # type: typing.List[str]
 
     def build_text_preview(self, file_path: str, preview_name: str,
@@ -29,4 +32,3 @@ class TextPreviewBuilder(OfficePreviewBuilder):
                 while buffer:
                     jpeg.write(buffer)
                     buffer = result.read(1024)
-

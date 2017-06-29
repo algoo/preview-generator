@@ -1,26 +1,24 @@
-import os
-from io import BytesIO
+# -*- coding: utf-8 -*-
 
 import logging
+import os
 import typing
-from PyPDF2 import PdfFileReader
-from PyPDF2 import PdfFileWriter
 
 from preview_generator import file_converter
-
-from preview_generator.factory import PreviewBuilderFactory
-
-
-class PreviewBuilderInterface(object):
-    pass
+from preview_generator.exception import UnavailablePreviewType
+from preview_generator.preview.builder_factory import PreviewBuilderFactory
+from preview_generator.utils import ImgDims
 
 
 class PreviewBuilderMeta(type):
-    def __new__(mcs, *args: str, **kwargs: int) -> typing.Type[
-        'PreviewBuilder']:
+    def __new__(
+            mcs,
+            *args: str,
+            **kwargs: int
+    ) -> typing.Type['PreviewBuilder']:
         cls = super().__new__(mcs, *args, **kwargs)
         cls = typing.cast(typing.Type['PreviewBuilder'], cls)
-        cls.register()
+        # cls.register()
         return cls
 
 
@@ -38,94 +36,130 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
     ) -> typing.List[str]:
         return cls.mimetype
 
-    def get_page_number(self, file_path: str, preview_name: str,
-                        cache_path: str) -> int:
+    def get_page_number(
+            self,
+            file_path: str,
+            preview_name: str,
+            cache_path: str
+    ) -> int:
         """
         Get the number of page of the document
         """
-        raise Exception(
-            'Number of pages not supported for this kind of Preview'
-            ' Builder. Your preview builder must implement a '
-            'get_page_number method with the same signature as in'
-            'PreviewBuilder'
-        )
+        raise UnavailablePreviewType()
 
-    def build_jpeg_preview(self, file_path: str, preview_name: str,
-                           cache_path: str, page_id: int,
-                           extension: str = '.jpg',
-                           size: typing.Tuple[int, int] = (256, 256)) -> None:
+    def build_jpeg_preview(
+            self,
+            file_path: str,
+            preview_name: str,
+            cache_path: str,
+            page_id: int,
+            extension: str = '.jpg',
+            size: ImgDims=None
+    ) -> None:
         """
         generate the jpg preview
         """
-        raise Exception("Not implemented for this kind of document")
+        raise UnavailablePreviewType()
 
-    def build_pdf_preview(self, file_path: str, preview_name: str,
-                          cache_path: str, extension: str = '.pdf',
-                          page_id: int = -1) -> None:
+    def build_pdf_preview(
+            self,
+            file_path: str,
+            preview_name: str,
+            cache_path: str,
+            extension: str = '.pdf',
+            page_id: int = -1
+    ) -> None:
         """
         generate the jpeg preview
         """
-        raise Exception("Not implemented for this kind of document")
+        raise UnavailablePreviewType()
 
-    def build_html_preview(self, file_path: str, preview_name: str,
-                           cache_path: str, extension: str = '.html') -> None:
+    def build_html_preview(
+            self,
+            file_path: str,
+            preview_name: str,
+            cache_path: str,
+            extension: str = '.html'
+    ) -> None:
         """
         generate the html preview
         """
-        raise Exception("Not implemented for this kind of document")
+        raise UnavailablePreviewType()
 
-    def build_json_preview(self, file_path: str, preview_name: str,
-                           cache_path: str, page_id: int = 0,
-                           extension: str = '.json') -> None:
+    def build_json_preview(
+            self,
+            file_path: str,
+            preview_name: str,
+            cache_path: str,
+            page_id: int = 0,
+            extension: str = '.json'
+    ) -> None:
         """
         generate the json preview
         """
-        raise Exception("Not implemented for this kind of document")
+        raise UnavailablePreviewType()
 
-    def build_text_preview(self, file_path: str, preview_name: str,
-                           cache_path: str, page_id: int = 0,
-                           extension: str = '.txt') -> None:
-        """ 
+    def build_text_preview(
+            self,
+            file_path: str,
+            preview_name: str,
+            cache_path: str,
+            page_id: int = 0,
+            extension: str = '.txt'
+    ) -> None:
+        """
         return file content from the cache
         """
-        raise Exception("Not implemented for this kind of document")
+        raise UnavailablePreviewType()
 
-    def get_original_size(self, file_path: str, page_id: int=-1) -> typing.Tuple[int, int]:
-        raise Exception("Not implemented for this kind of document")
+    def get_original_size(
+            self,
+            file_path: str,
+            page_id: int=-1
+    ) -> typing.Tuple[int, int]:  # nopep8
+        # FIXME - Should use ImgDims for return type
+        raise UnavailablePreviewType()
 
     @classmethod
     def register(cls) -> None:
         PreviewBuilderFactory.get_instance().register_builder(cls)
 
 
-
-
 class OnePagePreviewBuilder(PreviewBuilder):
-    '''
+    """
     Generic preview handler for single page document
-    '''
+    """
 
-    def get_page_number(self, file_path: str, preview_name: str,
-                        cache_path: str) -> int:
+    def get_page_number(
+            self,
+            file_path: str,
+            preview_name: str,
+            cache_path: str
+    ) -> int:
         return 1
 
 
 class ImagePreviewBuilder(OnePagePreviewBuilder):
-    '''
+    """
     Generic preview handler for an Image (except multi-pages images)
-    '''
-
-    def build_json_preview(self, file_path: str, preview_name: str,
-                           cache_path: str, page_id: int = 0,
-                           extension: str = '.json') -> None:
+    """
+    def build_json_preview(
+            self,
+            file_path: str,
+            preview_name: str,
+            cache_path: str,
+            page_id: int = 0,
+            extension: str = '.json'
+    ) -> None:
         """
         generate the json preview
         """
 
         with open(file_path, 'rb') as img:
-            result = file_converter.image_to_json(img)
-            with open(cache_path + preview_name + extension, 'wb') as jpeg:
-                buffer = result.read(1024)
+            filesize = os.path.getsize(file_path)
+            json_stream = file_converter.image_to_json(img, filesize)
+            with open(cache_path + preview_name + extension, 'wb') as jsonfile:
+                buffer = json_stream.read(256)
                 while buffer:
-                    jpeg.write(buffer)
-                    buffer = result.read(1024)
+                    jsonfile.write(buffer)
+                    buffer = json_stream.read(256)
