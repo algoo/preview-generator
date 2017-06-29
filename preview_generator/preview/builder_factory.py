@@ -12,6 +12,9 @@ from preview_generator.exception import BuilderNotLoaded
 from preview_generator.utils import get_subclasses_recursively
 from preview_generator.preview.generic_preview import PreviewBuilder
 
+
+PB = typing.TypeVar('PB', bound=PreviewBuilder)
+
 class PreviewBuilderFactory(object):
 
     _instance = None  # type: PreviewBuilderFactory
@@ -23,7 +26,7 @@ class PreviewBuilderFactory(object):
     def get_preview_builder(
             self,
             mimetype: str
-    ) -> 'PreviewBuilder':
+    ) -> PB:
 
         if not self.builders_loaded:
             raise BuilderNotLoaded()

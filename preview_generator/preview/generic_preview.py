@@ -6,7 +6,6 @@ import typing
 
 from preview_generator import file_converter
 from preview_generator.exception import UnavailablePreviewType
-from preview_generator.preview.builder_factory import PreviewBuilderFactory
 from preview_generator.utils import ImgDims
 
 
@@ -122,6 +121,8 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
 
     @classmethod
     def register(cls) -> None:
+        from preview_generator.preview.builder_factory import PreviewBuilderFactory
+
         PreviewBuilderFactory.get_instance().register_builder(cls)
 
 
