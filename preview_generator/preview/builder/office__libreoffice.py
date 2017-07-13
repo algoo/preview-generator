@@ -59,13 +59,15 @@ class OfficePreviewBuilderLibreoffice(PreviewBuilder):
         'application/vnd.openofficeorg.extension',
         ]  # type: typing.List[str]
 
-    def build_jpeg_preview(self, file_path: str, preview_name: str,
-                           cache_path: str, page_id: int,
-                           extension: str = '.jpg',
-                           size: ImgDims=None) -> None:
-        """
-        generate the text preview
-        """
+    def build_jpeg_preview(
+            self,
+            file_path: str,
+            preview_name: str,
+            cache_path: str,
+            page_id: int,
+            extension: str = '.jpg',
+            size: ImgDims=None
+    ) -> None:
 
         with open(file_path, 'rb') as odt:
             if os.path.exists(
@@ -73,7 +75,7 @@ class OfficePreviewBuilderLibreoffice(PreviewBuilder):
                         path=cache_path,
                         file_name=preview_name
                     )):
-                result = open(
+                input_pdf_stream = open(
                     '{path}.pdf'.format(
                         path=cache_path + preview_name,
                     ), 'rb')
@@ -91,31 +93,32 @@ class OfficePreviewBuilderLibreoffice(PreviewBuilder):
                     )
 
                 else:
-                    result = convert_office_document_to_pdf(
+                    input_pdf_stream = convert_office_document_to_pdf(
                         odt,
                         cache_path,
                         preview_name
                     )
 
-            input_pdf = PdfFileReader(result)
-            output_pdf = PdfFileWriter()
-            output_pdf.addPage(input_pdf.getPage(int(page_id)))
-            output_stream = BytesIO()
-            output_pdf.write(output_stream)
-            output_stream.seek(0, 0)
-            result2 = convert_pdf_to_jpeg(output_stream, size)
+            input_pdf = PdfFileReader(input_pdf_stream)
+            intermediate_pdf = PdfFileWriter()
+            intermediate_pdf.addPage(input_pdf.getPage(int(page_id)))
 
-            preview_path = '{path}{file_name}{extension}'.format(
-                file_name=preview_name,
+            intermediate_pdf_stream = BytesIO()
+            intermediate_pdf.write(intermediate_pdf_stream)
+            intermediate_pdf_stream.seek(0, 0)
+            jpeg_stream = convert_pdf_to_jpeg(intermediate_pdf_stream, size)
+
+            jpeg_preview_path = '{path}{file_name}{extension}'.format(
                 path=cache_path,
+                file_name=preview_name,
                 extension=extension
             )
 
-            with open(preview_path, 'wb') as jpeg:
-                buffer = result2.read(1024)
+            with open(jpeg_preview_path, 'wb') as jpeg_output_stream:
+                buffer = jpeg_stream.read(1024)
                 while buffer:
-                    jpeg.write(buffer)
-                    buffer = result2.read(1024)
+                    jpeg_output_stream.write(buffer)
+                    buffer = jpeg_stream.read(1024)
 
     def get_page_number(self, file_path: str, preview_name: str,
                         cache_path: str) -> int:
@@ -141,39 +144,54 @@ class OfficePreviewBuilderLibreoffice(PreviewBuilder):
             page_nb = count.read()
             return int(page_nb)
 
-    def build_pdf_preview(self, file_path: str, preview_name: str,
-                          cache_path: str, extension: str = '.pdf',
-                          page_id: int = 0) -> None:
+    def build_pdf_preview(
+            self,
+            file_path: str,
+            preview_name: str,
+            cache_path: str,
+            extension: str = '.pdf',
+            page_id: int = -1) -> None:
         """
         generate the pdf large preview
         """
 
-        with open(file_path, 'rb') as odt:
+        intermediate_filename = preview_name.split('-page')[0]
+        intermediate_pdf_file_path = os.path.join(
+            cache_path,
+            '{}.pdf'.format(intermediate_filename)
+        )
 
-            if os.path.exists('{path}.pdf'.format(
-                    path=cache_path + preview_name,
-            )):
-                result = open('{path}.pdf'.format(
-                    path=cache_path + preview_name,
-                ), 'rb')
+        if not os.path.exists(intermediate_pdf_file_path):
+            if os.path.exists(intermediate_pdf_file_path + '_flag'):
+                # Wait 2 seconds, then retry
+                time.sleep(2)
+                return self.build_pdf_preview(
+                    file_path=file_path,
+                    preview_name=preview_name,
+                    cache_path=cache_path,
+                    extension=extension,
+                    page_id=page_id
+                )
 
-            else:
-                if os.path.exists(cache_path + preview_name + '_flag'):
-                    time.sleep(2)
-                    self.build_pdf_preview(
-                        file_path=file_path,
-                        preview_name=preview_name,
-                        cache_path=cache_path,
-                        extension=extension)
-                else:
-                    result = convert_office_document_to_pdf(odt, cache_path,
-                                                            preview_name)
+            with open(file_path, 'rb') as input_stream:
 
-            with open(cache_path + preview_name + extension, 'wb') as pdf:
-                buffer = result.read(1024)
-                while buffer:
-                    pdf.write(buffer)
-                    buffer = result.read(1024)
+                # first step is to convert full document to full pdf
+                convert_office_document_to_pdf(
+                    input_stream,
+                    cache_path,
+                    intermediate_filename
+                )
+
+        if page_id < 0:
+            return  # in this case, the intermediate file is the requested one
+
+        pdf_in = PdfFileReader(intermediate_pdf_file_path)
+        output_file_path = os.path.join(cache_path, '{}{}'.format(preview_name, extension))
+        pdf_out = PdfFileWriter()
+        pdf_out.addPage(pdf_in.getPage(page_id))
+
+        with open(output_file_path, 'wb') as output_file:
+            pdf_out.write(output_file)
 
     def cache_file_process_already_running(self, file_name: str) -> bool:
         if os.path.exists(file_name + '_flag'):

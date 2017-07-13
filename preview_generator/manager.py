@@ -61,7 +61,6 @@ class PreviewManager(object):
             height: int = 256,
             width: int = None,
             force: bool = False,
-            use_original_filename: bool = False,
             with_original_size: bool = False,
     ) -> str:
 
@@ -80,32 +79,19 @@ class PreviewManager(object):
         if isinstance(builder, OfficePreviewBuilderLibreoffice):
             file_path = self.get_pdf_preview(
                 file_path=file_path,
-                page=page,
                 force=force,
-                use_original_filename=use_original_filename
             )
-            preview_name = self._get_file_hash(
-                file_path=file_path,
-                size=size,
-                page=page,
-                use_original_filename=False
-            )
-        else:
-            preview_name = self._get_file_hash(
-                file_path=file_path,
-                size=size,
-                page=page,
-                use_original_filename=False
-            )
+        preview_name = self._get_file_hash(
+            file_path=file_path,
+            size=size,
+            page=page,
+        )
 
         mimetype = self._factory.get_document_mimetype(file_path)
         builder = self._factory.get_preview_builder(mimetype)
 
-        # try:
-        if force or not self.exists_preview(
-                self.cache_path + preview_name,
-                extension
-        ):
+        preview_file_path = os.path.join(self.cache_path, preview_name + extension)  # nopep8
+        if force or not os.path.exists(preview_file_path):
             builder.build_jpeg_preview(
                 file_path=file_path,
                 preview_name=preview_name,
@@ -115,23 +101,13 @@ class PreviewManager(object):
                 size=size
             )
 
-        if page == -1:
-            return self.cache_path + preview_name + extension
-        else:
-            return '{cache}{file}{ext}'.format(
-                cache=self.cache_path,
-                file=preview_name,
-                ext=extension,
-            )
-        # except AttributeError:
-        #     raise Exception('Error while getting the file the file preview')
+        return preview_file_path
 
     def get_pdf_preview(
             self,
             file_path: str,
             page: int = -1,
             force: bool = False,
-            use_original_filename: bool = False
     ) -> str:
 
         mimetype = self._factory.get_document_mimetype(file_path)
@@ -140,12 +116,13 @@ class PreviewManager(object):
         preview_name = self._get_file_hash(
             file_path=file_path,
             page=page,
-            use_original_filename=use_original_filename
         )
+
         try:
-            if not self.exists_preview(
+            if force or not self.exists_preview(
                     path=self.cache_path + preview_name,
-                    extension=extension) or force:
+                    extension=extension
+            ):
                 builder.build_pdf_preview(
                     file_path=file_path,
                     preview_name=preview_name,
@@ -173,15 +150,14 @@ class PreviewManager(object):
             self,
             file_path: str,
             force: bool = False,
-            use_original_filename: bool = False
     ) -> str:
 
         mimetype = self._factory.get_document_mimetype(file_path)
         builder = self._factory.get_preview_builder(mimetype)
         extension = '.txt'
         preview_name = self._get_file_hash(
-            file_path=file_path,
-            use_original_filename=use_original_filename)
+            file_path=file_path
+        )
         try:
             if not self.exists_preview(
                     path=self.cache_path + preview_name,
@@ -205,14 +181,12 @@ class PreviewManager(object):
             self,
             file_path: str,
             force: bool = False,
-            use_original_filename: bool = False
     ) -> str:
         mimetype = self._factory.get_document_mimetype(file_path)
         builder = self._factory.get_preview_builder(mimetype)
         extension = '.html'
         preview_name = self._get_file_hash(
             file_path,
-            use_original_filename=use_original_filename
         )
         try:
             if not self.exists_preview(
@@ -237,7 +211,6 @@ class PreviewManager(object):
             self,
             file_path: str,
             force: bool = False,
-            use_original_filename: bool = False
     ) -> str:
         mimetype = self._factory.get_document_mimetype(file_path)
         logging.info('Mimetype of the document is :' + mimetype)
@@ -245,7 +218,6 @@ class PreviewManager(object):
         extension = '.json'
         preview_name = self._get_file_hash(
             file_path=file_path,
-            use_original_filename=use_original_filename
         )
         if True:
             if not self.exists_preview(
@@ -266,30 +238,26 @@ class PreviewManager(object):
             self,
             file_path: str,
             size: ImgDims=None,
-            page: int = None,
-            use_original_filename: bool = False
+            page: int = None
     ) -> str:
-        if '.' in file_path:
-            tab_str = file_path.split('.')
-            file_path = ''
-            for index in range(0, len(tab_str) - 1):
-                file_path = file_path + tab_str[index]
+        hash_str = hashlib.md5(file_path.encode('utf-8')).hexdigest()
 
-        file_name = []
-        if use_original_filename:
-            file_name.append(os.path.basename(file_path))
-
-        if size:
-            file_name.append('{fh}x{fw}'.format(
-                fh=size.width,
-                fw=size.height
-            ))
-        file_name.append(hashlib.md5(file_path.encode('utf-8')).hexdigest())
-
+        page_str = ''
         if page is not None and page > -1:
-            file_name.append('page{page}'.format(page=page))
+            page_str = '-page{page}'.format(page=page)
 
-        return '-'.join(file_name)
+        size_str = ''
+        if size:
+            size_str = '-{width}x{height}'.format(
+                width=size.width,
+                height=size.height
+            )
+
+        return '{hash}{size}{page}'.format(
+            hash=hash_str,
+            size=size_str,
+            page=page_str
+        )
 
     def exists_preview(
             self,

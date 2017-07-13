@@ -45,11 +45,9 @@ def test_zip_to_html():
     input_filename = 'the_zip.zip'
     path_to_file = manager.get_html_preview(
         file_path=os.path.join(CURRENT_DIR, input_filename),
-        use_original_filename=True
     )
     assert os.path.exists(path_to_file)
     assert os.path.getsize(path_to_file) > 0
-    assert input_filename.replace('.zip', '') in path_to_file
 
 
 def test_zip_to_html__no_original_name():
@@ -58,7 +56,6 @@ def test_zip_to_html__no_original_name():
     input_filename = 'the_zip.zip'
     path_to_file = manager.get_html_preview(
         file_path=os.path.join(CURRENT_DIR, input_filename),
-        use_original_filename=False
     )
     assert os.path.exists(path_to_file)
     assert os.path.getsize(path_to_file) > 0
