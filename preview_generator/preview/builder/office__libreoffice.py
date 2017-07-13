@@ -84,7 +84,7 @@ class OfficePreviewBuilderLibreoffice(PreviewBuilder):
                 if self.cache_file_process_already_running(
                                 cache_path + preview_name):
                     time.sleep(2)
-                    self.build_jpeg_preview(
+                    return self.build_jpeg_preview(
                         file_path=file_path,
                         preview_name=preview_name,
                         cache_path=cache_path,
@@ -123,26 +123,26 @@ class OfficePreviewBuilderLibreoffice(PreviewBuilder):
     def get_page_number(self, file_path: str, preview_name: str,
                         cache_path: str) -> int:
 
-        if not os.path.exists(cache_path + preview_name + '.pdf'):
-            self.build_pdf_preview(
-                file_path=file_path,
-                preview_name=preview_name,
-                cache_path=cache_path,
-                extension='.pdf'
-            )
+        page_nb_file_path = cache_path + preview_name + '_page_nb'
 
-        with open(cache_path + preview_name + '_page_nb', 'w') as count:
-            count.seek(0, 0)
-            if not os.path.exists(cache_path + preview_name + '.pdf'):
-                self.build_pdf_preview(file_path, preview_name, cache_path)
+        if not os.path.exists(page_nb_file_path):
+            pdf_version_filepath = cache_path + preview_name + '.pdf'
+            if not os.path.exists(pdf_version_filepath):
+                self.build_pdf_preview(
+                    file_path=file_path,
+                    preview_name=preview_name,
+                    cache_path=cache_path
+                )
 
-            with open(cache_path + preview_name + '.pdf', 'rb') as doc:
-                inputpdf = PdfFileReader(doc)
-                count.write(str(inputpdf.numPages))
-        with open(cache_path + preview_name + '_page_nb', 'r') as count:
-            count.seek(0, 0)
-            page_nb = count.read()
-            return int(page_nb)
+            with open(page_nb_file_path, 'w') as page_nb_file_stream:
+                page_nb_file_stream.seek(0, 0)
+                with open(pdf_version_filepath, 'rb') as pdf_stream:
+                    pdf_reader = PdfFileReader(pdf_stream)
+                    page_nb_file_stream.write(str(pdf_reader.numPages))
+
+        with open(page_nb_file_path, 'r') as page_nb_stream:
+            page_nb = int(page_nb_stream.read())
+            return page_nb
 
     def build_pdf_preview(
             self,
@@ -151,9 +151,6 @@ class OfficePreviewBuilderLibreoffice(PreviewBuilder):
             cache_path: str,
             extension: str = '.pdf',
             page_id: int = -1) -> None:
-        """
-        generate the pdf large preview
-        """
 
         intermediate_filename = preview_name.split('-page')[0]
         intermediate_pdf_file_path = os.path.join(
@@ -198,80 +195,6 @@ class OfficePreviewBuilderLibreoffice(PreviewBuilder):
             return True
         else:
             return False
-
-    # def _pdf_to_jpeg(
-    #         self,
-    #         pdf: typing.Union[str, typing.IO[bytes]],
-    #         preview_size: ImgDims
-    # ) -> BytesIO:
-    #
-    #     logging.info('Converting pdf to jpeg')
-    #
-    #     with WImage(file=pdf) as img:
-    #         height, width = img.size
-    #         if height < width:
-    #             breadth = height
-    #         else:
-    #             breadth = width
-    #         with WImage(
-    #                 width=breadth,
-    #                 height=breadth,
-    #                 background=Color('white')
-    #         ) as image:
-    #             image.composite(
-    #                 img,
-    #                 top=0,
-    #                 left=0
-    #             )
-    #             image.crop(0, 0, width=breadth, height=breadth)
-    #
-    #             from preview_generator.utils import compute_resize_dims
-    #             from preview_generator.utils import compute_crop_dims
-    #
-    #             resize_dims = compute_resize_dims(
-    #                 ImgDims(image.width, image.height),
-    #                 preview_size
-    #             )
-    #
-    #             image.resize(resize_dims.width, resize_dims.height)
-    #
-    #             crop_dims = compute_crop_dims(
-    #                 ImgDims(image.width, image.height),
-    #                 preview_size
-    #             )
-    #             image.crop(
-    #                 crop_dims.left,
-    #                 crop_dims.top,
-    #                 crop_dims.right,
-    #                 crop_dims.bottom
-    #             )
-    #             content_as_bytes = image.make_blob('jpeg')
-    #             output = BytesIO()
-    #             output.write(content_as_bytes)
-    #             output.seek(0, 0)
-    #             return output
-    #
-    #             # b, a = image.size
-    #             # x, y = preview_size.width, preview_size.height
-    #             # size_rate = (a / b) / (x / y)
-    #             # if size_rate > 1:
-    #             #     a = int(a * (y / b))
-    #             #     b = int(b * (y / b))
-    #             # else:
-    #             #     b = int(b * (x / a))
-    #             #     a = int(a * (x / a))
-    #             # image.resize(b, a)
-    #             # left = int((b / 2) - (y / 2))
-    #             # top = int((a / 2) - (x / 2))
-    #             # width = left + y
-    #             # height = top + x
-    #             # image.crop(left, top, width, height)
-    #             # content_as_bytes = image.make_blob('jpeg')
-    #             # output = BytesIO()
-    #             # output.write(content_as_bytes)
-    #             # output.seek(0, 0)
-    #             # return output
-    #             #
 
 
 def create_flag_file(filepath: str) -> None:
