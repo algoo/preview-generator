@@ -34,7 +34,7 @@ class OfficePreviewBuilderLibreoffice(PreviewBuilder):
         'application/vnd.ms-excel.addin.macroEnabled.12',
         'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
         'application/vnd.ms-powerpoint',
-        'application/vnd.openxmlformats-fficedocument.presentationml.presentation',  # nopep8
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation',  # nopep8
         'application/vnd.openxmlformats-officedocument.presentationml.template',  # nopep8
         'application/vnd.openxmlformats-officedocument.presentationml.slideshow',  # nopep8
         'application/vnd.ms-powerpoint.addin.macroEnabled.12',
