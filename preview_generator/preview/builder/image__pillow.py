@@ -13,7 +13,10 @@ from preview_generator.utils import ImgDims
 
 
 class ImagePreviewBuilderPillow(ImagePreviewBuilder):
-    mimetype = ['image/png']
+    mimetype = [
+        'image/png',
+        'application/postscript'
+    ]
 
     def build_jpeg_preview(self, file_path: str, preview_name: str,
                            cache_path: str, page_id: int,

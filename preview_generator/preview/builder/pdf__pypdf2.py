@@ -15,7 +15,6 @@ from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
 class PdfPreviewBuilderPyPDF2(PreviewBuilder):
     mimetype = [
         'application/pdf',
-        'application/postscript'
     ]
 
     def build_jpeg_preview(self, file_path: str, preview_name: str,
