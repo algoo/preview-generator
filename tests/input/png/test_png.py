@@ -33,7 +33,7 @@ def test_to_jpeg():
     assert os.path.getsize(path_to_file) > 0
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
-        assert jpeg.width == 512
+        assert jpeg.width in range(288, 290)
 
 
 def test_get_nb_page():
@@ -51,7 +51,7 @@ def test_to_jpeg__default_size():
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
     with Image.open(path_to_file) as jpeg:
-        assert jpeg.height == 256
+        assert jpeg.height in range(226, 228)
         assert jpeg.width == 256
 
 

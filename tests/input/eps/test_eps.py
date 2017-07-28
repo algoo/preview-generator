@@ -20,7 +20,7 @@ def test_to_jpeg():
         create_folder=True
     )
     path_to_file = manager.get_jpeg_preview(
-        file_path=os.path.join(CURRENT_DIR, 'the_pdf.pdf'),
+        file_path=os.path.join(CURRENT_DIR, 'algoo.eps'),
         height=512,
         width=321,
         force=True
@@ -28,7 +28,7 @@ def test_to_jpeg():
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
     with Image.open(path_to_file) as jpeg:
-        assert jpeg.height in range(453, 455)
+        assert jpeg.height == 321
         assert jpeg.width == 321
 
 
@@ -38,11 +38,11 @@ def test_to_jpeg_no_size():
         create_folder=True
     )
     path_to_file = manager.get_jpeg_preview(
-        file_path=os.path.join(CURRENT_DIR, 'the_pdf.pdf'),
+        file_path=os.path.join(CURRENT_DIR, 'algoo.eps'),
         force=True
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
-        assert jpeg.width in range(180, 182)
+        assert jpeg.width == 256

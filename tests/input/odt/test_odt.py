@@ -30,7 +30,7 @@ def test_to_jpeg():
     assert path0 == '/tmp/preview-generator-tests/cache/22dd222de01caa012b7b214747169d41-256x512-page0.jpeg'  # nopep8
 
     with Image.open(path0) as jpeg:
-        assert jpeg.height == 512
+        assert jpeg.height in range(361, 363)
         assert jpeg.width == 256
 
     path1 = manager.get_jpeg_preview(
@@ -44,7 +44,7 @@ def test_to_jpeg():
     assert os.path.getsize(path1) > 0
     assert path1 == '/tmp/preview-generator-tests/cache/22dd222de01caa012b7b214747169d41-256x512-page1.jpeg'  # nopep8
     with Image.open(path1) as jpeg:
-        assert jpeg.height == 512
+        assert jpeg.height in range(361, 363)
         assert jpeg.width == 256
 
 
@@ -63,7 +63,7 @@ def test_to_jpeg_no_size():
     assert path_to_file == '/tmp/preview-generator-tests/cache/22dd222de01caa012b7b214747169d41-256x256-page0.jpeg'  # nopep8
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
-        assert jpeg.width == 256
+        assert jpeg.width in range(180, 182)
 
 
 def test_to_jpeg_no_page():
@@ -83,7 +83,7 @@ def test_to_jpeg_no_page():
 
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 512
-        assert jpeg.width == 512
+        assert jpeg.width in range(361, 363)
 
 
 def test_to_jpeg_no_size_no_page():
@@ -100,7 +100,7 @@ def test_to_jpeg_no_size_no_page():
     assert path_to_file == '/tmp/preview-generator-tests/cache/22dd222de01caa012b7b214747169d41-256x256.jpeg'  # nopep8
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
-        assert jpeg.width == 256
+        assert jpeg.width in range(180, 182)
 
 
 def test_to_pdf_full_export():

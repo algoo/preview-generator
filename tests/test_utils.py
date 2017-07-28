@@ -38,8 +38,8 @@ def test_compute_resize_dims_same_format():
 
     builder = ImagePreviewBuilderWand()
     dims_resize = compute_resize_dims(dims_in, dims_out)
-    assert dims_resize.width == 90
-    assert dims_resize.height == 45
+    assert dims_resize.width == 60
+    assert dims_resize.height == 30
 
 
 def test_compute_resize_dims_different_ratio():
@@ -48,18 +48,18 @@ def test_compute_resize_dims_different_ratio():
 
     builder = ImagePreviewBuilderWand()
     dims_resize = compute_resize_dims(dims_in, dims_out)
-    assert dims_resize.width == 800
-    assert dims_resize.height == 400
+    assert dims_resize.width == 200
+    assert dims_resize.height == 100
 
 
 def test_compute_resize_dims_different_ratio_inverted():
-    dims_in = ImgDims(200, 600)  # vertical
+    dims_in = ImgDims(198, 600)  # vertical
     dims_out = ImgDims(400, 100)  # horizontal
 
     builder = ImagePreviewBuilderWand()
     dims_resize = compute_resize_dims(dims_in, dims_out)
-    assert dims_resize.width == 400
-    assert dims_resize.height == 1200
+    assert dims_resize.width == 33
+    assert dims_resize.height == 100
 
 
 def test_compute_resize_dims_right_limits():
@@ -68,5 +68,5 @@ def test_compute_resize_dims_right_limits():
 
     builder = ImagePreviewBuilderWand()
     dims_resize = compute_resize_dims(dims_in, dims_out)
-    assert dims_resize.width == 646
-    assert dims_resize.height == 256
+    assert dims_resize.width == 512
+    assert dims_resize.height == 203
