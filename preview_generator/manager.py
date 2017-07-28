@@ -35,6 +35,9 @@ class PreviewManager(object):
                     'cant create cache folder [{}]'.format(self.cache_path)
                 )
 
+    def get_mimetype(self, file_path: str) -> str:
+        return PreviewBuilderFactory().get_document_mimetype(file_path)
+
     def get_original_size(
             self,
             file_path: str,
