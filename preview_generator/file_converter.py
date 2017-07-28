@@ -39,7 +39,6 @@ def image_to_json(
             # because filesystem size depends file system properties which are
             # not available when working with in memory objects
         info = {
-            ''
             'width': image.size[0],
             'height': image.size[1],
             'size': filesize,
