@@ -23,3 +23,42 @@ def test_cache_dir_is_created():
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
     PreviewManager(path=CACHE_DIR, create_folder=True)
     assert os.path.exists(CACHE_DIR)
+
+
+def test_get_file_hash():
+    pm = PreviewManager(path=CACHE_DIR, create_folder=True)
+    from preview_generator.utils import ImgDims
+    hash = pm._get_file_hash('/tmp/image.jpeg')
+    assert hash == '7f8df7223d8be60a7ac8a9bf7bd1df2a'
+
+
+def test_get_file_hash_with_size():
+    pm = PreviewManager(path=CACHE_DIR, create_folder=True)
+    from preview_generator.utils import ImgDims
+    hash = pm._get_file_hash(
+        '/tmp/image.jpeg',
+        ImgDims(width=512, height=256)
+    )
+    assert hash == '7f8df7223d8be60a7ac8a9bf7bd1df2a-512x256'
+
+
+def test_get_file_hash_with_size_and_page():
+    pm = PreviewManager(path=CACHE_DIR, create_folder=True)
+    from preview_generator.utils import ImgDims
+    hash = pm._get_file_hash(
+        '/tmp/image.jpeg',
+        ImgDims(width=512, height=256),
+        page=3
+    )
+    assert hash == '7f8df7223d8be60a7ac8a9bf7bd1df2a-512x256-page3'
+
+
+def test_get_file_hash_with_page():
+    pm = PreviewManager(path=CACHE_DIR, create_folder=True)
+    from preview_generator.utils import ImgDims
+    hash = pm._get_file_hash(
+        '/tmp/image.jpeg',
+        page=3
+    )
+    assert hash == '7f8df7223d8be60a7ac8a9bf7bd1df2a-page3'
+

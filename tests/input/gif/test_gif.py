@@ -32,6 +32,7 @@ def test_to_jpeg():
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
+    assert path_to_file == '/tmp/preview-generator-tests/cache/243918a3cda4aa11bfe7603b627a587f-512x256.jpeg'  # nopep8
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
         assert jpeg.width == 512
@@ -52,6 +53,7 @@ def test_to_jpeg__default_size():
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
+    assert path_to_file == '/tmp/preview-generator-tests/cache/243918a3cda4aa11bfe7603b627a587f-256x256.jpeg'  # nopep8
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
         assert jpeg.width == 256
@@ -66,6 +68,7 @@ def test_to_json():
 
     assert os.path.exists(path_to_file)
     assert os.path.getsize(path_to_file) > 0
+    assert path_to_file == '/tmp/preview-generator-tests/cache/243918a3cda4aa11bfe7603b627a587f.json'  # nopep8
 
     data = json.load(open(path_to_file))
     assert data['width'] == 520
