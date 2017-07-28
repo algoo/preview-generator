@@ -2,6 +2,7 @@
 
 import glob
 import logging
+import magic
 import mimetypes
 import os
 from os.path import dirname, basename, isfile
@@ -42,9 +43,10 @@ class PreviewBuilderFactory(object):
         """
         return the mimetype of the file. see python module mimetype
         """
-        # mime = magic.Magic(mime=True)
-        # str = mime.from_file(file_path)
         str, encoding = mimetypes.guess_type(file_path)
+        if not str:
+            mime = magic.Magic(mime=True)
+            str = mime.from_file(file_path)
         return str
 
     def load_builders(self, force: bool=False) -> None:

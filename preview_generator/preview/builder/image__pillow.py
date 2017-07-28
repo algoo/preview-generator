@@ -50,47 +50,29 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
             preview_dims: ImgDims
     ) -> BytesIO:
         logging.info('Converting image to jpeg using Pillow')
-        temporary_image = Image.new(
-            'RGB',
-            (preview_dims.width, preview_dims.height),
-            (255, 255, 255)
-        )
 
         with Image.open(png) as image:
-
-            preview_dims = ImgDims(
-                width=preview_dims.width,
-                height=preview_dims.height
-            )
-
             resize_dim = compute_resize_dims(
                 dims_in=ImgDims(width=image.size[0], height=image.size[1]),
                 dims_out=preview_dims
             )
-            image.resize((resize_dim.width, resize_dim.height))
 
-            crop_dims = compute_crop_dims(
-                ImgDims(image.width, image.height),
-                preview_dims
+            image = image.resize((resize_dim.width, resize_dim.height))
+            output_image = Image.new(
+                'RGB',
+                (resize_dim.width, resize_dim.height),
+                (255, 255, 255)
             )
-
-            crop_box = (
-                crop_dims.left,
-                crop_dims.top,
-                crop_dims.right,
-                crop_dims.bottom
-            )
-            layer_copied = image.crop(crop_box)
 
             try:
-                temporary_image.paste(layer_copied, (0, 0), layer_copied)
+                output_image.paste(image, (0, 0), image)
             except ValueError:
                 logging.warning(
                     'Failed the transparency mask superposition. '
                     'Maybe your image does not contain a transparency mask')
-                temporary_image.paste(layer_copied)
+                output_image.paste(image)
 
             output = BytesIO()
-            temporary_image.save(output, 'jpeg')
+            output_image.save(output, 'jpeg')
             output.seek(0, 0)
             return output

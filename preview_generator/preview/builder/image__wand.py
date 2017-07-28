@@ -9,57 +9,25 @@ from wand.image import Image as WImage
 
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
-from preview_generator.utils import compute_resize_dims
 from preview_generator.utils import compute_crop_dims
+from preview_generator.utils import compute_resize_dims
 
 
 def convert_pdf_to_jpeg(
         pdf: typing.Union[str, typing.IO[bytes]],
         preview_size: ImgDims
 ) -> BytesIO:
-    with WImage(file=pdf) as img:
-        height, width = img.size
-        if height < width:
-            breadth = height
-        else:
-            breadth = width
-        with WImage(
-                width=breadth,
-                height=breadth,
-                background=Color('white')
-        ) as image:
-            image.composite(
-                img,
-                top=0,
-                left=0
-            )
-            image.crop(0, 0, width=breadth, height=breadth)
-
-            from preview_generator.utils import compute_resize_dims
-            from preview_generator.utils import compute_crop_dims
-
-            resize_dims = compute_resize_dims(
-                ImgDims(image.width, image.height),
-                preview_size
-            )
-
-            image.resize(resize_dims.width, resize_dims.height)
-
-            crop_dims = compute_crop_dims(
-                ImgDims(image.width, image.height),
-                preview_size
-            )
-            image.crop(
-                crop_dims.left,
-                crop_dims.top,
-                crop_dims.right,
-                crop_dims.bottom
-            )
-            content_as_bytes = image.make_blob('jpeg')
-            output = BytesIO()
-            output.write(content_as_bytes)
-            output.seek(0, 0)
-            return output
+    with WImage(file=pdf, background=Color('white')) as img:
+        resize_dims = compute_resize_dims(
+            ImgDims(img.width, img.height),
+            preview_size
+        )
+        img.resize(resize_dims.width, resize_dims.height)
+        content_as_bytes = img.make_blob('jpeg')
+        output = BytesIO()
+        output.write(content_as_bytes)
+        output.seek(0, 0)
+        return output
 
 
 class ImagePreviewBuilderWand(ImagePreviewBuilder):
@@ -107,7 +75,7 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
         '''
         logging.info('Converting image to jpeg using wand')
 
-        with WImage(file=jpeg) as image:
+        with WImage(file=jpeg, background=Color('white')) as image:
 
             preview_dims = ImgDims(
                 width=preview_dims.width,
@@ -119,23 +87,6 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
                 dims_out=preview_dims
             )
             image.resize(resize_dim.width, resize_dim.height)
-
-            # FIXME - remove this
-            # left = round((image.width / 2) - (preview_dims.width / 2))
-            # top = round((image.height / 2) - (preview_dims.height / 2))
-            # right = left + preview_dims.width
-            # bottom = top + preview_dims.height
-
-            crop_dims = compute_crop_dims(
-                ImgDims(image.width, image.height),
-                preview_dims
-            )
-            image.crop(
-                left=crop_dims.left,
-                top=crop_dims.top,
-                right=crop_dims.right,
-                bottom=crop_dims.bottom
-            )
 
             content_as_bytes = image.make_blob('jpeg')
             output = BytesIO()
