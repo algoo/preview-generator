@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from io import BytesIO
+
 import logging
 import os
 import typing
@@ -144,6 +146,14 @@ class ImagePreviewBuilder(OnePagePreviewBuilder):
     """
     Generic preview handler for an Image (except multi-pages images)
     """
+
+    def _get_json_stream_from_image_stream(
+        self,
+            img: typing.IO[bytes],
+            filesize: int=0
+    ) -> BytesIO:
+        return file_converter.image_to_json(img, filesize)
+
     def build_json_preview(
             self,
             file_path: str,
@@ -158,7 +168,7 @@ class ImagePreviewBuilder(OnePagePreviewBuilder):
 
         with open(file_path, 'rb') as img:
             filesize = os.path.getsize(file_path)
-            json_stream = file_converter.image_to_json(img, filesize)
+            json_stream = self._get_json_stream_from_image_stream(img, filesize)
             with open(cache_path + preview_name + extension, 'wb') as jsonfile:
                 buffer = json_stream.read(256)
                 while buffer:

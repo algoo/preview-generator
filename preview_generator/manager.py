@@ -259,6 +259,20 @@ class PreviewManager(object):
             page=page_str
         )
 
+    def build_file_name(
+            self,
+            file_path: str,
+            size: ImgDims = None,
+            page: int = None,
+            extension = ''
+    ):
+
+        filename = '{hash}.{extension}'.format(
+            hash=self.__get_file_hash(file_path, size, page, extension),
+            extension=extension
+        )
+        return filename
+
     def exists_preview(
             self,
             path: str,
