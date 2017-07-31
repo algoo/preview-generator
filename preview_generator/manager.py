@@ -11,20 +11,23 @@ from preview_generator.utils import ImgDims
 
 
 class PreviewManager(object):
-    cache_path = ''
 
-    def __init__(self, path: str, create_folder: bool=False) -> None:
+    def __init__(
+            self,
+            cache_folder_path: str,
+            create_folder: bool=False
+    ) -> None:
         """
-        :param path: path to the cache folder.
+        :param cache_folder_path: path to the cache folder.
         This is where previews will be stored
         :param create_folder: if True, then create the cache folder
         if it does not exist
         """
 
-        path = os.path.join(path, '')  # add trailing slash
+        cache_folder_path = os.path.join(cache_folder_path, '')  # add trailing slash
         # nopep8 see https://stackoverflow.com/questions/2736144/python-add-trailing-slash-to-directory-string-os-independently
 
-        self.cache_path = path
+        self.cache_path = cache_folder_path  # type: str
         self._factory = PreviewBuilderFactory.get_instance()  # nopep8 keep link to singleton instance as it will be often used
 
         if create_folder:
@@ -36,61 +39,63 @@ class PreviewManager(object):
                 )
 
     def get_mimetype(self, file_path: str) -> str:
-        return PreviewBuilderFactory().get_document_mimetype(file_path)
+        """
+        Return detected mimetype of the file
+        :param file_path: path of the file
+        :return: mimetype of the file
+        """
+        return PreviewBuilderFactory().get_file_mimetype(file_path)
 
-    def get_original_size(
-            self,
-            file_path: str,
-            page: int =-1
-    ) -> typing.Tuple[int, int]:
-        mimetype = PreviewBuilderFactory().get_document_mimetype(file_path)
-        builder = self._factory.get_preview_builder(mimetype)
-        size = builder.get_original_size(file_path, page)
-        return size
-
-    def get_nb_page(self, file_path: str) -> int:
-        cache_path = self.cache_path
-        mimetype = self._factory.get_document_mimetype(file_path)
+    def get_page_nb(self, file_path: str) -> int:
+        """
+        Return the page number of the given file.
+        :param file_path: path of the file
+        :return: number of pages. Default is 1 (eg for a JPEG)
+        """
+        mimetype = self._factory.get_file_mimetype(file_path)
         builder = self._factory.get_preview_builder(mimetype)
 
         preview_name = self._get_file_hash(file_path)
-        page_nb = builder.get_page_number(file_path, preview_name, cache_path)
+        page_nb = builder.get_page_number(
+            file_path,
+            preview_name,
+            self.cache_path
+        )
         return page_nb
 
     def get_jpeg_preview(
             self,
             file_path: str,
             page: int = -1,
-            height: int = 256,
             width: int = None,
+            height: int = 256,
             force: bool = False,
-            with_original_size: bool = False,
     ) -> str:
-
-        if with_original_size:
-            width = None
-            height = None
-
+        """
+        Return a JPEG preview of given file, according to parameters
+        :param file_path: path of the file to preview
+        :param page: page of the original document, if it makes sense
+        :param width: width of the requested preview image
+        :param height: height of the requested preview image
+        :param force: if True, do not use cached preview.
+        :return: path to the generated preview file
+        """
         if width is None:
             width = height
 
         size = ImgDims(width=width, height=height)
-
-        mimetype = self._factory.get_document_mimetype(file_path)
+        mimetype = self._factory.get_file_mimetype(file_path)
         builder = self._factory.get_preview_builder(mimetype)
         extension = '.jpeg'
+
         if isinstance(builder, OfficePreviewBuilderLibreoffice):
             file_path = self.get_pdf_preview(
                 file_path=file_path,
                 force=force,
             )
-        preview_name = self._get_file_hash(
-            file_path=file_path,
-            size=size,
-            page=page,
-        )
 
-        mimetype = self._factory.get_document_mimetype(file_path)
+        preview_name = self._get_file_hash(file_path, size, page)
+        mimetype = self._factory.get_file_mimetype(file_path)
         builder = self._factory.get_preview_builder(mimetype)
 
         preview_file_path = os.path.join(self.cache_path, preview_name + extension)  # nopep8
@@ -112,8 +117,14 @@ class PreviewManager(object):
             page: int = -1,
             force: bool = False,
     ) -> str:
-
-        mimetype = self._factory.get_document_mimetype(file_path)
+        """
+        Return a PDF preview of given file, according to parameters
+        :param file_path: path of the file to preview
+        :param page: page of the original document. -1 means "all pages"
+        :param force: if True, do not use cached preview.
+        :return: path to the generated preview file
+        """
+        mimetype = self._factory.get_file_mimetype(file_path)
         builder = self._factory.get_preview_builder(mimetype)
         extension = '.pdf'
         preview_name = self._get_file_hash(
@@ -122,10 +133,8 @@ class PreviewManager(object):
         )
 
         try:
-            if force or not self.exists_preview(
-                    path=self.cache_path + preview_name,
-                    extension=extension
-            ):
+            cache_file_path = self.cache_path + preview_name + extension
+            if force or not os.path.exists(cache_file_path):
                 builder.build_pdf_preview(
                     file_path=file_path,
                     preview_name=preview_name,
@@ -134,18 +143,8 @@ class PreviewManager(object):
                     page_id=page
                 )
 
-            if page is None or page <= -1:
-                return '{path}{file_name}{extension}'.format(
-                    path=self.cache_path,
-                    file_name=preview_name,
-                    extension=extension
-                )
-            else:
-                return '{path}{file_name}{extension}'.format(
-                    path=self.cache_path,
-                    file_name=preview_name,
-                    extension=extension
-                )
+            return cache_file_path
+
         except AttributeError:
             raise Exception('Error while getting the file the file preview')
 
@@ -154,29 +153,29 @@ class PreviewManager(object):
             file_path: str,
             force: bool = False,
     ) -> str:
-
-        mimetype = self._factory.get_document_mimetype(file_path)
+        """
+        Return a TXT preview of given file, according to parameters
+        :param file_path: path of the file to preview
+        :param force: if True, do not use cached preview.
+        :return: path to the generated preview file
+        """
+        mimetype = self._factory.get_file_mimetype(file_path)
         builder = self._factory.get_preview_builder(mimetype)
         extension = '.txt'
         preview_name = self._get_file_hash(
             file_path=file_path
         )
         try:
-            if not self.exists_preview(
-                    path=self.cache_path + preview_name,
-                    extension=extension
-            ) or force:
+            cache_file_path = self.cache_path + preview_name + extension
+            if force or not os.path.exists(cache_file_path):
                 builder.build_text_preview(
                     file_path=file_path,
                     preview_name=preview_name,
                     cache_path=self.cache_path,
                     extension=extension
                 )
-            return '{cache}{file}{ext}'.format(
-                cache=self.cache_path,
-                file=preview_name,
-                ext=extension,
-            )
+            return cache_file_path
+
         except AttributeError:
             raise Exception('Error while getting the file the file preview')
 
@@ -185,28 +184,29 @@ class PreviewManager(object):
             file_path: str,
             force: bool = False,
     ) -> str:
-        mimetype = self._factory.get_document_mimetype(file_path)
+        """
+        Return a HTML preview of given file, according to parameters
+        :param file_path: path of the file to preview
+        :param force: if True, do not use cached preview.
+        :return: path to the generated preview file
+        """
+        mimetype = self._factory.get_file_mimetype(file_path)
         builder = self._factory.get_preview_builder(mimetype)
         extension = '.html'
         preview_name = self._get_file_hash(
             file_path,
         )
         try:
-            if not self.exists_preview(
-                self.cache_path + preview_name,
-                extension=extension
-            ) or force:
+            cache_file_path = self.cache_path + preview_name + extension
+            if force or not os.path.exists(cache_file_path):
                 builder.build_html_preview(
                     file_path=file_path,
                     preview_name=preview_name,
                     cache_path=self.cache_path,
                     extension=extension
                 )
-            return '{cache}{file}{ext}'.format(
-                cache=self.cache_path,
-                file=preview_name,
-                ext=extension,
-            )
+            return cache_file_path
+
         except AttributeError:
             raise Exception('Error while getting the file the file preview')
 
@@ -215,27 +215,30 @@ class PreviewManager(object):
             file_path: str,
             force: bool = False,
     ) -> str:
-        mimetype = self._factory.get_document_mimetype(file_path)
+        """
+        Return a HTML preview of given file, according to parameters
+        :param file_path: path of the file to preview
+        :param force: if True, do not use cached preview.
+        :return: path to the generated preview file
+        """
+        mimetype = self._factory.get_file_mimetype(file_path)
         logging.info('Mimetype of the document is :' + mimetype)
         builder = self._factory.get_preview_builder(mimetype)
         extension = '.json'
-        preview_name = self._get_file_hash(
-            file_path=file_path,
-        )
-        if True:
-            if not self.exists_preview(
-                path=self.cache_path + preview_name,
-                extension=extension
-            ) or force:
+
+        preview_name = self._get_file_hash(file_path=file_path)
+        try:
+            cache_file_path = self.cache_path + preview_name + extension
+            if force or not os.path.exists(cache_file_path):  # nopep8
                 builder.build_json_preview(
                     file_path=file_path,
                     preview_name=preview_name,
                     cache_path=self.cache_path,
                     extension=extension
                 )
-            return self.cache_path + preview_name + extension
-        # except AttributeError:
-        #     raise Exception('Error while getting the file preview')
+            return cache_file_path
+        except AttributeError:
+            raise Exception('Error while getting the file preview')
 
     def _get_file_hash(
             self,
@@ -243,6 +246,18 @@ class PreviewManager(object):
             size: ImgDims=None,
             page: int = None
     ) -> str:
+        """
+        Build a hash based on the given parameters.
+        This hash will be used as key for caching generated previews.
+
+        The hash is something like this:
+            720f89890597ec1eb45e7b775898e806-320x139-page32
+
+        :param file_path: the path of the original file
+        :param size: requested size (width and height)
+        :param page: requested page
+        :return:
+        """
         hash_str = hashlib.md5(file_path.encode('utf-8')).hexdigest()
 
         page_str = ''
@@ -261,35 +276,3 @@ class PreviewManager(object):
             size=size_str,
             page=page_str
         )
-
-    def build_file_name(
-            self,
-            file_path: str,
-            size: ImgDims = None,
-            page: int = None,
-            extension = ''
-    ):
-
-        filename = '{hash}.{extension}'.format(
-            hash=self.__get_file_hash(file_path, size, page, extension),
-            extension=extension
-        )
-        return filename
-
-    def exists_preview(
-            self,
-            path: str,
-            extension: str = ''
-    ) -> bool:
-        """
-        return true if the cache file exists
-        """
-        full_path = '{path}{extension}'.format(
-            path=path,
-            extension=extension
-        )
-
-        if os.path.exists(full_path):
-            return True
-        else:
-            return False

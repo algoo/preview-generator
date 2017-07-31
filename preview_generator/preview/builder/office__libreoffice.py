@@ -12,52 +12,67 @@ import typing
 from PyPDF2 import PdfFileReader
 from PyPDF2 import PdfFileWriter
 
+from preview_generator.exception import BuilderDependencyNotFound
+from preview_generator.exception import ExecutableNotFound
 from preview_generator.preview.generic_preview import PreviewBuilder
+from preview_generator.utils import check_executable_is_available
 from preview_generator.utils import ImgDims
 from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
 
 
 class OfficePreviewBuilderLibreoffice(PreviewBuilder):
-    mimetype = [
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'application/vnd.oasis.opendocument.text',
-        'application/vnd.oasis.opendocument.spreadsheet',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',  # nopep8
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.template',  # nopep8
-        'application/vnd.ms-word.document.macroEnabled.12',
-        'application/vnd.ms-excel',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
-        'application/vnd.ms-excel.sheet.macroEnabled.12',
-        'application/vnd.ms-excel.template.macroEnabled.12',
-        'application/vnd.ms-excel.addin.macroEnabled.12',
-        'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
-        'application/vnd.ms-powerpoint',
-        'application/vnd.openxmlformats-officedocument.presentationml.presentation',  # nopep8
-        'application/vnd.openxmlformats-officedocument.presentationml.template',  # nopep8
-        'application/vnd.openxmlformats-officedocument.presentationml.slideshow',  # nopep8
-        'application/vnd.ms-powerpoint.addin.macroEnabled.12',
-        'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
-        'application/vnd.ms-powerpoint.template.macroEnabled.12',
-        'application/vnd.ms-powerpoint.slideshow.macroEnabled.12',
-        'application/vnd.oasis.opendocument.spreadsheet',
-        'application/vnd.oasis.opendocument.text',
-        'application/vnd.oasis.opendocument.text-template',
-        'application/vnd.oasis.opendocument.text-web',
-        'application/vnd.oasis.opendocument.text-master',
-        'application/vnd.oasis.opendocument.graphics',
-        'application/vnd.oasis.opendocument.graphics-template',
-        'application/vnd.oasis.opendocument.presentation',
-        'application/vnd.oasis.opendocument.presentation-template',
-        'application/vnd.oasis.opendocument.spreadsheet-template',
-        'application/vnd.oasis.opendocument.chart',
-        'application/vnd.oasis.opendocument.chart',
-        'application/vnd.oasis.opendocument.formula',
-        'application/vnd.oasis.opendocument.database',
-        'application/vnd.oasis.opendocument.image',
-        'application/vnd.openofficeorg.extension',
-        ]  # type: typing.List[str]
+    @classmethod
+    def get_supported_mimetypes(cls) -> typing.List[str]:
+        return [
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',  # nopep8
+            'application/vnd.oasis.opendocument.text',
+            'application/vnd.oasis.opendocument.spreadsheet',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',  # nopep8
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.template',  # nopep8
+            'application/vnd.ms-word.document.macroEnabled.12',
+            'application/vnd.ms-excel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',  # nopep8
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.template',  # nopep8
+            'application/vnd.ms-excel.sheet.macroEnabled.12',
+            'application/vnd.ms-excel.template.macroEnabled.12',
+            'application/vnd.ms-excel.addin.macroEnabled.12',
+            'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
+            'application/vnd.ms-powerpoint',
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation',  # nopep8
+            'application/vnd.openxmlformats-officedocument.presentationml.template',  # nopep8
+            'application/vnd.openxmlformats-officedocument.presentationml.slideshow',  # nopep8
+            'application/vnd.ms-powerpoint.addin.macroEnabled.12',
+            'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
+            'application/vnd.ms-powerpoint.template.macroEnabled.12',
+            'application/vnd.ms-powerpoint.slideshow.macroEnabled.12',
+            'application/vnd.oasis.opendocument.spreadsheet',
+            'application/vnd.oasis.opendocument.text',
+            'application/vnd.oasis.opendocument.text-template',
+            'application/vnd.oasis.opendocument.text-web',
+            'application/vnd.oasis.opendocument.text-master',
+            'application/vnd.oasis.opendocument.graphics',
+            'application/vnd.oasis.opendocument.graphics-template',
+            'application/vnd.oasis.opendocument.presentation',
+            'application/vnd.oasis.opendocument.presentation-template',
+            'application/vnd.oasis.opendocument.spreadsheet-template',
+            'application/vnd.oasis.opendocument.chart',
+            'application/vnd.oasis.opendocument.chart',
+            'application/vnd.oasis.opendocument.formula',
+            'application/vnd.oasis.opendocument.database',
+            'application/vnd.oasis.opendocument.image',
+            'application/vnd.openofficeorg.extension',
+            ]  # type: typing.List[str]
+
+    @classmethod
+    def check_dependencies(cls) -> bool:
+        try:
+            return check_executable_is_available('libreoffice')
+        except ExecutableNotFound:
+            raise BuilderDependencyNotFound(
+                'this builder requires libreoffice to be available'
+            )
+
 
     def build_jpeg_preview(
             self,

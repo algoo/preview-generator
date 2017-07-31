@@ -17,7 +17,7 @@ def setup_function(function):
 
 
 def test_to_jpeg():
-    manager = PreviewManager(path=CACHE_DIR, create_folder=True)
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     path0 = manager.get_jpeg_preview(
         file_path=os.path.join(CURRENT_DIR, 'the_odt.odt'),
         height=512,
@@ -50,7 +50,7 @@ def test_to_jpeg():
 
 def test_to_jpeg_no_size():
     manager = PreviewManager(
-        path=CACHE_DIR,
+        cache_folder_path=CACHE_DIR,
         create_folder=True
     )
     path_to_file = manager.get_jpeg_preview(
@@ -68,7 +68,7 @@ def test_to_jpeg_no_size():
 
 def test_to_jpeg_no_page():
     manager = PreviewManager(
-        path=CACHE_DIR,
+        cache_folder_path=CACHE_DIR,
         create_folder=True
     )
     path_to_file = manager.get_jpeg_preview(
@@ -88,7 +88,7 @@ def test_to_jpeg_no_page():
 
 def test_to_jpeg_no_size_no_page():
     manager = PreviewManager(
-        path=CACHE_DIR,
+        cache_folder_path=CACHE_DIR,
         create_folder=True
     )
     path_to_file = manager.get_jpeg_preview(
@@ -104,7 +104,7 @@ def test_to_jpeg_no_size_no_page():
 
 
 def test_to_pdf_full_export():
-    manager = PreviewManager(path=CACHE_DIR, create_folder=True)
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     path_to_file = manager.get_pdf_preview(
         file_path=os.path.join(CURRENT_DIR, 'the_odt.odt'),
         page=-1,
@@ -116,7 +116,7 @@ def test_to_pdf_full_export():
 
 
 def test_to_pdf_one_page():
-    manager = PreviewManager(path=CACHE_DIR, create_folder=True)
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     path_0 = manager.get_pdf_preview(
         file_path=os.path.join(CURRENT_DIR, 'the_odt.odt'),
         page=0,
@@ -137,7 +137,7 @@ def test_to_pdf_one_page():
 
 
 def test_to_pdf_no_page():
-    manager = PreviewManager(path=CACHE_DIR, create_folder=True)
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     path_to_file = manager.get_pdf_preview(
         file_path=os.path.join(CURRENT_DIR, 'the_odt.odt'),
         force=True

@@ -20,7 +20,7 @@ def setup_function(function):
 
 def test_to_jpeg():
     manager = PreviewManager(
-        path=CACHE_DIR,
+        cache_folder_path=CACHE_DIR,
         create_folder=True
     )
     path_to_file = manager.get_jpeg_preview(
@@ -37,15 +37,15 @@ def test_to_jpeg():
 
 
 def test_get_nb_page():
-    manager = PreviewManager(path=CACHE_DIR, create_folder=True)
-    nb_page = manager.get_nb_page(
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+    nb_page = manager.get_page_nb(
         file_path=IMAGE_FILE_PATH,
     )
     assert nb_page == 1
 
 
 def test_to_jpeg__default_size():
-    manager = PreviewManager(path=CACHE_DIR, create_folder=True)
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     path_to_file = manager.get_jpeg_preview(
         file_path=IMAGE_FILE_PATH,
     )
@@ -58,7 +58,7 @@ def test_to_jpeg__default_size():
 
 
 def test_to_json():
-    manager = PreviewManager(path=CACHE_DIR, create_folder=True)
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     path_to_file = manager.get_json_preview(
         file_path=IMAGE_FILE_PATH,
         force=True
@@ -79,7 +79,7 @@ def test_to_json():
 
 
 def test_to_pdf():
-    manager = PreviewManager(path=CACHE_DIR, create_folder=True)
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     with pytest.raises(UnavailablePreviewType):
         path_to_file = manager.get_pdf_preview(
             file_path=IMAGE_FILE_PATH,

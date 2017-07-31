@@ -26,3 +26,11 @@ class BuilderNotLoaded(PreviewGeneratorException):
     You must call factory.load_builders() before to use the factory
     """
     pass
+
+
+class ExecutableNotFound(PreviewGeneratorException):
+    pass
+
+
+class BuilderDependencyNotFound(PreviewGeneratorException):
+    pass

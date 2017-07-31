@@ -14,7 +14,7 @@ def setup_function(function):
 
 
 def test_to_json():
-    manager = PreviewManager(path=CACHE_DIR, create_folder=True)
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     path_to_file = manager.get_json_preview(
         file_path=os.path.join(CURRENT_DIR, 'the_jpeg.jpeg')
     )

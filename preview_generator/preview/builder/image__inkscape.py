@@ -14,17 +14,23 @@ from PyPDF2 import PdfFileReader
 from PyPDF2 import PdfFileWriter
 
 from preview_generator.exception import PreviewGeneratorException
-from preview_generator.file_converter import ImageDataJsonEncoder
+from preview_generator.utils import PreviewGeneratorJsonEncoder
+
 from preview_generator.preview.generic_preview import PreviewBuilder
 from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
+from preview_generator.utils import check_executable_is_available
 from preview_generator.utils import ImgDims
 
 class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
-    mimetype = [
-        'image/svg+xml'
-    ]  # type: typing.List[str]
+    @classmethod
+    def get_supported_mimetypes(cls) -> typing.List[str]:
+        return [ 'image/svg+xml' ]
+
+    @classmethod
+    def check_dependencies(cls) -> bool:
+        return check_executable_is_available('inkscape')
 
     def build_jpeg_preview(
             self,
@@ -84,7 +90,7 @@ class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
             'size': filesize,
         }
 
-        content = json.dumps(info, cls=ImageDataJsonEncoder)
+        content = json.dumps(info, cls=PreviewGeneratorJsonEncoder)
         output.write(content.encode())
         output.seek(0, 0)
         return output

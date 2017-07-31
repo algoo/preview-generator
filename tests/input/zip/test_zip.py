@@ -15,7 +15,7 @@ def setup_function(function):
 
 
 def test_zip_to_text():
-    manager = PreviewManager(path=CACHE_DIR, create_folder=True)
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     path_to_file = manager.get_text_preview(
         file_path=os.path.join(CURRENT_DIR, 'the_zip.zip')
     )
@@ -24,7 +24,7 @@ def test_zip_to_text():
 
 
 def test_zip_to_json():
-    manager = PreviewManager(path=CACHE_DIR, create_folder=True)
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     path_to_file = manager.get_json_preview(
         file_path=os.path.join(CURRENT_DIR, 'the_zip.zip')
     )
@@ -32,16 +32,27 @@ def test_zip_to_json():
     assert os.path.getsize(path_to_file) > 0
 
     data = json.load(open(path_to_file))
-    assert data['files']
+    assert 'fileNb' in data.keys()
+    assert 'files' in data.keys()
+    assert 'size' in data.keys()
+    assert 'sizeCompressed' in data.keys()
+    assert 'lastModification' in data.keys()
+    assert 'compressionRate' in data.keys()
+    assert data['size'] > 0
+    assert data['sizeCompressed'] > 0
+    assert data['compressionRate'] > 1
+
     assert len(data['files']) == 4
     for _file in data['files']:
-        assert _file['date']
-        assert _file['name']
+        assert 'lastModification' in _file.keys()
+        assert 'name' in _file.keys()
+        assert 'size' in _file.keys()
+        assert 'sizeCompressed' in _file.keys()
         assert _file['size'] > 0
-
+        assert _file['sizeCompressed'] > 0
 
 def test_zip_to_html():
-    manager = PreviewManager(path=CACHE_DIR, create_folder=True)
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     input_filename = 'the_zip.zip'
     path_to_file = manager.get_html_preview(
         file_path=os.path.join(CURRENT_DIR, input_filename),
@@ -51,7 +62,7 @@ def test_zip_to_html():
 
 
 def test_zip_to_html__no_original_name():
-    manager = PreviewManager(path=CACHE_DIR, create_folder=True)
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
 
     input_filename = 'the_zip.zip'
     path_to_file = manager.get_html_preview(

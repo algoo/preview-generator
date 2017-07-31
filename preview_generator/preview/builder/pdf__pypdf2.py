@@ -13,9 +13,9 @@ from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
 
 
 class PdfPreviewBuilderPyPDF2(PreviewBuilder):
-    mimetype = [
-        'application/pdf',
-    ]
+    @classmethod
+    def get_supported_mimetypes(cls) -> typing.List[str]:
+        return [ 'application/pdf' ]
 
     def build_jpeg_preview(self, file_path: str, preview_name: str,
                            cache_path: str, page_id: int,
@@ -98,11 +98,3 @@ class PdfPreviewBuilderPyPDF2(PreviewBuilder):
         with open(cache_path + preview_name + '_page_nb', 'r') as count:
             count.seek(0, 0)
             return count.read()
-
-    def get_original_size(self, file_path: str, page_id: int=-1) -> typing.Tuple[int, int]:  # nopep8
-        # FIXME use ImgDims instead of Tuple
-        if not page_id or page_id <= -1:
-            page_id = 0
-        with open(file_path, 'rb') as pdf:
-            size = file_converter.get_pdf_size(pdf, page_id)
-            return size

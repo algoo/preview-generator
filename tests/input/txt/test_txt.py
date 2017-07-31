@@ -15,7 +15,7 @@ def setup_function(function):
 
 
 def test_text_to_jpeg():
-    manager = PreviewManager(path=CACHE_DIR, create_folder=True)
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     path_to_file = manager.get_jpeg_preview(
         file_path=os.path.join(CURRENT_DIR, 'the_text.txt'),
         force=True

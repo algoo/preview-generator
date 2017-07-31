@@ -31,11 +31,13 @@ def convert_pdf_to_jpeg(
 
 
 class ImagePreviewBuilderWand(ImagePreviewBuilder):
-    mimetype = [
-        'image/x-ms-bmp',
-        'image/gif',
-        'image/jpeg',
-    ]
+    @classmethod
+    def get_supported_mimetypes(cls) -> typing.List[str]:
+        return [
+            'image/x-ms-bmp',
+            'image/gif',
+            'image/jpeg',
+        ]
 
     def build_jpeg_preview(
             self,

@@ -2,28 +2,16 @@
 
 from io import BytesIO
 import json
-from json import JSONEncoder
 import logging
 from PIL import Image
 from PyPDF2 import PdfFileReader
 import typing
 from wand.image import Image as WImage
-
+from preview_generator.utils import PreviewGeneratorJsonEncoder
 
 def txt_to_txt(text: typing.IO[typing.Any]) -> typing.IO[typing.Any]:
     logging.info('Converting text to text')
     return text
-
-
-class ImageDataJsonEncoder(JSONEncoder):
-    def default(self, obj: typing.Any) -> str:
-        if isinstance(obj, bytes):
-            try:
-                return obj.decode('ascii')
-            except:
-                return ''
-
-        return JSONEncoder.default(self, obj)
 
 
 def image_to_json(
@@ -48,7 +36,7 @@ def image_to_json(
 
     output = BytesIO()
 
-    content = json.dumps(info, cls=ImageDataJsonEncoder)
+    content = json.dumps(info, cls=PreviewGeneratorJsonEncoder)
     output.write(content.encode())
     output.seek(0, 0)
     return output

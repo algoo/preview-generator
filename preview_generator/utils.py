@@ -1,9 +1,20 @@
 # -*- coding: utf-8 -*-
 
+from datetime import date
+from datetime import datetime
+from json import JSONEncoder
+from subprocess import check_call
+from subprocess import DEVNULL
+from subprocess import STDOUT
 import typing
 
+from preview_generator.exception import ExecutableNotFound
 
-def get_subclasses_recursively(_class: type, _seen: set=None) -> typing.Generator:
+
+def get_subclasses_recursively(
+        _class: type,
+        _seen: set=None
+) -> typing.Generator:
     """
     itersubclasses(cls)
 
@@ -100,3 +111,42 @@ def compute_crop_dims(dims_in: ImgDims, dims_out: ImgDims) -> CropDims:
         right=right,
         bottom=lower
     )
+
+def check_executable_is_available(executable_name: str) -> bool:
+    """
+    Check if an executable is available in execution environment.
+    Exemple:
+      - try to execute 'pdf2jpeg --version',
+      - raises ExecutableNotFound if the call fails
+    :param executable_name:
+    :return:
+    """
+    try:
+        result = check_call(
+            [executable_name, '--version'],
+            stdout=DEVNULL,
+            stderr=STDOUT
+        )
+        if result == 0:
+            return True
+
+    except Exception as e:
+        print('Error while checking dependencies: ', e)
+        raise ExecutableNotFound
+
+    return False
+
+
+class PreviewGeneratorJsonEncoder(JSONEncoder):
+    def default(self, obj: typing.Any) -> str:
+        if isinstance(obj, bytes):
+            try:
+                return obj.decode('ascii')
+            except:
+                return ''
+
+        if isinstance(obj, (datetime, date)):
+            serial = obj.isoformat()
+            return serial
+
+        return JSONEncoder.default(self, obj)

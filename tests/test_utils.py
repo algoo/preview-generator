@@ -70,3 +70,7 @@ def test_compute_resize_dims_right_limits():
     dims_resize = compute_resize_dims(dims_in, dims_out)
     assert dims_resize.width == 512
     assert dims_resize.height == 203
+
+def test_check_dependencies():
+    from preview_generator.preview.builder.office__libreoffice import OfficePreviewBuilderLibreoffice
+    OfficePreviewBuilderLibreoffice.check_dependencies()

@@ -16,7 +16,7 @@ def setup_function(function):
 
 def test_to_jpeg():
     manager = PreviewManager(
-        path=CACHE_DIR,
+        cache_folder_path=CACHE_DIR,
         create_folder=True
     )
     path_to_file = manager.get_jpeg_preview(
@@ -34,7 +34,7 @@ def test_to_jpeg():
 
 def test_to_jpeg_no_size():
     manager = PreviewManager(
-        path=CACHE_DIR,
+        cache_folder_path=CACHE_DIR,
         create_folder=True
     )
     path_to_file = manager.get_jpeg_preview(

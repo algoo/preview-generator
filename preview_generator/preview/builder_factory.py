@@ -10,6 +10,7 @@ import typing
 
 from preview_generator.exception import UnsupportedMimeType
 from preview_generator.exception import BuilderNotLoaded
+from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.utils import get_subclasses_recursively
 from preview_generator.preview.generic_preview import PreviewBuilder
 
@@ -19,10 +20,11 @@ PB = typing.TypeVar('PB', bound=PreviewBuilder)
 class PreviewBuilderFactory(object):
 
     _instance = None  # type: PreviewBuilderFactory
-    builders_classes = []  # type: typing.List[typing.Any]
 
     def __init__(self) -> None:
         self.builders_loaded = False
+        self.builders_classes = []  # type: typing.List[typing.Any]
+        self._builder_classes = {}  # type: typing.Dict[typing.Any]
 
     def get_preview_builder(
             self,
@@ -32,14 +34,12 @@ class PreviewBuilderFactory(object):
         if not self.builders_loaded:
             raise BuilderNotLoaded()
 
-        for builder_class in self.builders_classes:
-            for mimetype_supported in builder_class.get_mimetypes_supported():
-                if mimetype == mimetype_supported:
-                    return builder_class()
+        try:
+            return self._builder_classes[mimetype]()  # nopep8 get class and instantiate it
+        except KeyError:
+            raise UnsupportedMimeType('Unsupported mimetype: {}'.format(mimetype))
 
-        raise UnsupportedMimeType('Unsupported mimetype: {}'.format(mimetype))
-
-    def get_document_mimetype(self, file_path: str) -> str:
+    def get_file_mimetype(self, file_path: str) -> str:
         """
         return the mimetype of the file. see python module mimetype
         """
@@ -63,7 +63,7 @@ class PreviewBuilderFactory(object):
 
             from preview_generator.preview.generic_preview import PreviewBuilder  # nopep8
             for cls in get_subclasses_recursively(PreviewBuilder):
-                cls.register()
+                self.register_builder(cls)
 
             self.builders_loaded = True
 
@@ -76,16 +76,29 @@ class PreviewBuilderFactory(object):
         return cls._instance
 
     def register_builder(self, builder: typing.Type['PreviewBuilder']) -> None:
-        self.builders_classes.append(builder)
+        try:
+            builder.check_dependencies()
+            self.builders_classes.append(builder)
+            for mimetype in builder.get_supported_mimetypes():
+                self._builder_classes[mimetype] = builder
+        except BuilderDependencyNotFound as e:
+            print('Builder {} is missing a dependency: {}'.format(
+                builder,
+                e.__str__()
+            ))
+        except NotImplementedError:
+            print(
+                'Skipping builder class [{}]: method get_supported_mimetypes '
+                'is not implemented'.format(builder)
+            )
 
 
-"""
-###################
+
+###############################################################################
 #
 # utility functions for automatic builder modules loading.
 #
-"""
-
+###############################################################################
 
 def get_builder_folder_name() -> str:
     return os.path.join(dirname(__file__), 'builder')

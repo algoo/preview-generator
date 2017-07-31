@@ -7,12 +7,14 @@ from preview_generator.preview.builder.office__libreoffice import OfficePreviewB
 
 
 class PlainTextPreviewBuilder(OfficePreviewBuilderLibreoffice):
-    mimetype = [
-        'text/plain',
-        'text/html',
-        'application/xml',
-        'application/javascript'
-    ]  # type: typing.List[str]
+    @classmethod
+    def get_supported_mimetypes(cls) -> typing.List[str]:
+        return [
+            'text/plain',
+            'text/html',
+            'application/xml',
+            'application/javascript'
+        ]
 
     def build_text_preview(self, file_path: str, preview_name: str,
                            cache_path: str, page_id: int = 0,

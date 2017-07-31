@@ -13,10 +13,12 @@ from preview_generator.utils import ImgDims
 
 
 class ImagePreviewBuilderPillow(ImagePreviewBuilder):
-    mimetype = [
-        'image/png',
-        'application/postscript'
-    ]
+    @classmethod
+    def get_supported_mimetypes(cls) -> typing.List[str]:
+        return [
+            'image/png',
+            'application/postscript'
+        ]
 
     def build_jpeg_preview(self, file_path: str, preview_name: str,
                            cache_path: str, page_id: int,
@@ -36,16 +38,6 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
                 while buffer:
                     jpeg.write(buffer)
                     buffer = result.read(1024)
-
-    def get_original_size(
-            self,
-            file_path: str,
-            page_id: int=-1
-    ) -> typing.Tuple[int, int]:
-        # FIXME - use ImgDims instead of Tuple for return type
-        with open(file_path, 'rb') as img:
-            size = file_converter.get_image_size(img)
-            return size
 
     def image_to_jpeg_pillow(
             self,

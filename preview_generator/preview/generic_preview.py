@@ -19,23 +19,22 @@ class PreviewBuilderMeta(type):
     ) -> typing.Type['PreviewBuilder']:
         cls = super().__new__(mcs, *args, **kwargs)
         cls = typing.cast(typing.Type['PreviewBuilder'], cls)
-        # cls.register()
         return cls
 
 
 class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
-    mimetype = []  # type: typing.List[str]
-
     def __init__(
             self,
     ) -> None:
         logging.info('New Preview builder of class' + str(self.__class__))
 
     @classmethod
-    def get_mimetypes_supported(
-            cls,
-    ) -> typing.List[str]:
-        return cls.mimetype
+    def get_supported_mimetypes(cls) -> typing.List[str]:
+        raise NotImplementedError()
+
+    @classmethod
+    def check_dependencies(cls) -> bool:
+        return True
 
     def get_page_number(
             self,
@@ -112,20 +111,6 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         return file content from the cache
         """
         raise UnavailablePreviewType()
-
-    def get_original_size(
-            self,
-            file_path: str,
-            page_id: int=-1
-    ) -> typing.Tuple[int, int]:  # nopep8
-        # FIXME - Should use ImgDims for return type
-        raise UnavailablePreviewType()
-
-    @classmethod
-    def register(cls) -> None:
-        from preview_generator.preview.builder_factory import PreviewBuilderFactory
-
-        PreviewBuilderFactory.get_instance().register_builder(cls)
 
 
 class OnePagePreviewBuilder(PreviewBuilder):
