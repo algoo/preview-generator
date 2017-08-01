@@ -30,7 +30,7 @@ class PreviewManager(object):
         self.cache_path = cache_folder_path  # type: str
         self._factory = PreviewBuilderFactory.get_instance()  # nopep8 keep link to singleton instance as it will be often used
 
-        if create_folder:
+        if create_folder and not os.path.isdir(self.cache_path):
             try:
                 os.makedirs(self.cache_path)
             except OSError as e:
