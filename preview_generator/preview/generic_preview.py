@@ -61,6 +61,13 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         """
         raise UnavailablePreviewType()
 
+    def has_pdf_preview(self) -> bool:
+        """
+        Override and return True if your builder allow PDF preview
+        :return:
+        """
+        return False
+
     def build_pdf_preview(
             self,
             file_path: str,

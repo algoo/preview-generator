@@ -159,6 +159,13 @@ class OfficePreviewBuilderLibreoffice(PreviewBuilder):
             page_nb = int(page_nb_stream.read())
             return page_nb
 
+    def has_pdf_preview(self) -> bool:
+        """
+        Override and return True if your builder allow PDF preview
+        :return:
+        """
+        return True
+
     def build_pdf_preview(
             self,
             file_path: str,

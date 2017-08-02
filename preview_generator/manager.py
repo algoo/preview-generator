@@ -46,6 +46,17 @@ class PreviewManager(object):
         """
         return PreviewBuilderFactory().get_file_mimetype(file_path)
 
+    def has_pdf_preview(self, file_path: str) -> bool:
+        """
+        return True if the given file offers PDF preview
+        Actually, this is the case for office
+        :param file_path:
+        :return:
+        """
+        mimetype = self._factory.get_file_mimetype(file_path)
+        builder = self._factory.get_preview_builder(mimetype)
+        return builder.has_pdf_preview()
+
     def get_page_nb(self, file_path: str) -> int:
         """
         Return the page number of the given file.
