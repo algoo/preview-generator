@@ -11,6 +11,7 @@ import typing
 from preview_generator.exception import UnsupportedMimeType
 from preview_generator.exception import BuilderNotLoaded
 from preview_generator.exception import BuilderDependencyNotFound
+from preview_generator.exception import ExecutableNotFound
 from preview_generator.utils import get_subclasses_recursively
 from preview_generator.preview.generic_preview import PreviewBuilder
 
@@ -81,7 +82,7 @@ class PreviewBuilderFactory(object):
             self.builders_classes.append(builder)
             for mimetype in builder.get_supported_mimetypes():
                 self._builder_classes[mimetype] = builder
-        except BuilderDependencyNotFound as e:
+        except (BuilderDependencyNotFound, ExecutableNotFound ) as e:
             print('Builder {} is missing a dependency: {}'.format(
                 builder,
                 e.__str__()
