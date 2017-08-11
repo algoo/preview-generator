@@ -110,6 +110,7 @@ class PreviewManager(object):
         builder = self._factory.get_preview_builder(mimetype)
 
         preview_file_path = os.path.join(self.cache_path, preview_name + extension)  # nopep8
+        page = max(page, 0)  # if page is -1 then return preview of first page
         if force or not os.path.exists(preview_file_path):
             builder.build_jpeg_preview(
                 file_path=file_path,

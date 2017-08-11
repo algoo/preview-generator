@@ -28,7 +28,10 @@ class PdfPreviewBuilderPyPDF2(PreviewBuilder):
             size = ImgDims(256, 256)
 
         with open(file_path, 'rb') as pdf:
-            input_pdf = PdfFileReader(pdf)
+            # HACK - D.A. - 2017-08-11 Deactivate strict mode
+            # This avoid crashes when PDF are not standard
+            # See https://github.com/mstamy2/PyPDF2/issues/244
+            input_pdf = PdfFileReader(pdf, strict=False)
             output_pdf = PdfFileWriter()
             output_pdf.addPage(input_pdf.getPage(int(page_id)))
             output_stream = BytesIO()
