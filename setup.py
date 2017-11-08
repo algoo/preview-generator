@@ -40,8 +40,8 @@ setup(
     long_description=documentation,
     author='Algoo',
     author_email='contact@algoo.fr',
-    url='https://github.com/algoo/preview_generator',
-    download_url='https://github.com/algoo/preview_generator/tarball/0.2.2',
+    url='https://github.com/algoo/preview-generator',
+    download_url='https://github.com/algoo/preview-generator/tarball/0.2.2',
     keywords=['preview', 'preview_generator', 'thumbnail', 'cache'],
     classifiers=[
         'Programming Language :: Python :: 3.4',
