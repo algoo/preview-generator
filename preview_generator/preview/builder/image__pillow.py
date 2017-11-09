@@ -17,7 +17,8 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
     def get_supported_mimetypes(cls) -> typing.List[str]:
         return [
             'image/png',
-            'application/postscript'
+            'application/postscript',
+            'image/x-eps',
         ]
 
     def build_jpeg_preview(self, file_path: str, preview_name: str,
