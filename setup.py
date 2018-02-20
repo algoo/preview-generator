@@ -35,13 +35,13 @@ if py_version <= (3, 5):
 
 setup(
     name='preview_generator',
-    version='0.2.2',
+    version='0.2.3',
     description='A library for generating preview (thumbnails, text or json overview) for file-based content',
     long_description=documentation,
     author='Algoo',
     author_email='contact@algoo.fr',
     url='https://github.com/algoo/preview-generator',
-    download_url='https://github.com/algoo/preview-generator/archive/0.2.2.tar.gz',
+    download_url='https://github.com/algoo/preview-generator/archive/0.2.3.tar.gz',
     keywords=['preview', 'preview_generator', 'thumbnail', 'cache'],
     classifiers=[
         'Programming Language :: Python :: 3.4',
