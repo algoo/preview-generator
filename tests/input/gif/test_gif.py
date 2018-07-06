@@ -71,15 +71,29 @@ def test_to_json():
     assert path_to_file == '/tmp/preview-generator-tests/cache/243918a3cda4aa11bfe7603b627a587f.json'  # nopep8
 
     data = json.load(open(path_to_file))
-    assert data['width'] == 520
-    assert data['height'] == 206
-    assert data['size'] == 42625
-    assert data['mode'] == 'P'  # P means palette
-    assert data['info']['transparency'] == 254
-    assert data['info']['comment'] == 'Created with GIMP'
-    assert data['info']['background'] == 250
-    assert data['info']['version'] == 'GIF89a'
-    assert data['info']['duration'] == 40
+    assert 'Composite:ImageSize' in data.keys()
+    assert 'Composite:Megapixels' in data.keys()
+    assert 'ExifTool:ExifToolVersion' in data.keys()
+    assert 'File:Comment' in data.keys()
+    assert 'File:Directory' in data.keys()
+    assert 'File:FileAccessDate' in data.keys()
+    assert 'File:FileInodeChangeDate' in data.keys()
+    assert 'File:FileModifyDate' in data.keys()
+    assert 'File:FileName' in data.keys()
+    assert 'File:FilePermissions' in data.keys()
+    assert 'File:FileSize' in data.keys()
+    assert 'File:FileTypeExtension' in data.keys()
+    assert 'File:FileType' in data.keys()
+    assert 'File:MIMEType' in data.keys()
+    assert 'GIF:BackgroundColor' in data.keys()
+    assert 'GIF:BitsPerPixel' in data.keys()
+    assert 'GIF:ColorResolutionDepth' in data.keys()
+    assert 'GIF:Duration' in data.keys()
+    assert 'GIF:GIFVersion' in data.keys()
+    assert 'GIF:HasColorMap' in data.keys()
+    assert 'GIF:ImageHeight' in data.keys()
+    assert 'GIF:ImageWidth' in data.keys()
+    assert 'SourceFile' in data.keys()
 
 
 def test_to_pdf():

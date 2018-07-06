@@ -69,13 +69,31 @@ def test_to_json():
     assert path_to_file == '/tmp/preview-generator-tests/cache/4ebf3400b8b74282dfbf61e784777928.json'  # nopep8
 
     data = json.load(open(path_to_file))
-    assert data['width'] == 901
-    assert data['height'] == 896
-    assert data['size'] == 103998
-    assert data['mode'] == '1'
-    assert data['info']
-    assert data['info']['compression'] == 0
-    assert data['info']['dpi'] == [300, 300]
+    assert 'File:Planes' in data.keys()
+    assert 'File:FileTypeExtension' in data.keys()
+    assert 'File:ImageLength' in data.keys()
+    assert 'File:BMPVersion' in data.keys()
+    assert 'File:FilePermissions' in data.keys()
+    assert 'File:Compression' in data.keys()
+    assert 'File:ImageHeight' in data.keys()
+    assert 'File:NumImportantColors' in data.keys()
+    assert 'File:FileName' in data.keys()
+    assert 'File:NumColors' in data.keys()
+    assert 'Composite:ImageSize' in data.keys()
+    assert 'File:FileType' in data.keys()
+    assert 'ExifTool:ExifToolVersion' in data.keys()
+    assert 'Composite:Megapixels' in data.keys()
+    assert 'File:FileInodeChangeDate' in data.keys()
+    assert 'File:ImageWidth' in data.keys()
+    assert 'SourceFile' in data.keys()
+    assert 'File:MIMEType' in data.keys()
+    assert 'File:FileSize' in data.keys()
+    assert 'File:Directory' in data.keys()
+    assert 'File:PixelsPerMeterY' in data.keys()
+    assert 'File:PixelsPerMeterX' in data.keys()
+    assert 'File:BitDepth' in data.keys()
+    assert 'File:FileModifyDate' in data.keys()
+    assert 'File:FileAccessDate' in data.keys()
 
 
 def test_to_pdf():

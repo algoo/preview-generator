@@ -2,6 +2,8 @@
 
 from io import BytesIO
 
+import exiftool
+import json
 import logging
 import os
 import typing
@@ -77,9 +79,9 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
             page_id: int = -1
     ) -> None:
         """
-        generate the jpeg preview
+        generate pdf preview. No default implementation
         """
-        raise UnavailablePreviewType()
+        raise UnavailablePreviewType('No builder registered for PDF preview of {}'.format(file_path))
 
     def build_html_preview(
             self,
@@ -89,7 +91,7 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
             extension: str = '.html'
     ) -> None:
         """
-        generate the html preview
+        generate the html preview. No default implementation
         """
         raise UnavailablePreviewType()
 
@@ -102,9 +104,15 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
             extension: str = '.json'
     ) -> None:
         """
-        generate the json preview
+        generate the json preview. Default implementation is based on ExifTool
         """
-        raise UnavailablePreviewType()
+        metadata = {}
+        with exiftool.ExifTool() as et:
+            metadata = et.get_metadata(file_path)
+
+        with open(cache_path + preview_name + extension, 'w') as jsonfile:
+            json.dump(metadata, jsonfile)
+
 
     def build_text_preview(
             self,
@@ -115,7 +123,7 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
             extension: str = '.txt'
     ) -> None:
         """
-        return file content from the cache
+        generate the text preview. No default implementation
         """
         raise UnavailablePreviewType()
 
@@ -124,45 +132,5 @@ class OnePagePreviewBuilder(PreviewBuilder):
     """
     Generic preview handler for single page document
     """
-
-    def get_page_number(
-            self,
-            file_path: str,
-            preview_name: str,
-            cache_path: str
-    ) -> int:
+    def get_page_number(self, file_path: str, preview_name: str, cache_path: str) -> int:
         return 1
-
-
-class ImagePreviewBuilder(OnePagePreviewBuilder):
-    """
-    Generic preview handler for an Image (except multi-pages images)
-    """
-
-    def _get_json_stream_from_image_stream(
-        self,
-            img: typing.IO[bytes],
-            filesize: int=0
-    ) -> BytesIO:
-        return file_converter.image_to_json(img, filesize)
-
-    def build_json_preview(
-            self,
-            file_path: str,
-            preview_name: str,
-            cache_path: str,
-            page_id: int = 0,
-            extension: str = '.json'
-    ) -> None:
-        """
-        generate the json preview
-        """
-
-        with open(file_path, 'rb') as img:
-            filesize = os.path.getsize(file_path)
-            json_stream = self._get_json_stream_from_image_stream(img, filesize)
-            with open(cache_path + preview_name + extension, 'wb') as jsonfile:
-                buffer = json_stream.read(256)
-                while buffer:
-                    jsonfile.write(buffer)
-                    buffer = json_stream.read(256)

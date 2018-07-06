@@ -8,7 +8,10 @@ Presentation
 
 .. image:: https://api.travis-ci.org/algoo/preview-generator.svg?branch=master
 
-preview-generator is a library for generating preview - thumbnails, pdf, text and json overview for all your file-based content. This module gives you access to jpeg, pdf, text, htlm and json preview of virtually any kind of file. It also includes a cache mechanism so you do not have to care about preview storage.
+preview-generator is a library for generating preview - thumbnails, pdf, text and json overview
+for all your file-based content. This module gives you access to jpeg, pdf, text, htlm and json
+preview of virtually any kind of file. It also includes a cache mechanism so you do not have to
+care about preview storage.
 
 By creating this module, the goal was to delegate the responsibility of building preview
 of files managed by `tracim <https://github.com/tracim/tracim/.>`_.

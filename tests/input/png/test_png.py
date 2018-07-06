@@ -66,11 +66,28 @@ def test_to_json():
     assert os.path.getsize(path_to_file) > 0
 
     data = json.load(open(path_to_file))
-    assert data['width'] == 441
-    assert data['height'] == 391
-    assert data['size'] == 182171
-    assert data['mode'] == 'RGB'
-    assert data['info'] == {}
+    assert 'Composite:ImageSize' in data.keys()
+    assert 'Composite:Megapixels' in data.keys()
+    assert 'ExifTool:ExifToolVersion' in data.keys()
+    assert 'File:Directory' in data.keys()
+    assert 'File:FileAccessDate' in data.keys()
+    assert 'File:FileInodeChangeDate' in data.keys()
+    assert 'File:FileModifyDate' in data.keys()
+    assert 'File:FileName' in data.keys()
+    assert 'File:FilePermissions' in data.keys()
+    assert 'File:FileSize' in data.keys()
+    assert 'File:FileTypeExtension' in data.keys()
+    assert 'File:FileType' in data.keys()
+    assert 'File:MIMEType' in data.keys()
+    assert 'PNG:BitDepth' in data.keys()
+    assert 'PNG:ColorType' in data.keys()
+    assert 'PNG:Compression' in data.keys()
+    assert 'PNG:Filter' in data.keys()
+    assert 'PNG:ImageHeight' in data.keys()
+    assert 'PNG:ImageWidth' in data.keys()
+    assert 'PNG:Interlace' in data.keys()
+    assert 'PNG:SignificantBits' in data.keys()
+    assert 'SourceFile' in data.keys()
 
 
 def test_to_pdf():

@@ -7,7 +7,7 @@ import typing
 from wand.image import Color
 from wand.image import Image as WImage
 
-from preview_generator.preview.generic_preview import ImagePreviewBuilder
+from preview_generator.preview.generic_preview import OnePagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import compute_crop_dims
 from preview_generator.utils import compute_resize_dims
@@ -37,14 +37,36 @@ def convert_pdf_to_jpeg(
         return output
 
 
-class ImagePreviewBuilderWand(ImagePreviewBuilder):
+import mimetypes
+import wand.version
+
+
+class ImagePreviewBuilderWand(OnePagePreviewBuilder):
+    MIMETYPES = []
+
+    @classmethod
+    def __load_mimetypes(cls) -> typing.List[str]:
+        """
+        Load supported mimetypes from WAND library
+        :return: list of supported mime types
+        """
+        all_supported = wand.version.formats("*")
+        mimes = []
+        for supported in all_supported:
+            url = "./FILE.{0}".format(supported) # Fake a url
+            mime, enc = mimetypes.guess_type(url)
+            if mime and mime not in mimes:
+                mimes.append(mime)
+        return mimes
+
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
-        return [
-            'image/x-ms-bmp',
-            'image/gif',
-            'image/jpeg',
-        ]
+        """
+        :return: list of supported mime types
+        """
+        if len(ImagePreviewBuilderWand.MIMETYPES) == 0:
+            ImagePreviewBuilderWand.MIMETYPES = cls.__load_mimetypes()
+        return ImagePreviewBuilderWand.MIMETYPES
 
     def build_jpeg_preview(
             self,

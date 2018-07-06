@@ -28,7 +28,13 @@ except IOError:
 
 testpkgs = []
 
-install_requires = ['python-magic', 'Wand', 'PyPDF2', 'Pillow']
+install_requires = [
+    'python-magic',
+    'Wand',
+    'PyPDF2',
+    'Pillow',
+    'Sweepatic-PyExifTool==0.2'
+]
 
 if py_version <= (3, 5):
     install_requires.append("typing")
@@ -46,7 +52,8 @@ setup(
     classifiers=[
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6'
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
     packages=find_packages(exclude=['ez_setup']),
     install_requires=install_requires,

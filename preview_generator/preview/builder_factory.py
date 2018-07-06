@@ -14,7 +14,7 @@ from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import ExecutableNotFound
 from preview_generator.utils import get_subclasses_recursively
 from preview_generator.preview.generic_preview import PreviewBuilder
-
+from preview_generator.preview.mime import MIMETYPES_AND_EXTENSIONS
 
 PB = typing.TypeVar('PB', bound=PreviewBuilder)
 
@@ -44,7 +44,7 @@ class PreviewBuilderFactory(object):
         """
         return the mimetype of the file. see python module mimetype
         """
-        str, encoding = mimetypes.guess_type(file_path)
+        str, encoding = mimetypes.guess_type(file_path, strict=False)
         if not str:
             mime = magic.Magic(mime=True)
             str = mime.from_file(file_path)
@@ -82,6 +82,7 @@ class PreviewBuilderFactory(object):
             self.builders_classes.append(builder)
             for mimetype in builder.get_supported_mimetypes():
                 self._builder_classes[mimetype] = builder
+                logging.debug('register builder for {}: {}'.format(mimetype, builder.__name__))
         except (BuilderDependencyNotFound, ExecutableNotFound ) as e:
             print('Builder {} is missing a dependency: {}'.format(
                 builder,
@@ -121,3 +122,16 @@ def import_builder_module(name: str) -> None:
     _import = 'from preview_generator.preview.builder.{module} import *'.format(module=name)  # nopep8
     exec(_import)
     logging.info('Builder module loaded: {}'.format(name))
+
+
+SPECIFIC_MIMETYPES_LOADED = False
+def load_specific_mime_types():
+    if SPECIFIC_MIMETYPES_LOADED:
+        return
+
+    for m in MIMETYPES_AND_EXTENSIONS.strip().split('\n'):
+        mimetype_and_extensions = m.split(' ')
+        mimetype = mimetype_and_extensions[0]
+        extensions = mimetype_and_extensions[1:]
+        for ext in extensions:
+            mimetypes.add_type(mimetype, '.{ext}'.format(ext=ext))

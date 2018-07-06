@@ -6,13 +6,13 @@ from PIL import Image
 import typing
 
 from preview_generator import file_converter
-from preview_generator.preview.generic_preview import ImagePreviewBuilder
+from preview_generator.preview.generic_preview import OnePagePreviewBuilder
 from preview_generator.utils import compute_resize_dims
 from preview_generator.utils import compute_crop_dims
 from preview_generator.utils import ImgDims
 
 
-class ImagePreviewBuilderPillow(ImagePreviewBuilder):
+class ImagePreviewBuilderPillow(OnePagePreviewBuilder):
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
         return [

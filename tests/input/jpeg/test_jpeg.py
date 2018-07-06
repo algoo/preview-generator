@@ -69,19 +69,30 @@ def test_to_json():
     assert path_to_file == '/tmp/preview-generator-tests/cache/f910f2af6cda4fff79f21456e19e021c.json'  # nopep8
 
     data = json.load(open(path_to_file))
-    assert data['width'] == 236
-    assert data['height'] == 212
-    assert data['size'] == 8791
-    assert data['mode'] == 'RGB'
-    assert data['info']
-
-    assert data['info']['dpi'] == [72, 72]
-    assert data['info']['jfif_version'] == [1, 1]
-    assert data['info']['jfif'] == 257
-    assert data['info']['jfif_unit'] == 1
-    assert data['info']['progression'] == 1
-    assert data['info']['progressive'] == 1
-    assert data['info']['jfif_density'] == [72, 72]
+    assert 'Composite:ImageSize' in data.keys()
+    assert 'Composite:Megapixels' in data.keys()
+    assert 'ExifTool:ExifToolVersion' in data.keys()
+    assert 'File:BitsPerSample' in data.keys()
+    assert 'File:ColorComponents' in data.keys()
+    assert 'File:Directory' in data.keys()
+    assert 'File:EncodingProcess' in data.keys()
+    assert 'File:FileAccessDate' in data.keys()
+    assert 'File:FileInodeChangeDate' in data.keys()
+    assert 'File:FileModifyDate' in data.keys()
+    assert 'File:FileName' in data.keys()
+    assert 'File:FilePermissions' in data.keys()
+    assert 'File:FileSize' in data.keys()
+    assert 'File:FileType' in data.keys()
+    assert 'File:FileTypeExtension' in data.keys()
+    assert 'File:ImageHeight' in data.keys()
+    assert 'File:ImageWidth' in data.keys()
+    assert 'File:MIMEType' in data.keys()
+    assert 'File:YCbCrSubSampling' in data.keys()
+    assert 'JFIF:JFIFVersion' in data.keys()
+    assert 'JFIF:ResolutionUnit' in data.keys()
+    assert 'JFIF:XResolution' in data.keys()
+    assert 'JFIF:YResolution' in data.keys()
+    assert 'SourceFile' in data.keys()
 
 
 def test_to_pdf():
