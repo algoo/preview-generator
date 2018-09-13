@@ -100,4 +100,4 @@ class PdfPreviewBuilderPyPDF2(PreviewBuilder):
                 count.write(str(inputpdf.numPages))
         with open(cache_path + preview_name + '_page_nb', 'r') as count:
             count.seek(0, 0)
-            return count.read()
+            return int(count.read())
