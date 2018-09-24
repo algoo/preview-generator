@@ -40,14 +40,19 @@ class PreviewBuilderFactory(object):
         except KeyError:
             raise UnsupportedMimeType('Unsupported mimetype: {}'.format(mimetype))
 
-    def get_file_mimetype(self, file_path: str) -> str:
+    def get_file_mimetype(self, file_path: str, file_ext: str='') -> str:
         """
         return the mimetype of the file. see python module mimetype
         """
         str, encoding = mimetypes.guess_type(file_path, strict=False)
-        if not str:
+        if not str or str == 'application/octet-stream':
             mime = magic.Magic(mime=True)
             str = mime.from_file(file_path)
+
+        if not str or str == 'application/octet-stream':
+            complete_path = file_path + '.' + file_ext
+            str, encoding = mimetypes.guess_type(complete_path)
+
         return str
 
     def load_builders(self, force: bool=False) -> None:

@@ -38,32 +38,38 @@ class PreviewManager(object):
                     'cant create cache folder [{}]'.format(self.cache_path)
                 )
 
-    def get_mimetype(self, file_path: str) -> str:
+    def get_mimetype(self, file_path: str, file_ext: str='') -> str:
         """
         Return detected mimetype of the file
         :param file_path: path of the file
+        :param file_ext: extension associated to the file. Eg 'jpg'. May be empty -
+                it's usefull if the extension can't be found in file_path
         :return: mimetype of the file
         """
-        return PreviewBuilderFactory().get_file_mimetype(file_path)
+        return PreviewBuilderFactory().get_file_mimetype(file_path, file_ext)
 
-    def has_pdf_preview(self, file_path: str) -> bool:
+    def has_pdf_preview(self, file_path: str, file_ext: str='') -> bool:
         """
         return True if the given file offers PDF preview
         Actually, this is the case for office
         :param file_path:
+        :param file_ext: extension associated to the file. Eg 'jpg'. May be empty -
+                it's usefull if the extension can't be found in file_path
         :return:
         """
-        mimetype = self._factory.get_file_mimetype(file_path)
+        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
         builder = self._factory.get_preview_builder(mimetype)
         return builder.has_pdf_preview()
 
-    def get_page_nb(self, file_path: str) -> int:
+    def get_page_nb(self, file_path: str, file_ext: str='') -> int:
         """
         Return the page number of the given file.
         :param file_path: path of the file
+        :param file_ext: extension associated to the file. Eg 'jpg'. May be empty -
+                it's usefull if the extension can't be found in file_path
         :return: number of pages. Default is 1 (eg for a JPEG)
         """
-        mimetype = self._factory.get_file_mimetype(file_path)
+        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
         builder = self._factory.get_preview_builder(mimetype)
 
         preview_name = self._get_file_hash(file_path)
@@ -81,6 +87,7 @@ class PreviewManager(object):
             width: int = None,
             height: int = 256,
             force: bool = False,
+            file_ext: str = ''
     ) -> str:
         """
         Return a JPEG preview of given file, according to parameters
@@ -89,13 +96,15 @@ class PreviewManager(object):
         :param width: width of the requested preview image
         :param height: height of the requested preview image
         :param force: if True, do not use cached preview.
+        :param file_ext: extension associated to the file. Eg 'jpg'. May be empty -
+                it's usefull if the extension can't be found in file_path
         :return: path to the generated preview file
         """
         if width is None:
             width = height
 
         size = ImgDims(width=width, height=height)
-        mimetype = self._factory.get_file_mimetype(file_path)
+        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
         builder = self._factory.get_preview_builder(mimetype)
         extension = '.jpeg'
 
@@ -128,15 +137,18 @@ class PreviewManager(object):
             file_path: str,
             page: int = -1,
             force: bool = False,
+            file_ext: str = ''
     ) -> str:
         """
         Return a PDF preview of given file, according to parameters
         :param file_path: path of the file to preview
         :param page: page of the original document. -1 means "all pages"
         :param force: if True, do not use cached preview.
+        :param file_ext: extension associated to the file. Eg 'jpg'. May be empty -
+                it's usefull if the extension can't be found in file_path
         :return: path to the generated preview file
         """
-        mimetype = self._factory.get_file_mimetype(file_path)
+        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
         builder = self._factory.get_preview_builder(mimetype)
         extension = '.pdf'
         preview_name = self._get_file_hash(
@@ -164,14 +176,17 @@ class PreviewManager(object):
             self,
             file_path: str,
             force: bool = False,
+            file_ext: str = ''
     ) -> str:
         """
         Return a TXT preview of given file, according to parameters
         :param file_path: path of the file to preview
         :param force: if True, do not use cached preview.
+        :param file_ext: extension associated to the file. Eg 'jpg'. May be empty -
+                it's usefull if the extension can't be found in file_path
         :return: path to the generated preview file
         """
-        mimetype = self._factory.get_file_mimetype(file_path)
+        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
         builder = self._factory.get_preview_builder(mimetype)
         extension = '.txt'
         preview_name = self._get_file_hash(
@@ -195,14 +210,17 @@ class PreviewManager(object):
             self,
             file_path: str,
             force: bool = False,
+            file_ext: str = ''
     ) -> str:
         """
         Return a HTML preview of given file, according to parameters
         :param file_path: path of the file to preview
         :param force: if True, do not use cached preview.
+        :param file_ext: extension associated to the file. Eg 'jpg'. May be empty -
+                it's usefull if the extension can't be found in file_path
         :return: path to the generated preview file
         """
-        mimetype = self._factory.get_file_mimetype(file_path)
+        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
         builder = self._factory.get_preview_builder(mimetype)
         extension = '.html'
         preview_name = self._get_file_hash(
@@ -226,14 +244,17 @@ class PreviewManager(object):
             self,
             file_path: str,
             force: bool = False,
+            file_ext: str = ''
     ) -> str:
         """
         Return a HTML preview of given file, according to parameters
         :param file_path: path of the file to preview
         :param force: if True, do not use cached preview.
+        :param file_ext: extension associated to the file. Eg 'jpg'. May be empty -
+                it's usefull if the extension can't be found in file_path
         :return: path to the generated preview file
         """
-        mimetype = self._factory.get_file_mimetype(file_path)
+        mimetype = self._factory.get_file_mimetype(file_path,file_ext)
         logging.info('Mimetype of the document is :' + mimetype)
         builder = self._factory.get_preview_builder(mimetype)
         extension = '.json'
@@ -256,7 +277,7 @@ class PreviewManager(object):
             self,
             file_path: str,
             size: ImgDims=None,
-            page: int = None
+            page: int = None,
     ) -> str:
         """
         Build a hash based on the given parameters.
