@@ -99,6 +99,10 @@ def archive_info_to_html(archive_info: ArchiveInfo) -> str:
 
 class ZipPreviewBuilder(OnePagePreviewBuilder):
     @classmethod
+    def get_label(cls) -> str:
+        return 'Archive files'
+
+    @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
         return [
             'application/x-compressed',

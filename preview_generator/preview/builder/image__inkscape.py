@@ -17,6 +17,10 @@ from preview_generator.utils import ImgDims
 
 class ImagePreviewBuilderInkscape(OnePagePreviewBuilder):
     @classmethod
+    def get_label(cls) -> str:
+        return 'Vector images - based on Inkscape'
+
+    @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
         return [ 'image/svg+xml' ]
 

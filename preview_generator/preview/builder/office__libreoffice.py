@@ -23,6 +23,10 @@ from pathlib import Path
 
 class OfficePreviewBuilderLibreoffice(PreviewBuilder):
     @classmethod
+    def get_label(cls) -> str:
+        return 'Documents - based on LibreOffice'
+
+    @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
         return LO_MIMETYPES.keys()  # type: typing.List[str]
 
