@@ -44,16 +44,16 @@ class PreviewBuilderFactory(object):
         """
         return the mimetype of the file. see python module mimetype
         """
-        str, encoding = mimetypes.guess_type(file_path, strict=False)
-        if not str or str == 'application/octet-stream':
+        _str, encoding = mimetypes.guess_type(file_path, strict=False)
+        if not _str or _str == 'application/octet-stream':
             mime = magic.Magic(mime=True)
-            str = mime.from_file(file_path)
+            _str = mime.from_file(file_path)
 
-        if not str or str == 'application/octet-stream':
+        if not _str or _str == 'application/octet-stream':
             complete_path = file_path + '.' + file_ext
-            str, encoding = mimetypes.guess_type(complete_path)
+            _str, encoding = mimetypes.guess_type(complete_path)
 
-        return str
+        return _str
 
     def load_builders(self, force: bool=False) -> None:
         """

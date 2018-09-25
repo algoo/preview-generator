@@ -33,7 +33,7 @@ install_requires = [
     'Wand',
     'PyPDF2',
     'Pillow',
-    'Sweepatic-PyExifTool==0.2'
+    'Sweepatic-PyExifTool==0.2',
 ]
 
 if py_version <= (3, 5):

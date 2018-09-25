@@ -330,13 +330,25 @@ From scratch on a terminal :
      * build your virtual env (I can say that it work with python 3.4 but did not try with other versions)(env will be called "myenv", you can name it the way you want): `python3.4 -m venv myenv`
      * if it's not already, activate it : `source myenv/bin/activate`. (`deactivate` to deactivate)
   - install dependencies :
+
+     * Exiftool - Follow instruction on the main website: https://sno.phy.queensu.ca/~phil/exiftool/
+
      * `apt-get install zlib1g-dev`
      * `apt-get install libjpeg-dev`
+     * `apt-get install python3-pythonmagick`
+     * `apt-get install inkscape`
      * `pip install wand`
-     * `pip install python-magick`
      * `pip install pillow`
      * `pip install PyPDF2`
+     * `pip install python-magic`
+     * `pip install Sweepatic-PyExifTool`
      * if you use python 3.5 or less `pip install typing`
+
+.. code:: console
+
+  apt-get install libjpeg-dev libjpeg-dev python3-pythonmagick inkscape
+  pip install wand pillow PyPDF2 python-magic Sweepatic-PyExifTool
+
 
 Running Pytest :
 ----------------

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-
 import json
 import os
 from PIL import Image
 import pytest
 import shutil
+import hashlib
 
 from preview_generator.exception import UnavailablePreviewType
 from preview_generator.manager import PreviewManager
@@ -13,6 +13,7 @@ from preview_generator.manager import PreviewManager
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = '/tmp/preview-generator-tests/cache'
 IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, 'tesselation-P3.svg')
+FILE_HASH = hashlib.md5(IMAGE_FILE_PATH.encode('utf-8')).hexdigest()
 
 
 def setup_function(function):
@@ -36,7 +37,10 @@ def test_to_jpeg():
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
-    assert path_to_file == '/tmp/preview-generator-tests/cache/a0dcd8bf562212788204a09d85331d04-512x256.jpeg'  # nopep8
+    assert path_to_file == (
+        '/tmp/preview-generator-tests/cache/{hash}-512x256.jpeg'
+        .format(hash=FILE_HASH)
+    )
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
         assert jpeg.width in range(358, 360)
@@ -57,7 +61,10 @@ def test_to_jpeg__default_size():
     )
     assert os.path.exists(path_to_file)
     assert os.path.getsize(path_to_file) > 0
-    assert '/tmp/preview-generator-tests/cache/a0dcd8bf562212788204a09d85331d04-256x256.jpeg' == path_to_file  # nopep8
+    assert path_to_file == (
+        '/tmp/preview-generator-tests/cache/{hash}-256x256.jpeg'
+        .format(hash=FILE_HASH)
+    )
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height in range(182, 184)
         assert 256 == jpeg.width
@@ -75,7 +82,10 @@ def test_to_json():
 
     assert os.path.exists(path_to_file)
     assert os.path.getsize(path_to_file) > 0
-    assert path_to_file == '/tmp/preview-generator-tests/cache/a0dcd8bf562212788204a09d85331d04.json'  # nopep8
+    assert path_to_file == (
+        '/tmp/preview-generator-tests/cache/{hash}.json'
+        .format(hash=FILE_HASH)
+    )
 
     data = json.load(open(path_to_file))
     assert 'ExifTool:ExifToolVersion' in data.keys()

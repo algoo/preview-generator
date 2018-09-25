@@ -4,12 +4,15 @@ import os
 from PIL import Image
 from wand.image import Image as WandImage
 import shutil
+import hashlib
 
 from preview_generator.manager import PreviewManager
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = '/tmp/preview-generator-tests/cache'
 IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, 'the_jpeg.jpeg')
+FILE_HASH = hashlib.md5(IMAGE_FILE_PATH.encode('utf-8')).hexdigest()
+
 
 
 def setup_function(function):
@@ -27,7 +30,10 @@ def test_to_jpeg():
     )
     assert os.path.exists(path0) == True
     assert os.path.getsize(path0) > 0
-    assert path0 == '/tmp/preview-generator-tests/cache/22dd222de01caa012b7b214747169d41-256x512-page0.jpeg'  # nopep8
+    assert path0 == (
+        '/tmp/preview-generator-tests/cache/{hash}-256x512-page0.jpeg'
+        .format(hash=FILE_HASH)
+    )
 
     with Image.open(path0) as jpeg:
         assert jpeg.height in range(361, 363)
@@ -42,7 +48,10 @@ def test_to_jpeg():
     )
     assert os.path.exists(path1) == True
     assert os.path.getsize(path1) > 0
-    assert path1 == '/tmp/preview-generator-tests/cache/22dd222de01caa012b7b214747169d41-256x512-page1.jpeg'  # nopep8
+    assert path1 == (
+        '/tmp/preview-generator-tests/cache/{hash}-256x512-page1.jpeg'
+        .format(hash=FILE_HASH)
+    )
     with Image.open(path1) as jpeg:
         assert jpeg.height in range(361, 363)
         assert jpeg.width == 256
@@ -60,7 +69,10 @@ def test_to_jpeg_no_size():
     )
     assert os.path.exists(path_to_file)
     assert os.path.getsize(path_to_file) > 0
-    assert path_to_file == '/tmp/preview-generator-tests/cache/22dd222de01caa012b7b214747169d41-256x256-page0.jpeg'  # nopep8
+    assert path_to_file == (
+        '/tmp/preview-generator-tests/cache/{hash}-256x256-page0.jpeg'
+        .format(hash=FILE_HASH)
+    )
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
         assert jpeg.width in range(180, 182)
@@ -79,7 +91,10 @@ def test_to_jpeg_no_page():
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
-    assert path_to_file == '/tmp/preview-generator-tests/cache/22dd222de01caa012b7b214747169d41-512x512.jpeg'  # nopep8
+    assert path_to_file == (
+        '/tmp/preview-generator-tests/cache/{hash}-512x512.jpeg'
+        .format(hash=FILE_HASH)
+    )
 
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 512
@@ -97,7 +112,10 @@ def test_to_jpeg_no_size_no_page():
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
-    assert path_to_file == '/tmp/preview-generator-tests/cache/22dd222de01caa012b7b214747169d41-256x256.jpeg'  # nopep8
+    assert path_to_file == (
+        '/tmp/preview-generator-tests/cache/{hash}-256x256.jpeg'
+        .format(hash=FILE_HASH)
+    )
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
         assert jpeg.width in range(180, 182)
