@@ -8,6 +8,10 @@ from preview_generator.preview.builder.office__libreoffice import OfficePreviewB
 
 class PlainTextPreviewBuilder(OfficePreviewBuilderLibreoffice):
     @classmethod
+    def get_label(cls) -> str:
+        return 'Plain text files'
+
+    @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
         return [
             'text/plain',

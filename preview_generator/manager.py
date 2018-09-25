@@ -2,6 +2,7 @@
 
 import hashlib
 import logging
+import mimetypes
 import os
 import typing
 
@@ -309,3 +310,14 @@ class PreviewManager(object):
             size=size_str,
             page=page_str
         )
+
+    def get_supported_mimetypes(self) -> typing.List[str]:
+        return self._factory.get_supported_mimetypes()
+
+    def get_file_extensions(self, mime: str) -> typing.List[str]:
+        return mimetypes.guess_extension(mime)
+
+    def get_supported_file_extensions(self) -> typing.List[str]:
+        return [
+            ext for ext in mimetypes.guess_extension(self.get_supported_mimetypes())
+        ]

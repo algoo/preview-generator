@@ -20,6 +20,9 @@ import mimetypes
 
 class ImagePreviewBuilderIMConvert(OnePagePreviewBuilder):
     """ IM means Image Magick"""
+    @classmethod
+    def get_label(cls) -> str:
+        return 'Images - based on convert command (Image magick)'
 
 
     MIMETYPES = []
@@ -37,7 +40,9 @@ class ImagePreviewBuilderIMConvert(OnePagePreviewBuilder):
             url = "./FILE.{0}".format(supported) # Fake a url
             mime, enc = mimetypes.guess_type(url)
             if mime and mime not in mimes:
-                mimes.append(mime)
+                if 'video' not in mime:
+                    #  TODO - D.A. - 2018-09-24 - Do not skip video if supported
+                    mimes.append(mime)
         return mimes
 
     @classmethod

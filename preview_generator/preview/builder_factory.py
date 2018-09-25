@@ -99,6 +99,22 @@ class PreviewBuilderFactory(object):
                 'is not implemented'.format(builder)
             )
 
+    def get_supported_mimetypes(self) -> typing.List[str]:
+        """
+        Return the list of supported mimetypes.
+        :return:
+        """
+        return [
+            mime for mime in self._builder_classes.keys()
+        ]
+
+    def get_builder_class(self, mime: str):
+        """
+        Return builder class associated to given mime type
+        :param mime: the mimetype. Eg image/jpeg
+        :return:
+        """
+        return self._builder_classes[mime]
 
 
 ###############################################################################

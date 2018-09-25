@@ -14,6 +14,10 @@ from preview_generator.utils import ImgDims
 
 class ImagePreviewBuilderPillow(OnePagePreviewBuilder):
     @classmethod
+    def get_label(cls) -> str:
+        return 'Bitmap images - based on Pillow'
+
+    @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
         return [
             'image/png',
