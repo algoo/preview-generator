@@ -319,5 +319,7 @@ class PreviewManager(object):
 
     def get_supported_file_extensions(self) -> typing.List[str]:
         return [
-            ext for ext in mimetypes.guess_extension(self.get_supported_mimetypes())
+            ext for ext in mimetypes.guess_extension(
+                self.get_supported_mimetypes()
+            )
         ]

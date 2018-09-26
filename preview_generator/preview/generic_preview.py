@@ -36,7 +36,7 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
 
     @classmethod
     def get_label(cls) -> str:
-        return self.__name__  # default label is the class name
+        return self.__name__  # default label is the class name
 
     @classmethod
     def check_dependencies(cls) -> bool:
@@ -85,7 +85,9 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         """
         generate pdf preview. No default implementation
         """
-        raise UnavailablePreviewType('No builder registered for PDF preview of {}'.format(file_path))
+        raise UnavailablePreviewType(
+            'No builder registered for PDF preview of {}'.format(file_path)
+        )
 
     def build_html_preview(
             self,
@@ -117,7 +119,6 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         with open(cache_path + preview_name + extension, 'w') as jsonfile:
             json.dump(metadata, jsonfile)
 
-
     def build_text_preview(
             self,
             file_path: str,
@@ -136,5 +137,10 @@ class OnePagePreviewBuilder(PreviewBuilder):
     """
     Generic preview handler for single page document
     """
-    def get_page_number(self, file_path: str, preview_name: str, cache_path: str) -> int:
+    def get_page_number(
+        self,
+        file_path: str,
+        preview_name: str,
+        cache_path: str
+    ) -> int:
         return 1

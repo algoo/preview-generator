@@ -18,6 +18,7 @@ from preview_generator.preview.mime import MIMETYPES_AND_EXTENSIONS
 
 PB = typing.TypeVar('PB', bound=PreviewBuilder)
 
+
 class PreviewBuilderFactory(object):
 
     _instance = None  # type: PreviewBuilderFactory
@@ -38,7 +39,9 @@ class PreviewBuilderFactory(object):
         try:
             return self._builder_classes[mimetype]()  # nopep8 get class and instantiate it
         except KeyError:
-            raise UnsupportedMimeType('Unsupported mimetype: {}'.format(mimetype))
+            raise UnsupportedMimeType(
+                'Unsupported mimetype: {}'.format(mimetype)
+            )
 
     def get_file_mimetype(self, file_path: str, file_ext: str='') -> str:
         """
@@ -87,8 +90,12 @@ class PreviewBuilderFactory(object):
             self.builders_classes.append(builder)
             for mimetype in builder.get_supported_mimetypes():
                 self._builder_classes[mimetype] = builder
-                logging.debug('register builder for {}: {}'.format(mimetype, builder.__name__))
-        except (BuilderDependencyNotFound, ExecutableNotFound ) as e:
+                logging.debug(
+                    'register builder for {}: {}'.format(
+                        mimetype, builder.__name__
+                    )
+                )
+        except (BuilderDependencyNotFound, ExecutableNotFound) as e:
             print('Builder {} is missing a dependency: {}'.format(
                 builder,
                 e.__str__()
@@ -146,6 +153,8 @@ def import_builder_module(name: str) -> None:
 
 
 SPECIFIC_MIMETYPES_LOADED = False
+
+
 def load_specific_mime_types():
     if SPECIFIC_MIMETYPES_LOADED:
         return

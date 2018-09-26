@@ -3,6 +3,8 @@
 from io import BytesIO
 import logging
 import typing
+import mimetypes
+import wand.version
 
 from wand.image import Color
 from wand.image import Image as WImage
@@ -37,10 +39,6 @@ def convert_pdf_to_jpeg(
         return output
 
 
-import mimetypes
-import wand.version
-
-
 class ImagePreviewBuilderWand(OnePagePreviewBuilder):
     MIMETYPES = []
 
@@ -57,11 +55,11 @@ class ImagePreviewBuilderWand(OnePagePreviewBuilder):
         all_supported = wand.version.formats("*")
         mimes = []
         for supported in all_supported:
-            url = "./FILE.{0}".format(supported) # Fake a url
+            url = "./FILE.{0}".format(supported)  # Fake a url
             mime, enc = mimetypes.guess_type(url)
             if mime and mime not in mimes:
                 if 'video' not in mime:
-                    #  TODO - D.A. - 2018-09-24 - Do not skip video if supported
+                    # TODO - D.A. - 2018-09-24 - Do not skip video if supported
                     mimes.append(mime)
         return mimes
 

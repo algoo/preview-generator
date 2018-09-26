@@ -9,6 +9,7 @@ import typing
 from wand.image import Image as WImage
 from preview_generator.utils import PreviewGeneratorJsonEncoder
 
+
 def txt_to_txt(text: typing.IO[typing.Any]) -> typing.IO[typing.Any]:
     logging.info('Converting text to text')
     return text
