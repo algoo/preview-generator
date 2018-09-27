@@ -27,7 +27,6 @@ SCRIPT_FOLDER_NAME = 'scripts'
 SCRIPT_NAME = 'scribus_sla_to_pdf.py'
 parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCRIPT_PATH = os.path.join(parent_dir, SCRIPT_FOLDER_NAME, SCRIPT_NAME)
-# TIMEOUT = 3
 
 
 class DocumentPreviewBuilderScribus(PreviewBuilder):
@@ -61,7 +60,6 @@ class DocumentPreviewBuilderScribus(PreviewBuilder):
         size: ImgDims=None
     ) -> None:
 
-        import ipdb; ipdb.set_trace()
         with open(file_path, 'rb') as odt:
             if os.path.exists(
                     '{path}{file_name}.pdf'.format(
