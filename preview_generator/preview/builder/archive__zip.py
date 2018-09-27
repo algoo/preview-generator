@@ -9,6 +9,7 @@ import zipfile
 from preview_generator.utils import PreviewGeneratorJsonEncoder
 from preview_generator.preview.generic_preview import OnePagePreviewBuilder
 
+
 class FileInfo(object):
     FILE = 'file'
     DIR = 'dir'
@@ -54,6 +55,7 @@ class ArchiveInfo(object):
             'lastModification': self.last_modification,
             'compressionRate': self.compression_rate
         }
+
 
 def archive_info_to_text(archive_info: ArchiveInfo) -> str:
     text = ''

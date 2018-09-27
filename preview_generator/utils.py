@@ -64,6 +64,7 @@ class ImgDims(object):
     def __str__(self):
         return '{}x{}'.format(self.width, self.height)
 
+
 class CropDims(object):
     def __init__(self, left: int, top: int, right: int, bottom: int) -> None:
         self.left = left
@@ -72,7 +73,9 @@ class CropDims(object):
         self.bottom = bottom
 
     def __str__(self):
-        return '({},{}) x ({},{})'.format(self.left, self.top, self.right, self.bottom)
+        return '({},{}) x ({},{})'.format(
+            self.left, self.top, self.right, self.bottom
+        )
 
 
 def compute_resize_dims(dims_in: ImgDims, dims_out: ImgDims) -> ImgDims:
@@ -111,6 +114,7 @@ def compute_crop_dims(dims_in: ImgDims, dims_out: ImgDims) -> CropDims:
         right=right,
         bottom=lower
     )
+
 
 def check_executable_is_available(executable_name: str) -> bool:
     """

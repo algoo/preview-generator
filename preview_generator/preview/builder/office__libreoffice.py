@@ -9,6 +9,7 @@ from subprocess import STDOUT
 import time
 import typing
 
+from pathlib import Path
 from PyPDF2 import PdfFileReader
 from PyPDF2 import PdfFileWriter
 
@@ -18,7 +19,6 @@ from preview_generator.preview.generic_preview import PreviewBuilder
 from preview_generator.utils import check_executable_is_available
 from preview_generator.utils import ImgDims
 from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
-from pathlib import Path
 
 
 class OfficePreviewBuilderLibreoffice(PreviewBuilder):
@@ -39,15 +39,14 @@ class OfficePreviewBuilderLibreoffice(PreviewBuilder):
                 'this builder requires libreoffice to be available'
             )
 
-
     def build_jpeg_preview(
-            self,
-            file_path: str,
-            preview_name: str,
-            cache_path: str,
-            page_id: int,
-            extension: str = '.jpg',
-            size: ImgDims=None
+        self,
+        file_path: str,
+        preview_name: str,
+        cache_path: str,
+        page_id: int,
+        extension: str = '.jpg',
+        size: ImgDims=None
     ) -> None:
 
         with open(file_path, 'rb') as odt:
@@ -62,8 +61,8 @@ class OfficePreviewBuilderLibreoffice(PreviewBuilder):
                     ), 'rb')
 
             else:
-                if self.cache_file_process_already_running(
-                                cache_path + preview_name):
+                full_path = os.path.join(cache_path, preview_name)
+                if self.cache_file_process_already_running(full_path):
                     time.sleep(2)
                     return self.build_jpeg_preview(
                         file_path=file_path,
@@ -102,8 +101,12 @@ class OfficePreviewBuilderLibreoffice(PreviewBuilder):
                     jpeg_output_stream.write(buffer)
                     buffer = jpeg_stream.read(1024)
 
-    def get_page_number(self, file_path: str, preview_name: str,
-                        cache_path: str) -> int:
+    def get_page_number(
+        self,
+        file_path: str,
+        preview_name: str,
+        cache_path: str
+    ) -> int:
 
         page_nb_file_path = cache_path + preview_name + '_page_nb'
 
@@ -174,7 +177,9 @@ class OfficePreviewBuilderLibreoffice(PreviewBuilder):
             return  # in this case, the intermediate file is the requested one
 
         pdf_in = PdfFileReader(intermediate_pdf_file_path)
-        output_file_path = os.path.join(cache_path, '{}{}'.format(preview_name, extension))
+        output_file_path = os.path.join(
+            cache_path, '{}{}'.format(preview_name, extension)
+        )
         pdf_out = PdfFileWriter()
         pdf_out.addPage(pdf_in.getPage(page_id))
 
@@ -186,6 +191,7 @@ class OfficePreviewBuilderLibreoffice(PreviewBuilder):
             return True
         else:
             return False
+
 
 def create_flag_file(filepath: str) -> str:
     """
@@ -245,7 +251,9 @@ def convert_office_document_to_pdf(
         )
     # HACK - D.A. - 2018-05-31 - name is defined by libreoffice
     # according to input file name, for homogeneity we prefer to rename it
-    logging.debug('renaming output file {} to {}'.format(output_filepath+'.pdf', output_filepath))
+    logging.debug('renaming output file {} to {}'.format(
+        output_filepath+'.pdf', output_filepath)
+    )
     os.rename(output_filepath+'.pdf', output_filepath)
 
     logging.debug('Removing flag file {}'.format(flag_file_path))

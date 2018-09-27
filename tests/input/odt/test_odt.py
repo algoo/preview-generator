@@ -14,7 +14,6 @@ IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, 'the_jpeg.jpeg')
 FILE_HASH = hashlib.md5(IMAGE_FILE_PATH.encode('utf-8')).hexdigest()
 
 
-
 def setup_function(function):
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
 
@@ -28,7 +27,7 @@ def test_to_jpeg():
         page=0,
         force=True
     )
-    assert os.path.exists(path0) == True
+    assert os.path.exists(path0) is True
     assert os.path.getsize(path0) > 0
     assert path0 == (
         '/tmp/preview-generator-tests/cache/{hash}-256x512-page0.jpeg'
@@ -46,7 +45,7 @@ def test_to_jpeg():
         page=1,
         force=True
     )
-    assert os.path.exists(path1) == True
+    assert os.path.exists(path1) is True
     assert os.path.getsize(path1) > 0
     assert path1 == (
         '/tmp/preview-generator-tests/cache/{hash}-256x512-page1.jpeg'
@@ -89,7 +88,7 @@ def test_to_jpeg_no_page():
         width=512,
         force=True
     )
-    assert os.path.exists(path_to_file) == True
+    assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
     assert path_to_file == (
         '/tmp/preview-generator-tests/cache/{hash}-512x512.jpeg'
@@ -110,7 +109,7 @@ def test_to_jpeg_no_size_no_page():
         file_path=os.path.join(CURRENT_DIR, 'the_odt.odt'),
         force=True
     )
-    assert os.path.exists(path_to_file) == True
+    assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
     assert path_to_file == (
         '/tmp/preview-generator-tests/cache/{hash}-256x256.jpeg'

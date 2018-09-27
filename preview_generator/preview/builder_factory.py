@@ -8,6 +8,9 @@ import os
 from os.path import dirname, basename, isfile
 import typing
 
+from subprocess import Popen
+from subprocess import PIPE
+
 from preview_generator.exception import UnsupportedMimeType
 from preview_generator.exception import BuilderNotLoaded
 from preview_generator.exception import BuilderDependencyNotFound
@@ -52,6 +55,18 @@ class PreviewBuilderFactory(object):
             mime = magic.Magic(mime=True)
             _str = mime.from_file(file_path)
 
+        if _str and (_str in ['text/xml', 'text/plain']):
+            raw_mime = Popen(
+                ['mimetype', file_path],
+                stdin=PIPE, stdout=PIPE, stderr=PIPE
+            ).communicate()[0]
+            _str = (
+                raw_mime
+                .decode("utf-8")
+                .replace(file_path, '')
+                .replace(': ', '')
+                .replace('\n', '')
+            )
         if not _str or _str == 'application/octet-stream':
             complete_path = file_path + '.' + file_ext
             _str, encoding = mimetypes.guess_type(complete_path)
