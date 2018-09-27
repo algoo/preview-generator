@@ -137,6 +137,7 @@ class OnePagePreviewBuilder(PreviewBuilder):
     """
     Generic preview handler for single page document
     """
+
     def get_page_number(
         self,
         file_path: str,

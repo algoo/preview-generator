@@ -789,12 +789,24 @@ From scratch on a terminal :
      * `pip install PyPDF2`
      * `pip install python-magic`
      * `pip install Sweepatic-PyExifTool`
+     * `pip install packaging`
      * if you use python 3.5 or less `pip install typing`
 
 .. code:: console
 
   apt-get install libjpeg-dev libjpeg-dev python3-pythonmagick inkscape
-  pip install wand pillow PyPDF2 python-magic Sweepatic-PyExifTool
+  pip install wand pillow PyPDF2 python-magic Sweepatic-PyExifTool packaging
+
+If you need to preview scribus `.sla` files you will need scribus >= 1.5.
+If it's not available in your distribution you can use an AppImage.
+
+Download the last AppImage from the official website https://www.scribus.net/downloads/unstable-branch/
+
+.. code:: console
+
+  mv /path/to/image/scribus-x.y.appimage /usr/local/bin/scribus
+  chmod +x /usr/local/bin/scribus
+
 
 
 Running Pytest :
