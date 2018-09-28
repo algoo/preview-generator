@@ -785,7 +785,7 @@ From scratch on a terminal :
      * `apt-get install python3-pythonmagick`
      * `apt-get install inkscape`
      * `pip install wand`
-     * `pip install pillow`
+     * `pip install Pillow`
      * `pip install PyPDF2`
      * `pip install python-magic`
      * `pip install pyexifinfo`
@@ -795,7 +795,7 @@ From scratch on a terminal :
 .. code:: console
 
   apt-get install libjpeg-dev libjpeg-dev python3-pythonmagick inkscape
-  pip install wand pillow PyPDF2 python-magic pyexifinfo packaging
+  pip install wand Pillow PyPDF2 python-magic pyexifinfo packaging
 
 If you need to preview scribus `.sla` files you will need scribus >= 1.5.
 If it's not available in your distribution you can use an AppImage.
