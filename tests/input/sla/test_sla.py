@@ -14,7 +14,7 @@ from wand.image import Image as WandImage
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = '/tmp/preview-generator-tests/cache'
-TEST_FILE_NAME = 'the_double_sla.sla'
+TEST_FILE_NAME = 'DoublePage.sla'
 IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, TEST_FILE_NAME)
 PDF_FILE_HASH = hashlib.md5(IMAGE_FILE_PATH.encode('utf-8')).hexdigest()
 JPEG_FILE_HASH = hashlib.md5(os.path.join(

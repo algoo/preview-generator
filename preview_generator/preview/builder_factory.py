@@ -50,28 +50,28 @@ class PreviewBuilderFactory(object):
         """
         return the mimetype of the file. see python module mimetype
         """
-        _str, encoding = mimetypes.guess_type(file_path, strict=False)
-        if not _str or _str == 'application/octet-stream':
+        str_, encoding = mimetypes.guess_type(file_path, strict=False)
+        if not str_ or str_ == 'application/octet-stream':
             mime = magic.Magic(mime=True)
-            _str = mime.from_file(file_path)
+            str_ = mime.from_file(file_path)
 
-        if _str and (_str in ['text/xml', 'text/plain']):
+        if str_ and (str_ in ['text/xml', 'text/plain']):
             raw_mime = Popen(
                 ['mimetype', file_path],
                 stdin=PIPE, stdout=PIPE, stderr=PIPE
             ).communicate()[0]
-            _str = (
+            str_ = (
                 raw_mime
                 .decode("utf-8")
                 .replace(file_path, '')
                 .replace(': ', '')
                 .replace('\n', '')
             )
-        if not _str or _str == 'application/octet-stream':
+        if not str_ or str_ == 'application/octet-stream':
             complete_path = file_path + '.' + file_ext
-            _str, encoding = mimetypes.guess_type(complete_path)
+            str_, encoding = mimetypes.guess_type(complete_path)
 
-        return _str
+        return str_
 
     def load_builders(self, force: bool=False) -> None:
         """

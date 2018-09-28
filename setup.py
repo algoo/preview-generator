@@ -33,7 +33,6 @@ install_requires = [
     'Wand',
     'PyPDF2',
     'Pillow',
-    'wand',
     'pyexifinfo',
     'packaging',
 ]

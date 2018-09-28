@@ -779,7 +779,6 @@ From scratch on a terminal :
   - install dependencies :
 
      * Exiftool - Follow instruction on the main website: https://sno.phy.queensu.ca/~phil/exiftool/
-
      * `apt-get install zlib1g-dev`
      * `apt-get install libjpeg-dev`
      * `apt-get install python3-pythonmagick`
@@ -792,10 +791,18 @@ From scratch on a terminal :
      * `pip install packaging`
      * if you use python 3.5 or less `pip install typing`
 
+
 .. code:: console
 
-  apt-get install libjpeg-dev libjpeg-dev python3-pythonmagick inkscape
-  pip install wand Pillow PyPDF2 python-magic pyexifinfo packaging
+  # general dependencies
+  apt-get install libjpeg-dev libjpeg-dev python3-pythonmagick inkscape xvfb
+  pip install wand Pillow PyPDF2 python-magic pyexifinfo packaging xvfbwrapper
+  # Exiftool
+  wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz
+  gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf -
+  cd Image-ExifTool-11.11
+  perl Makefile.PL
+  sudo make install
 
 If you need to preview scribus `.sla` files you will need scribus >= 1.5.
 If it's not available in your distribution you can use an AppImage.

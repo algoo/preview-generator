@@ -26,6 +26,8 @@ from preview_generator.preview.builder.document_generic import DocumentPreviewBu
 from preview_generator.preview.builder.document_generic import create_flag_file
 from preview_generator.preview.builder.document_generic import write_file_content
 
+from xvfbwrapper import Xvfb
+
 
 SCRIPT_FOLDER_NAME = 'scripts'
 SCRIPT_NAME = 'scribus_sla_to_pdf.py'
@@ -88,7 +90,7 @@ def convert_sla_to_pdf(
         ))
         result = check_call(
             [
-                'scribus', '-g', '-py', SCRIPT_PATH,
+                'xvfb-run', 'scribus', '-g', '-py', SCRIPT_PATH,
                 output_filepath, '--', temporary_input_content_path
             ],
             stdout=DEVNULL, stderr=STDOUT

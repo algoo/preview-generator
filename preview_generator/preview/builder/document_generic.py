@@ -23,19 +23,21 @@ from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
 
 class DocumentPreviewBuilder(PreviewBuilder):
 
-    """
-    abstract function to transform a file given in bytes to pdf
-    :param file_content: stream
-    :param input_extension: str
-    :param cache_path: str
-    :param output_filepath: str
-    """
     def _convert_to_pdf(
         file_content: typing.IO[bytes],
         input_extension: str,
         cache_path: str,
         output_filepath: str
     ) -> BytesIO:
+
+        """
+        abstract function to transform a file given in bytes to pdf
+        :param file_content: stream
+        :param input_extension: str
+        :param cache_path: str
+        :param output_filepath: str
+        """
+
         raise NotImplementedError
 
     def _cache_file_process_already_running(self, file_name: str) -> bool:
@@ -118,6 +120,9 @@ class DocumentPreviewBuilder(PreviewBuilder):
         if not os.path.exists(intermediate_pdf_file_path):
             if os.path.exists(intermediate_pdf_file_path + '_flag'):
                 # Wait 2 seconds, then retry
+                # Info - B.L - 2018/09/28 - Protection for concurent file access
+                # If two person try to preview the same file one will override the file
+                # while the other is reading it.
                 time.sleep(2)
                 return self.build_pdf_preview(
                     file_path=file_path,
