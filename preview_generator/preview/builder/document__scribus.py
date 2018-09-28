@@ -88,13 +88,14 @@ def convert_sla_to_pdf(
             temporary_input_content_path,
             cache_path
         ))
-        result = check_call(
-            [
-                'xvfb-run', 'scribus', '-g', '-py', SCRIPT_PATH,
-                output_filepath, '--', temporary_input_content_path
-            ],
-            stdout=DEVNULL, stderr=STDOUT
-        )
+        with Xvfb() as xvfb:
+            result = check_call(
+                [
+                    'scribus', '-g', '-py', SCRIPT_PATH,
+                    output_filepath, '--', temporary_input_content_path
+                ],
+                stdout=DEVNULL, stderr=STDOUT
+            )
 
     # HACK - D.A. - 2018-05-31 - name is defined by libreoffice
     # according to input file name, for homogeneity we prefer to rename it
