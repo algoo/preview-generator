@@ -2,11 +2,12 @@
 
 from io import BytesIO
 
-import exiftool
 import json
 import logging
 import os
 import typing
+
+import pyexifinfo
 
 from preview_generator import file_converter
 from preview_generator.exception import UnavailablePreviewType
@@ -112,9 +113,7 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         """
         generate the json preview. Default implementation is based on ExifTool
         """
-        metadata = {}
-        with exiftool.ExifTool() as et:
-            metadata = et.get_metadata(file_path)
+        metadata = pyexifinfo.get_json(file_path)[0]
 
         with open(cache_path + preview_name + extension, 'w') as jsonfile:
             json.dump(metadata, jsonfile)
