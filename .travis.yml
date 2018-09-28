@@ -1,4 +1,4 @@
-sudo: false
+sudo: true
 language: python
 python:
   - "3.4"
@@ -12,7 +12,7 @@ addons:
 
 install:
   # Install specific version of exiftool
-  - wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz && gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf - && cd Image-ExifTool-11.11 && perl Makefile.PL && make install
+  - wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz && gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf - && cd Image-ExifTool-11.11 && perl Makefile.PL && sudo make install
   - python setup.py install
   - pip install preview-generator
   - pip install pytest
