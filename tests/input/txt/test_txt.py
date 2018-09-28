@@ -20,5 +20,15 @@ def test_text_to_jpeg():
         file_path=os.path.join(CURRENT_DIR, 'the_text.txt'),
         force=True
     )
-    assert os.path.exists(path_to_file) == True
+    assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
+
+
+def test_to_pdf():
+
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+    path_to_file = manager.get_pdf_preview(
+        file_path=os.path.join(CURRENT_DIR, 'the_text.txt'),
+        force=True
+    )
+    assert os.path.exists(path_to_file) is True

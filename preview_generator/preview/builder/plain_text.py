@@ -20,9 +20,13 @@ class PlainTextPreviewBuilder(OfficePreviewBuilderLibreoffice):
             'application/javascript'
         ]
 
-    def build_text_preview(self, file_path: str, preview_name: str,
-                           cache_path: str, page_id: int = 0,
-                           extension: str = '.txt') -> None:
+    def build_text_preview(
+        self,
+        file_path: str,
+        preview_name: str,
+        cache_path: str, page_id: int = 0,
+        extension: str = '.txt'
+    ) -> None:
         """
         generate the text preview
         """
