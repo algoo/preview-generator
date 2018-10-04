@@ -81,8 +81,9 @@ class DocumentPreviewBuilder(PreviewBuilder):
         if not input_pdf_stream:
             with open(file_path, 'rb') as _file:
                 file, file_extension = os.path.splitext(file_path)
+                output_path = os.path.join(cache_path, preview_name)
                 input_pdf_stream = self._convert_to_pdf(
-                    _file, file_extension, cache_path, preview_name
+                    _file, file_extension, cache_path, output_path
                 )
 
         input_pdf = PdfFileReader(input_pdf_stream)

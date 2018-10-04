@@ -31,14 +31,12 @@ class PlainTextPreviewBuilder(OfficePreviewBuilderLibreoffice):
         generate the text preview
         """
         with open(file_path, 'rb') as txt:
-            result = file_converter.txt_to_txt(
-                txt)  # type: typing.IO[typing.Any]
             with open('{path}{extension}'.format(
                     path=cache_path + preview_name,
                     extension=extension
             ),
-                    'wb') as jpeg:
-                buffer = result.read(1024)
+                    'wb') as output_text:
+                buffer = txt.read(1024)
                 while buffer:
-                    jpeg.write(buffer)
-                    buffer = result.read(1024)
+                    output_text.write(buffer)
+                    buffer = txt.read(1024)
