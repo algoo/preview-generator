@@ -10,6 +10,7 @@
 
 import os
 import scribus
+import sys
 
 if scribus.haveDoc():
     pdf = scribus.PDFfile()

@@ -43,6 +43,7 @@ class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
             # BUG - 2018/09/26 - Basile - using '-v' on scribus >= 1.5 gives
             # the version then crash, using FileNotFoundError to make the diff
             result = check_call(['scribus', '-v'])
+            return True
         except FileNotFoundError:
             return False
         except CalledProcessError:

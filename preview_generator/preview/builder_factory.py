@@ -29,7 +29,7 @@ class PreviewBuilderFactory(object):
     def __init__(self) -> None:
         self.builders_loaded = False
         self.builders_classes = []  # type: typing.List[typing.Any]
-        self._builder_classes = {}  # type: typing.Dict[typing.Any]
+        self._builder_classes = {}  # type: typing.Dict[str, type]
 
     def get_preview_builder(
             self,
@@ -130,7 +130,7 @@ class PreviewBuilderFactory(object):
             mime for mime in self._builder_classes.keys()
         ]
 
-    def get_builder_class(self, mime: str):
+    def get_builder_class(self, mime: str) -> type:
         """
         Return builder class associated to given mime type
         :param mime: the mimetype. Eg image/jpeg
@@ -165,18 +165,3 @@ def import_builder_module(name: str) -> None:
     _import = 'from preview_generator.preview.builder.{module} import *'.format(module=name)  # nopep8
     exec(_import)
     logging.info('Builder module loaded: {}'.format(name))
-
-
-SPECIFIC_MIMETYPES_LOADED = False
-
-
-def load_specific_mime_types():
-    if SPECIFIC_MIMETYPES_LOADED:
-        return
-
-    for m in MIMETYPES_AND_EXTENSIONS.strip().split('\n'):
-        mimetype_and_extensions = m.split(' ')
-        mimetype = mimetype_and_extensions[0]
-        extensions = mimetype_and_extensions[1:]
-        for ext in extensions:
-            mimetypes.add_type(mimetype, '.{ext}'.format(ext=ext))

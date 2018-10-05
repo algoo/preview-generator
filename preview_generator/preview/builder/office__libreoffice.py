@@ -31,7 +31,7 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
-        return LO_MIMETYPES.keys()  # type: typing.List[str]
+        return [k for k in typing.cast(str, LO_MIMETYPES.keys())]
 
     @classmethod
     def check_dependencies(cls) -> bool:

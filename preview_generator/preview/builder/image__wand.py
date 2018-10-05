@@ -40,7 +40,7 @@ def convert_pdf_to_jpeg(
 
 
 class ImagePreviewBuilderWand(OnePagePreviewBuilder):
-    MIMETYPES = []
+    MIMETYPES = []  # type: typing.List[str]
 
     @classmethod
     def get_label(cls) -> str:
@@ -53,7 +53,7 @@ class ImagePreviewBuilderWand(OnePagePreviewBuilder):
         :return: list of supported mime types
         """
         all_supported = wand.version.formats("*")
-        mimes = []
+        mimes = []  # type: typing.List[str]
         for supported in all_supported:
             url = "./FILE.{0}".format(supported)  # Fake a url
             mime, enc = mimetypes.guess_type(url)

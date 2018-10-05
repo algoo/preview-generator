@@ -19,11 +19,12 @@ from preview_generator.preview.generic_preview import PreviewBuilder
 from preview_generator.utils import check_executable_is_available
 from preview_generator.utils import ImgDims
 from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
-
+from preview_generator.exception import PreviewGeneratorException
 
 class DocumentPreviewBuilder(PreviewBuilder):
 
     def _convert_to_pdf(
+        self,
         file_content: typing.IO[bytes],
         input_extension: str,
         cache_path: str,
@@ -54,7 +55,7 @@ class DocumentPreviewBuilder(PreviewBuilder):
         page_id: int,
         extension: str='.jpg',
         size: ImgDims=None,
-        attempt=0
+        attempt:int =0
     ) -> None:
 
         cache_file = os.path.join(cache_path, preview_name)
@@ -206,7 +207,7 @@ def create_flag_file(filepath: str) -> str:
 def write_file_content(
         file_content: typing.IO[bytes],
         output_filepath: str
-):
+) -> None:
     with open(output_filepath, 'wb') as temporary_file:
         file_content.seek(0, 0)
         buffer = file_content.read(1024)

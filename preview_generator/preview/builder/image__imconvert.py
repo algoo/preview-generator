@@ -20,7 +20,7 @@ import mimetypes
 
 class ImagePreviewBuilderIMConvert(OnePagePreviewBuilder):
 
-    MIMETYPES = []
+    MIMETYPES = []  # type: typing.List[str]
 
     """ IM means Image Magick"""
     @classmethod
@@ -35,7 +35,7 @@ class ImagePreviewBuilderIMConvert(OnePagePreviewBuilder):
         """
 
         all_supported = wand.version.formats("*")
-        mimes = []
+        mimes = []  # type: typing.List[str]
         for supported in all_supported:
             url = "./FILE.{0}".format(supported)  # Fake a url
             mime, enc = mimetypes.guess_type(url)

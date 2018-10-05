@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 from io import BytesIO
 import json
 import logging
@@ -15,14 +16,14 @@ class FileInfo(object):
     DIR = 'dir'
     UNDEFINED = 'undefined'
 
-    def __init__(self):
-        self.last_modification = None
+    def __init__(self) -> None:
+        self.last_modification = None  # type: datetime
         self.name = ''
         self.type = FileInfo.UNDEFINED
         self.size = 0
         self.size__compressed = 0
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
         return {
             'lastModification': self.last_modification,
             'name': self.name,
@@ -32,21 +33,21 @@ class FileInfo(object):
 
 
 class ArchiveInfo(object):
-    def __init__(self):
-        self.files = []  # typing.List[FileInfo]
+    def __init__(self) -> None:
+        self.files = []  # type: typing.List[FileInfo]
         self.size = 0
         self.size__compressed = 0
-        self.last_modification = None
+        self.last_modification = None  # type: datetime
 
     @property
     def compression_rate(self) -> float:
         return self.size / self.size__compressed
 
     @property
-    def file_nb(self):
+    def file_nb(self) -> int:
         return len(self.files)
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
         return {
             'fileNb': self.file_nb,
             'files': [file.to_dict() for file in self.files],
@@ -183,7 +184,6 @@ class ZipPreviewBuilder(OnePagePreviewBuilder):
         archive_info = ArchiveInfo()
         for ziplineinfo in zipfile.infolist():
             fileinfo = FileInfo()
-            from datetime import datetime
             fileinfo.last_modification = datetime(
                 year=ziplineinfo.date_time[0],
                 month=ziplineinfo.date_time[1],

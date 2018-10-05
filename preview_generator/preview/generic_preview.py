@@ -37,7 +37,7 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
 
     @classmethod
     def get_label(cls) -> str:
-        return self.__name__  # default label is the class name
+        return cls.__name__  # default label is the class name
 
     @classmethod
     def check_dependencies(cls) -> bool:

@@ -61,7 +61,7 @@ class ImgDims(object):
         self.width = width
         self.height = height
 
-    def __str__(self):
+    def __str__(self) -> str:
         return '{}x{}'.format(self.width, self.height)
 
 
@@ -72,7 +72,7 @@ class CropDims(object):
         self.right = right
         self.bottom = bottom
 
-    def __str__(self):
+    def __str__(self) -> str:
         return '({},{}) x ({},{})'.format(
             self.left, self.top, self.right, self.bottom
         )
