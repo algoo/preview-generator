@@ -152,6 +152,6 @@ def test_to_pdf_no_page():
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__PDF, path_to_file)
-    assert path_to_file == '/tmp/preview-generator-tests/cache/565e100b2c2337222cf1a551f36c17e7.pdf'  # nopep8
+
     with WandImage(filename=path_to_file) as pdf:
         assert len(pdf.sequence) == 2
