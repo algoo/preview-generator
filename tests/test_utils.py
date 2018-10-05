@@ -74,3 +74,12 @@ def test_compute_resize_dims_right_limits():
 def test_check_dependencies():
     from preview_generator.preview.builder.office__libreoffice import OfficePreviewBuilderLibreoffice
     OfficePreviewBuilderLibreoffice.check_dependencies()
+
+CACHE_FILE_PATH_PATTERN__JPEG = '/tmp/preview-generator-tests/cache/[abcdef0123456789]{32}-[0-9]*x[0-9]*.jpeg'
+CACHE_FILE_PATH_PATTERN_WITH_PAGE__JPEG = '/tmp/preview-generator-tests/cache/[abcdef0123456789]{32}-[0-9]*x[0-9]*-page[[0-9]*.jpeg'
+
+CACHE_FILE_PATH_PATTERN__PDF = '/tmp/preview-generator-tests/cache/[abcdef0123456789]{32}.pdf'
+CACHE_FILE_PATH_PATTERN_WITH_PAGE__PDF = '/tmp/preview-generator-tests/cache/[abcdef0123456789]{32}-page[[0-9]*.pdf'
+
+CACHE_FILE_PATH_PATTERN__JSON = '/tmp/preview-generator-tests/cache/[abcdef0123456789]{32}.json'
+CACHE_FILE_PATH_PATTERN_WITH_PAGE__JSON = '/tmp/preview-generator-tests/cache/[abcdef0123456789]{32}-page[[0-9]*.json'

@@ -6,11 +6,13 @@ from PIL import Image
 import pytest
 import shutil
 import hashlib
+import re
+from wand.image import Image as WandImage
 
 from preview_generator.exception import UnavailablePreviewType
 from preview_generator.manager import PreviewManager
-from wand.image import Image as WandImage
 
+from tests import test_utils
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = '/tmp/preview-generator-tests/cache'
@@ -67,6 +69,7 @@ def test_to_pdf_no_page():
     assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
     assert path_to_file == (os.path.join(CACHE_DIR, PDF_FILE_HASH + '.pdf'))
+
     with WandImage(filename=path_to_file) as pdf:
         assert len(pdf.sequence) == 2
 
@@ -82,10 +85,7 @@ def test_to_jpeg():
     )
     assert os.path.exists(path0) is True
     assert os.path.getsize(path0) > 0
-    assert path0 == (os.path.join(
-            CACHE_DIR, JPEG_FILE_HASH + '-256x512-page0.jpeg'
-        )
-    )
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__JPEG, path0)
 
     with Image.open(path0) as jpeg:
         assert jpeg.height == 357
@@ -100,10 +100,8 @@ def test_to_jpeg():
     )
     assert os.path.exists(path1) is True
     assert os.path.getsize(path1) > 0
-    assert path1 == (os.path.join(
-            CACHE_DIR, JPEG_FILE_HASH + '-256x512-page1.jpeg'
-        )
-    )
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__JPEG, path1)
+
     with Image.open(path1) as jpeg:
         assert jpeg.height == 357
         assert jpeg.width == 256
@@ -121,10 +119,8 @@ def test_to_jpeg_no_size():
     )
     assert os.path.exists(path_to_file)
     assert os.path.getsize(path_to_file) > 0
-    assert path_to_file == (os.path.join(
-            CACHE_DIR, JPEG_FILE_HASH + '-256x256-page0.jpeg'
-        )
-    )
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__JPEG, path_to_file)
+
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
         assert jpeg.width == 184
@@ -143,10 +139,7 @@ def test_to_jpeg_no_page():
     )
     assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
-    assert path_to_file == (os.path.join(
-            CACHE_DIR, JPEG_FILE_HASH + '-512x512.jpeg'
-        )
-    )
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
 
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 512
@@ -164,10 +157,8 @@ def test_to_jpeg_no_size_no_page():
     )
     assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
-    assert path_to_file == (os.path.join(
-            CACHE_DIR, JPEG_FILE_HASH + '-256x256.jpeg'
-        )
-    )
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
+
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
         assert jpeg.width == 184

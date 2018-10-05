@@ -7,12 +7,14 @@ import shutil
 import hashlib
 
 from preview_generator.manager import PreviewManager
+import re
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = '/tmp/preview-generator-tests/cache'
 IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, 'the_jpeg.jpeg')
 FILE_HASH = hashlib.md5(IMAGE_FILE_PATH.encode('utf-8')).hexdigest()
 
+from tests import test_utils
 
 def setup_function(function):
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
@@ -29,10 +31,7 @@ def test_to_jpeg():
     )
     assert os.path.exists(path0)
     assert os.path.getsize(path0) > 0
-    assert path0 == (
-        '/tmp/preview-generator-tests/cache/{hash}-256x512-page0.jpeg'
-        .format(hash='22dd222de01caa012b7b214747169d41') #FILE_HASH)
-    )
+    re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__JPEG, path0)
 
     with Image.open(path0) as jpeg:
         assert jpeg.height in range(361, 363)
@@ -47,10 +46,8 @@ def test_to_jpeg():
     )
     assert os.path.exists(path1)
     assert os.path.getsize(path1) > 0
-    assert path1 == (
-        '/tmp/preview-generator-tests/cache/{hash}-256x512-page1.jpeg'
-        .format(hash='22dd222de01caa012b7b214747169d41') #FIXME FILE_HASH)
-    )
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__JPEG, path1)
+
     with Image.open(path1) as jpeg:
         assert jpeg.height in range(361, 363)
         assert jpeg.width == 256
@@ -68,10 +65,8 @@ def test_to_jpeg_no_size():
     )
     assert os.path.exists(path_to_file)
     assert os.path.getsize(path_to_file) > 0
-    assert path_to_file == (
-        '/tmp/preview-generator-tests/cache/{hash}-256x256-page0.jpeg'
-        .format(hash=FILE_HASH)
-    )
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__JPEG, path_to_file)
+
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
         assert jpeg.width in range(180, 182)
@@ -90,10 +85,7 @@ def test_to_jpeg_no_page():
     )
     assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
-    assert path_to_file == (
-        '/tmp/preview-generator-tests/cache/{hash}-512x512.jpeg'
-        .format(hash=FILE_HASH)
-    )
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
 
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 512
@@ -111,10 +103,8 @@ def test_to_jpeg_no_size_no_page():
     )
     assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
-    assert path_to_file == (
-        '/tmp/preview-generator-tests/cache/{hash}-256x256.jpeg'
-        .format(hash=FILE_HASH)
-    )
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
+
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
         assert jpeg.width in range(180, 182)
@@ -129,7 +119,7 @@ def test_to_pdf_full_export():
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
-    assert path_to_file == '/tmp/preview-generator-tests/cache/565e100b2c2337222cf1a551f36c17e7.pdf'  # nopep8
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__PDF, path_to_file)
 
 
 def test_to_pdf_one_page():
@@ -141,7 +131,7 @@ def test_to_pdf_one_page():
     )
     assert os.path.exists(path_0) == True
     assert os.path.getsize(path_0) > 0
-    assert path_0 == '/tmp/preview-generator-tests/cache/565e100b2c2337222cf1a551f36c17e7-page0.pdf'  # nopep8
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__PDF, path_0)
 
     path_1 = manager.get_pdf_preview(
         file_path=os.path.join(CURRENT_DIR, 'the_odt.odt'),
@@ -150,7 +140,7 @@ def test_to_pdf_one_page():
     )
     assert os.path.exists(path_1) == True
     assert os.path.getsize(path_1) > 0
-    assert path_1 == '/tmp/preview-generator-tests/cache/565e100b2c2337222cf1a551f36c17e7-page1.pdf'  # nopep8
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__PDF, path_1)
 
 
 def test_to_pdf_no_page():
@@ -161,6 +151,7 @@ def test_to_pdf_no_page():
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__PDF, path_to_file)
     assert path_to_file == '/tmp/preview-generator-tests/cache/565e100b2c2337222cf1a551f36c17e7.pdf'  # nopep8
     with WandImage(filename=path_to_file) as pdf:
         assert len(pdf.sequence) == 2

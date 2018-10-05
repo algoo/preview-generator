@@ -6,6 +6,8 @@ from PIL import Image
 import pytest
 import shutil
 import hashlib
+from tests import test_utils
+import re
 
 from preview_generator.exception import UnavailablePreviewType
 from preview_generator.manager import PreviewManager
@@ -33,10 +35,8 @@ def test_to_jpeg():
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
-    assert path_to_file == (
-        '/tmp/preview-generator-tests/cache/{hash}-512x256.jpeg'
-        .format(hash=FILE_HASH)
-    )
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
+
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
         assert jpeg.width in range(284, 286)
@@ -56,10 +56,8 @@ def test_to_jpeg__default_size():
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
-    assert path_to_file == (
-        '/tmp/preview-generator-tests/cache/{hash}-256x256.jpeg'
-        .format(hash=FILE_HASH)
-    )
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
+
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height in range(229, 231)
         assert jpeg.width == 256
@@ -75,10 +73,7 @@ def test_to_json():
 
     assert os.path.exists(path_to_file)
     assert os.path.getsize(path_to_file) > 0
-    assert path_to_file == (
-        '/tmp/preview-generator-tests/cache/{hash}.json'
-        .format(hash=FILE_HASH)
-    )
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JSON, path_to_file)
 
     data = json.load(open(path_to_file))
     assert 'Composite:ImageSize' in data.keys()
