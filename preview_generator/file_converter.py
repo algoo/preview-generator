@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from io import BytesIO
-import json
 import logging
-from PIL import Image
 from PyPDF2 import PdfFileReader
 import typing
 from wand.image import Image as WImage
-from preview_generator.utils import PreviewGeneratorJsonEncoder
 
 
 def txt_to_txt(text: typing.IO[typing.Any]) -> typing.IO[typing.Any]:

@@ -2,7 +2,6 @@
 
 import typing
 
-from preview_generator import file_converter
 from preview_generator.preview.builder.office__libreoffice import OfficePreviewBuilderLibreoffice  # nopep8
 
 

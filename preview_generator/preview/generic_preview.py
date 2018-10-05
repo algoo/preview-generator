@@ -4,12 +4,10 @@ from io import BytesIO
 
 import json
 import logging
-import os
 import typing
 
 import pyexifinfo
 
-from preview_generator import file_converter
 from preview_generator.exception import UnavailablePreviewType
 from preview_generator.utils import ImgDims
 

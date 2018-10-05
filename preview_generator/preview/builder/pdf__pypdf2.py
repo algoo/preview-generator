@@ -6,7 +6,6 @@ from io import BytesIO
 from PyPDF2 import PdfFileReader
 from PyPDF2 import PdfFileWriter
 
-from preview_generator import file_converter
 from preview_generator.preview.generic_preview import PreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg

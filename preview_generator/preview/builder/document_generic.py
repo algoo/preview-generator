@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from io import BytesIO
-import logging
 import os
-from subprocess import check_call
-from subprocess import DEVNULL
-from subprocess import STDOUT
 import time
 import typing
 
@@ -13,13 +9,11 @@ from pathlib import Path
 from PyPDF2 import PdfFileReader
 from PyPDF2 import PdfFileWriter
 
-from preview_generator.exception import BuilderDependencyNotFound
-from preview_generator.exception import ExecutableNotFound
 from preview_generator.preview.generic_preview import PreviewBuilder
-from preview_generator.utils import check_executable_is_available
 from preview_generator.utils import ImgDims
 from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
 from preview_generator.exception import PreviewGeneratorException
+
 
 class DocumentPreviewBuilder(PreviewBuilder):
 

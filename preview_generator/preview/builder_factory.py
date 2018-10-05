@@ -17,7 +17,7 @@ from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import ExecutableNotFound
 from preview_generator.utils import get_subclasses_recursively
 from preview_generator.preview.generic_preview import PreviewBuilder
-from preview_generator.preview.mime import MIMETYPES_AND_EXTENSIONS
+
 
 PB = typing.TypeVar('PB', bound=PreviewBuilder)
 

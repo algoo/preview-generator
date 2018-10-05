@@ -11,7 +11,6 @@ from wand.image import Image as WImage
 
 from preview_generator.preview.generic_preview import OnePagePreviewBuilder
 from preview_generator.utils import ImgDims
-from preview_generator.utils import compute_crop_dims
 from preview_generator.utils import compute_resize_dims
 
 
