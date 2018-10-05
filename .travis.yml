@@ -1,14 +1,15 @@
 sudo: true
 language: python
 python:
-  - "3.4"
   - "3.5"
   - "3.6"
+  - "3.7"
 
 addons:
   apt:
     packages:
     - libreoffice
+    - scribus
 
 install:
   # Install specific version of exiftool
@@ -23,7 +24,8 @@ install:
 # command to run tests
 script:
   - "cd ${TRAVIS_BUILD_DIR} && py.test tests"
-  - "cd ${TRAVIS_BUILD_DIR} && mypy preview_generator --ignore-missing-imports --disallow-untyped-defs"
+
+#  - "cd ${TRAVIS_BUILD_DIR} && mypy preview_generator --ignore-missing-imports --disallow-untyped-defs"
 
 
                               
