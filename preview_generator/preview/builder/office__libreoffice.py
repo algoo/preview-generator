@@ -82,10 +82,13 @@ def convert_office_document_to_pdf(
         )
     # HACK - D.A. - 2018-05-31 - name is defined by libreoffice
     # according to input file name, for homogeneity we prefer to rename it
-    logging.debug('renaming output file {} to {}'.format(
-        output_filepath + '.pdf', output_filepath)
-    )
-    os.rename(output_filepath+'.pdf', output_filepath)
+    # HACK-HACK - B.L - 2018-10-8 - if file is given without its extension
+    # in its name it won't have the double ".pdf"
+    if os.path.exists(output_filepath + '.pdf'):
+        logging.debug('renaming output file {} to {}'.format(
+            output_filepath + '.pdf', output_filepath)
+        )
+        os.rename(output_filepath + '.pdf', output_filepath)
 
     logging.debug('Removing flag file {}'.format(flag_file_path))
     os.remove(flag_file_path)

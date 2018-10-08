@@ -9,10 +9,14 @@ from subprocess import DEVNULL
 from subprocess import STDOUT
 from subprocess import CalledProcessError
 
-from preview_generator.preview.builder.document_generic import DocumentPreviewBuilder
+from preview_generator.exception import BuilderDependencyNotFound
+from preview_generator.preview.builder.document_generic import (
+    DocumentPreviewBuilder
+)
 from preview_generator.preview.builder.document_generic import create_flag_file
-from preview_generator.preview.builder.document_generic import write_file_content
-
+from preview_generator.preview.builder.document_generic import(
+    write_file_content
+)
 from xvfbwrapper import Xvfb
 
 
@@ -32,7 +36,7 @@ class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
             result = check_call(['scribus', '-v'])
             return True
         except FileNotFoundError:
-            return False
+            raise BuilderDependencyNotFound
         except CalledProcessError:
             return True
 
