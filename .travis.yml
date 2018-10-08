@@ -13,19 +13,19 @@ matrix:
       dist: xenial
       sudo: true
 
-addons:
-  apt:
-    packages:
-    - libreoffice
-    # - scribus
-    - libfile-mimeinfo-perl
-    - xvfb
+# addons:
+#   apt:
+#     packages:
+#     - libreoffice
+#     # - scribus
+#     - libfile-mimeinfo-perl
+#     - xvfb
 
 install:
   # Install specific version of exiftool
   - wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz && gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf - && cd Image-ExifTool-11.11 && perl Makefile.PL && sudo make install
   - cd ..
-  - sudo apt-get install xvfb
+  - sudo apt-get install xvfb libreoffice libfile-mimeinfo-perl
   - python setup.py install
   - pip install preview-generator
   - pip install pytest
