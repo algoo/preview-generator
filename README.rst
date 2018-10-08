@@ -783,6 +783,7 @@ From scratch on a terminal :
      * `apt-get install libjpeg-dev`
      * `apt-get install python3-pythonmagick`
      * `apt-get install inkscape`
+     * `apt-get install xvfb`
      * `pip install wand`
      * `pip install Pillow`
      * `pip install PyPDF2`

@@ -35,7 +35,6 @@ install_requires = [
     'Pillow',
     'pyexifinfo',
     'packaging',
-    'xvfbwrapper',
 ]
 
 if py_version <= (3, 5):
