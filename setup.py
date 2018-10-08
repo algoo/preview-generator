@@ -35,6 +35,7 @@ install_requires = [
     'Pillow',
     'pyexifinfo',
     'packaging',
+    'pathlib',
 ]
 
 if py_version <= (3, 5):
