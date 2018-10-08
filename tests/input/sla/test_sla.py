@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import json
 import os
 from PIL import Image
-import pytest
 import shutil
 import hashlib
 import re
 from wand.image import Image as WandImage
 
-from preview_generator.exception import UnavailablePreviewType
 from preview_generator.manager import PreviewManager
 
 from tests import test_utils
@@ -119,7 +116,9 @@ def test_to_jpeg_no_size():
     )
     assert os.path.exists(path_to_file)
     assert os.path.getsize(path_to_file) > 0
-    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__JPEG, path_to_file)
+    assert re.match(
+        test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__JPEG, path_to_file
+    )
 
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256

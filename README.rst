@@ -789,6 +789,7 @@ From scratch on a terminal :
      * `pip install python-magic`
      * `pip install pyexifinfo`
      * `pip install packaging`
+     * `pip install xvfbwrapper`
      * if you use python 3.5 or less `pip install typing`
 
 

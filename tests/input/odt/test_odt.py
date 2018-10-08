@@ -9,12 +9,13 @@ import hashlib
 from preview_generator.manager import PreviewManager
 import re
 
+from tests import test_utils
+
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = '/tmp/preview-generator-tests/cache'
 IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, 'the_jpeg.jpeg')
 FILE_HASH = hashlib.md5(IMAGE_FILE_PATH.encode('utf-8')).hexdigest()
 
-from tests import test_utils
 
 def setup_function(function):
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
@@ -65,7 +66,9 @@ def test_to_jpeg_no_size():
     )
     assert os.path.exists(path_to_file)
     assert os.path.getsize(path_to_file) > 0
-    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__JPEG, path_to_file)
+    assert re.match(
+        test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__JPEG, path_to_file
+    )
 
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
@@ -117,7 +120,7 @@ def test_to_pdf_full_export():
         page=-1,
         force=True
     )
-    assert os.path.exists(path_to_file) == True
+    assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__PDF, path_to_file)
 
@@ -129,7 +132,7 @@ def test_to_pdf_one_page():
         page=0,
         force=True
     )
-    assert os.path.exists(path_0) == True
+    assert os.path.exists(path_0) is True
     assert os.path.getsize(path_0) > 0
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__PDF, path_0)
 
@@ -138,7 +141,7 @@ def test_to_pdf_one_page():
         page=1,
         force=True
     )
-    assert os.path.exists(path_1) == True
+    assert os.path.exists(path_1) is True
     assert os.path.getsize(path_1) > 0
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__PDF, path_1)
 
@@ -149,7 +152,7 @@ def test_to_pdf_no_page():
         file_path=os.path.join(CURRENT_DIR, 'the_odt.odt'),
         force=True
     )
-    assert os.path.exists(path_to_file) == True
+    assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__PDF, path_to_file)
 

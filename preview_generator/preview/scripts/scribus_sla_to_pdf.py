@@ -8,7 +8,6 @@
 # license:
 # (c) MIT Ale Rimoldi
 
-import os
 import scribus
 import sys
 

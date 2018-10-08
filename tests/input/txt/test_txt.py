@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-from PIL import Image
 import shutil
 
 from preview_generator.manager import PreviewManager

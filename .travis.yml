@@ -21,7 +21,6 @@ install:
   - python setup.py install
   - pip install preview-generator
   - pip install pytest
-  - pip install xvfbwrapper
   - python3 -m pip install -U mypy
 
 # command to run tests
