@@ -25,6 +25,8 @@ try:
     documentation = open(os.path.join(here, 'README.rst')).read()
 except IOError:
     documentation = ''
+except UnicodeDecodeError:
+    documentation = ''
 
 testpkgs = []
 
