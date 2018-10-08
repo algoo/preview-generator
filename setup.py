@@ -35,6 +35,7 @@ install_requires = [
     'Pillow',
     'pyexifinfo',
     'packaging',
+    'xvfbwrapper',
     'pathlib',
 ]
 
