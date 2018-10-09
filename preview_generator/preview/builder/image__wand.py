@@ -13,29 +13,58 @@ from preview_generator.preview.generic_preview import OnePagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import compute_resize_dims
 
+from PIL import Image
+from pdf2image import convert_from_bytes
+from pdf2image import convert_from_path
+from resizeimage import resizeimage
+import tempfile
+from itertools import chain
+
+
+# def convert_pdf_to_jpeg(
+#         pdf: typing.Union[str, typing.IO[bytes]],
+#         preview_size: ImgDims
+# ) -> BytesIO:
+#     with WImage(file=pdf) as img:
+#         # HACK - D.A. - 2017-08-01
+#         # The following 2 lines avoid black background in case of transparent
+#         # objects found on the page. As we save to JPEG, this is not a problem
+#         img.background_color = Color('white')
+#         img.alpha_channel = 'remove'
+
+#         resize_dims = compute_resize_dims(
+#             ImgDims(img.width, img.height),
+#             preview_size
+#         )
+
+#         import ipdb; ipdb.set_trace()
+#         img.resize(resize_dims.width, resize_dims.height)
+#         content_as_bytes = img.make_blob('jpeg')
+#         output = BytesIO()
+#         output.write(content_as_bytes)
+#         output.seek(0, 0)
+#         return output
+
 
 def convert_pdf_to_jpeg(
-        pdf: typing.Union[str, typing.IO[bytes]],
-        preview_size: ImgDims
+    pdf: typing.Union[str, typing.IO[bytes]],
+    preview_size: ImgDims
 ) -> BytesIO:
-    with WImage(file=pdf) as img:
-        # HACK - D.A. - 2017-08-01
-        # The following 2 lines avoid black background in case of transparent
-        # objects found on the page. As we save to JPEG, this is not a problem
-        img.background_color = Color('white')
-        img.alpha_channel = 'remove'
 
+    pdf = pdf.read()
+    images = convert_from_bytes(pdf)
+
+    output = BytesIO()
+    for image in images:
         resize_dims = compute_resize_dims(
-            ImgDims(img.width, img.height),
+            ImgDims(image.width, image.height),
             preview_size
         )
+        resized = image.resize((resize_dims.width, resize_dims.height,))
+        resized.save(output, format="JPEG")
 
-        img.resize(resize_dims.width, resize_dims.height)
-        content_as_bytes = img.make_blob('jpeg')
-        output = BytesIO()
-        output.write(content_as_bytes)
-        output.seek(0, 0)
-        return output
+    output.seek(0, 0)
+    return output
 
 
 class ImagePreviewBuilderWand(OnePagePreviewBuilder):
