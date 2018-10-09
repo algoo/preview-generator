@@ -13,12 +13,7 @@ from preview_generator.preview.generic_preview import OnePagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import compute_resize_dims
 
-from PIL import Image
 from pdf2image import convert_from_bytes
-from pdf2image import convert_from_path
-from resizeimage import resizeimage
-import tempfile
-from itertools import chain
 
 
 # def convert_pdf_to_jpeg(

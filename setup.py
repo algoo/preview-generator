@@ -39,6 +39,7 @@ install_requires = [
     'packaging',
     'xvfbwrapper',
     'pathlib',
+    'pdf2image'
 ]
 
 if py_version <= (3, 5):

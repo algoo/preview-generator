@@ -25,7 +25,7 @@ install:
   # Install specific version of exiftool
   - wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz && gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf - && cd Image-ExifTool-11.11 && perl Makefile.PL && sudo make install
   - cd ..
-  - sudo apt-get install xvfb libreoffice libfile-mimeinfo-perl inkscape libjpeg-dev -y
+  - sudo apt-get install xvfb libreoffice libfile-mimeinfo-perl inkscape -y
   - pip install xvfbwrapper
   - python setup.py install
   - pip install pytest
