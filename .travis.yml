@@ -1,5 +1,6 @@
 sudo: true
 language: python
+dist: cosmic
 python:
   - "3.3"
   - "3.4"
@@ -10,7 +11,7 @@ python:
 matrix:
   include:
     - python: 3.7
-      dist: xenial
+      dist: cosmic
       sudo: true
 
 # addons:
