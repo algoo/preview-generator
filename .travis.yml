@@ -1,6 +1,6 @@
 sudo: true
 language: python
-dist: cosmic
+dist: bionic
 python:
   - "3.3"
   - "3.4"
