@@ -14,7 +14,7 @@ from preview_generator.preview.builder.document_generic import (
     DocumentPreviewBuilder
 )
 from preview_generator.preview.builder.document_generic import create_flag_file
-from preview_generator.preview.builder.document_generic import(
+from preview_generator.preview.builder.document_generic import (
     write_file_content
 )
 from xvfbwrapper import Xvfb
@@ -36,7 +36,7 @@ class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
             result = check_call(['scribus', '-v'])
             return True
         except FileNotFoundError:
-            raise BuilderDependencyNotFound
+            raise BuilderDependencyNotFound()
         except CalledProcessError:
             return True
 
