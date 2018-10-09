@@ -10,7 +10,7 @@ python:
 matrix:
   include:
     - python: 3.7
-      dist: cosmic
+      dist: xenial
       sudo: true
 
 # addons:
