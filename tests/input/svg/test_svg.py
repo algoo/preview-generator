@@ -42,30 +42,6 @@ def test_to_jpeg():
     assert os.path.getsize(path_to_file) > 0
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
 
-    try:
-        with Image.open(path_to_file) as jpeg:
-            assert jpeg.height == 256
-            assert jpeg.width in range(358, 360)
-    except AssertionError:
-        pass
-
-    # HACK - B.L - 10/10/2018 - Bug with resize sometimes bugs 
-    # in the first try. Try a second time to be sure
-
-    manager = PreviewManager(
-        cache_folder_path=CACHE_DIR,
-        create_folder=True
-    )
-    path_to_file = manager.get_jpeg_preview(
-        file_path=IMAGE_FILE_PATH,
-        height=256,
-        width=512,
-        force=True
-    )
-    assert os.path.exists(path_to_file) is True
-    assert os.path.getsize(path_to_file) > 0
-    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
-
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
         assert jpeg.width in range(358, 360)
@@ -88,26 +64,9 @@ def test_to_jpeg__default_size():
     assert os.path.getsize(path_to_file) > 0
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
 
-    try:
-        with Image.open(path_to_file) as jpeg:
-            assert jpeg.height in range(182, 184)
-            assert 256 == jpeg.width
-    except AssertionError:
-        pass
-
-    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
-    path_to_file = manager.get_jpeg_preview(
-        file_path=IMAGE_FILE_PATH,
-        force=True
-    )
-    assert os.path.exists(path_to_file)
-    assert os.path.getsize(path_to_file) > 0
-    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
-
-    try:
-        with Image.open(path_to_file) as jpeg:
-            assert jpeg.height in range(182, 184)
-            assert 256 == jpeg.width
+    with Image.open(path_to_file) as jpeg:
+        assert jpeg.height in range(182, 184)
+        assert 256 == jpeg.width
 
 
 def test_to_json():
