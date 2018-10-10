@@ -107,6 +107,8 @@ class DocumentPreviewBuilder(PreviewBuilder):
     ) -> None:
 
         input_extension = os.path.splitext(file_path)[1]
+        if not input_extension:
+            input_extension = 'tmp'
         intermediate_pdf_filename = preview_name.split('-page')[0] + '.pdf'
         intermediate_pdf_file_path = os.path.join(
             cache_path,
