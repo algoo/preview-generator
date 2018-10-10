@@ -11,6 +11,8 @@ import re
 from preview_generator.exception import UnavailablePreviewType
 from preview_generator.manager import PreviewManager
 
+from subprocess import check_call
+
 from tests import test_utils
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -84,32 +86,28 @@ def test_to_json():
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JSON, path_to_file)
 
     data = json.load(open(path_to_file))
-    assert 'ExifTool:ExifToolVersion' in data.keys()
+    assert 'File:FileName' in data.keys()
+    assert 'SVG:MetadataID' in data.keys()
+    assert 'XMP:WorkType' in data.keys()
+    assert 'SVG:Xmlns' in data.keys()
+    assert 'File:FileTypeExtension' in data.keys()
+    assert 'SVG:Docname' in data.keys()
+    assert 'SourceFile' in data.keys()
+    assert 'File:FileInodeChangeDate' in data.keys()
     assert 'File:Directory' in data.keys()
     assert 'File:FileAccessDate' in data.keys()
-    assert 'File:FileInodeChangeDate' in data.keys()
-    assert 'File:FileModifyDate' in data.keys()
-    assert 'File:FileName' in data.keys()
-    assert 'File:FilePermissions' in data.keys()
+    assert 'ExifTool:ExifToolVersion' in data.keys()
+    assert 'SVG:ImageHeight' in data.keys()
+    assert 'SVG:Version' in data.keys()
+    assert 'SVG:ImageWidth' in data.keys()
     assert 'File:FileSize' in data.keys()
-    assert 'File:FileTypeExtension' in data.keys()
+    assert 'File:FilePermissions' in data.keys()
+    assert 'XMP:WorkFormat' in data.keys()
+    assert 'SVG:SVGVersion' in data.keys()
+    assert 'File:FileModifyDate' in data.keys()
     assert 'File:FileType' in data.keys()
     assert 'File:MIMEType' in data.keys()
-    assert 'SourceFile' in data.keys()
-    assert 'SVG:Docbase' in data.keys()
-    assert 'SVG:Docname' in data.keys()
     assert 'SVG:ID' in data.keys()
-    assert 'SVG:ImageHeight' in data.keys()
-    assert 'SVG:ImageWidth' in data.keys()
-    assert 'SVG:MetadataID' in data.keys()
-    assert 'SVG:Version' in data.keys()
-    assert 'SVG:Xmlns' in data.keys()
-    assert 'XMP:WorkFormatId' in data.keys()
-    assert 'XMP:WorkFormat' in data.keys()
-    assert 'XMP:WorkId' in data.keys()
-    assert 'XMP:WorkTypeId' in data.keys()
-    assert 'XMP:WorkType' in data.keys()
-
 
 
 def test_to_pdf():

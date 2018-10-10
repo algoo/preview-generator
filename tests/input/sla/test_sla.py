@@ -7,6 +7,7 @@ import hashlib
 import pytest
 import re
 from wand.image import Image as WandImage
+from wand.exceptions import PolicyError
 
 from preview_generator.manager import PreviewManager
 
@@ -72,8 +73,13 @@ def test_to_pdf_no_page():
     assert os.path.getsize(path_to_file) > 0
     assert path_to_file == (os.path.join(CACHE_DIR, PDF_FILE_HASH + '.pdf'))
 
-    with WandImage(filename=path_to_file) as pdf:
-        assert len(pdf.sequence) == 2
+    try:
+        with WandImage(filename=path_to_file) as pdf:
+            assert len(pdf.sequence) == 2
+    except PolicyError:
+        pytest.skip(
+            'You must update ImageMagic policy file to allow PDF files'
+        )
 
 
 def test_to_jpeg():

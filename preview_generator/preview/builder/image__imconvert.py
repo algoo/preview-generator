@@ -40,7 +40,7 @@ class ImagePreviewBuilderIMConvert(OnePagePreviewBuilder):
             url = "./FILE.{0}".format(supported)  # Fake a url
             mime, enc = mimetypes.guess_type(url)
             if mime and mime not in mimes:
-                if 'video' not in mime:
+                if ('video' and 'image/svg+xml') not in mime:
                     # TODO - D.A. - 2018-09-24 - Do not skip video if supported
                     mimes.append(mime)
         return mimes

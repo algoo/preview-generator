@@ -32,7 +32,6 @@ from pdf2image import convert_from_bytes
 #             preview_size
 #         )
 
-#         import ipdb; ipdb.set_trace()
 #         img.resize(resize_dims.width, resize_dims.height)
 #         content_as_bytes = img.make_blob('jpeg')
 #         output = BytesIO()

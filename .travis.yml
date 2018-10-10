@@ -6,21 +6,6 @@ python:
   - "3.5"
   - "3.6"
 
-# Enable 3.7 without globally enabling sudo and dist: xenial for other build jobs
-matrix:
-  include:
-    - python: 3.7
-      dist: xenial
-      sudo: true
-
-# addons:
-#   apt:
-#     packages:
-#     - libreoffice
-#     # - scribus
-#     - libfile-mimeinfo-perl
-#     - xvfb
-
 install:
   # Install specific version of exiftool
   - wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz && gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf - && cd Image-ExifTool-11.11 && perl Makefile.PL && sudo make install
