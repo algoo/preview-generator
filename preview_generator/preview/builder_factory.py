@@ -55,7 +55,7 @@ class PreviewBuilderFactory(object):
             mime = magic.Magic(mime=True)
             str_ = mime.from_file(file_path)
 
-        if str_ and (str_ in ['text/xml', 'text/plain']):
+        if str_ and (str_ in ['text/xml', 'text/plain', 'application/xml']):
             raw_mime = Popen(
                 ['mimetype', file_path],
                 stdin=PIPE, stdout=PIPE, stderr=PIPE

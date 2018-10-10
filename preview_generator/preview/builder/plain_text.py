@@ -15,6 +15,7 @@ class PlainTextPreviewBuilder(OfficePreviewBuilderLibreoffice):
         return [
             'text/plain',
             'text/html',
+            'text/xml',  # Info - B.L - Compatibility between debian and ubuntu
             'application/xml',
             'application/javascript'
         ]

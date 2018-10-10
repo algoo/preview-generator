@@ -4,6 +4,7 @@ import os
 from PIL import Image
 import shutil
 import hashlib
+import pytest
 import re
 from wand.image import Image as WandImage
 
@@ -22,6 +23,10 @@ JPEG_FILE_HASH = hashlib.md5(os.path.join(
 
 def setup_function(function):
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
+    if 'TRAVIS' in os.environ:
+        pytest.skip(
+            'Experimental feature -- skipping test in travis environnement'
+        )
 
 
 def test_to_pdf_full_export():
