@@ -127,7 +127,7 @@ def test_to_jpeg_no_size():
 
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
-        assert jpeg.width == 184
+        assert jpeg.width in range(182, 185)
 
 
 def test_to_jpeg_no_page():
@@ -165,4 +165,4 @@ def test_to_jpeg_no_size_no_page():
 
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
-        assert jpeg.width == 184
+        assert jpeg.width in range(182, 185)

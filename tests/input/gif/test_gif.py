@@ -20,7 +20,7 @@ FILE_HASH = hashlib.md5(IMAGE_FILE_PATH.encode('utf-8')).hexdigest()
 
 
 def setup_function(function):
-    shutil.rmtree(CACHE_DIR)
+    shutil.rmtree(CACHE_DIR, ignore_errors=True)
 
 
 def test_to_jpeg():
@@ -34,7 +34,7 @@ def test_to_jpeg():
         width=512,
         force=True
     )
-    assert os.path.exists(path_to_file) == True
+    assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
 
@@ -56,7 +56,7 @@ def test_to_jpeg__default_size():
         file_path=IMAGE_FILE_PATH,
         force=True
     )
-    assert os.path.exists(path_to_file) == True
+    assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
 

@@ -20,7 +20,7 @@ FILE_HASH = hashlib.md5(IMAGE_FILE_PATH.encode('utf-8')).hexdigest()
 
 
 def setup_function(function):
-    shutil.rmtree(CACHE_DIR)
+    shutil.rmtree(CACHE_DIR, ignore_errors=True)
 
 algoo = ''
 def free_software_coding():

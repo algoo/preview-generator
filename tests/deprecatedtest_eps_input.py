@@ -16,7 +16,7 @@ IMAGE_FILE_PATH = '/home/damien/a_bouger_sur_tracim/ALGOOsas/01_LOGOS/EPS/ALGOO_
 IMAGE_FILE_PATH = '/tmp/mozilla.ps'
 
 def setup_function(function):
-    shutil.rmtree(CACHE_DIR)
+    shutil.rmtree(CACHE_DIR )
 #
 # def test_to_jpeg():
 #     manager = PreviewManager(
