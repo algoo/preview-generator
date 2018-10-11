@@ -35,7 +35,7 @@ def test_to_pdf():
 def test_to_pdf_no_extension():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     path_to_file = manager.get_pdf_preview(
-        file_path=os.path.join(CURRENT_DIR, 'the_text'),
+        file_path=os.path.join(CURRENT_DIR, 'the_text_no_extension'),
         force=True
     )
     assert os.path.exists(path_to_file) is True
@@ -44,7 +44,7 @@ def test_to_pdf_no_extension():
 def test_to_pdf_no_extension_extension_forced():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     path_to_file = manager.get_pdf_preview(
-        file_path=os.path.join(CURRENT_DIR, 'the_text'),
+        file_path=os.path.join(CURRENT_DIR, 'the_text_no_extension'),
         force=True,
         file_ext=".txt"
     )
