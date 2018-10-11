@@ -21,6 +21,11 @@ from preview_generator.preview.generic_preview import PreviewBuilder
 
 PB = typing.TypeVar('PB', bound=PreviewBuilder)
 
+AMBIGUOUS_MIMES = [
+    'text/xml', 'text/plain',
+    'application/xml', 'application/octet-stream'
+]
+
 
 class PreviewBuilderFactory(object):
 
@@ -51,32 +56,24 @@ class PreviewBuilderFactory(object):
         return the mimetype of the file. see python module mimetype
         """
 
-        AMBIGUOUS_MIMES = [
-            'text/xml', 'text/plain',
-            'application/xml', 'application/octet-stream'
-        ]
-
+        assert file_ext is '' or file_ext.startswith('.'), \
+            'File extension must starts with ".""'
         # INFO - B.L - 2018/10/11 - If user force the file extension we do.
-        if file_ext:
-            if not file_ext.startswith('.'):
-                file_ext = '.' + file_ext
-            file_path = file_path + file_ext
+        first_path = file_path + file_ext if file_ext else file_path
+        str_, encoding = mimetypes.guess_type(first_path, strict=False)
 
-        str_, encoding = mimetypes.guess_type(file_path, strict=False)
         if not str_ or str_ == 'application/octet-stream':
             mime = magic.Magic(mime=True)
             str_ = mime.from_file(file_path)
 
         if str_ and (str_ in AMBIGUOUS_MIMES):
             raw_mime = Popen(
-                ['mimetype', file_path],
+                ['mimetype', '--output-format', '%m', file_path],
                 stdin=PIPE, stdout=PIPE, stderr=PIPE
             ).communicate()[0]
             str_ = (
                 raw_mime
                 .decode("utf-8")
-                .replace(file_path, '')
-                .replace(': ', '')
                 .replace('\n', '')
             )
 
