@@ -2,8 +2,8 @@
 Preview-generator Documentation
 ==================================
 
-[![Build Status](https://travis-ci.org/algoo/preview-generator.svg?branch=master)](https://travis-ci.org/algoo/preview-generator)
-
+.. image:: https://travis-ci.org/algoo/preview-generator.svg?branch=master
+    :target: https://travis-ci.org/algoo/preview-generator
 ------------
 Presentation
 ------------
