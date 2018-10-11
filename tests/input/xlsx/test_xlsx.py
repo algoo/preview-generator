@@ -37,7 +37,7 @@ def test_to_pdf():
 def test_to_pdf_no_extension_extension_forced():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     path_to_file = manager.get_pdf_preview(
-        file_path=os.path.join(CURRENT_DIR, 'the_xlsx'),
+        file_path=os.path.join(CURRENT_DIR, 'the_xlsx_no_extension'),
         force=True,
         file_ext=".xlsx"
     )
@@ -50,5 +50,5 @@ def test_to_pdf_no_extension():
             cache_folder_path=CACHE_DIR, create_folder=True
         )
         manager.get_pdf_preview(
-            file_path=os.path.join(CURRENT_DIR, 'the_xlsx'),
+            file_path=os.path.join(CURRENT_DIR, 'the_xlsx_no_extension'),
         )

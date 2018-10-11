@@ -7,6 +7,7 @@ from subprocess import check_call
 from subprocess import DEVNULL
 from subprocess import STDOUT
 import typing
+import os
 
 from preview_generator.exception import ExecutableNotFound
 
