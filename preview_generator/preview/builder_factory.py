@@ -50,12 +50,24 @@ class PreviewBuilderFactory(object):
         """
         return the mimetype of the file. see python module mimetype
         """
+
+        AMBIGUOUS_MIMES = [
+            'text/xml', 'text/plain',
+            'application/xml', 'application/octet-stream'
+        ]
+
+        # INFO - B.L - 2018/10/11 - If user force the file extension we do.
+        if file_ext:
+            if not file_ext.startswith('.'):
+                file_ext = '.' + file_ext
+            file_path = file_path + file_ext
+
         str_, encoding = mimetypes.guess_type(file_path, strict=False)
         if not str_ or str_ == 'application/octet-stream':
             mime = magic.Magic(mime=True)
             str_ = mime.from_file(file_path)
 
-        if str_ and (str_ in ['text/xml', 'text/plain', 'application/xml']):
+        if str_ and (str_ in AMBIGUOUS_MIMES):
             raw_mime = Popen(
                 ['mimetype', file_path],
                 stdin=PIPE, stdout=PIPE, stderr=PIPE
@@ -67,9 +79,6 @@ class PreviewBuilderFactory(object):
                 .replace(': ', '')
                 .replace('\n', '')
             )
-        if not str_ or str_ == 'application/octet-stream':
-            complete_path = file_path + '.' + file_ext
-            str_, encoding = mimetypes.guess_type(complete_path)
 
         return str_
 
