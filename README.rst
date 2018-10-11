@@ -784,6 +784,7 @@ From scratch on a terminal :
      * `apt-get install python3-pythonmagick`
      * `apt-get install inkscape`
      * `apt-get install xvfb`
+     * `apt-get install poppler-utils`
      * `pip install wand`
      * `pip install Pillow`
      * `pip install PyPDF2`
@@ -791,6 +792,8 @@ From scratch on a terminal :
      * `pip install pyexifinfo`
      * `pip install packaging`
      * `pip install xvfbwrapper`
+     * `pip install pdf2image`
+     * `pip install pathlib`
      * if you use python 3.5 or less `pip install typing`
 
 
@@ -798,7 +801,7 @@ From scratch on a terminal :
 
   # general dependencies
   apt-get install libjpeg-dev libjpeg-dev python3-pythonmagick inkscape xvfb
-  pip install wand Pillow PyPDF2 python-magic pyexifinfo packaging xvfbwrapper
+  pip install wand Pillow PyPDF2 python-magic pyexifinfo packaging xvfbwrapper pdf2image pathlib
   # Exiftool
   wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz
   gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf -
