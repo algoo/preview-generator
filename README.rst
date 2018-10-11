@@ -2,11 +2,11 @@
 Preview-generator Documentation
 ==================================
 
+[![Build Status](https://travis-ci.org/algoo/preview-generator.svg?branch=master)](https://travis-ci.org/algoo/preview-generator)
+
 ------------
 Presentation
 ------------
-
-.. image:: https://api.travis-ci.org/algoo/preview-generator.svg?branch=master
 
 preview-generator is a library for generating preview - thumbnails, pdf, text and json overview
 for all your file-based content. This module gives you access to jpeg, pdf, text, htlm and json
