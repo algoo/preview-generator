@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 # HACK - 2018-06-01 - D.A.
 # List of extra mime types duplicated from Apche HTTPD repo

@@ -3,46 +3,66 @@
 from io import BytesIO
 import logging
 import typing
+import mimetypes
+import wand.version
 
 from wand.image import Color
 from wand.image import Image as WImage
 
 from preview_generator.preview.generic_preview import OnePagePreviewBuilder
 from preview_generator.utils import ImgDims
-from preview_generator.utils import compute_crop_dims
 from preview_generator.utils import compute_resize_dims
+
+from pdf2image import convert_from_bytes
+
+
+# def convert_pdf_to_jpeg(
+#         pdf: typing.Union[str, typing.IO[bytes]],
+#         preview_size: ImgDims
+# ) -> BytesIO:
+#     with WImage(file=pdf) as img:
+#         # HACK - D.A. - 2017-08-01
+#         # The following 2 lines avoid black background in case of transparent
+#         # objects found on the page. As we save to JPEG, this is not a problem
+#         img.background_color = Color('white')
+#         img.alpha_channel = 'remove'
+
+#         resize_dims = compute_resize_dims(
+#             ImgDims(img.width, img.height),
+#             preview_size
+#         )
+
+#         img.resize(resize_dims.width, resize_dims.height)
+#         content_as_bytes = img.make_blob('jpeg')
+#         output = BytesIO()
+#         output.write(content_as_bytes)
+#         output.seek(0, 0)
+#         return output
 
 
 def convert_pdf_to_jpeg(
-        pdf: typing.Union[str, typing.IO[bytes]],
-        preview_size: ImgDims
+    pdf: typing.Union[str, typing.IO[bytes]],
+    preview_size: ImgDims
 ) -> BytesIO:
-    with WImage(file=pdf) as img:
-        # HACK - D.A. - 2017-08-01
-        # The following 2 lines avoid black background in case of transparent
-        # objects found on the page. As we save to JPEG, this is not a problem
-        img.background_color = Color('white')
-        img.alpha_channel = 'remove'
 
+    pdf = pdf.read()
+    images = convert_from_bytes(pdf)
+
+    output = BytesIO()
+    for image in images:
         resize_dims = compute_resize_dims(
-            ImgDims(img.width, img.height),
+            ImgDims(image.width, image.height),
             preview_size
         )
+        resized = image.resize((resize_dims.width, resize_dims.height,))
+        resized.save(output, format="JPEG")
 
-        img.resize(resize_dims.width, resize_dims.height)
-        content_as_bytes = img.make_blob('jpeg')
-        output = BytesIO()
-        output.write(content_as_bytes)
-        output.seek(0, 0)
-        return output
-
-
-import mimetypes
-import wand.version
+    output.seek(0, 0)
+    return output
 
 
 class ImagePreviewBuilderWand(OnePagePreviewBuilder):
-    MIMETYPES = []
+    MIMETYPES = []  # type: typing.List[str]
 
     @classmethod
     def get_label(cls) -> str:
@@ -55,13 +75,13 @@ class ImagePreviewBuilderWand(OnePagePreviewBuilder):
         :return: list of supported mime types
         """
         all_supported = wand.version.formats("*")
-        mimes = []
+        mimes = []  # type: typing.List[str]
         for supported in all_supported:
-            url = "./FILE.{0}".format(supported) # Fake a url
+            url = "./FILE.{0}".format(supported)  # Fake a url
             mime, enc = mimetypes.guess_type(url)
             if mime and mime not in mimes:
                 if 'video' not in mime:
-                    #  TODO - D.A. - 2018-09-24 - Do not skip video if supported
+                    # TODO - D.A. - 2018-09-24 - Do not skip video if supported
                     mimes.append(mime)
         return mimes
 

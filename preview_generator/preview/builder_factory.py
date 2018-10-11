@@ -8,15 +8,19 @@ import os
 from os.path import dirname, basename, isfile
 import typing
 
+from subprocess import Popen
+from subprocess import PIPE
+
 from preview_generator.exception import UnsupportedMimeType
 from preview_generator.exception import BuilderNotLoaded
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import ExecutableNotFound
 from preview_generator.utils import get_subclasses_recursively
 from preview_generator.preview.generic_preview import PreviewBuilder
-from preview_generator.preview.mime import MIMETYPES_AND_EXTENSIONS
+
 
 PB = typing.TypeVar('PB', bound=PreviewBuilder)
+
 
 class PreviewBuilderFactory(object):
 
@@ -25,7 +29,7 @@ class PreviewBuilderFactory(object):
     def __init__(self) -> None:
         self.builders_loaded = False
         self.builders_classes = []  # type: typing.List[typing.Any]
-        self._builder_classes = {}  # type: typing.Dict[typing.Any]
+        self._builder_classes = {}  # type: typing.Dict[str, type]
 
     def get_preview_builder(
             self,
@@ -38,22 +42,36 @@ class PreviewBuilderFactory(object):
         try:
             return self._builder_classes[mimetype]()  # nopep8 get class and instantiate it
         except KeyError:
-            raise UnsupportedMimeType('Unsupported mimetype: {}'.format(mimetype))
+            raise UnsupportedMimeType(
+                'Unsupported mimetype: {}'.format(mimetype)
+            )
 
     def get_file_mimetype(self, file_path: str, file_ext: str='') -> str:
         """
         return the mimetype of the file. see python module mimetype
         """
-        str, encoding = mimetypes.guess_type(file_path, strict=False)
-        if not str or str == 'application/octet-stream':
+        str_, encoding = mimetypes.guess_type(file_path, strict=False)
+        if not str_ or str_ == 'application/octet-stream':
             mime = magic.Magic(mime=True)
-            str = mime.from_file(file_path)
+            str_ = mime.from_file(file_path)
 
-        if not str or str == 'application/octet-stream':
+        if str_ and (str_ in ['text/xml', 'text/plain', 'application/xml']):
+            raw_mime = Popen(
+                ['mimetype', file_path],
+                stdin=PIPE, stdout=PIPE, stderr=PIPE
+            ).communicate()[0]
+            str_ = (
+                raw_mime
+                .decode("utf-8")
+                .replace(file_path, '')
+                .replace(': ', '')
+                .replace('\n', '')
+            )
+        if not str_ or str_ == 'application/octet-stream':
             complete_path = file_path + '.' + file_ext
-            str, encoding = mimetypes.guess_type(complete_path)
+            str_, encoding = mimetypes.guess_type(complete_path)
 
-        return str
+        return str_
 
     def load_builders(self, force: bool=False) -> None:
         """
@@ -87,8 +105,12 @@ class PreviewBuilderFactory(object):
             self.builders_classes.append(builder)
             for mimetype in builder.get_supported_mimetypes():
                 self._builder_classes[mimetype] = builder
-                logging.debug('register builder for {}: {}'.format(mimetype, builder.__name__))
-        except (BuilderDependencyNotFound, ExecutableNotFound ) as e:
+                logging.debug(
+                    'register builder for {}: {}'.format(
+                        mimetype, builder.__name__
+                    )
+                )
+        except (BuilderDependencyNotFound, ExecutableNotFound) as e:
             print('Builder {} is missing a dependency: {}'.format(
                 builder,
                 e.__str__()
@@ -108,7 +130,7 @@ class PreviewBuilderFactory(object):
             mime for mime in self._builder_classes.keys()
         ]
 
-    def get_builder_class(self, mime: str):
+    def get_builder_class(self, mime: str) -> type:
         """
         Return builder class associated to given mime type
         :param mime: the mimetype. Eg image/jpeg
@@ -143,16 +165,3 @@ def import_builder_module(name: str) -> None:
     _import = 'from preview_generator.preview.builder.{module} import *'.format(module=name)  # nopep8
     exec(_import)
     logging.info('Builder module loaded: {}'.format(name))
-
-
-SPECIFIC_MIMETYPES_LOADED = False
-def load_specific_mime_types():
-    if SPECIFIC_MIMETYPES_LOADED:
-        return
-
-    for m in MIMETYPES_AND_EXTENSIONS.strip().split('\n'):
-        mimetype_and_extensions = m.split(' ')
-        mimetype = mimetype_and_extensions[0]
-        extensions = mimetype_and_extensions[1:]
-        for ext in extensions:
-            mimetypes.add_type(mimetype, '.{ext}'.format(ext=ext))

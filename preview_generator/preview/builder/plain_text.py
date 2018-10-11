@@ -2,7 +2,6 @@
 
 import typing
 
-from preview_generator import file_converter
 from preview_generator.preview.builder.office__libreoffice import OfficePreviewBuilderLibreoffice  # nopep8
 
 
@@ -16,25 +15,28 @@ class PlainTextPreviewBuilder(OfficePreviewBuilderLibreoffice):
         return [
             'text/plain',
             'text/html',
+            'text/xml',  # Info - B.L - Compatibility between debian and ubuntu
             'application/xml',
             'application/javascript'
         ]
 
-    def build_text_preview(self, file_path: str, preview_name: str,
-                           cache_path: str, page_id: int = 0,
-                           extension: str = '.txt') -> None:
+    def build_text_preview(
+        self,
+        file_path: str,
+        preview_name: str,
+        cache_path: str, page_id: int = 0,
+        extension: str = '.txt'
+    ) -> None:
         """
         generate the text preview
         """
         with open(file_path, 'rb') as txt:
-            result = file_converter.txt_to_txt(
-                txt)  # type: typing.IO[typing.Any]
             with open('{path}{extension}'.format(
                     path=cache_path + preview_name,
                     extension=extension
             ),
-                    'wb') as jpeg:
-                buffer = result.read(1024)
+                    'wb') as output_text:
+                buffer = txt.read(1024)
                 while buffer:
-                    jpeg.write(buffer)
-                    buffer = result.read(1024)
+                    output_text.write(buffer)
+                    buffer = txt.read(1024)

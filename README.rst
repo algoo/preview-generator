@@ -777,13 +777,46 @@ From scratch on a terminal :
      * build your virtual env (I can say that it work with python 3.4 but did not try with other versions)(env will be called "myenv", you can name it the way you want): `python3.4 -m venv myenv`
      * if it's not already, activate it : `source myenv/bin/activate`. (`deactivate` to deactivate)
   - install dependencies :
+
+     * Exiftool - Follow instruction on the main website: https://sno.phy.queensu.ca/~phil/exiftool/
      * `apt-get install zlib1g-dev`
      * `apt-get install libjpeg-dev`
+     * `apt-get install python3-pythonmagick`
+     * `apt-get install inkscape`
+     * `apt-get install xvfb`
      * `pip install wand`
-     * `pip install python-magick`
-     * `pip install pillow`
+     * `pip install Pillow`
      * `pip install PyPDF2`
+     * `pip install python-magic`
+     * `pip install pyexifinfo`
+     * `pip install packaging`
+     * `pip install xvfbwrapper`
      * if you use python 3.5 or less `pip install typing`
+
+
+.. code:: console
+
+  # general dependencies
+  apt-get install libjpeg-dev libjpeg-dev python3-pythonmagick inkscape xvfb
+  pip install wand Pillow PyPDF2 python-magic pyexifinfo packaging xvfbwrapper
+  # Exiftool
+  wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz
+  gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf -
+  cd Image-ExifTool-11.11
+  perl Makefile.PL
+  sudo make install
+
+If you need to preview scribus `.sla` files you will need scribus >= 1.5.
+If it's not available in your distribution you can use an AppImage.
+
+Download the last AppImage from the official website https://www.scribus.net/downloads/unstable-branch/
+
+.. code:: console
+
+  mv /path/to/image/scribus-x.y.appimage /usr/local/bin/scribus
+  chmod +x /usr/local/bin/scribus
+
+
 
 Running Pytest :
 ----------------

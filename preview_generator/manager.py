@@ -7,6 +7,7 @@ import os
 import typing
 
 from preview_generator.preview.builder.office__libreoffice import OfficePreviewBuilderLibreoffice  # nopep8
+from preview_generator.preview.builder.document__scribus import DocumentPreviewBuilderScribus  # nopep8
 from preview_generator.preview.builder_factory import PreviewBuilderFactory
 from preview_generator.utils import ImgDims
 
@@ -109,7 +110,7 @@ class PreviewManager(object):
         builder = self._factory.get_preview_builder(mimetype)
         extension = '.jpeg'
 
-        if isinstance(builder, OfficePreviewBuilderLibreoffice):
+        if type(builder) in [OfficePreviewBuilderLibreoffice, DocumentPreviewBuilderScribus]:
             file_path = self.get_pdf_preview(
                 file_path=file_path,
                 force=force,
@@ -134,11 +135,11 @@ class PreviewManager(object):
         return preview_file_path
 
     def get_pdf_preview(
-            self,
-            file_path: str,
-            page: int = -1,
-            force: bool = False,
-            file_ext: str = ''
+        self,
+        file_path: str,
+        page: int = -1,
+        force: bool = False,
+        file_ext: str = ''
     ) -> str:
         """
         Return a PDF preview of given file, according to parameters
@@ -174,10 +175,10 @@ class PreviewManager(object):
             raise Exception('Error while getting the file the file preview')
 
     def get_text_preview(
-            self,
-            file_path: str,
-            force: bool = False,
-            file_ext: str = ''
+        self,
+        file_path: str,
+        force: bool = False,
+        file_ext: str = ''
     ) -> str:
         """
         Return a TXT preview of given file, according to parameters
@@ -208,10 +209,10 @@ class PreviewManager(object):
             raise Exception('Error while getting the file the file preview')
 
     def get_html_preview(
-            self,
-            file_path: str,
-            force: bool = False,
-            file_ext: str = ''
+        self,
+        file_path: str,
+        force: bool = False,
+        file_ext: str = ''
     ) -> str:
         """
         Return a HTML preview of given file, according to parameters
@@ -242,10 +243,10 @@ class PreviewManager(object):
             raise Exception('Error while getting the file the file preview')
 
     def get_json_preview(
-            self,
-            file_path: str,
-            force: bool = False,
-            file_ext: str = ''
+        self,
+        file_path: str,
+        force: bool = False,
+        file_ext: str = ''
     ) -> str:
         """
         Return a HTML preview of given file, according to parameters
@@ -255,7 +256,7 @@ class PreviewManager(object):
                 it's usefull if the extension can't be found in file_path
         :return: path to the generated preview file
         """
-        mimetype = self._factory.get_file_mimetype(file_path,file_ext)
+        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
         logging.info('Mimetype of the document is :' + mimetype)
         builder = self._factory.get_preview_builder(mimetype)
         extension = '.json'
@@ -275,10 +276,10 @@ class PreviewManager(object):
             raise Exception('Error while getting the file preview')
 
     def _get_file_hash(
-            self,
-            file_path: str,
-            size: ImgDims=None,
-            page: int = None,
+        self,
+        file_path: str,
+        size: ImgDims=None,
+        page: int = None,
     ) -> str:
         """
         Build a hash based on the given parameters.
@@ -314,10 +315,8 @@ class PreviewManager(object):
     def get_supported_mimetypes(self) -> typing.List[str]:
         return self._factory.get_supported_mimetypes()
 
-    def get_file_extensions(self, mime: str) -> typing.List[str]:
+    def get_file_extension(self, mime: str) -> str:
         return mimetypes.guess_extension(mime)
 
     def get_supported_file_extensions(self) -> typing.List[str]:
-        return [
-            ext for ext in mimetypes.guess_extension(self.get_supported_mimetypes())
-        ]
+        return [mimetypes.guess_extension(mime) for mime in self.get_supported_mimetypes()]

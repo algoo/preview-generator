@@ -19,13 +19,13 @@ import mimetypes
 
 
 class ImagePreviewBuilderIMConvert(OnePagePreviewBuilder):
+
+    MIMETYPES = []  # type: typing.List[str]
+
     """ IM means Image Magick"""
     @classmethod
     def get_label(cls) -> str:
         return 'Images - based on convert command (Image magick)'
-
-
-    MIMETYPES = []
 
     @classmethod
     def __load_mimetypes(cls) -> typing.List[str]:
@@ -35,14 +35,15 @@ class ImagePreviewBuilderIMConvert(OnePagePreviewBuilder):
         """
 
         all_supported = wand.version.formats("*")
-        mimes = []
+        mimes = []  # type: typing.List[str]
         for supported in all_supported:
-            url = "./FILE.{0}".format(supported) # Fake a url
+            url = "./FILE.{0}".format(supported)  # Fake a url
             mime, enc = mimetypes.guess_type(url)
             if mime and mime not in mimes:
                 if 'video' not in mime:
-                    #  TODO - D.A. - 2018-09-24 - Do not skip video if supported
+                    # TODO - D.A. - 2018-09-24 - Do not skip video if supported
                     mimes.append(mime)
+        mimes.remove('image/svg+xml')
         return mimes
 
     @classmethod
@@ -96,4 +97,3 @@ class ImagePreviewBuilderIMConvert(OnePagePreviewBuilder):
             extension,
             size
         )
-

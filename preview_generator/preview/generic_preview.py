@@ -2,13 +2,12 @@
 
 from io import BytesIO
 
-import exiftool
 import json
 import logging
-import os
 import typing
 
-from preview_generator import file_converter
+import pyexifinfo
+
 from preview_generator.exception import UnavailablePreviewType
 from preview_generator.utils import ImgDims
 
@@ -36,7 +35,7 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
 
     @classmethod
     def get_label(cls) -> str:
-        return self.__name__  # default label is the class name
+        return cls.__name__  # default label is the class name
 
     @classmethod
     def check_dependencies(cls) -> bool:
@@ -85,7 +84,9 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         """
         generate pdf preview. No default implementation
         """
-        raise UnavailablePreviewType('No builder registered for PDF preview of {}'.format(file_path))
+        raise UnavailablePreviewType(
+            'No builder registered for PDF preview of {}'.format(file_path)
+        )
 
     def build_html_preview(
             self,
@@ -110,13 +111,10 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         """
         generate the json preview. Default implementation is based on ExifTool
         """
-        metadata = {}
-        with exiftool.ExifTool() as et:
-            metadata = et.get_metadata(file_path)
+        metadata = pyexifinfo.get_json(file_path)[0]
 
         with open(cache_path + preview_name + extension, 'w') as jsonfile:
             json.dump(metadata, jsonfile)
-
 
     def build_text_preview(
             self,
@@ -136,5 +134,11 @@ class OnePagePreviewBuilder(PreviewBuilder):
     """
     Generic preview handler for single page document
     """
-    def get_page_number(self, file_path: str, preview_name: str, cache_path: str) -> int:
+
+    def get_page_number(
+        self,
+        file_path: str,
+        preview_name: str,
+        cache_path: str
+    ) -> int:
         return 1

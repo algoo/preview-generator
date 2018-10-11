@@ -25,6 +25,8 @@ try:
     documentation = open(os.path.join(here, 'README.rst')).read()
 except IOError:
     documentation = ''
+except UnicodeDecodeError:
+    documentation = ''
 
 testpkgs = []
 
@@ -33,7 +35,11 @@ install_requires = [
     'Wand',
     'PyPDF2',
     'Pillow',
-    'Sweepatic-PyExifTool==0.2'
+    'pyexifinfo',
+    'packaging',
+    'xvfbwrapper',
+    'pathlib',
+    'pdf2image'
 ]
 
 if py_version <= (3, 5):
@@ -42,12 +48,17 @@ if py_version <= (3, 5):
 setup(
     name='preview_generator',
     version='0.2.3',
-    description='A library for generating preview (thumbnails, text or json overview) for file-based content',
+    description=(
+        'A library for generating preview (thumbnails, text or json overview) '
+        'for file-based content'
+    ),
     long_description=documentation,
     author='Algoo',
     author_email='contact@algoo.fr',
     url='https://github.com/algoo/preview-generator',
-    download_url='https://github.com/algoo/preview-generator/archive/0.2.3.tar.gz',
+    download_url=(
+        'https://github.com/algoo/preview-generator/archive/0.2.3.tar.gz'
+    ),
     keywords=['preview', 'preview_generator', 'thumbnail', 'cache'],
     classifiers=[
         'Programming Language :: Python :: 3.4',
@@ -59,7 +70,7 @@ setup(
     install_requires=install_requires,
     python_requires='>= 3.4',
     include_package_data=True,
-    test_suite='py.test', #TODO : change test_suite
+    test_suite='py.test',  # TODO : change test_suite
     tests_require=testpkgs,
     package_data={
         'preview_generator': [

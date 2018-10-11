@@ -5,9 +5,11 @@ import os
 from PIL import Image
 import pytest
 import shutil
+import re
 
 from preview_generator.exception import UnavailablePreviewType
 from preview_generator.manager import PreviewManager
+from tests import test_utils
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = '/tmp/preview-generator-tests/cache'
@@ -31,6 +33,8 @@ def test_to_jpeg():
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
+
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
         assert jpeg.width in range(288, 290)
@@ -50,6 +54,8 @@ def test_to_jpeg__default_size():
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
+
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height in range(226, 228)
         assert jpeg.width == 256

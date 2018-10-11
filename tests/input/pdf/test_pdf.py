@@ -3,6 +3,8 @@
 import os
 from PIL import Image
 import shutil
+from tests import test_utils
+import re
 
 from preview_generator.manager import PreviewManager
 
@@ -27,6 +29,8 @@ def test_to_jpeg():
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
+
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height in range(453, 455)
         assert jpeg.width == 321
@@ -43,6 +47,8 @@ def test_to_jpeg_no_size():
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
+
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
         assert jpeg.width in range(180, 182)

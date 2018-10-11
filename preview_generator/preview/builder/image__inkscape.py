@@ -15,6 +15,7 @@ from preview_generator.preview.generic_preview import OnePagePreviewBuilder
 from preview_generator.utils import check_executable_is_available
 from preview_generator.utils import ImgDims
 
+
 class ImagePreviewBuilderInkscape(OnePagePreviewBuilder):
     @classmethod
     def get_label(cls) -> str:
@@ -22,7 +23,7 @@ class ImagePreviewBuilderInkscape(OnePagePreviewBuilder):
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
-        return [ 'image/svg+xml' ]
+        return ['image/svg+xml']
 
     @classmethod
     def check_dependencies(cls) -> bool:

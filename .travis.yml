@@ -1,25 +1,26 @@
-sudo: false
+sudo: true
 language: python
 python:
+  - "3.3"
   - "3.4"
   - "3.5"
   - "3.6"
 
-addons:
-  apt:
-    packages:
-    - libreoffice
-
 install:
+  # Install specific version of exiftool
+  - wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz && gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf - && cd Image-ExifTool-11.11 && perl Makefile.PL && sudo make install
+  - cd ..
+  - sudo apt-get install xvfb libreoffice libfile-mimeinfo-perl inkscape poppler-utils -y
+  - pip install xvfbwrapper
   - python setup.py install
-  - pip install preview-generator
   - pip install pytest
   - python3 -m pip install -U mypy
 
 # command to run tests
 script:
   - "cd ${TRAVIS_BUILD_DIR} && py.test tests"
-  - "cd ${TRAVIS_BUILD_DIR} && mypy preview_generator --ignore-missing-imports --disallow-untyped-defs"
+
+#  - "cd ${TRAVIS_BUILD_DIR} && mypy preview_generator --ignore-missing-imports --disallow-untyped-defs"
 
 
                               
