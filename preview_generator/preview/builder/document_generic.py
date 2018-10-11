@@ -49,13 +49,13 @@ class DocumentPreviewBuilder(PreviewBuilder):
         page_id: int,
         extension: str='.jpg',
         size: ImgDims=None,
-        attempt:int =0
+        attempt: int=0
     ) -> None:
 
         cache_file = os.path.join(cache_path, preview_name)
 
         if self._cache_file_process_already_running(cache_file):
-            # Note - Basile - infinite recursion protection
+            # Note - 10-10-2018 - Basile - infinite recursion protection
             if attempt >= 5:
                 raise PreviewGeneratorException(
                     'Max attempts exceeded aborting preview'
