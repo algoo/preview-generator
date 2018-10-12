@@ -129,7 +129,8 @@ class PreviewManager(object):
                 cache_path=self.cache_path,
                 page_id=page,
                 extension=extension,
-                size=size
+                size=size,
+                mimetype=mimetype
             )
 
         return preview_file_path
@@ -166,7 +167,8 @@ class PreviewManager(object):
                     preview_name=preview_name,
                     cache_path=self.cache_path,
                     extension=extension,
-                    page_id=page
+                    page_id=page,
+                    mimetype=mimetype
                 )
 
             return cache_file_path

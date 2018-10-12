@@ -30,13 +30,14 @@ class ImagePreviewBuilderInkscape(OnePagePreviewBuilder):
         return check_executable_is_available('inkscape')
 
     def build_jpeg_preview(
-            self,
-            file_path: str,
-            preview_name: str,
-            cache_path: str,
-            page_id: int,
-            extension: str = '.jpg',
-            size: ImgDims=None
+        self,
+        file_path: str,
+        preview_name: str,
+        cache_path: str,
+        page_id: int,
+        extension: str = '.jpg',
+        size: ImgDims=None,
+        mimetype: str = ''
     ) -> None:
         # inkscape tesselation-P3.svg  -e
         tempfolder = tempfile.tempdir
@@ -65,6 +66,7 @@ class ImagePreviewBuilderInkscape(OnePagePreviewBuilder):
             cache_path,
             page_id,
             extension,
-            size
+            size,
+            mimetype
         )
 

@@ -65,7 +65,6 @@ def test_to_jpeg__default_size():
 
 def test_to_json():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
-    print("REGISTERED BUILDERS:", manager._factory.builders_classes)
     path_to_file = manager.get_json_preview(
         file_path=IMAGE_FILE_PATH,
         force=True

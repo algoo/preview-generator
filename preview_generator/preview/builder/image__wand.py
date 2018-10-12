@@ -101,7 +101,8 @@ class ImagePreviewBuilderWand(OnePagePreviewBuilder):
             cache_path: str,
             page_id: int,
             extension: str = '.jpeg',
-            size: ImgDims=None
+            size: ImgDims=None,
+            mimetype: str = ''
     ) -> None:
 
         with open(file_path, 'rb') as img:
