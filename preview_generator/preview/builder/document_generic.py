@@ -22,7 +22,8 @@ class DocumentPreviewBuilder(PreviewBuilder):
         file_content: typing.IO[bytes],
         input_extension: str,
         cache_path: str,
-        output_filepath: str
+        output_filepath: str,
+        mimetype: str
     ) -> BytesIO:
 
         """
@@ -49,6 +50,7 @@ class DocumentPreviewBuilder(PreviewBuilder):
         page_id: int,
         extension: str='.jpg',
         size: ImgDims=None,
+        mimetype: str='',
         attempt: int=0
     ) -> None:
 
@@ -64,7 +66,8 @@ class DocumentPreviewBuilder(PreviewBuilder):
             time.sleep(2)
             return self.build_jpeg_preview(
                 file_path=file_path, preview_name=preview_name,
-                cache_path=cache_path, extension=extension, page_id=page_id
+                cache_path=cache_path, extension=extension, page_id=page_id,
+                size=size, attempt=attempt, mimetype=mimetype
             )
 
         input_pdf_stream = None
@@ -78,7 +81,7 @@ class DocumentPreviewBuilder(PreviewBuilder):
                 file, file_extension = os.path.splitext(file_path)
                 output_path = os.path.join(cache_path, preview_name)
                 input_pdf_stream = self._convert_to_pdf(
-                    _file, file_extension, cache_path, output_path
+                    _file, file_extension, cache_path, output_path, mimetype
                 )
 
         input_pdf = PdfFileReader(input_pdf_stream)
@@ -103,12 +106,10 @@ class DocumentPreviewBuilder(PreviewBuilder):
         preview_name: str,
         cache_path: str,
         extension: str = '.pdf',
-        page_id: int = -1
+        page_id: int = -1,
+        mimetype: str = ''
     ) -> None:
 
-        input_extension = os.path.splitext(file_path)[1]
-        if not input_extension:
-            input_extension = 'tmp'
         intermediate_pdf_filename = preview_name.split('-page')[0] + '.pdf'
         intermediate_pdf_file_path = os.path.join(
             cache_path,
@@ -127,17 +128,19 @@ class DocumentPreviewBuilder(PreviewBuilder):
                     preview_name=preview_name,
                     cache_path=cache_path,
                     extension=extension,
-                    page_id=page_id
+                    page_id=page_id,
+                    mimetype=mimetype
                 )
 
             with open(file_path, 'rb') as input_stream:
-
+                input_extension = os.path.splitext(file_path)[1]
                 # first step is to convert full document to full pdf
                 self._convert_to_pdf(
                     file_content=input_stream,
                     input_extension=input_extension,
                     cache_path=cache_path,
-                    output_filepath=intermediate_pdf_file_path
+                    output_filepath=intermediate_pdf_file_path,
+                    mimetype=mimetype
                 )
 
         if page_id < 0:

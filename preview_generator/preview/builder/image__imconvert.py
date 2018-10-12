@@ -66,7 +66,8 @@ class ImagePreviewBuilderIMConvert(OnePagePreviewBuilder):
             cache_path: str,
             page_id: int,
             extension: str = '.jpg',
-            size: ImgDims=None
+            size: ImgDims=None,
+            mimetype: str = ''
     ) -> None:
         # inkscape tesselation-P3.svg  -e
         tempfolder = tempfile.tempdir

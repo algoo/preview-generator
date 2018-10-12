@@ -59,7 +59,8 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
             cache_path: str,
             page_id: int,
             extension: str = '.jpg',
-            size: ImgDims=None
+            size: ImgDims=None,
+            mimetype: str = ''
     ) -> None:
         """
         generate the jpg preview
@@ -79,7 +80,8 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
             preview_name: str,
             cache_path: str,
             extension: str = '.pdf',
-            page_id: int = -1
+            page_id: int = -1,
+            mimetype: str = ''
     ) -> None:
         """
         generate pdf preview. No default implementation

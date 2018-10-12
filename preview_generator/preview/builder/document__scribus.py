@@ -3,6 +3,7 @@
 import os
 import logging
 import typing
+import mimetypes
 from io import BytesIO
 from subprocess import check_call
 from subprocess import DEVNULL
@@ -53,11 +54,13 @@ class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
         file_content: typing.IO[bytes],
         input_extension: str,  # example: '.dxf'
         cache_path: str,
-        output_filepath: str
+        output_filepath: str,
+        mimetype: str
     ) -> BytesIO:
 
         return convert_sla_to_pdf(
-            file_content, input_extension, cache_path, output_filepath
+            file_content, input_extension,
+            cache_path, output_filepath, mimetype
         )
 
 
@@ -65,9 +68,12 @@ def convert_sla_to_pdf(
     file_content: typing.IO[bytes],
     input_extension: str,  # example: '.dxf'
     cache_path: str,
-    output_filepath: str
+    output_filepath: str,
+    mimetype: str
 ) -> BytesIO:
     logging.debug('converting file bytes {} to pdf file {}'.format(file_content, output_filepath))  # nopep8
+    if not input_extension:
+        input_extension = mimetypes.guess_extension(mimetype)
     temporary_input_content_path = output_filepath + input_extension  # nopep8
     flag_file_path = create_flag_file(output_filepath)
 

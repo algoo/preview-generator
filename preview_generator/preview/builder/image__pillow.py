@@ -23,10 +23,15 @@ class ImagePreviewBuilderPillow(OnePagePreviewBuilder):
             'image/x-eps',
         ]
 
-    def build_jpeg_preview(self, file_path: str, preview_name: str,
-                           cache_path: str, page_id: int,
-                           extension: str='.jpeg',
-                           size: ImgDims=None) -> None:
+    def build_jpeg_preview(
+        self, file_path: str,
+        preview_name: str,
+        cache_path: str,
+        page_id: int,
+        extension: str='.jpeg',
+        size: ImgDims=None,
+        mimetype: str = ''
+    ) -> None:
         """
         generate the jpg preview
         """
