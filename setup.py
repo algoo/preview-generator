@@ -2,14 +2,9 @@
 # python setup.py sdist upload -r pypi
 
 
-try:
-    import logging
-    import multiprocessing
-    import os
-except:
-    pass
-
+import os
 import sys
+from preview_generator import info
 py_version = sys.version_info[:2]
 
 try:
@@ -47,7 +42,7 @@ if py_version <= (3, 5):
 
 setup(
     name='preview_generator',
-    version='0.2.3',
+    version=info.__version__,
     description=(
         'A library for generating preview (thumbnails, text or json overview) '
         'for file-based content'
