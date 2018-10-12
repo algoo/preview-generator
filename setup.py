@@ -4,7 +4,7 @@
 
 import os
 import sys
-from preview_generator import info
+from preview_generator import infos
 py_version = sys.version_info[:2]
 
 try:
@@ -42,7 +42,7 @@ if py_version <= (3, 5):
 
 setup(
     name='preview_generator',
-    version=info.__version__,
+    version=infos.__version__,
     description=(
         'A library for generating preview (thumbnails, text or json overview) '
         'for file-based content'
