@@ -52,7 +52,9 @@ setup(
     author_email='contact@algoo.fr',
     url='https://github.com/algoo/preview-generator',
     download_url=(
-        'https://github.com/algoo/preview-generator/archive/release_{}.tar.gz'
+        'https://github.com/algoo/preview-generator/archive/release_{}.tar.gz'.format(
+            infos.__version__
+        )
     ),
     keywords=['preview', 'preview_generator', 'thumbnail', 'cache'],
     classifiers=[
