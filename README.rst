@@ -4,6 +4,7 @@ Preview-generator Documentation
 
 .. image:: https://travis-ci.org/algoo/preview-generator.svg?branch=master
     :target: https://travis-ci.org/algoo/preview-generator
+
 ------------
 Presentation
 ------------
