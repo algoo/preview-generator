@@ -90,5 +90,6 @@ def test_page_number__extension_forced():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     page_number = manager.get_page_nb(
         file_path=os.path.join(CURRENT_DIR, 'the_text_no_extension'),
+        file_ext=".txt"
     )
     assert page_number == 1
