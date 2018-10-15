@@ -13,8 +13,8 @@ CACHE_DIR = '/tmp/preview-generator-tests/cache'
 def test_convert_office_document_to_pdf__ok__with_input_extension_and_mimetype():
     content = io.BytesIO(b'Test content')
     output_filepath = CACHE_DIR+"/test.pdf"
-    file = Path(output_filepath)
-    assert not file.exists()
+    _file = Path(output_filepath)
+    assert not _file.exists()
     convert_office_document_to_pdf(
         content,
         cache_path=CACHE_DIR,
@@ -22,7 +22,7 @@ def test_convert_office_document_to_pdf__ok__with_input_extension_and_mimetype()
         mimetype='text/plain',
         output_filepath=output_filepath
     )
-    assert file.is_file()
+    assert _file.is_file()
     mime = magic.Magic(mime=True)
     assert mime.from_file(output_filepath) == 'application/pdf'
     os.remove(output_filepath)
@@ -31,8 +31,8 @@ def test_convert_office_document_to_pdf__ok__with_input_extension_and_mimetype()
 def test_convert_office_document_to_pdf__err__input_extension_not_found():
     content = io.BytesIO(b'Test content')
     output_filepath = CACHE_DIR+"/test.pdf"
-    file = Path(output_filepath)
-    assert not file.exists()
+    _file = Path(output_filepath)
+    assert not _file.exists()
     with pytest.raises(InputExtensionNotFound):
         convert_office_document_to_pdf(
             content,
@@ -41,4 +41,4 @@ def test_convert_office_document_to_pdf__err__input_extension_not_found():
             mimetype='',
             output_filepath=output_filepath
         )
-    assert not file.exists()
+    assert not _file.exists()
