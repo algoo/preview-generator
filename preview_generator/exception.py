@@ -20,6 +20,13 @@ class UnsupportedMimeType(PreviewGeneratorException):
     pass
 
 
+class InputExtensionNotFound(PreviewGeneratorException):
+    """
+    Exception raised if input extension is not found from mimetype.
+    """
+    pass
+
+
 class BuilderNotLoaded(PreviewGeneratorException):
     """
     Exception raised when the factory is used but no builder has been loaded

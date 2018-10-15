@@ -46,7 +46,7 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
             file_path: str,
             preview_name: str,
             cache_path: str,
-            mimetype: str,
+            mimetype: typing.Optional[str] = None,
     ) -> int:
         """
         Get the number of page of the document
@@ -143,6 +143,6 @@ class OnePagePreviewBuilder(PreviewBuilder):
         file_path: str,
         preview_name: str,
         cache_path: str,
-        mimetype: str,
+        mimetype: typing.Optional[str] = None,
     ) -> int:
         return 1

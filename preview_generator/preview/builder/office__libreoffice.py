@@ -10,6 +10,7 @@ import typing
 import mimetypes
 
 from preview_generator.exception import BuilderDependencyNotFound
+from preview_generator.exception import InputExtensionNotFound
 from preview_generator.exception import ExecutableNotFound
 from preview_generator.utils import check_executable_is_available
 from preview_generator.preview.builder.document_generic import DocumentPreviewBuilder
@@ -60,6 +61,8 @@ def convert_office_document_to_pdf(
     logging.debug('converting file bytes {} to pdf file {}'.format(file_content, output_filepath))  # nopep8
     if not input_extension:
         input_extension = mimetypes.guess_extension(mimetype)
+    if not input_extension:
+        raise InputExtensionNotFound('unable to found input extension from mimetype')  # nopep8
     temporary_input_content_path = output_filepath + input_extension  # nopep8
     flag_file_path = create_flag_file(output_filepath)
 

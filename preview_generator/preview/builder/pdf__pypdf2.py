@@ -107,7 +107,7 @@ class PdfPreviewBuilderPyPDF2(PreviewBuilder):
         self, file_path: str,
         preview_name: str,
         cache_path: str,
-        mimetype: str,
+        mimetype: typing.Optional[str] = None,
     ) -> int:
         with open(cache_path + preview_name + '_page_nb', 'w') as count:
             count.seek(0, 0)
