@@ -161,7 +161,7 @@ class DocumentPreviewBuilder(PreviewBuilder):
         file_path: str,
         preview_name: str,
         cache_path: str,
-        mimetype: str,
+        mimetype: typing.Optional[str] = None,
     ) -> int:
 
         page_nb_file_path = cache_path + preview_name + '_page_nb'
