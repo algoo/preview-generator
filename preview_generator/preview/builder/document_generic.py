@@ -160,7 +160,8 @@ class DocumentPreviewBuilder(PreviewBuilder):
         self,
         file_path: str,
         preview_name: str,
-        cache_path: str
+        cache_path: str,
+        mimetype: str,
     ) -> int:
 
         page_nb_file_path = cache_path + preview_name + '_page_nb'
@@ -171,7 +172,8 @@ class DocumentPreviewBuilder(PreviewBuilder):
                 self.build_pdf_preview(
                     file_path=file_path,
                     preview_name=preview_name,
-                    cache_path=cache_path
+                    cache_path=cache_path,
+                    mimetype=mimetype,
                 )
 
             with open(page_nb_file_path, 'w') as page_nb_file_stream:

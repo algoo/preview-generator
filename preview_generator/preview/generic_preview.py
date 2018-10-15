@@ -45,7 +45,8 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
             self,
             file_path: str,
             preview_name: str,
-            cache_path: str
+            cache_path: str,
+            mimetype: str,
     ) -> int:
         """
         Get the number of page of the document
@@ -141,6 +142,7 @@ class OnePagePreviewBuilder(PreviewBuilder):
         self,
         file_path: str,
         preview_name: str,
-        cache_path: str
+        cache_path: str,
+        mimetype: str,
     ) -> int:
         return 1

@@ -106,7 +106,8 @@ class PdfPreviewBuilderPyPDF2(PreviewBuilder):
     def get_page_number(
         self, file_path: str,
         preview_name: str,
-        cache_path: str
+        cache_path: str,
+        mimetype: str,
     ) -> int:
         with open(cache_path + preview_name + '_page_nb', 'w') as count:
             count.seek(0, 0)

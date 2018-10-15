@@ -32,6 +32,14 @@ def test_to_pdf():
     assert os.path.exists(path_to_file) is True
 
 
+def test_page_number():
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+    page_number = manager.get_page_nb(
+        file_path=os.path.join(CURRENT_DIR, 'the_text.txt'),
+    )
+    assert page_number == 1
+
+
 def test_to_pdf_no_extension():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     path_to_file = manager.get_pdf_preview(
@@ -68,3 +76,20 @@ def test_to_jpeg_no_extension_extension_forced():
         file_ext=".txt"
     )
     assert os.path.exists(path_to_file) is True
+
+
+def test_page_number__no_extension():
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+    page_number = manager.get_page_nb(
+        file_path=os.path.join(CURRENT_DIR, 'the_text_no_extension'),
+    )
+    assert page_number == 1
+
+
+def test_page_number__extension_forced():
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+    page_number = manager.get_page_nb(
+        file_path=os.path.join(CURRENT_DIR, 'the_text_no_extension'),
+        file_ext=".txt"
+    )
+    assert page_number == 1

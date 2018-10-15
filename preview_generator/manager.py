@@ -78,7 +78,8 @@ class PreviewManager(object):
         page_nb = builder.get_page_number(
             file_path,
             preview_name,
-            self.cache_path
+            self.cache_path,
+            mimetype
         )
         return page_nb
 
