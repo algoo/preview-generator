@@ -109,13 +109,25 @@ class PreviewBuilderFactory(object):
         try:
             builder.check_dependencies()
             self.builders_classes.append(builder)
+            # FIXME - G.M - 2018-10-18 - Fix issue with application/octet-stream
+            # and builder which happened in some conditions
+            # like automatic travis test with Ubuntu 14.04.5 LTS,
+            # where ImagePreviewBuilderIMConvert pretend to
+            # be able to deal with application/octet-stream mimetype
             for mimetype in builder.get_supported_mimetypes():
-                self._builder_classes[mimetype] = builder
-                logging.debug(
-                    'register builder for {}: {}'.format(
-                        mimetype, builder.__name__
+                if mimetype == 'application/octet-stream':
+                    logging.critical(
+                        'register builder for {}: {} - SKIPPED'.format(
+                            mimetype, builder.__name__
+                        )
                     )
-                )
+                else:
+                    self._builder_classes[mimetype] = builder
+                    logging.debug(
+                        'register builder for {}: {}'.format(
+                            mimetype, builder.__name__
+                        )
+                    )
         except (BuilderDependencyNotFound, ExecutableNotFound) as e:
             print('Builder {} is missing a dependency: {}'.format(
                 builder,
