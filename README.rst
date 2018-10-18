@@ -786,6 +786,7 @@ From scratch on a terminal :
      * `apt-get install inkscape`
      * `apt-get install xvfb`
      * `apt-get install poppler-utils`
+     * `apt-get install libfile-mimeinfo-perl`
      * `pip install wand`
      * `pip install Pillow`
      * `pip install PyPDF2`
