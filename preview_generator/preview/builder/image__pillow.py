@@ -5,12 +5,12 @@ import logging
 from PIL import Image
 import typing
 
-from preview_generator.preview.generic_preview import OnePagePreviewBuilder
+from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import compute_resize_dims
 from preview_generator.utils import ImgDims
 
 
-class ImagePreviewBuilderPillow(OnePagePreviewBuilder):
+class ImagePreviewBuilderPillow(ImagePreviewBuilder):
     @classmethod
     def get_label(cls) -> str:
         return 'Bitmap images - based on Pillow'

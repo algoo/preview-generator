@@ -50,7 +50,7 @@ class PreviewManager(object):
         """
         return PreviewBuilderFactory().get_file_mimetype(file_path, file_ext)
 
-    def has_pdf_preview(self, file_path: str, file_ext: str='') -> bool:
+    def has_pdf_preview(self, file_path: str, file_ext: str = '') -> bool:
         """
         return True if the given file offers PDF preview
         Actually, this is the case for office
@@ -62,6 +62,58 @@ class PreviewManager(object):
         mimetype = self._factory.get_file_mimetype(file_path, file_ext)
         builder = self._factory.get_preview_builder(mimetype)
         return builder.has_pdf_preview()
+
+    def has_jpeg_preview(self, file_path: str, file_ext: str = '') -> bool:
+        """
+        return True if the given file offers jpeg preview
+        Actually, this is the case for office, documents and file type
+        :param file_path:
+        :param file_ext: extension associated to the file. Eg 'jpg'.
+        May be empty - it's usefull if the extension can't be found in file_path
+        :return:
+        """
+        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
+        builder = self._factory.get_preview_builder(mimetype)
+        return builder.has_jpeg_preview()
+
+    def has_text_preview(self, file_path: str, file_ext: str = '') -> bool:
+        """
+        return True if the given file offers text preview
+        Actually, this is the case for text file and archive file
+        :param file_path:
+        :param file_ext: extension associated to the file. Eg 'jpg'.
+        May be empty - it's usefull if the extension can't be found in file_path
+        :return:
+        """
+        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
+        builder = self._factory.get_preview_builder(mimetype)
+        return builder.has_text_preview()
+
+    def has_json_preview(self, file_path: str, file_ext: str = '') -> bool:
+        """
+        return True if the given file offers json preview
+        Actually, this is the case for most type using exiftool
+        :param file_path:
+        :param file_ext: extension associated to the file. Eg 'jpg'.
+        May be empty - it's usefull if the extension can't be found in file_path
+        :return:
+        """
+        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
+        builder = self._factory.get_preview_builder(mimetype)
+        return builder.has_json_preview()
+
+    def has_html_preview(self, file_path: str, file_ext: str = '') -> bool:
+        """
+        return True if the given file offers html preview
+        Actually, this is the case for archive files
+        :param file_path:
+        :param file_ext: extension associated to the file. Eg 'jpg'.
+        May be empty - it's usefull if the extension can't be found in file_path
+        :return:
+        """
+        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
+        builder = self._factory.get_preview_builder(mimetype)
+        return builder.has_html_preview()
 
     def get_page_nb(self, file_path: str, file_ext: str='') -> int:
         """

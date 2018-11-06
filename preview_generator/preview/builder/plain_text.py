@@ -40,3 +40,6 @@ class PlainTextPreviewBuilder(OfficePreviewBuilderLibreoffice):
                 while buffer:
                     output_text.write(buffer)
                     buffer = txt.read(1024)
+
+    def has_text_preview(self):
+        return True

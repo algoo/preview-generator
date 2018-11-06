@@ -210,6 +210,14 @@ class ZipPreviewBuilder(OnePagePreviewBuilder):
 
         return archive_info
 
+    def has_html_preview(self):
+        return True
+
+    def has_json_preview(self):
+        return True
+
+    def has_text_preview(self):
+        return True
 
 # INFO - D.A. - 2017-06-29
 #

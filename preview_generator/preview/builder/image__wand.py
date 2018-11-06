@@ -9,7 +9,7 @@ import wand.version
 from wand.image import Color
 from wand.image import Image as WImage
 
-from preview_generator.preview.generic_preview import OnePagePreviewBuilder
+from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import compute_resize_dims
 
@@ -61,7 +61,7 @@ def convert_pdf_to_jpeg(
     return output
 
 
-class ImagePreviewBuilderWand(OnePagePreviewBuilder):
+class ImagePreviewBuilderWand(ImagePreviewBuilder):
     MIMETYPES = []  # type: typing.List[str]
 
     @classmethod

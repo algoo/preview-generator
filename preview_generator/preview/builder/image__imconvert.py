@@ -11,14 +11,14 @@ import uuid
 
 from preview_generator.exception import PreviewGeneratorException
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
-from preview_generator.preview.generic_preview import OnePagePreviewBuilder
+from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import check_executable_is_available
 from preview_generator.utils import ImgDims
 import wand
 import mimetypes
 
 
-class ImagePreviewBuilderIMConvert(OnePagePreviewBuilder):
+class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
 
     MIMETYPES = []  # type: typing.List[str]
 

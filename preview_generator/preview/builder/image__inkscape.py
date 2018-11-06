@@ -11,12 +11,12 @@ import uuid
 
 from preview_generator.exception import PreviewGeneratorException
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
-from preview_generator.preview.generic_preview import OnePagePreviewBuilder
+from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import check_executable_is_available
 from preview_generator.utils import ImgDims
 
 
-class ImagePreviewBuilderInkscape(OnePagePreviewBuilder):
+class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
     @classmethod
     def get_label(cls) -> str:
         return 'Vector images - based on Inkscape'
