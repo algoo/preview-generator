@@ -37,7 +37,7 @@ install_requires = [
     'pdf2image'
 ]
 
-if py_version <= (3, 5):
+if py_version <= (3, 4):
     install_requires.append("typing")
 
 setup(
