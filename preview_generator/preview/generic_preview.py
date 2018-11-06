@@ -75,6 +75,30 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         """
         return False
 
+    def has_jpeg_preview(self) -> bool:
+        """
+        Override and return True if your builder allow jpeg preview
+        """
+        return False
+
+    def has_json_preview(self) -> bool:
+        """
+        Override and return True if your builder allow json preview
+        """
+        return True
+
+    def has_text_preview(self) -> bool:
+        """
+        Override and return True if your builder allow text preview
+        """
+        return False
+
+    def has_html_preview(self) -> bool:
+        """
+        Override and return True if your builder allow html preview
+        """
+        return False
+
     def build_pdf_preview(
             self,
             file_path: str,
@@ -146,3 +170,11 @@ class OnePagePreviewBuilder(PreviewBuilder):
         mimetype: typing.Optional[str] = None,
     ) -> int:
         return 1
+
+
+class ImagePreviewBuilder(OnePagePreviewBuilder):
+    """
+    Generic preview handler for image preview_builder
+    """
+    def has_jpeg_preview(self):
+        return True

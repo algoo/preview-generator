@@ -34,6 +34,9 @@ def test_to_jpeg():
         cache_folder_path=CACHE_DIR,
         create_folder=True
     )
+    assert manager.has_jpeg_preview(
+        file_path=IMAGE_FILE_PATH,
+    ) is True
     path_to_file = manager.get_jpeg_preview(
         file_path=IMAGE_FILE_PATH,
         height=256,
@@ -58,6 +61,9 @@ def test_get_nb_page():
 
 def test_to_jpeg__default_size():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+    assert manager.has_jpeg_preview(
+        file_path=IMAGE_FILE_PATH,
+    ) is True
     path_to_file = manager.get_jpeg_preview(
         file_path=IMAGE_FILE_PATH,
         force=True
@@ -76,6 +82,9 @@ def test_to_json():
     mimetype = manager.get_mimetype(IMAGE_FILE_PATH)
     builder = manager._factory.get_preview_builder(mimetype)
 
+    assert manager.has_json_preview(
+        file_path=IMAGE_FILE_PATH,
+    ) is True
     path_to_file = manager.get_json_preview(
         file_path=IMAGE_FILE_PATH,
         force=True
@@ -112,6 +121,9 @@ def test_to_json():
 
 def test_to_pdf():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+    assert manager.has_pdf_preview(
+        file_path=IMAGE_FILE_PATH,
+    ) is False
     with pytest.raises(UnavailablePreviewType):
         path_to_file = manager.get_pdf_preview(
             file_path=IMAGE_FILE_PATH,
@@ -128,3 +140,15 @@ def test_to_pdf():
     # assert os.path.exists(path_to_file) == True
     # assert os.path.getsize(path_to_file) > 0
     # assert path_to_file == '/tmp/preview-generator-tests/cache/a0dcd8bf562212788204a09d85331d04.pdf'  # nopep8
+
+
+def test_to_text():
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+    assert manager.has_text_preview(
+        file_path=IMAGE_FILE_PATH
+    ) is False
+    with pytest.raises(UnavailablePreviewType):
+        path_to_file = manager.get_text_preview(
+            file_path=IMAGE_FILE_PATH,
+            force=True
+        )

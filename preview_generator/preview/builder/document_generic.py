@@ -193,6 +193,12 @@ class DocumentPreviewBuilder(PreviewBuilder):
         """
         return True
 
+    def has_jpeg_preview(self) -> bool:
+        """
+        Override and return True if your builder allow jpeg preview
+        """
+        return True
+
 
 def create_flag_file(filepath: str) -> str:
     """
