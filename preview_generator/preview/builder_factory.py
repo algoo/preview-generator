@@ -32,7 +32,7 @@ AMBIGUOUS_MIMES = [
 class PreviewBuilderFactory(object):
 
     _instance = None  # type: PreviewBuilderFactory
-    _singleton_lock = RLock()
+    _singleton_lock = RLock()  # type: RLock
 
     def __init__(self) -> None:
         self.builders_loaded = False
