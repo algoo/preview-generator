@@ -2,6 +2,8 @@
 
 import glob
 import logging
+from threading import RLock
+
 import magic
 import mimetypes
 import os
@@ -30,6 +32,7 @@ AMBIGUOUS_MIMES = [
 class PreviewBuilderFactory(object):
 
     _instance = None  # type: PreviewBuilderFactory
+    _singleton_lock = RLock()  # type: RLock
 
     def __init__(self) -> None:
         self.builders_loaded = False
@@ -99,9 +102,12 @@ class PreviewBuilderFactory(object):
 
     @classmethod
     def get_instance(cls) -> 'PreviewBuilderFactory':
-        if not cls._instance:
-            cls._instance = PreviewBuilderFactory()
-            cls._instance.load_builders()
+        # INFO - G.M - 2018-11-07 - lock to prevent case when
+        # PreviewBuilderFactory exist but builder aren't yet loaded
+        with cls._singleton_lock:
+            if not cls._instance:
+                cls._instance = PreviewBuilderFactory()
+                cls._instance.load_builders()
 
         return cls._instance
 
