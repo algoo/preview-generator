@@ -3,11 +3,10 @@
 import typing
 from io import BytesIO
 
-from PyPDF2 import PdfFileReader
 from PyPDF2 import PdfFileWriter
 
 from preview_generator.preview.generic_preview import PreviewBuilder
-from preview_generator.utils import ImgDims
+from preview_generator import utils
 from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
 
 
@@ -26,20 +25,20 @@ class PdfPreviewBuilderPyPDF2(PreviewBuilder):
         cache_path: str,
         page_id: int,
         extension: str = '.jpg',
-        size: ImgDims=None,
+        size: utils.ImgDims=None,
         mimetype: str=''
     ) -> None:
         """
         generate the pdf small preview
         """
         if not size:
-            size = ImgDims(256, 256)
+            size = utils.ImgDims(256, 256)
 
         with open(file_path, 'rb') as pdf:
             # HACK - D.A. - 2017-08-11 Deactivate strict mode
             # This avoid crashes when PDF are not standard
             # See https://github.com/mstamy2/PyPDF2/issues/244
-            input_pdf = PdfFileReader(pdf, strict=False)
+            input_pdf = utils.get_decrypted_pdf(pdf, strict=False)
             output_pdf = PdfFileWriter()
             output_pdf.addPage(input_pdf.getPage(int(page_id)))
             output_stream = BytesIO()
@@ -80,7 +79,7 @@ class PdfPreviewBuilderPyPDF2(PreviewBuilder):
 
         with open(file_path, 'rb') as pdf:
 
-            input_pdf = PdfFileReader(pdf)
+            input_pdf = utils.get_decrypted_pdf(pdf)
             output_pdf = PdfFileWriter()
             if page_id is None or page_id <= -1:
                 for i in range(input_pdf.numPages):
@@ -113,7 +112,7 @@ class PdfPreviewBuilderPyPDF2(PreviewBuilder):
             count.seek(0, 0)
 
             with open(file_path, 'rb') as doc:
-                inputpdf = PdfFileReader(doc)
+                inputpdf = utils.get_decrypted_pdf(doc)
                 count.write(str(inputpdf.numPages))
         with open(cache_path + preview_name + '_page_nb', 'r') as count:
             count.seek(0, 0)

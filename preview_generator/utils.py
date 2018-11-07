@@ -3,6 +3,7 @@
 from datetime import date
 from datetime import datetime
 from json import JSONEncoder
+from PyPDF2 import PdfFileReader
 from subprocess import check_call
 from subprocess import DEVNULL
 from subprocess import STDOUT
@@ -155,3 +156,24 @@ class PreviewGeneratorJsonEncoder(JSONEncoder):
             return serial
 
         return JSONEncoder.default(self, obj)
+
+
+def get_decrypted_pdf(stream, strict=True, warndest=None, overwriteWarnings=True):
+    """
+    Return a PdfFileReader object decrypted with default empty key (if file is encrypted)
+    The signature is taken from PdfFileReader.__init__
+
+    See https://github.com/algoo/preview-generator/issues/52
+    which is related to https://github.com/mstamy2/PyPDF2/issues/51
+
+    :param stream:
+    :param strict:
+    :param warndest:
+    :param overwriteWarnings:
+    :return:
+    """
+    pdf = PdfFileReader(stream, strict, warndest, overwriteWarnings)
+    if pdf.isEncrypted:
+        pdf.decrypt('')
+
+    return pdf

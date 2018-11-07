@@ -6,11 +6,10 @@ import time
 import typing
 
 from pathlib import Path
-from PyPDF2 import PdfFileReader
 from PyPDF2 import PdfFileWriter
 
 from preview_generator.preview.generic_preview import PreviewBuilder
-from preview_generator.utils import ImgDims
+from preview_generator import utils
 from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
 from preview_generator.exception import PreviewGeneratorException
 
@@ -49,7 +48,7 @@ class DocumentPreviewBuilder(PreviewBuilder):
         cache_path: str,
         page_id: int,
         extension: str='.jpg',
-        size: ImgDims=None,
+        size: utils.ImgDims=None,
         mimetype: str='',
         attempt: int=0
     ) -> None:
@@ -84,7 +83,7 @@ class DocumentPreviewBuilder(PreviewBuilder):
                     _file, file_extension, cache_path, output_path, mimetype
                 )
 
-        input_pdf = PdfFileReader(input_pdf_stream)
+        input_pdf = utils.get_decrypted_pdf(input_pdf_stream)
         intermediate_pdf = PdfFileWriter()
         intermediate_pdf.addPage(input_pdf.getPage(int(page_id)))
 
@@ -146,7 +145,7 @@ class DocumentPreviewBuilder(PreviewBuilder):
         if page_id < 0:
             return  # in this case, the intermediate file is the requested one
 
-        pdf_in = PdfFileReader(intermediate_pdf_file_path)
+        pdf_in = utils.get_decrypted_pdf(intermediate_pdf_file_path)
         output_file_path = os.path.join(
             cache_path, '{}{}'.format(preview_name, extension)
         )
@@ -179,7 +178,7 @@ class DocumentPreviewBuilder(PreviewBuilder):
             with open(page_nb_file_path, 'w') as page_nb_file_stream:
                 page_nb_file_stream.seek(0, 0)
                 with open(pdf_version_filepath, 'rb') as pdf_stream:
-                    pdf_reader = PdfFileReader(pdf_stream)
+                    pdf_reader = utils.get_decrypted_pdf(pdf_stream)
                     page_nb_file_stream.write(str(pdf_reader.numPages))
 
         with open(page_nb_file_path, 'r') as page_nb_stream:

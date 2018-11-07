@@ -4,17 +4,20 @@ import os
 
 import pytest
 from PIL import Image
+import PyPDF2.utils
+from PyPDF2 import PdfFileReader
+import re
 import shutil
 
 from preview_generator.exception import UnavailablePreviewType
 from tests import test_utils
-import re
 
 from preview_generator.manager import PreviewManager
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = '/tmp/preview-generator-tests/cache'
 IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, 'the_pdf.pdf')
+IMAGE_FILE_PATH__ENCRYPTED = os.path.join(CURRENT_DIR, 'the_pdf.encrypted.pdf')
 
 
 def setup_function(function):
@@ -42,6 +45,35 @@ def test_to_jpeg():
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height in range(453, 455)
         assert jpeg.width == 321
+
+
+def test_to_jpeg__encrypted_pdf():
+    with pytest.raises(PyPDF2.utils.PdfReadError):  # ensure file is encrpyted
+        pdf = PdfFileReader(IMAGE_FILE_PATH__ENCRYPTED)
+        pdf.getPage(0)
+
+    manager = PreviewManager(
+        cache_folder_path=CACHE_DIR,
+        create_folder=True
+    )
+    assert manager.has_jpeg_preview(
+        file_path=IMAGE_FILE_PATH,
+    ) is True
+    path_to_file = manager.get_jpeg_preview(
+        file_path=IMAGE_FILE_PATH__ENCRYPTED,
+        height=512,
+        width=321,
+        force=True
+    )
+
+    assert os.path.exists(path_to_file) == True
+    assert os.path.getsize(path_to_file) > 0
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
+
+    with Image.open(path_to_file) as jpeg:
+        assert jpeg.height in range(453, 455)
+        assert jpeg.width == 321
+
 
 
 def test_to_jpeg_no_size():
