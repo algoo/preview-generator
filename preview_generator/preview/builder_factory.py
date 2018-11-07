@@ -102,7 +102,7 @@ class PreviewBuilderFactory(object):
 
     @classmethod
     def get_instance(cls) -> 'PreviewBuilderFactory':
-        # INFO - G.M - 2018-11-07 - lock to pretend case when
+        # INFO - G.M - 2018-11-07 - lock to prevent case when
         # PreviewBuilderFactory exist but builder aren't yet loaded
         with cls._singleton_lock:
             if not cls._instance:
