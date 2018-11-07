@@ -48,7 +48,7 @@ class PreviewManager(object):
                 it's usefull if the extension can't be found in file_path
         :return: mimetype of the file
         """
-        return PreviewBuilderFactory().get_file_mimetype(file_path, file_ext)
+        return PreviewBuilderFactory().get_instance().get_file_mimetype(file_path, file_ext)  # nopep8
 
     def has_pdf_preview(self, file_path: str, file_ext: str = '') -> bool:
         """
