@@ -174,6 +174,7 @@ def get_decrypted_pdf(stream, strict=True, warndest=None, overwriteWarnings=True
     """
     pdf = PdfFileReader(stream, strict, warndest, overwriteWarnings)
     if pdf.isEncrypted:
+        # TODO - D.A. - 2018-11-08 - manage password protected PDFs
         pdf.decrypt('')
 
     return pdf
