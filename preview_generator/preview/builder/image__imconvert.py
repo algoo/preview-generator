@@ -43,7 +43,14 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
                 if 'video' not in mime:
                     # TODO - D.A. - 2018-09-24 - Do not skip video if supported
                     mimes.append(mime)
-        mimes.remove('image/svg+xml')
+
+        svg_mime = 'image/svg+xml'
+        if svg_mime in mimes:
+            # HACK - D.A. - 2018-11-07 do not convert SVG using convert
+            # The optionnal behavior is related to different configurations on Debian and Ubuntu
+            # (need to remove the mimetype on Ubuntu but useless on Debian
+            mimes.remove('image/svg+xml')
+
         return mimes
 
     @classmethod
