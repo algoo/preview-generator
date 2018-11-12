@@ -3,6 +3,7 @@
 import typing
 from io import BytesIO
 
+import os
 from PyPDF2 import PdfFileWriter
 
 from preview_generator.preview.generic_preview import PreviewBuilder
@@ -108,15 +109,20 @@ class PdfPreviewBuilderPyPDF2(PreviewBuilder):
         cache_path: str,
         mimetype: typing.Optional[str] = None,
     ) -> int:
-        with open(cache_path + preview_name + '_page_nb', 'w') as count:
-            count.seek(0, 0)
+        if not os.path.exists(cache_path + preview_name + '_page_nb'):
+            with open(cache_path + preview_name + '_page_nb', 'w') as count:
+                count.seek(0, 0)
+                with open(file_path, 'rb') as doc:
+                    inputpdf = utils.get_decrypted_pdf(doc)
+                    num_page = inputpdf.numPages
+                    count.write(str(num_page))
+                    return int(num_page)
+        else:
+            with open(cache_path + preview_name + '_page_nb', 'r') as count:
+                count.seek(0, 0)
+                count = count.read()
+                return int(count)
 
-            with open(file_path, 'rb') as doc:
-                inputpdf = utils.get_decrypted_pdf(doc)
-                count.write(str(inputpdf.numPages))
-        with open(cache_path + preview_name + '_page_nb', 'r') as count:
-            count.seek(0, 0)
-            return int(count.read())
 
     def has_jpeg_preview(self):
         return True
