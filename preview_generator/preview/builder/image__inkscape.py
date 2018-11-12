@@ -9,7 +9,7 @@ import tempfile
 import typing
 import uuid
 
-from preview_generator.exception import PreviewGeneratorException
+from preview_generator.exception import IntermediateFileBuildingFailed
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import check_executable_is_available
@@ -55,7 +55,7 @@ class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
         )
 
         if build_png_result_code != 0:
-            raise PreviewGeneratorException(
+            raise IntermediateFileBuildingFailed(
                 'Building PNG intermediate file using inkscape '
                 'failed with status {}'.format(build_png_result_code)
             )
