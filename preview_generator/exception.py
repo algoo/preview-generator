@@ -5,6 +5,20 @@ class PreviewGeneratorException(Exception):
     pass
 
 
+class IntermediateFileBuildingFailed(PreviewGeneratorException):
+    """
+    Exception raised when building of intermediate file failed.
+    """
+    pass
+
+
+class PreviewAbortedMaxAttempsExceeded(PreviewGeneratorException):
+    """
+    Exception raised when max attemps of preview generation are exceeded.
+    """
+    pass
+
+
 class UnavailablePreviewType(PreviewGeneratorException):
     """
     Exception raised when a preview method is not implemented for the type of

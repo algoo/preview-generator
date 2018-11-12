@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import contextlib
 from io import BytesIO
 import logging
 import os
@@ -99,11 +99,12 @@ def convert_office_document_to_pdf(
         )
         os.rename(output_filepath + '.pdf', output_filepath)
 
+    with contextlib.suppress(FileNotFoundError):
+        logging.info('Removing temporary copy file {}'.format(temporary_input_content_path))  # nopep8
+        os.remove(temporary_input_content_path)
+
     logging.debug('Removing flag file {}'.format(flag_file_path))
     os.remove(flag_file_path)
-
-    logging.info('Removing temporary copy file {}'.format(temporary_input_content_path))  # nopep8
-    os.remove(temporary_input_content_path)
 
     with open(output_filepath, 'rb') as pdf_handle:
         pdf_handle.seek(0, 0)

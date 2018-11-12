@@ -11,7 +11,7 @@ from PyPDF2 import PdfFileWriter
 from preview_generator.preview.generic_preview import PreviewBuilder
 from preview_generator import utils
 from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
-from preview_generator.exception import PreviewGeneratorException
+from preview_generator.exception import PreviewAbortedMaxAttempsExceeded
 
 
 class DocumentPreviewBuilder(PreviewBuilder):
@@ -58,7 +58,7 @@ class DocumentPreviewBuilder(PreviewBuilder):
         if self._cache_file_process_already_running(cache_file):
             # Note - 10-10-2018 - Basile - infinite recursion protection
             if attempt >= 5:
-                raise PreviewGeneratorException(
+                raise PreviewAbortedMaxAttempsExceeded(
                     'Max attempts exceeded aborting preview'
                 )
             attempt += 1
