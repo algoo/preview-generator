@@ -37,7 +37,7 @@ class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
             result = check_call(['scribus', '-v'])
             return True
         except FileNotFoundError:
-            raise BuilderDependencyNotFound()
+            raise BuilderDependencyNotFound("this builder requires scribus to be available")
         except CalledProcessError:
             return True
 
