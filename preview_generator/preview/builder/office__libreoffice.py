@@ -117,7 +117,8 @@ def convert_office_document_to_pdf(
 # Code duplicated from https://raw.githubusercontent.com/LibreOffice/core/master/bin/get-bugzilla-attachments-by-mimetype
 LO_MIMETYPES = {
     # ODF
-    # INFO - G.M - 2018-11-13 - Convertion of base to pdf is not correctly
+    # INFO - G.M - 2018-11-13 - C
+    ectly
     # supported by libreoffice itself
     #'application/vnd.oasis.opendocument.base': 'odb',
     #'application/vnd.oasis.opendocument.database': 'odb',
@@ -141,7 +142,7 @@ LO_MIMETYPES = {
     'application/vnd.oasis.opendocument.text-master-template': 'otm',
     'application/vnd.oasis.opendocument.text-web': 'oth',
     # OOo XML
-    # INFO - G.M - 2018-11-13 - Convertion of base to pdf is not correctly
+    # INFO - G.M - 2018-11-13 - Conversion of base to pdf is not correctly
     # supported by libreoffice itself
     # 'application/vnd.sun.xml.base': 'odb',
     'application/vnd.sun.xml.calc': 'sxc',
