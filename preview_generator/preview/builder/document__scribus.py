@@ -33,13 +33,15 @@ class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
     @classmethod
     def check_dependencies(cls) -> bool:
         try:
-            # BUG - 2018/09/26 - Basile - using '-v' on scribus >= 1.5 gives
-            # the version then crash, using FileNotFoundError to make the diff
-            result = check_call(['scribus', '-v'])
+            # INFO - G.M - 2019-01-17 - stderr is redirected to devnull because
+            # scribus print normal information to stderr instead of stdout.
+            result = check_call(['scribus', '-v'], stdout=DEVNULL, stderr=DEVNULL)
             return True
         except FileNotFoundError:
             raise BuilderDependencyNotFound("this builder requires scribus to be available")
         except CalledProcessError:
+            # TODO - 2018/09/26 - Basile - using '-v' on scribus >= 1.5 gives
+            # the version then crash, using FileNotFoundError to make the diff
             return True
 
     @classmethod
