@@ -3,6 +3,7 @@ import contextlib
 from io import BytesIO
 import logging
 import os
+from preview_generator.utils import LOGGER_NAME
 from subprocess import check_call
 from subprocess import DEVNULL
 from subprocess import STDOUT
@@ -58,7 +59,10 @@ def convert_office_document_to_pdf(
     output_filepath: str,
     mimetype: str
 ) -> BytesIO:
-    logging.debug('converting file bytes {} to pdf file {}'.format(file_content, output_filepath))  # nopep8
+    logger = logging.getLogger(LOGGER_NAME)
+    logger.debug(
+        'converting file bytes {} to pdf file {}'.format(file_content, output_filepath)
+    )  # nopep8
     if not input_extension:
         input_extension = mimetypes.guess_extension(mimetype)
     if not input_extension:
@@ -66,12 +70,17 @@ def convert_office_document_to_pdf(
     temporary_input_content_path = output_filepath + input_extension  # nopep8
     flag_file_path = create_flag_file(output_filepath)
 
-    logging.debug('conversion is based on temporary file {}'.format(temporary_input_content_path))  # nopep8
+    logger.debug(
+        'conversion is based on temporary file {}'.format(temporary_input_content_path)
+    )  # nopep8
 
     if not os.path.exists(output_filepath):
         write_file_content(file_content, output_filepath=temporary_input_content_path)  # nopep8
-        logging.debug('temporary file written: {}'.format(temporary_input_content_path))  # nopep8
-        logging.debug('converting {} to pdf into folder {}'.format(
+        logger.debug(
+            'temporary file written: {}'.format(temporary_input_content_path)
+        )  # nopep8
+        logger.debug(
+            'converting {} to pdf into folder {}'.format(
             temporary_input_content_path,
             cache_path
         ))
@@ -94,16 +103,16 @@ def convert_office_document_to_pdf(
     # HACK-HACK - B.L - 2018-10-8 - if file is given without its extension
     # in its name it won't have the double ".pdf"
     if os.path.exists(output_filepath + '.pdf'):
-        logging.debug('renaming output file {} to {}'.format(
+        logger.debug('renaming output file {} to {}'.format(
             output_filepath + '.pdf', output_filepath)
         )
         os.rename(output_filepath + '.pdf', output_filepath)
 
     with contextlib.suppress(FileNotFoundError):
-        logging.info('Removing temporary copy file {}'.format(temporary_input_content_path))  # nopep8
+        logger.info('Removing temporary copy file {}'.format(temporary_input_content_path))  # nopep8
         os.remove(temporary_input_content_path)
 
-    logging.debug('Removing flag file {}'.format(flag_file_path))
+    logger.debug('Removing flag file {}'.format(flag_file_path))
     os.remove(flag_file_path)
 
     with open(output_filepath, 'rb') as pdf_handle:

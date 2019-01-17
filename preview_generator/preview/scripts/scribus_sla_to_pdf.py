@@ -10,10 +10,14 @@
 
 import scribus
 import sys
+import logging
 
+from preview_generator.utils import LOGGER_NAME
+
+logger = logging.getLogger(LOGGER_NAME)
 if scribus.haveDoc():
     pdf = scribus.PDFfile()
     pdf.file = sys.argv[1]
     pdf.save()
 else:
-    print("No file open")
+    logger.error("No file open in scribus")

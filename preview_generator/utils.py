@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import logging
 from datetime import date
 from datetime import datetime
 from json import JSONEncoder
@@ -12,6 +12,7 @@ import os
 
 from preview_generator.exception import ExecutableNotFound
 
+LOGGER_NAME = 'PreviewGenerator'
 
 def get_subclasses_recursively(
         _class: type,
@@ -137,7 +138,8 @@ def check_executable_is_available(executable_name: str) -> bool:
             return True
 
     except Exception as e:
-        print('Error while checking dependencies: ', e)
+        logger = logging.getLogger(LOGGER_NAME)
+        logger.error('Error while checking dependencies: ', e)
         raise ExecutableNotFound
 
     return False
