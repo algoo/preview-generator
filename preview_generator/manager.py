@@ -5,6 +5,7 @@ import logging
 import mimetypes
 import os
 import typing
+from preview_generator.utils import LOGGER_NAME
 
 from preview_generator.preview.builder.office__libreoffice import OfficePreviewBuilderLibreoffice  # nopep8
 from preview_generator.preview.builder.document__scribus import DocumentPreviewBuilderScribus  # nopep8
@@ -25,7 +26,7 @@ class PreviewManager(object):
         :param create_folder: if True, then create the cache folder
         if it does not exist
         """
-
+        self.logger = logging.getLogger(LOGGER_NAME)
         cache_folder_path = os.path.join(cache_folder_path, '')  # add trailing slash
         # nopep8 see https://stackoverflow.com/questions/2736144/python-add-trailing-slash-to-directory-string-os-independently
 
@@ -36,7 +37,7 @@ class PreviewManager(object):
             try:
                 os.makedirs(self.cache_path)
             except OSError as e:
-                logging.error(
+                self.logger.error(
                     'cant create cache folder [{}]'.format(self.cache_path)
                 )
 
@@ -312,7 +313,7 @@ class PreviewManager(object):
         :return: path to the generated preview file
         """
         mimetype = self._factory.get_file_mimetype(file_path, file_ext)
-        logging.info('Mimetype of the document is :' + mimetype)
+        self.logger.info('Mimetype of the document is :' + mimetype)
         builder = self._factory.get_preview_builder(mimetype)
         extension = '.json'
 

@@ -5,6 +5,7 @@ from io import BytesIO
 import json
 import logging
 import typing
+from preview_generator.utils import LOGGER_NAME
 
 import pyexifinfo
 
@@ -27,7 +28,8 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
     def __init__(
             self,
     ) -> None:
-        logging.info('New Preview builder of class' + str(self.__class__))
+        self.logger = logging.getLogger(LOGGER_NAME)
+        self.logger.info('New Preview builder of class' + str(self.__class__))
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:

@@ -5,9 +5,11 @@ from PyPDF2 import PdfFileReader
 import typing
 from wand.image import Image as WImage
 
+from preview_generator.utils import LOGGER_NAME
+
 
 def txt_to_txt(text: typing.IO[typing.Any]) -> typing.IO[typing.Any]:
-    logging.info('Converting text to text')
+    logging.getLogger(LOGGER_NAME).info('Converting text to text')
     return text
 
 

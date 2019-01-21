@@ -2,6 +2,7 @@
 
 import glob
 import logging
+from preview_generator.utils import LOGGER_NAME
 from threading import RLock
 
 import magic
@@ -38,6 +39,7 @@ class PreviewBuilderFactory(object):
         self.builders_loaded = False
         self.builders_classes = []  # type: typing.List[typing.Any]
         self._builder_classes = {}  # type: typing.Dict[str, type]
+        self.logger = logging.getLogger(LOGGER_NAME)
 
     def get_preview_builder(
             self,
@@ -122,25 +124,25 @@ class PreviewBuilderFactory(object):
             # be able to deal with application/octet-stream mimetype
             for mimetype in builder.get_supported_mimetypes():
                 if mimetype == 'application/octet-stream':
-                    logging.critical(
+                    self.logger.critical(
                         'register builder for {}: {} - SKIPPED'.format(
                             mimetype, builder.__name__
                         )
                     )
                 else:
                     self._builder_classes[mimetype] = builder
-                    logging.debug(
+                    self.logger.debug(
                         'register builder for {}: {}'.format(
                             mimetype, builder.__name__
                         )
                     )
         except (BuilderDependencyNotFound, ExecutableNotFound) as e:
-            print('Builder {} is missing a dependency: {}'.format(
+            self.logger.error('Builder {} is missing a dependency: {}'.format(
                 builder,
                 e.__str__()
             ))
         except NotImplementedError:
-            print(
+            self.logger.info(
                 'Skipping builder class [{}]: method get_supported_mimetypes '
                 'is not implemented'.format(builder)
             )
@@ -183,9 +185,9 @@ def get_builder_modules(builder_folder: str) -> typing.List[str]:
                 module_names.append(module_name)
     return module_names
 
-
 def import_builder_module(name: str) -> None:
-    logging.debug('Builder module loading: {}'.format(name))
+    logger = logging.getLogger(LOGGER_NAME)
+    logger.debug('Builder module loading: {}'.format(name))
     _import = 'from preview_generator.preview.builder.{module} import *'.format(module=name)  # nopep8
     exec(_import)
-    logging.info('Builder module loaded: {}'.format(name))
+    logger.info('Builder module loaded: {}'.format(name))

@@ -6,6 +6,7 @@ import typing
 import mimetypes
 from io import BytesIO
 from subprocess import check_call
+from subprocess import check_output
 from subprocess import DEVNULL
 from subprocess import STDOUT
 from subprocess import CalledProcessError
@@ -20,6 +21,7 @@ from preview_generator.preview.builder.document_generic import (
 )
 from xvfbwrapper import Xvfb
 
+from preview_generator.utils import LOGGER_NAME
 
 SCRIPT_FOLDER_NAME = 'scripts'
 SCRIPT_NAME = 'scribus_sla_to_pdf.py'
@@ -31,14 +33,18 @@ class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
 
     @classmethod
     def check_dependencies(cls) -> bool:
+        logger = logging.getLogger(LOGGER_NAME)
         try:
-            # BUG - 2018/09/26 - Basile - using '-v' on scribus >= 1.5 gives
-            # the version then crash, using FileNotFoundError to make the diff
-            result = check_call(['scribus', '-v'])
+            # INFO - G.M - 2019-01-17 - stderr is redirected to devnull because
+            # scribus print normal information to stderr instead of stdout.
+            result = check_output(['scribus', '-v'], stderr=STDOUT)
             return True
         except FileNotFoundError:
             raise BuilderDependencyNotFound("this builder requires scribus to be available")
-        except CalledProcessError:
+        except CalledProcessError as exc:
+            # TODO - 2018/09/26 - Basile - using '-v' on scribus >= 1.5 gives
+            # the version then crash, using FileNotFoundError to make the diff
+            logger.warning("Scribus like missing (Note: scribus >= 1.5 can produce false error on this check): {}".format(exc.output))
             return True
 
     @classmethod
@@ -71,18 +77,19 @@ def convert_sla_to_pdf(
     output_filepath: str,
     mimetype: str
 ) -> BytesIO:
-    logging.debug('converting file bytes {} to pdf file {}'.format(file_content, output_filepath))  # nopep8
+    logger = logging.getLogger(LOGGER_NAME)
+    logger.debug('converting file bytes {} to pdf file {}'.format(file_content, output_filepath))  # nopep8
     if not input_extension:
         input_extension = mimetypes.guess_extension(mimetype)
     temporary_input_content_path = output_filepath + input_extension  # nopep8
     flag_file_path = create_flag_file(output_filepath)
 
-    logging.debug('conversion is based on temporary file {}'.format(temporary_input_content_path))  # nopep8
+    logger.debug('conversion is based on temporary file {}'.format(temporary_input_content_path))  # nopep8
 
     if not os.path.exists(output_filepath):
         write_file_content(file_content, output_filepath=temporary_input_content_path)  # nopep8
-        logging.debug('temporary file written: {}'.format(temporary_input_content_path))  # nopep8
-        logging.debug('converting {} to pdf into folder {}'.format(
+        logger.debug('temporary file written: {}'.format(temporary_input_content_path))  # nopep8
+        logger.debug('converting {} to pdf into folder {}'.format(
             temporary_input_content_path,
             cache_path
         ))
@@ -97,14 +104,14 @@ def convert_sla_to_pdf(
 
     # HACK - D.A. - 2018-05-31 - name is defined by libreoffice
     # according to input file name, for homogeneity we prefer to rename it
-    logging.debug('renaming output file {} to {}'.format(
+    logger.debug('renaming output file {} to {}'.format(
         output_filepath+'.pdf', output_filepath)
     )
 
-    logging.debug('Removing flag file {}'.format(flag_file_path))
+    logger.debug('Removing flag file {}'.format(flag_file_path))
     os.remove(flag_file_path)
 
-    logging.info('Removing temporary copy file {}'.format(temporary_input_content_path))  # nopep8
+    logger.info('Removing temporary copy file {}'.format(temporary_input_content_path))  # nopep8
     os.remove(temporary_input_content_path)
 
     with open(output_filepath, 'rb') as pdf_handle:

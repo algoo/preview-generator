@@ -52,7 +52,7 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
             png: typing.Union[str, typing.IO[bytes]],
             preview_dims: ImgDims
     ) -> BytesIO:
-        logging.info('Converting image to jpeg using Pillow')
+        self.logger.info('Converting image to jpeg using Pillow')
 
         with Image.open(png) as image:
             resize_dim = compute_resize_dims(
@@ -70,7 +70,7 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
             try:
                 output_image.paste(image, (0, 0), image)
             except ValueError:
-                logging.warning(
+                self.logger.warning(
                     'Failed the transparency mask superposition. '
                     'Maybe your image does not contain a transparency mask')
                 output_image.paste(image)

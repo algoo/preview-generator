@@ -131,7 +131,7 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
         :param size:
         :return:
         '''
-        logging.info('Converting image to jpeg using wand')
+        self.logger.info('Converting image to jpeg using wand')
 
         with WImage(file=jpeg, background=Color('white')) as image:
 

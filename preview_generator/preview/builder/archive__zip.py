@@ -7,7 +7,7 @@ import logging
 import typing
 import zipfile
 
-from preview_generator.utils import PreviewGeneratorJsonEncoder
+from preview_generator.utils import PreviewGeneratorJsonEncoder, LOGGER_NAME
 from preview_generator.preview.generic_preview import OnePagePreviewBuilder
 
 
@@ -130,7 +130,7 @@ class ZipPreviewBuilder(OnePagePreviewBuilder):
         generate the text preview
         """
         with open(file_path, 'rb') as filestream:
-            logging.info('Converting zip to text')
+            self.logger.info('Converting zip to text')
             zip = zipfile.ZipFile(filestream)
             info = self.zipfile_to_infos(zip)
             text_content = archive_info_to_text(info)
@@ -150,7 +150,7 @@ class ZipPreviewBuilder(OnePagePreviewBuilder):
         generate the text preview
         """
         with open(file_path, 'rb') as filestream:
-            logging.info('Converting zip to html')
+            self.logger.info('Converting zip to html')
             zip = zipfile.ZipFile(filestream)
             info = self.zipfile_to_infos(zip)
             text_content = archive_info_to_html(info)
@@ -167,7 +167,7 @@ class ZipPreviewBuilder(OnePagePreviewBuilder):
         """
         json_string = ''
         with open(file_path, 'rb') as filestream:
-            logging.info('Converting zip to json')
+            self.logger.info('Converting zip to json')
             zip = zipfile.ZipFile(filestream)
             info = self.zipfile_to_infos(zip)
 
@@ -257,7 +257,8 @@ class ZipPreviewBuilder(OnePagePreviewBuilder):
 
 
 def zip_to_html(zip: typing.IO[bytes]) -> BytesIO:
-    logging.info('Converting zip to html')
+    logger = logging.getLogger(LOGGER_NAME)
+    logger.info('Converting zip to html')
     zz = zipfile.ZipFile(zip)  # type: ignore
     output = BytesIO()
     output.write(str.encode('<p><ul>'))
