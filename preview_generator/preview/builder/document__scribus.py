@@ -6,6 +6,7 @@ import typing
 import mimetypes
 from io import BytesIO
 from subprocess import check_call
+from subprocess import check_output
 from subprocess import DEVNULL
 from subprocess import STDOUT
 from subprocess import CalledProcessError
@@ -32,16 +33,18 @@ class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
 
     @classmethod
     def check_dependencies(cls) -> bool:
+        logger = logging.getLogger(LOGGER_NAME)
         try:
             # INFO - G.M - 2019-01-17 - stderr is redirected to devnull because
             # scribus print normal information to stderr instead of stdout.
-            result = check_call(['scribus', '-v'], stdout=DEVNULL, stderr=DEVNULL)
+            result = check_output(['scribus', '-v'], stderr=STDOUT)
             return True
         except FileNotFoundError:
             raise BuilderDependencyNotFound("this builder requires scribus to be available")
-        except CalledProcessError:
+        except CalledProcessError as exc:
             # TODO - 2018/09/26 - Basile - using '-v' on scribus >= 1.5 gives
             # the version then crash, using FileNotFoundError to make the diff
+            logger.warning(exc.output)
             return True
 
     @classmethod
