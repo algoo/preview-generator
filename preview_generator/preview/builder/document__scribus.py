@@ -44,7 +44,7 @@ class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
         except CalledProcessError as exc:
             # TODO - 2018/09/26 - Basile - using '-v' on scribus >= 1.5 gives
             # the version then crash, using FileNotFoundError to make the diff
-            logger.warning(exc.output)
+            logger.warning("Scribus like missing (Note: scribus >= 1.5 can produce false error on this check): {}".format(exc.output))
             return True
 
     @classmethod
