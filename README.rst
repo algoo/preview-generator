@@ -530,7 +530,9 @@ Dependencies:
 
 At the moment there are issues with the exiftool package on debian, so you'll need to install it manually:
 
-# Exiftool
+.. code:: console
+
+  # Exiftool
   wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz
   gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf -
   cd Image-ExifTool-11.11
