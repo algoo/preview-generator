@@ -524,16 +524,31 @@ Here is an overview of supported file formats:
 Installation
 ------------
 
+Dependencies:
+
+``apt-get install zlib1g-dev libjpeg-dev python3-pythonmagick inkscape xvfb poppler-utils libfile-mimeinfo-perl``
+
+At the moment there are issues with the exiftool package on debian, so you'll need to install it manually:
+
+.. code:: console
+
+  # Exiftool
+  wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz
+  gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf -
+  cd Image-ExifTool-11.11
+  perl Makefile.PL
+  sudo make install
+
+After installing dependencies, you can install preview-generator using ``pip``:
+
 ``pip install preview-generator``
 
+Optional dependencies:
 
-Note about requirements: some packages are needed for installing python. If the ``pip install preview-generator`` command fails, try to install zlib and libjpeg dev packages. On debian-based OSes this can be done through the following command:
+To handle previews for office documents you will need ``LibreOffice``, if you don't have it already:
 
-``apt-get install zlib1g-dev libjpeg-dev``
+``apt-get install libreoffice``
 
-This package uses the following python dependencies (this list is not exhaustive): wand, python-magick, pillow, PyPDF2.
-
-Note: if you want to preview office files, ensure that LibreOffice is installed on your computer.
 
 -----
 Usage
@@ -541,15 +556,65 @@ Usage
 
 Here are some examples of code
 
-Generate a thumbnail of an image file
--------------------------------------
+Basic Usage
+-----------
+
+Most basic usage, create a jpeg from a png, default size 256x256
 
 .. code:: python    
 
   from preview_generator.manager import PreviewManager
-  manager = PreviewManager('/tmp/cache/', create_folder= True)
-  thumbnail_file_path = manager.get_jpeg_preview('/home/user/Pictures/myfile.gif', height=100, width=200)
-  print('Preview created at path : ', thumbnail_file_path)
+
+  cache_path = '/tmp/preview_cache'
+  file_to_preview_path = '/tmp/an_image.png'
+
+  manager = PreviewManager(cache_path, create_folder= True)
+  path_to_preview_image = manager.get_jpeg_preview(file_to_preview_path)
+
+
+Preview an image with a specific size
+-------------------------------------
+
+You can choose the size of your image using params width and height.
+
+.. code:: python    
+
+  from preview_generator.manager import PreviewManager
+
+  cache_path = '/tmp/preview_cache'
+  file_to_preview_path = '/tmp/an_image.png'
+
+  manager = PreviewManager(cache_path, create_folder= True)
+  path_to_preview_image = manager.get_jpeg_preview(file_to_preview_path, width=1000, height=500)
+
+
+Preview a pdf or an office document as a jpeg
+---------------------------------------------
+
+.. code:: python    
+
+  from preview_generator.manager import PreviewManager
+
+  cache_path = '/tmp/preview_cache'
+  pdf_or_odt_to_preview_path = '/tmp/a_pdf.pdf'
+
+  manager = PreviewManager(cache_path, create_folder= True)
+  path_to_preview_image = manager.get_jpeg_preview(pdf_or_odt_to_preview_path)
+
+By default it will generate the preview of the first page of the document.
+Using params `page`, you can you pick the page you want to preview.  
+
+**page number starts at 0, if you want to preview the second page of your document then the argument will be 1 `page=1`**
+
+.. code:: python    
+
+  from preview_generator.manager import PreviewManager
+
+  cache_path = '/tmp/preview_cache'
+  pdf_or_odt_to_preview_path = '/tmp/a_pdf.pdf'
+
+  manager = PreviewManager(cache_path, create_folder= True)
+  path_to_preview_image = manager.get_jpeg_preview(pdf_or_odt_to_preview_path, page=1)
 
 
 Generate a pdf preview of a libreoffice text document
@@ -564,34 +629,14 @@ Generate a pdf preview of a libreoffice text document
 
 
 
-The preview manager
--------------------
-
-.. code:: python
-
-  preview_manager = PreviewManager(cache_path)
-
-*args :*
-
-   *cache_path : a String of the path to the directory where the cache file will be stored*
-   *create_folder : a boolean, when True will TRY to create the cache folder*
-
-*returns :*
-
-  *a PreviewManager Object*
-
-The builders
-------------
-
-Here is the way it is meant to be used assuming that cache_path is an existing directory
-
 For Office types into PDF :
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
-  preview_manager = PreviewManager(cache_path)
-  preview = preview_manager.get_pdf_preview(file_path,page=page_id)
+  cache_path = '/tmp/previews'
+  preview_manager = PreviewManager(cache_path, create_folder= True)
+  path_to_preview = preview_manager.get_pdf_preview(file_path,page=page_id)
 
 -> Will create a preview from an office file into a pdf file
 
@@ -601,19 +646,18 @@ For Office types into PDF :
 
   *page : the int of the page you want to get. If not mentioned all the pages will be returned. First page is page 0*
 
-  *use_original_filename : a boolean that mention if the original file name should appear in the preview name. True by default*
-
 *returns :*
 
-  *a FileIO stream of bytes of the pdf preview*
+  *str: path to the preview file*
 
 For images(GIF, BMP, PNG, JPEG, PDF) into jpeg :
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
-  preview_manager = PreviewManager(cache_path)
-  preview = preview_manager.get_jpeg_preview(file_path,height=1024,width=526)
+  cache_path = '/tmp/previews'
+  preview_manager = PreviewManager(cache_path, create_folder= True)
+  path_to_preview = preview_manager.get_jpeg_preview(file_path,height=1024,width=526)
 
 -> Will create a preview from an image file into a jpeg file of size 1024 * 526
 
@@ -625,11 +669,9 @@ For images(GIF, BMP, PNG, JPEG, PDF) into jpeg :
 
   *width : width of the preview in pixels. If not mentioned, width will be the same as height*
 
-  *use_original_filename : a boolean that mention if the original file name should appear in the preview name. True by default*
-
 *returns :*
 
-  *a FileIO stream of bytes of the jpeg preview*
+  *str: path to the preview file*
 
 Other conversions :
 ~~~~~~~~~~~~~~~~~~~
@@ -677,17 +719,17 @@ GIF to JPEG :
 .. code:: python
 
   import os
-  from preview-generator.manager import PreviewManager
+  from preview_generator.manager import PreviewManager
   current_dir = os.path.dirname(os.path.abspath(__file__)) +'/'
 
   manager = PreviewManager(path=current_dir + 'cache')
-  path_to_file = manager.get_jpeg_preview(
+  path_to_preview = manager.get_jpeg_preview(
       file_path=current_dir + 'the_gif.gif',
       height=512,
       width=512,
   )
 
-  print('Preview created at path : ', path_to_file)
+  print('Preview created at path : ', path_to_preview)
 
 will print
 
@@ -699,7 +741,7 @@ ODT to JPEG :
 .. code:: python
 
   import os
-  from preview-generator.manager import PreviewManager
+  from preview_generator.manager import PreviewManager
   current_dir = os.path.dirname(os.path.abspath(__file__)) +'/'
 
   manager = PreviewManager(path=current_dir + 'cache')
@@ -710,7 +752,7 @@ ODT to JPEG :
       width=1024,
   )
 
-  print('Preview created at path : ', path_to_file)
+  print('Preview created at path : ', path_to_preview)
 
 will print
 
@@ -721,7 +763,7 @@ ZIP to Text :
 .. code:: python
 
   import os
-  from preview-generator.manager import PreviewManager
+  from preview_generator.manager import PreviewManager
   current_dir = os.path.dirname(os.path.abspath(__file__)) +'/'
 
   manager = PreviewManager(path=current_dir + 'cache')
@@ -745,7 +787,7 @@ Before all, I'd be glad if you could share your new feature with everybody. So i
 If you want to add a new preview builder to handle documents of type **foo** into **jpeg** (for example) here is how to proceed :
 
  - **Warning** If you need to look at other builders to find out how to proceed, avoid looking at any of the Office to something. It is a particular case and could misslead you.
- - Create a new class FooPreviewBuilder in a file foo_preview.py in preview-generator/preview
+ - Create a new class FooPreviewBuilder in a file foo_preview.py in preview_generator/preview
  - Make him inherit from the logical PreviewBuilder class
 
    * if it handles several pages it will be `class FooPreviewBuilder(PreviewBuilder)`
@@ -753,7 +795,7 @@ If you want to add a new preview builder to handle documents of type **foo** int
    * ...
  - define your own `build_jpeg_preview(...)` (in the case we want to make **foo** into **jpeg**) based on the same principle as other build_{type}_preview(...)
  - Inside this build_jpeg_preview(...) you will call a method file_converter.foo_to_jpeg(...)
- - Define your foo_to_jpeg(...) method in preview-generator.file_converter.py
+ - Define your foo_to_jpeg(...) method in preview_generator.preview.file_converter.py
 
    * inputs must be a stream of bytes and optional informations like a number of pages, a size, ...
    * output must also be a stream of bytes
@@ -802,7 +844,7 @@ From scratch on a terminal :
 .. code:: console
 
   # general dependencies
-  apt-get install libjpeg-dev libjpeg-dev python3-pythonmagick inkscape xvfb
+  apt-get install zlib1g-dev libjpeg-dev python3-pythonmagick inkscape xvfb poppler-utils libfile-mimeinfo-perl
   pip install wand Pillow PyPDF2 python-magic pyexifinfo packaging xvfbwrapper pdf2image pathlib
   # Exiftool
   wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz
