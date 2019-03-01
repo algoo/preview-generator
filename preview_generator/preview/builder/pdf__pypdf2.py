@@ -12,13 +12,21 @@ from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
 
 
 class PdfPreviewBuilderPyPDF2(PreviewBuilder):
+
+    def __init__(self):
+        raise DeprecationWarning(
+            'PyDF2 is poorly maintained you should use '
+            'pdf__pikepdf.PreviewBuilderPikePDF instead'
+        )
+        return super().__init__()
+
     @classmethod
     def get_label(cls) -> str:
         return 'PDF documents - based on PyPDF2'
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
-        return ['application/pdf']
+        return ['']
 
     def build_jpeg_preview(
         self, file_path: str,

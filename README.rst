@@ -831,7 +831,7 @@ From scratch on a terminal :
      * `apt-get install libfile-mimeinfo-perl`
      * `pip install wand`
      * `pip install Pillow`
-     * `pip install PyPDF2`
+     * `pip install pikepdf`
      * `pip install python-magic`
      * `pip install pyexifinfo`
      * `pip install packaging`
@@ -845,7 +845,7 @@ From scratch on a terminal :
 
   # general dependencies
   apt-get install zlib1g-dev libjpeg-dev python3-pythonmagick inkscape xvfb poppler-utils libfile-mimeinfo-perl
-  pip install wand Pillow PyPDF2 python-magic pyexifinfo packaging xvfbwrapper pdf2image pathlib
+  pip install wand Pillow pikepdf python-magic pyexifinfo packaging xvfbwrapper pdf2image pathlib
   # Exiftool
   wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz
   gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf -

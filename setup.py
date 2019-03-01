@@ -28,7 +28,7 @@ testpkgs = []
 install_requires = [
     'python-magic',
     'Wand',
-    'PyPDF2',
+    'pikepdf',
     'Pillow',
     'pyexifinfo',
     'packaging',
