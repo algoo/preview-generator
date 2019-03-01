@@ -28,13 +28,14 @@ testpkgs = []
 install_requires = [
     'python-magic',
     'Wand',
-    'pikepdf',
+    'PyPDF2',
     'Pillow',
     'pyexifinfo',
     'packaging',
     'xvfbwrapper',
     'pathlib',
-    'pdf2image'
+    'pdf2image',
+    'pikepdf'
 ]
 
 if py_version <= (3, 4):
