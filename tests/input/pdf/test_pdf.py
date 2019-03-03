@@ -18,6 +18,7 @@ CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = '/tmp/preview-generator-tests/cache'
 IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, 'the_pdf.pdf')
 IMAGE_FILE_PATH__ENCRYPTED = os.path.join(CURRENT_DIR, 'the_pdf.encrypted.pdf')
+IMAGE_FILE_PATH__A4 = os.path.join(CURRENT_DIR, 'qpdfconvert.pdf')
 
 
 def setup_function(function):
@@ -131,3 +132,17 @@ def test_to_pdf():
         force=True
     )
     # TODO - G.M - 2018-11-06 - To be completed
+
+
+def test_algorithm4():
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+    assert manager.has_jpeg_preview(
+        file_path=IMAGE_FILE_PATH__A4
+    ) is True
+    path_to_file = manager.get_jpeg_preview(
+        file_path=IMAGE_FILE_PATH__A4,
+        force=True
+    )
+    with Image.open(path_to_file) as jpeg:
+        assert jpeg.height == 256
+        assert jpeg.width in range(180, 182)
