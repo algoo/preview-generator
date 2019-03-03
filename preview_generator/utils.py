@@ -9,6 +9,7 @@ from subprocess import DEVNULL
 from subprocess import STDOUT
 import typing
 import os
+import tempfile
 
 from preview_generator.exception import ExecutableNotFound
 
@@ -177,6 +178,24 @@ def get_decrypted_pdf(stream, strict=True, warndest=None, overwriteWarnings=True
     pdf = PdfFileReader(stream, strict, warndest, overwriteWarnings)
     if pdf.isEncrypted:
         # TODO - D.A. - 2018-11-08 - manage password protected PDFs
-        pdf.decrypt('')
-
+        password = ''
+        try:
+            pdf.decrypt(password)
+        except NotImplementedError:
+            # If not supported, try and use qpdf to decrypt with '' first.
+            # See https://github.com/mstamy2/PyPDF2/issues/378
+            # Workaround for the "NotImplementedError: only algorithm code 1 and 2 are supported" issue.
+            check_executable_is_available('qpdf')
+            tf = tempfile.NamedTemporaryFile(prefix='preview-generator-', suffix='.pdf', delete=False)
+            tfoname = tf.name + '_decrypted.pdf'
+            stream.seek(0)
+            tf.write(stream.read())
+            tf.close()            
+            if password:
+                check_call(['qpdf', "--password=''" % password, '--decrypt', tf.name, tfoname])
+            else:
+                check_call(['qpdf', '--decrypt', tf.name, tfoname])
+            pdf = PdfFileReader(tfoname, strict, warndest, overwriteWarnings)
+            os.unlink(tf.name)
+            os.unlink(tfoname)
     return pdf
