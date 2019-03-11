@@ -145,7 +145,7 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
                 dims_out=preview_dims
             )
             image.resize(resize_dim.width, resize_dim.height)
-
+            image.strip()
             content_as_bytes = image.make_blob('jpeg')
             output = BytesIO()
             output.write(content_as_bytes)
