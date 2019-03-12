@@ -54,7 +54,7 @@ def convert_pdf_to_jpeg(
             ImgDims(image.width, image.height),
             preview_size
         )
-        resized = image.resize((resize_dims.width, resize_dims.height,))
+        resized = image.resize((resize_dims.width, resize_dims.height,), resample=True)
         resized.save(output, format="JPEG")
 
     output.seek(0, 0)
