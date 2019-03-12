@@ -20,7 +20,7 @@ from preview_generator.preview.builder.document_generic import create_flag_file
 from preview_generator.preview.builder.document_generic import write_file_content
 
 
-LOCK = threading.Lock()
+LIBREOFFICE_CALL_LOCK = threading.Lock()
 
 class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
     @classmethod
@@ -87,7 +87,10 @@ def convert_office_document_to_pdf(
             temporary_input_content_path,
             cache_path
         ))
-        with LOCK:
+        # INFO - jumenzel - 2019-03-12 - Do not allow multiple concurrent libreoffice calls to avoid issue.
+        # INFO - jumenzel - 2019-03-12 - Should we allow running multiple libreoffice instances ?
+        #   see https://github.com/algoo/preview-generator/issues/77
+        with LIBREOFFICE_CALL_LOCK:
             check_call(
                 [
                     'libreoffice',
