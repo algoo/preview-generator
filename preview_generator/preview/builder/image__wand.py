@@ -145,7 +145,8 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
                 dims_out=preview_dims
             )
             image.resize(resize_dim.width, resize_dim.height)
-
+            # INFO - jumenzel - 2019-03-12 - remove metadata, color-profiles from this image.
+            image.strip()
             content_as_bytes = image.make_blob('jpeg')
             output = BytesIO()
             output.write(content_as_bytes)

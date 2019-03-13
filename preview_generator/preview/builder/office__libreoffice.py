@@ -4,6 +4,7 @@ from io import BytesIO
 import logging
 import os
 from preview_generator.utils import LOGGER_NAME
+import threading
 from subprocess import check_call
 from subprocess import DEVNULL
 from subprocess import STDOUT
@@ -18,6 +19,8 @@ from preview_generator.preview.builder.document_generic import DocumentPreviewBu
 from preview_generator.preview.builder.document_generic import create_flag_file
 from preview_generator.preview.builder.document_generic import write_file_content
 
+
+LIBREOFFICE_CALL_LOCK = threading.Lock()
 
 class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
     @classmethod
@@ -84,19 +87,23 @@ def convert_office_document_to_pdf(
             temporary_input_content_path,
             cache_path
         ))
-        check_call(
-            [
-                'libreoffice',
-                '--headless',
-                '--convert-to',
-                'pdf:writer_pdf_Export',
-                temporary_input_content_path,
-                '--outdir',
-                cache_path,
-                '-env:UserInstallation=file:///tmp/LibreOffice_Conversion_${USER}',  # nopep8
-            ],
-            stdout=DEVNULL,
-            stderr=STDOUT
+        # INFO - jumenzel - 2019-03-12 - Do not allow multiple concurrent libreoffice calls to avoid issue.
+        # INFO - jumenzel - 2019-03-12 - Should we allow running multiple libreoffice instances ?
+        #   see https://github.com/algoo/preview-generator/issues/77
+        with LIBREOFFICE_CALL_LOCK:
+            check_call(
+                [
+                    'libreoffice',
+                    '--headless',
+                    '--convert-to',
+                    'pdf:writer_pdf_Export',
+                    temporary_input_content_path,
+                    '--outdir',
+                    cache_path,
+                    '-env:UserInstallation=file:///tmp/LibreOffice_Conversion_${USER}',  # nopep8
+                ],
+                stdout=DEVNULL,
+                stderr=STDOUT
         )
     # HACK - D.A. - 2018-05-31 - name is defined by libreoffice
     # according to input file name, for homogeneity we prefer to rename it
