@@ -526,7 +526,7 @@ Installation
 
 Dependencies:
 
-``apt-get install zlib1g-dev libjpeg-dev python3-pythonmagick inkscape xvfb poppler-utils libfile-mimeinfo-perl``
+``apt-get install zlib1g-dev libjpeg-dev python3-pythonmagick inkscape xvfb poppler-utils libfile-mimeinfo-perl qpdf``
 
 At the moment there are issues with the exiftool package on debian, so you'll need to install it manually:
 
@@ -828,6 +828,7 @@ From scratch on a terminal :
      * `apt-get install inkscape`
      * `apt-get install xvfb`
      * `apt-get install poppler-utils`
+     * `apt-get install qpdf`
      * `apt-get install libfile-mimeinfo-perl`
      * `pip install wand`
      * `pip install Pillow`
@@ -844,7 +845,7 @@ From scratch on a terminal :
 .. code:: console
 
   # general dependencies
-  apt-get install zlib1g-dev libjpeg-dev python3-pythonmagick inkscape xvfb poppler-utils libfile-mimeinfo-perl
+  apt-get install zlib1g-dev libjpeg-dev python3-pythonmagick inkscape xvfb poppler-utils qpdf libfile-mimeinfo-perl
   pip install wand Pillow PyPDF2 python-magic pyexifinfo packaging xvfbwrapper pdf2image pathlib
   # Exiftool
   wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz
