@@ -2,6 +2,8 @@
 
 from io import BytesIO
 import logging
+
+import PIL
 from PIL import Image
 import typing
 
@@ -9,7 +11,13 @@ from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import compute_resize_dims
 from preview_generator.utils import ImgDims
 
+JPEG_OPTIMIZE = True
+JPEG_QUALITY = 95
+JPEG_PROGRESSIVE = True
+JPEG_RESAMPLE = PIL.Image.BILINEAR
 TRANSPARENCY_MODES = ['RGBA', 'LA']
+
+
 class ImagePreviewBuilderPillow(ImagePreviewBuilder):
     @classmethod
     def get_label(cls) -> str:
@@ -60,15 +68,15 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
                 dims_out=preview_dims
             )
             output = BytesIO()
-            image = image.resize((resize_dim.width, resize_dim.height))
+            image = image.resize((resize_dim.width, resize_dim.height), resample=JPEG_RESAMPLE)
             if image.mode not in TRANSPARENCY_MODES:
                 # INFO - G.M - 2019-06-18 - Try directly saving new image, this may failed due to
                 # image mode issue.
                 try:
-                    image.save(output, 'jpeg')
+                    image.save(output, 'jpeg', optimize=JPEG_OPTIMIZE, quality=JPEG_QUALITY, progressive=JPEG_PROGRESSIVE)
                 except OSError as exc:
                     image = image.convert('RGB')
-                    image.save(output, 'jpeg')
+                    image.save(output, 'jpeg', optimize=JPEG_OPTIMIZE, quality=JPEG_QUALITY, progressive=JPEG_PROGRESSIVE)
             else:
                 # INFO - G.M - 2019-06-18 - choose saving mode according to image mode, this should
                 # be jpeg compatible mode
@@ -95,7 +103,7 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
                         'Failed the transparency mask superposition. '
                         'Maybe your image does not contain a transparency mask')
                     output_image.paste(image)
-                output_image.save(output, 'jpeg')
+                output_image.save(output, 'jpeg', optimize=JPEG_OPTIMIZE, quality=JPEG_QUALITY, progressive=JPEG_PROGRESSIVE)
 
             output.seek(0, 0)
             return output
