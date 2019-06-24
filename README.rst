@@ -817,7 +817,7 @@ From scratch on a terminal :
   - `git clone https://github.com/algoo/preview-generator`
   - building your environment :
      * install python virtualenv builder : `sudo apt install python3-venv`
-     * build your virtual env (I can say that it work with python 3.4 but did not try with other versions)(env will be called "myenv", you can name it the way you want): `python3.4 -m venv myenv`
+     * build your virtual env (env will be called "myenv", you can name it the way you want): `python3 -m venv myenv`
      * if it's not already, activate it : `source myenv/bin/activate`. (`deactivate` to deactivate)
   - install dependencies :
 
