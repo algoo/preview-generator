@@ -32,7 +32,9 @@ JPEG_RESAMPLE = PIL.Image.BILINEAR
 # RGBA is RGB + Alpha channel
 # LA is L (8-bit pixels, black and white) + Alpha channel
 TRANSPARENCY_MODES = ['RGBA', 'LA']
-
+# color for
+RGB_BACKGROUND_COLOR = (255, 255, 255) # This means white background
+BW_BACKGROUND_COLOR = 1 # 1 mean white
 
 class ImagePreviewBuilderPillow(ImagePreviewBuilder):
     @classmethod
@@ -89,37 +91,37 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
                 # INFO - G.M - 2019-06-18 - Try directly saving new image, this may failed due to
                 # image mode issue.
                 try:
-                    image.save(output, 'jpeg', optimize=JPEG_OPTIMIZE, quality=JPEG_QUALITY, progressive=JPEG_PROGRESSIVE)
+                    image.save(fp=output, format='jpeg', optimize=JPEG_OPTIMIZE, quality=JPEG_QUALITY, progressive=JPEG_PROGRESSIVE)
                 except OSError as exc:
                     image = image.convert('RGB')
-                    image.save(output, 'jpeg', optimize=JPEG_OPTIMIZE, quality=JPEG_QUALITY, progressive=JPEG_PROGRESSIVE)
+                    image.save(fp=output, format='jpeg', optimize=JPEG_OPTIMIZE, quality=JPEG_QUALITY, progressive=JPEG_PROGRESSIVE)
             else:
                 # INFO - G.M - 2019-06-18 - choose saving mode according to image mode, this should
                 # be jpeg compatible mode
                 if image.mode == 'RGBA':
                     output_image = Image.new(
-                        'RGB',
-                        (resize_dim.width, resize_dim.height),
-                        (255, 255, 255)
+                        mode='RGB',
+                        size=(resize_dim.width, resize_dim.height),
+                        color=RGB_BACKGROUND_COLOR
                     )
                 elif image.mode == 'LA':
                     output_image = Image.new(
-                        'L',
-                        (resize_dim.width, resize_dim.height),
-                        1
+                        mode='L',
+                        size=(resize_dim.width, resize_dim.height),
+                        color=BW_BACKGROUND_COLOR
                     )
                 else:
                     raise Exception()
 
                 # INFO - G.M - 2019-06-18 - in case of transparency mode, do apply image over blank output image.
                 try:
-                    output_image.paste(image, (0, 0), image)
+                    output_image.paste(im=image, box=(0, 0), mask=image)
                 except ValueError:
                     self.logger.warning(
                         'Failed the transparency mask superposition. '
                         'Maybe your image does not contain a transparency mask')
                     output_image.paste(image)
-                output_image.save(output, 'jpeg', optimize=JPEG_OPTIMIZE, quality=JPEG_QUALITY, progressive=JPEG_PROGRESSIVE)
+                output_image.save(fp=output, format='jpeg', optimize=JPEG_OPTIMIZE, quality=JPEG_QUALITY, progressive=JPEG_PROGRESSIVE)
 
             output.seek(0, 0)
             return output
