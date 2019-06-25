@@ -58,14 +58,13 @@ setup(
     ),
     keywords=['preview', 'preview_generator', 'thumbnail', 'cache'],
     classifiers=[
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
     packages=find_packages(exclude=['ez_setup']),
     install_requires=install_requires,
-    python_requires='>= 3.4',
+    python_requires='>= 3.5',
     include_package_data=True,
     test_suite='py.test',  # TODO : change test_suite
     tests_require=testpkgs,

@@ -2,6 +2,7 @@
 
 import os
 from PIL import Image
+from PyPDF2 import PdfFileReader
 from wand.image import Image as WandImage
 import shutil
 import hashlib
@@ -179,13 +180,9 @@ def test_to_pdf_no_page():
     assert os.path.getsize(path_to_file) > 0
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__PDF, path_to_file)
 
-    try:
-        with WandImage(filename=path_to_file) as pdf:
-            assert len(pdf.sequence) == 2
-    except PolicyError:
-        pytest.skip(
-            'You must update ImageMagic policy file to allow PDF files'
-        )
+    pdf = PdfFileReader(open(path_to_file, 'rb'))
+    assert pdf.getNumPages() == 2
+
 
 
 def test_to_text():
