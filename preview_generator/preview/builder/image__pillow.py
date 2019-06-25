@@ -84,7 +84,7 @@ class TransparentImageConvertStrategy(ImageConvertStrategy):
     Abstract image converter for Transparent Image
     """
 
-    def save_transparency(
+    def _save_transparent_image(
             self,
             origin_image: PIL.Image,
             file_output: BytesIO,
@@ -126,7 +126,7 @@ class RGBAImageConvertStrategy(TransparentImageConvertStrategy):
             quality: int = DEFAULT_JPEG_QUALITY,
             progressive: bool= DEFAULT_JPEG_PROGRESSIVE
     ) -> BytesIO:
-        return self.save_transparency(
+        return self._save_transparent_image(
             origin_image=origin_image,
             file_output=file_output,
             optimize=optimize,
@@ -148,7 +148,7 @@ class LAImageConvertStrategy(TransparentImageConvertStrategy):
             quality: int = DEFAULT_JPEG_QUALITY,
             progressive: bool= DEFAULT_JPEG_PROGRESSIVE
     ) -> BytesIO:
-        return self.save_transparency(
+        return self._save_transparent_image(
             origin_image=origin_image,
             file_output=file_output,
             optimize=optimize,
