@@ -11,10 +11,26 @@ from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import compute_resize_dims
 from preview_generator.utils import ImgDims
 
+# INFO - G.M - 2019-06-25 - some configuration for jpeg saved,
+# see https://pillow.readthedocs.io/en/latest/handbook/image-file-formats.html?highlight=JPEG#jpeg
+# optimize -> extra pass to select optimal encoded
+# quality -> compression level from 1 to 100
+# progressive -> permit to see a blured version of file instead of partial image when image
+# is not fully downloaded, nice for web usage.
 JPEG_OPTIMIZE = True
 JPEG_QUALITY = 95
 JPEG_PROGRESSIVE = True
+# Pillow algorithm use for resampling, bilinear is not the fastest but is fast
+# enough, this permit good enough image (using faster algorithm return much more
+# aliasing. see https://pillow.readthedocs.io/en/latest/handbook/concepts.html?highlight=Bilinear#filters
+# for algorithm list.
 JPEG_RESAMPLE = PIL.Image.BILINEAR
+# Pillow deal with many different mode of image:
+# https://pillow.readthedocs.io/en/latest/handbook/concepts.html#modes
+# those are mode known to have alpha layer, so needing special process to
+# have clean white background
+# RGBA is RGB + Alpha channel
+# LA is L (8-bit pixels, black and white) + Alpha channel
 TRANSPARENCY_MODES = ['RGBA', 'LA']
 
 
