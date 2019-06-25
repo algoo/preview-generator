@@ -18,7 +18,7 @@ from preview_generator.utils import ImgDims
 # progressive -> permit to see a blured version of file instead of partial image when image
 # is not fully downloaded, nice for web usage.
 JPEG_OPTIMIZE = True
-JPEG_QUALITY = 95
+JPEG_QUALITY = 75
 JPEG_PROGRESSIVE = True
 # Pillow algorithm use for resampling, bilinear is not the fastest but is fast
 # enough, this permit good enough image (using faster algorithm return much more
