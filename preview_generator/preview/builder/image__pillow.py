@@ -51,6 +51,9 @@ class ImageConvertStrategy(ABC):
         pass
 
 class NotTransparentImageConvertStrategy(ImageConvertStrategy):
+    """
+    Image converter for all non transparent image
+    """
 
     def save(
             self,
@@ -71,6 +74,9 @@ class NotTransparentImageConvertStrategy(ImageConvertStrategy):
         return file_output
 
 class TransparentImageConvertStrategy(ImageConvertStrategy):
+    """
+    Abstract image converter for Transparent Image
+    """
 
     def save_transparency(
             self,
@@ -100,6 +106,9 @@ class TransparentImageConvertStrategy(ImageConvertStrategy):
         return file_output
 
 class RGBAImageConvertStrategy(TransparentImageConvertStrategy):
+    """
+    Image converter for RGBA image
+    """
 
     def save(
             self,
@@ -120,7 +129,9 @@ class RGBAImageConvertStrategy(TransparentImageConvertStrategy):
         )
 
 class LAImageConvertStrategy(TransparentImageConvertStrategy):
-
+    """
+    Image converter for LA image
+    """
     def save(
             self,
             origin_image: PIL.Image,
@@ -140,8 +151,16 @@ class LAImageConvertStrategy(TransparentImageConvertStrategy):
         )
 
 class PillowImageConvertStrategyFactory(object):
+    """
+    Factory class to retrieve image convert strategy according to image mode
+    """
 
-    def get_strategy(self, mode: str):
+    def get_strategy(self, mode: str) -> ImageConvertStrategy:
+        """
+        Get strategy to use for this image mode
+        :param mode: pillow image mode
+        :return:
+        """
         if mode == 'RGBA':
             return RGBAImageConvertStrategy()
         elif mode == 'LA':
