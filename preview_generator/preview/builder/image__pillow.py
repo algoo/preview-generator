@@ -67,6 +67,8 @@ class NotTransparentImageConvertStrategy(ImageConvertStrategy):
             origin_image.save(fp=file_output, format='jpeg', optimize=optimize, quality=quality,
                               progressive=progressive)
         except OSError as exc:
+            # INFO - G.M - in some case image mode cannot be directly convert to JPEG, in those
+            # case, it raise OSError, we should fallback to a working mode and retry saving.
             origin_image = origin_image.convert(DEFAULT_SAVING_MODE)
             origin_image.save(fp=file_output, format='jpeg', optimize=optimize, quality=quality,
                               progressive=progressive)
@@ -88,11 +90,13 @@ class TransparentImageConvertStrategy(ImageConvertStrategy):
             saving_mode: str = DEFAULT_SAVING_MODE,
             background_color: typing.Union[int, typing.Tuple[int, int, int]] = DEFAULT_BW_BACKGROUND_COLOR
     ) -> BytesIO:
+        # INFO - G.M - 2019-06-25 - create uniform base image
         temp_image = Image.new(
             mode=saving_mode,
             size=(origin_image.width, origin_image.height),
             color=background_color,
         )
+        # INFO - G.M - 2019-06-25 - apply current image with transparency on top of the base image
         try:
             temp_image.paste(im=origin_image, box=(0, 0), mask=origin_image)
         except ValueError:
