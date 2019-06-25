@@ -36,6 +36,20 @@ install_requires = [
     'pathlib',
     'pdf2image'
 ]
+tests_require = [
+    'pytest',
+]
+
+devtools_require=[
+    'flake8',
+    'isort',
+    'mypy',
+    'pre-commit',
+]
+
+# add black for python 3.6+
+if sys.version_info.major == 3 and sys.version_info.minor >= 6:
+    devtools_require.append('black')
 
 if py_version <= (3, 4):
     install_requires.append("typing")
@@ -66,6 +80,10 @@ setup(
     install_requires=install_requires,
     python_requires='>= 3.5',
     include_package_data=True,
+    extras_require={
+        'testing': tests_require,
+        'dev': tests_require + devtools_require,
+    },
     test_suite='py.test',  # TODO : change test_suite
     tests_require=testpkgs,
     package_data={

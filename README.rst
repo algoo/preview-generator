@@ -872,13 +872,51 @@ of the generic abstract class. For example:
 
     ImagePreviewBuilderIMConvert(ImagePreviewBuilder)
 
-Running Pytest :
+Running Tests :
 ----------------
  Pytest is a motor for unit testing
 
-* `pip install pytest`
+* `pip install -e [testing]`
 * go into the "tests" directory : `cd path/to/you/project/directory/tests`
-* run `py.test`
+* run `pytest`
+
+
+Others checks :
+-------------------
+
+Run mypy checks:
+
+     mypy --ignore-missing-imports --disallow-untyped-defs .
+
+Code formatting using black:
+
+     black -l 100 preview_generator setup.py build_supported_mimetypes_table_rst.py tests
+
+Sorting of import:
+
+     isort tests/**/*.py preview_generator/**/*.py setup.py build_supported_mimetypes_table_rst.py
+
+Flake8 check(unused import, variable and many other checks):
+
+    flake8 preview_generator setup.py build_supported_mimetypes_table_rst.py tests
+
+
+Contribute :
+----------------
+install preview_generator with dev dependencies (contains tests dependencies)
+
+   pip install -e '.[dev]
+
+install pre-commit hooks:
+
+  pre-commit install
+
+Launch test :
+
+  pytest
+
+You now can commit and see if pre-commit is ok with your change.
+
 
 ------------
 License
