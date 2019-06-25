@@ -39,6 +39,10 @@ DEFAULT_SAVING_MODE = 'RGB'
 
 class ImageConvertStrategy(ABC):
 
+    def __init__(self, logger: logging.Logger):
+        assert logger is not None
+        self.logger = logger
+
     @abstractmethod
     def save(
             self,
@@ -100,9 +104,9 @@ class TransparentImageConvertStrategy(ImageConvertStrategy):
         try:
             temp_image.paste(im=origin_image, box=(0, 0), mask=origin_image)
         except ValueError:
-            # self.logger.warning(
-            #     'Failed the transparency mask superposition. '
-            #     'Maybe your image does not contain a transparency mask')
+            self.logger.warning(
+                'Failed the transparency mask superposition. '
+                'Maybe your image does not contain a transparency mask')
             temp_image.paste(origin_image)
         temp_image.save(fp=file_output, format='jpeg', optimize=optimize, quality=quality,
                           progressive=progressive)
@@ -159,6 +163,10 @@ class PillowImageConvertStrategyFactory(object):
     Factory class to retrieve image convert strategy according to image mode
     """
 
+    def __init__(self, logger: logging.Logger):
+        assert logger is not None
+        self.logger = logger
+
     def get_strategy(self, mode: str) -> ImageConvertStrategy:
         """
         Get strategy to use for this image mode
@@ -166,11 +174,11 @@ class PillowImageConvertStrategyFactory(object):
         :return:
         """
         if mode == 'RGBA':
-            return RGBAImageConvertStrategy()
+            return RGBAImageConvertStrategy(self.logger)
         elif mode == 'LA':
-            return LAImageConvertStrategy()
+            return LAImageConvertStrategy(self.logger)
         else:
-            return NotTransparentImageConvertStrategy()
+            return NotTransparentImageConvertStrategy(self.logger)
 
 
 class ImagePreviewBuilderPillow(ImagePreviewBuilder):
@@ -184,7 +192,7 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
         if pillow_image_convert_strategy_factory:
             self.pillow_image_convert_strategy_factory = pillow_image_convert_strategy_factory
         else:
-            self.pillow_image_convert_strategy_factory = PillowImageConvertStrategyFactory()
+            self.pillow_image_convert_strategy_factory = PillowImageConvertStrategyFactory(self.logger)
         self.resample_filter_algorithm = resample_filter_algorithm
 
 
