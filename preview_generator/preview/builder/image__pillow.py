@@ -185,16 +185,17 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
 
     def __init__(
             self,
-            pillow_image_convert_strategy_factory: PillowImageConvertStrategyFactory = None,
+            optimize: bool = DEFAULT_JPEG_OPTIMIZE,
+            quality: int = DEFAULT_JPEG_QUALITY,
+            progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
             resample_filter_algorithm: int = DEFAULT_JPEG_RESAMPLE_ALGORITHM
     ):
         super().__init__()
-        if pillow_image_convert_strategy_factory:
-            self.pillow_image_convert_strategy_factory = pillow_image_convert_strategy_factory
-        else:
-            self.pillow_image_convert_strategy_factory = PillowImageConvertStrategyFactory(self.logger)
-        self.resample_filter_algorithm = resample_filter_algorithm
 
+        self.optimize = optimize
+        self.quality = quality
+        self.progressive = progressive
+        self.resample_filter_algorithm = resample_filter_algorithm
 
     @classmethod
     def get_label(cls) -> str:
@@ -246,5 +247,5 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
             )
             output = BytesIO()
             image = image.resize((resize_dim.width, resize_dim.height), resample=self.resample_filter_algorithm)
-            image_converter = self.pillow_image_convert_strategy_factory.get_strategy(image.mode)
-            return image_converter.save(image, output)
+            image_converter = PillowImageConvertStrategyFactory(self.logger).get_strategy(image.mode)
+            return image_converter.save(image, output, optimize=self.optimize, progressive=self.progressive, quality=self.quality)
