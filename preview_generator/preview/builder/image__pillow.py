@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from abc import ABC, abstractmethod
 from io import BytesIO
 import logging
 
@@ -17,26 +17,154 @@ from preview_generator.utils import ImgDims
 # quality -> compression level from 1 to 100
 # progressive -> permit to see a blured version of file instead of partial image when image
 # is not fully downloaded, nice for web usage.
-JPEG_OPTIMIZE = True
-JPEG_QUALITY = 75
-JPEG_PROGRESSIVE = True
+DEFAULT_JPEG_OPTIMIZE = True
+DEFAULT_JPEG_QUALITY = 75
+DEFAULT_JPEG_PROGRESSIVE = True
 # Pillow algorithm use for resampling, bilinear is not the fastest but is fast
 # enough, this permit good enough image (using faster algorithm return much more
 # aliasing. see https://pillow.readthedocs.io/en/latest/handbook/concepts.html?highlight=Bilinear#filters
 # for algorithm list.
-JPEG_RESAMPLE = PIL.Image.BILINEAR
+DEFAULT_JPEG_RESAMPLE_ALGORITHM = PIL.Image.BILINEAR
 # Pillow deal with many different mode of image:
 # https://pillow.readthedocs.io/en/latest/handbook/concepts.html#modes
 # those are mode known to have alpha layer, so needing special process to
 # have clean white background
 # RGBA is RGB + Alpha channel
 # LA is L (8-bit pixels, black and white) + Alpha channel
-TRANSPARENCY_MODES = ['RGBA', 'LA']
 # color for
-RGB_BACKGROUND_COLOR = (255, 255, 255) # This means white background
-BW_BACKGROUND_COLOR = 1 # 1 mean white
+DEFAULT_RGB_BACKGROUND_COLOR = (255, 255, 255) # This means white background
+DEFAULT_BW_BACKGROUND_COLOR = 1
+DEFAULT_SAVING_MODE = 'RGB'
+
+
+class ImageConvertStrategy(ABC):
+
+    @abstractmethod
+    def save(
+            self,
+            origin_image: PIL.Image,
+            file_output: BytesIO,
+            optimize: bool = DEFAULT_JPEG_OPTIMIZE,
+            quality: int = DEFAULT_JPEG_QUALITY,
+            progressive: bool= DEFAULT_JPEG_PROGRESSIVE
+    ) -> BytesIO:
+        pass
+
+class NotTransparentImageConvertStrategy(ImageConvertStrategy):
+
+    def save(
+            self,
+            origin_image: PIL.Image,
+            file_output: BytesIO,
+            optimize: bool = DEFAULT_JPEG_OPTIMIZE,
+            quality: int = DEFAULT_JPEG_QUALITY,
+            progressive: bool= DEFAULT_JPEG_PROGRESSIVE
+    ) -> BytesIO:
+        try:
+            origin_image.save(fp=file_output, format='jpeg', optimize=optimize, quality=quality,
+                              progressive=progressive)
+        except OSError as exc:
+            origin_image = origin_image.convert(DEFAULT_SAVING_MODE)
+            origin_image.save(fp=file_output, format='jpeg', optimize=optimize, quality=quality,
+                              progressive=progressive)
+        file_output.seek(0, 0)
+        return file_output
+
+class TransparentImageConvertStrategy(ImageConvertStrategy):
+
+    def save_transparency(
+            self,
+            origin_image: PIL.Image,
+            file_output: BytesIO,
+            optimize: bool = DEFAULT_JPEG_OPTIMIZE,
+            quality: int = DEFAULT_JPEG_QUALITY,
+            progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
+            saving_mode: str = DEFAULT_SAVING_MODE,
+            background_color: typing.Union[int, typing.Tuple[int, int, int]] = DEFAULT_BW_BACKGROUND_COLOR
+    ) -> BytesIO:
+        temp_image = Image.new(
+            mode=saving_mode,
+            size=(origin_image.width, origin_image.height),
+            color=background_color,
+        )
+        try:
+            temp_image.paste(im=origin_image, box=(0, 0), mask=origin_image)
+        except ValueError:
+            # self.logger.warning(
+            #     'Failed the transparency mask superposition. '
+            #     'Maybe your image does not contain a transparency mask')
+            temp_image.paste(origin_image)
+        temp_image.save(fp=file_output, format='jpeg', optimize=optimize, quality=quality,
+                          progressive=progressive)
+        file_output.seek(0, 0)
+        return file_output
+
+class RGBAImageConvertStrategy(TransparentImageConvertStrategy):
+
+    def save(
+            self,
+            origin_image: PIL.Image,
+            file_output: BytesIO,
+            optimize: bool = DEFAULT_JPEG_OPTIMIZE,
+            quality: int = DEFAULT_JPEG_QUALITY,
+            progressive: bool= DEFAULT_JPEG_PROGRESSIVE
+    ) -> BytesIO:
+        return self.save_transparency(
+            origin_image=origin_image,
+            file_output=file_output,
+            optimize=optimize,
+            quality=quality,
+            progressive=progressive,
+            saving_mode='RGB',
+            background_color=DEFAULT_RGB_BACKGROUND_COLOR,
+        )
+
+class LAImageConvertStrategy(TransparentImageConvertStrategy):
+
+    def save(
+            self,
+            origin_image: PIL.Image,
+            file_output: BytesIO,
+            optimize: bool = DEFAULT_JPEG_OPTIMIZE,
+            quality: int = DEFAULT_JPEG_QUALITY,
+            progressive: bool= DEFAULT_JPEG_PROGRESSIVE
+    ) -> BytesIO:
+        return self.save_transparency(
+            origin_image=origin_image,
+            file_output=file_output,
+            optimize=optimize,
+            quality=quality,
+            progressive=progressive,
+            saving_mode='L',
+            background_color=DEFAULT_BW_BACKGROUND_COLOR,
+        )
+
+class PillowImageConvertStrategyFactory(object):
+
+    def get_strategy(self, mode: str):
+        if mode == 'RGBA':
+            return RGBAImageConvertStrategy()
+        elif mode == 'LA':
+            return LAImageConvertStrategy()
+        else:
+            return NotTransparentImageConvertStrategy()
+
 
 class ImagePreviewBuilderPillow(ImagePreviewBuilder):
+
+    def __init__(
+            self,
+            pillow_image_convert_strategy_factory: PillowImageConvertStrategyFactory = None,
+            resample_filter_algorithm: int = DEFAULT_JPEG_RESAMPLE_ALGORITHM
+    ):
+        super().__init__()
+        if pillow_image_convert_strategy_factory:
+            self.pillow_image_convert_strategy_factory = pillow_image_convert_strategy_factory
+        else:
+            self.pillow_image_convert_strategy_factory = PillowImageConvertStrategyFactory()
+        self.resample_filter_algorithm = resample_filter_algorithm
+
+
     @classmethod
     def get_label(cls) -> str:
         return 'Bitmap images - based on Pillow'
@@ -77,7 +205,7 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
             self,
             png: typing.Union[str, typing.IO[bytes]],
             preview_dims: ImgDims
-    ) -> BytesIO:
+    ) ->  BytesIO:
         self.logger.info('Converting image to jpeg using Pillow')
 
         with Image.open(png) as image:
@@ -86,42 +214,6 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
                 dims_out=preview_dims
             )
             output = BytesIO()
-            image = image.resize((resize_dim.width, resize_dim.height), resample=JPEG_RESAMPLE)
-            if image.mode not in TRANSPARENCY_MODES:
-                # INFO - G.M - 2019-06-18 - Try directly saving new image, this may failed due to
-                # image mode issue.
-                try:
-                    image.save(fp=output, format='jpeg', optimize=JPEG_OPTIMIZE, quality=JPEG_QUALITY, progressive=JPEG_PROGRESSIVE)
-                except OSError as exc:
-                    image = image.convert('RGB')
-                    image.save(fp=output, format='jpeg', optimize=JPEG_OPTIMIZE, quality=JPEG_QUALITY, progressive=JPEG_PROGRESSIVE)
-            else:
-                # INFO - G.M - 2019-06-18 - choose saving mode according to image mode, this should
-                # be jpeg compatible mode
-                if image.mode == 'RGBA':
-                    output_image = Image.new(
-                        mode='RGB',
-                        size=(resize_dim.width, resize_dim.height),
-                        color=RGB_BACKGROUND_COLOR
-                    )
-                elif image.mode == 'LA':
-                    output_image = Image.new(
-                        mode='L',
-                        size=(resize_dim.width, resize_dim.height),
-                        color=BW_BACKGROUND_COLOR
-                    )
-                else:
-                    raise Exception()
-
-                # INFO - G.M - 2019-06-18 - in case of transparency mode, do apply image over blank output image.
-                try:
-                    output_image.paste(im=image, box=(0, 0), mask=image)
-                except ValueError:
-                    self.logger.warning(
-                        'Failed the transparency mask superposition. '
-                        'Maybe your image does not contain a transparency mask')
-                    output_image.paste(image)
-                output_image.save(fp=output, format='jpeg', optimize=JPEG_OPTIMIZE, quality=JPEG_QUALITY, progressive=JPEG_PROGRESSIVE)
-
-            output.seek(0, 0)
-            return output
+            image = image.resize((resize_dim.width, resize_dim.height), resample=self.resample_filter_algorithm)
+            image_converter = self.pillow_image_convert_strategy_factory.get_strategy(image.mode)
+            return image_converter.save(image, output)
