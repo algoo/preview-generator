@@ -167,15 +167,15 @@ class PillowImageConvertStrategyFactory(object):
         assert logger is not None
         self.logger = logger
 
-    def get_strategy(self, mode: str) -> ImageConvertStrategy:
+    def get_strategy(self, image: PIL.Image) -> ImageConvertStrategy:
         """
         Get strategy to use for this image mode
         :param mode: pillow image mode
         :return:
         """
-        if mode == 'RGBA':
+        if image.mode == 'RGBA':
             return ImageConvertStrategyRGBA(self.logger)
-        elif mode == 'LA':
+        elif image.mode == 'LA':
             return ImageConvertStrategyLA(self.logger)
         else:
             return ImageConvertStrategyNOTTRANSPARENT(self.logger)
@@ -247,5 +247,5 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
             )
             output = BytesIO()
             image = image.resize((resize_dim.width, resize_dim.height), resample=self.resample_filter_algorithm)
-            image_converter = PillowImageConvertStrategyFactory(self.logger).get_strategy(image.mode)
+            image_converter = PillowImageConvertStrategyFactory(self.logger).get_strategy(image)
             return image_converter.save(image, output, optimize=self.optimize, progressive=self.progressive, quality=self.quality)
