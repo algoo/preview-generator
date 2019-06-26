@@ -54,7 +54,7 @@ class ImageConvertStrategy(ABC):
     ) -> BytesIO:
         pass
 
-class NotTransparentImageConvertStrategy(ImageConvertStrategy):
+class ImageConvertStrategyNOTTRANSPARENT(ImageConvertStrategy):
     """
     Image converter for all non transparent image
     """
@@ -79,7 +79,7 @@ class NotTransparentImageConvertStrategy(ImageConvertStrategy):
         file_output.seek(0, 0)
         return file_output
 
-class TransparentImageConvertStrategy(ImageConvertStrategy):
+class ImageConvertStrategyTRANSPARENT(ImageConvertStrategy):
     """
     Abstract image converter for Transparent Image
     """
@@ -113,7 +113,7 @@ class TransparentImageConvertStrategy(ImageConvertStrategy):
         file_output.seek(0, 0)
         return file_output
 
-class RGBAImageConvertStrategy(TransparentImageConvertStrategy):
+class ImageConvertStrategyRGBA(ImageConvertStrategyTRANSPARENT):
     """
     Image converter for RGBA image
     """
@@ -136,7 +136,7 @@ class RGBAImageConvertStrategy(TransparentImageConvertStrategy):
             background_color=DEFAULT_RGB_BACKGROUND_COLOR,
         )
 
-class LAImageConvertStrategy(TransparentImageConvertStrategy):
+class ImageConvertStrategyLA(ImageConvertStrategyTRANSPARENT):
     """
     Image converter for LA image
     """
@@ -174,11 +174,11 @@ class PillowImageConvertStrategyFactory(object):
         :return:
         """
         if mode == 'RGBA':
-            return RGBAImageConvertStrategy(self.logger)
+            return ImageConvertStrategyRGBA(self.logger)
         elif mode == 'LA':
-            return LAImageConvertStrategy(self.logger)
+            return ImageConvertStrategyLA(self.logger)
         else:
-            return NotTransparentImageConvertStrategy(self.logger)
+            return ImageConvertStrategyNOTTRANSPARENT(self.logger)
 
 
 class ImagePreviewBuilderPillow(ImagePreviewBuilder):
