@@ -1,4 +1,3 @@
-
 # Produces a PDF for the SLA passed as a parameter.
 # Uses the same file name and replaces the .sla extension with .pdf
 #
@@ -8,9 +7,10 @@
 # license:
 # (c) MIT Ale Rimoldi
 
-import scribus
-import sys
 import logging
+import sys
+
+import scribus
 
 from preview_generator.utils import LOGGER_NAME
 

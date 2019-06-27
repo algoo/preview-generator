@@ -1,24 +1,23 @@
 # -*- coding: utf-8 -*-
-import logging
 from datetime import date
 from datetime import datetime
 from json import JSONEncoder
-from PyPDF2 import PdfFileReader
-from subprocess import check_call
+import logging
+import os
 from subprocess import DEVNULL
 from subprocess import STDOUT
-import typing
-import os
+from subprocess import check_call
 import tempfile
+import typing
+
+from PyPDF2 import PdfFileReader
 
 from preview_generator.exception import ExecutableNotFound
 
-LOGGER_NAME = 'PreviewGenerator'
+LOGGER_NAME = "PreviewGenerator"
 
-def get_subclasses_recursively(
-        _class: type,
-        _seen: set=None
-) -> typing.Generator:
+
+def get_subclasses_recursively(_class: type, _seen: set = None) -> typing.Generator:
     """
     itersubclasses(cls)
 
@@ -44,8 +43,9 @@ def get_subclasses_recursively(
     """
 
     if not isinstance(_class, type):
-        raise TypeError('itersubclasses must be called with '
-                        'new-style classes, not %.100r' % _class)
+        raise TypeError(
+            "itersubclasses must be called with " "new-style classes, not %.100r" % _class
+        )
     if _seen is None:
         _seen = set()
     try:
@@ -66,7 +66,7 @@ class ImgDims(object):
         self.height = height
 
     def __str__(self) -> str:
-        return '{}x{}'.format(self.width, self.height)
+        return "{}x{}".format(self.width, self.height)
 
 
 class CropDims(object):
@@ -77,9 +77,7 @@ class CropDims(object):
         self.bottom = bottom
 
     def __str__(self) -> str:
-        return '({},{}) x ({},{})'.format(
-            self.left, self.top, self.right, self.bottom
-        )
+        return "({},{}) x ({},{})".format(self.left, self.top, self.right, self.bottom)
 
 
 def compute_resize_dims(dims_in: ImgDims, dims_out: ImgDims) -> ImgDims:
@@ -91,8 +89,8 @@ def compute_resize_dims(dims_in: ImgDims, dims_out: ImgDims) -> ImgDims:
     :param dims_out:
     :return:
     """
-    img_ratio_in = (dims_in.width / dims_in.height)
-    img_ratio_out = (dims_out.width / dims_out.height)
+    img_ratio_in = dims_in.width / dims_in.height
+    img_ratio_out = dims_out.width / dims_out.height
 
     if img_ratio_in > img_ratio_out:
         size_ratio = dims_out.width / dims_in.width
@@ -100,8 +98,7 @@ def compute_resize_dims(dims_in: ImgDims, dims_out: ImgDims) -> ImgDims:
         size_ratio = dims_out.height / dims_in.height
 
     return ImgDims(
-        width=round(dims_in.width * size_ratio),
-        height=round(dims_in.height * size_ratio)
+        width=round(dims_in.width * size_ratio), height=round(dims_in.height * size_ratio)
     )
 
 
@@ -112,12 +109,7 @@ def compute_crop_dims(dims_in: ImgDims, dims_out: ImgDims) -> CropDims:
     right = left + dims_out.width
     lower = upper + dims_out.height
 
-    return CropDims(
-        left=left,
-        top=upper,
-        right=right,
-        bottom=lower
-    )
+    return CropDims(left=left, top=upper, right=right, bottom=lower)
 
 
 def check_executable_is_available(executable_name: str) -> bool:
@@ -130,17 +122,13 @@ def check_executable_is_available(executable_name: str) -> bool:
     :return:
     """
     try:
-        result = check_call(
-            [executable_name, '--version'],
-            stdout=DEVNULL,
-            stderr=STDOUT
-        )
+        result = check_call([executable_name, "--version"], stdout=DEVNULL, stderr=STDOUT)
         if result == 0:
             return True
 
     except Exception as e:
         logger = logging.getLogger(LOGGER_NAME)
-        logger.error('Error while checking dependencies: ', e)
+        logger.error("Error while checking dependencies: ", e)
         raise ExecutableNotFound
 
     return False
@@ -150,9 +138,9 @@ class PreviewGeneratorJsonEncoder(JSONEncoder):
     def default(self, obj: typing.Any) -> str:
         if isinstance(obj, bytes):
             try:
-                return obj.decode('ascii')
+                return obj.decode("ascii")
             except:
-                return ''
+                return ""
 
         if isinstance(obj, (datetime, date)):
             serial = obj.isoformat()
@@ -177,24 +165,26 @@ def get_decrypted_pdf(stream, strict=True, warndest=None, overwriteWarnings=True
     """
     pdf = PdfFileReader(stream, strict, warndest, overwriteWarnings)
     if pdf.isEncrypted:
-        # TODO - D.A. - 2018-11-08 - manage password protected PDFs
-        password = ''
+        #  TODO - D.A. - 2018-11-08 - manage password protected PDFs
+        password = ""
         try:
             pdf.decrypt(password)
         except NotImplementedError:
             # If not supported, try and use qpdf to decrypt with '' first.
             # See https://github.com/mstamy2/PyPDF2/issues/378
             # Workaround for the "NotImplementedError: only algorithm code 1 and 2 are supported" issue.
-            check_executable_is_available('qpdf')
-            tf = tempfile.NamedTemporaryFile(prefix='preview-generator-', suffix='.pdf', delete=False)
-            tfoname = tf.name + '_decrypted.pdf'
+            check_executable_is_available("qpdf")
+            tf = tempfile.NamedTemporaryFile(
+                prefix="preview-generator-", suffix=".pdf", delete=False
+            )
+            tfoname = tf.name + "_decrypted.pdf"
             stream.seek(0)
             tf.write(stream.read())
-            tf.close()            
+            tf.close()
             if password:
-                check_call(['qpdf', "--password=''" % password, '--decrypt', tf.name, tfoname])
+                check_call(["qpdf", "--password=''" % password, "--decrypt", tf.name, tfoname])
             else:
-                check_call(['qpdf', '--decrypt', tf.name, tfoname])
+                check_call(["qpdf", "--decrypt", tf.name, tfoname])
             pdf = PdfFileReader(tfoname, strict, warndest, overwriteWarnings)
             os.unlink(tf.name)
             os.unlink(tfoname)

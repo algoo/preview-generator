@@ -1,24 +1,23 @@
 # -*- coding: utf-8 -*-
 
 import os
-
-import pytest
-from PIL import Image
-import PyPDF2.utils
-from PyPDF2 import PdfFileReader
 import re
 import shutil
 
+from PIL import Image
+from PyPDF2 import PdfFileReader
+import PyPDF2.utils
+import pytest
+
 from preview_generator.exception import UnavailablePreviewType
+from preview_generator.manager import PreviewManager
 from tests import test_utils
 
-from preview_generator.manager import PreviewManager
-
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-CACHE_DIR = '/tmp/preview-generator-tests/cache'
-IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, 'the_pdf.pdf')
-IMAGE_FILE_PATH__ENCRYPTED = os.path.join(CURRENT_DIR, 'the_pdf.encrypted.pdf')
-IMAGE_FILE_PATH__A4 = os.path.join(CURRENT_DIR, 'qpdfconvert.pdf')
+CACHE_DIR = "/tmp/preview-generator-tests/cache"
+IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "the_pdf.pdf")
+IMAGE_FILE_PATH__ENCRYPTED = os.path.join(CURRENT_DIR, "the_pdf.encrypted.pdf")
+IMAGE_FILE_PATH__A4 = os.path.join(CURRENT_DIR, "qpdfconvert.pdf")
 
 
 def setup_function(function):
@@ -26,18 +25,10 @@ def setup_function(function):
 
 
 def test_to_jpeg():
-    manager = PreviewManager(
-        cache_folder_path=CACHE_DIR,
-        create_folder=True
-    )
-    assert manager.has_jpeg_preview(
-        file_path=IMAGE_FILE_PATH,
-    ) is True
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+    assert manager.has_jpeg_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_jpeg_preview(
-        file_path=IMAGE_FILE_PATH,
-        height=512,
-        width=321,
-        force=True
+        file_path=IMAGE_FILE_PATH, height=512, width=321, force=True
     )
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
@@ -49,22 +40,14 @@ def test_to_jpeg():
 
 
 def test_to_jpeg__encrypted_pdf():
-    with pytest.raises(PyPDF2.utils.PdfReadError):  # ensure file is encrpyted
+    with pytest.raises(PyPDF2.utils.PdfReadError):  #  ensure file is encrpyted
         pdf = PdfFileReader(IMAGE_FILE_PATH__ENCRYPTED)
         pdf.getPage(0)
 
-    manager = PreviewManager(
-        cache_folder_path=CACHE_DIR,
-        create_folder=True
-    )
-    assert manager.has_jpeg_preview(
-        file_path=IMAGE_FILE_PATH,
-    ) is True
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+    assert manager.has_jpeg_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_jpeg_preview(
-        file_path=IMAGE_FILE_PATH__ENCRYPTED,
-        height=512,
-        width=321,
-        force=True
+        file_path=IMAGE_FILE_PATH__ENCRYPTED, height=512, width=321, force=True
     )
 
     assert os.path.exists(path_to_file) == True
@@ -76,19 +59,10 @@ def test_to_jpeg__encrypted_pdf():
         assert jpeg.width == 321
 
 
-
 def test_to_jpeg_no_size():
-    manager = PreviewManager(
-        cache_folder_path=CACHE_DIR,
-        create_folder=True
-    )
-    assert manager.has_jpeg_preview(
-        file_path=IMAGE_FILE_PATH,
-    ) is True
-    path_to_file = manager.get_jpeg_preview(
-        file_path=IMAGE_FILE_PATH,
-        force=True
-    )
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+    assert manager.has_jpeg_preview(file_path=IMAGE_FILE_PATH) is True
+    path_to_file = manager.get_jpeg_preview(file_path=IMAGE_FILE_PATH, force=True)
     assert os.path.exists(path_to_file) == True
     assert os.path.getsize(path_to_file) > 0
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
@@ -100,49 +74,29 @@ def test_to_jpeg_no_size():
 
 def test_to_text():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
-    assert manager.has_text_preview(
-        file_path=IMAGE_FILE_PATH
-    ) is False
+    assert manager.has_text_preview(file_path=IMAGE_FILE_PATH) is False
     with pytest.raises(UnavailablePreviewType):
-        path_to_file = manager.get_text_preview(
-            file_path=IMAGE_FILE_PATH,
-            force=True
-        )
+        path_to_file = manager.get_text_preview(file_path=IMAGE_FILE_PATH, force=True)
 
 
 def test_to_json():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
-    assert manager.has_json_preview(
-        file_path=IMAGE_FILE_PATH
-    ) is True
-    path_to_file = manager.get_json_preview(
-        file_path=IMAGE_FILE_PATH,
-        force=True
-    )
+    assert manager.has_json_preview(file_path=IMAGE_FILE_PATH) is True
+    path_to_file = manager.get_json_preview(file_path=IMAGE_FILE_PATH, force=True)
     # TODO - G.M - 2018-11-06 - To be completed
 
 
 def test_to_pdf():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
-    assert manager.has_pdf_preview(
-        file_path=IMAGE_FILE_PATH
-    ) is True
-    path_to_file = manager.get_pdf_preview(
-        file_path=IMAGE_FILE_PATH,
-        force=True
-    )
+    assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH) is True
+    path_to_file = manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, force=True)
     # TODO - G.M - 2018-11-06 - To be completed
 
 
 def test_algorithm4():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
-    assert manager.has_jpeg_preview(
-        file_path=IMAGE_FILE_PATH__A4
-    ) is True
-    path_to_file = manager.get_jpeg_preview(
-        file_path=IMAGE_FILE_PATH__A4,
-        force=True
-    )
+    assert manager.has_jpeg_preview(file_path=IMAGE_FILE_PATH__A4) is True
+    path_to_file = manager.get_jpeg_preview(file_path=IMAGE_FILE_PATH__A4, force=True)
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
         assert jpeg.width in range(180, 182)

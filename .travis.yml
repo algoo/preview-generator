@@ -16,13 +16,10 @@ install:
   - python setup.py install
   - pip install pytest
   - python3 -m pip install -U mypy
-  
+
 
 # command to run tests
 script:
   - "cd ${TRAVIS_BUILD_DIR} && py.test tests"
 
 #  - "cd ${TRAVIS_BUILD_DIR} && mypy preview_generator --ignore-missing-imports --disallow-untyped-defs"
-
-
-                              
