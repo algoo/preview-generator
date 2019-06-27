@@ -81,10 +81,3 @@ def test_has_html_preview(file_path):
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     with pytest.raises(UnsupportedMimeType):
         manager.has_html_preview(file_path=file_path, file_ext=".bin")
-
-
-@pytest.mark.parametrize("file_path", [BINARY_FILE_PATH, BINARY_FILE_PATH_WITHOUT_EXT])
-def test_has_html_preview(file_path):
-    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
-    with pytest.raises(UnsupportedMimeType):
-        manager.has_text_preview(file_path=file_path, file_ext=".bin")

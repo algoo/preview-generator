@@ -32,7 +32,7 @@ class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
         try:
             # INFO - G.M - 2019-01-17 - stderr is redirected to devnull because
             # scribus print normal information to stderr instead of stdout.
-            result = check_output(["scribus", "-v"], stderr=STDOUT)
+            check_output(["scribus", "-v"], stderr=STDOUT)
             return True
         except FileNotFoundError:
             raise BuilderDependencyNotFound("this builder requires scribus to be available")
@@ -94,8 +94,8 @@ def convert_sla_to_pdf(
         logger.debug(
             "converting {} to pdf into folder {}".format(temporary_input_content_path, cache_path)
         )
-        with Xvfb() as xvfb:
-            result = check_call(
+        with Xvfb():
+            check_call(
                 [
                     "scribus",
                     "-g",

@@ -131,8 +131,8 @@ LO_MIMETYPES = {
     # ODF
     # INFO - G.M - 2018-11-13 - Conversion of base to pdf is not correctly
     # supported by libreoffice itself
-    #'application/vnd.oasis.opendocument.base': 'odb',
-    #'application/vnd.oasis.opendocument.database': 'odb',
+    # 'application/vnd.oasis.opendocument.base': 'odb',
+    # 'application/vnd.oasis.opendocument.database': 'odb',
     "application/vnd.oasis.opendocument.chart": "odc",
     "application/vnd.oasis.opendocument.chart-template": "otc",
     "application/vnd.oasis.opendocument.formula": "odf",

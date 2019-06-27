@@ -1,14 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import json
 import os
 import shutil
-
-from PIL import Image
-import pytest
-
-from preview_generator.exception import UnavailablePreviewType
-from preview_generator.manager import PreviewManager
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = "/tmp/preview-generator-tests/cache"

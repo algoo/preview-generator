@@ -33,7 +33,7 @@ class PreviewManager(object):
         if create_folder and not os.path.isdir(self.cache_path):
             try:
                 os.makedirs(self.cache_path)
-            except OSError as e:
+            except OSError:
                 self.logger.error("cant create cache folder [{}]".format(self.cache_path))
 
     def get_mimetype(self, file_path: str, file_ext: str = "") -> str:

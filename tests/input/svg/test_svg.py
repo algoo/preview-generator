@@ -5,7 +5,6 @@ import json
 import os
 import re
 import shutil
-from subprocess import check_call
 
 from PIL import Image
 import pytest
@@ -69,7 +68,7 @@ def test_to_jpeg__default_size():
 def test_to_json():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     mimetype = manager.get_mimetype(IMAGE_FILE_PATH)
-    builder = manager._factory.get_preview_builder(mimetype)
+    manager._factory.get_preview_builder(mimetype)
 
     assert manager.has_json_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_json_preview(file_path=IMAGE_FILE_PATH, force=True)
@@ -107,7 +106,7 @@ def test_to_pdf():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH) is False
     with pytest.raises(UnavailablePreviewType):
-        path_to_file = manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, force=True)
+        manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, force=True)
 
     # INFO - D.A. - 2018-07-05
     #  The following test case is working with libreoffice preview engine
@@ -125,4 +124,4 @@ def test_to_text():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_text_preview(file_path=IMAGE_FILE_PATH) is False
     with pytest.raises(UnavailablePreviewType):
-        path_to_file = manager.get_text_preview(file_path=IMAGE_FILE_PATH, force=True)
+        manager.get_text_preview(file_path=IMAGE_FILE_PATH, force=True)

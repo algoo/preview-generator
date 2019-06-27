@@ -3,9 +3,6 @@
 import os
 import shutil
 
-import pytest
-
-from preview_generator.exception import UnavailablePreviewType
 from preview_generator.manager import PreviewManager
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -88,12 +85,12 @@ def test_page_number__extension_forced():
 def test_to_text():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_text_preview(file_path=IMAGE_FILE_PATH) is True
-    path_to_file = manager.get_text_preview(file_path=IMAGE_FILE_PATH, force=True)
+    manager.get_text_preview(file_path=IMAGE_FILE_PATH, force=True)
     # TODO - G.M - 2018-11-06 - To be completed
 
 
 def test_to_json():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_json_preview(file_path=IMAGE_FILE_PATH) is True
-    path_to_file = manager.get_json_preview(file_path=IMAGE_FILE_PATH, force=True)
+    manager.get_json_preview(file_path=IMAGE_FILE_PATH, force=True)
     # TODO - G.M - 2018-11-06 - To be completed

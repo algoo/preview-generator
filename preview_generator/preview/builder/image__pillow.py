@@ -76,7 +76,7 @@ class ImageConvertStrategyNotTransparent(ImageConvertStrategy):
                 quality=quality,
                 progressive=progressive,
             )
-        except OSError as exc:
+        except OSError:
             # INFO - G.M - in some case image mode cannot be directly convert to JPEG, in those
             # case, it raise OSError, we should fallback to a working mode and retry saving.
             origin_image = origin_image.convert(DEFAULT_SAVING_MODE)

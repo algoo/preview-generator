@@ -139,7 +139,7 @@ class PreviewGeneratorJsonEncoder(JSONEncoder):
         if isinstance(obj, bytes):
             try:
                 return obj.decode("ascii")
-            except:
+            except:  # noqa: E722
                 return ""
 
         if isinstance(obj, (datetime, date)):

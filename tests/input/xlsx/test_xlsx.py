@@ -53,11 +53,11 @@ def test_to_text():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_text_preview(file_path=IMAGE_FILE_PATH) is False
     with pytest.raises(UnavailablePreviewType):
-        path_to_file = manager.get_text_preview(file_path=IMAGE_FILE_PATH, force=True)
+        manager.get_text_preview(file_path=IMAGE_FILE_PATH, force=True)
 
 
 def test_to_json():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_json_preview(file_path=IMAGE_FILE_PATH) is True
-    path_to_file = manager.get_json_preview(file_path=IMAGE_FILE_PATH, force=True)
+    manager.get_json_preview(file_path=IMAGE_FILE_PATH, force=True)
     # TODO - G.M - 2018-11-06 - To be completed

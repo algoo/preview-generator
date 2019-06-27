@@ -53,7 +53,7 @@ class PreviewBuilderFactory(object):
         return the mimetype of the file. see python module mimetype
         """
 
-        assert file_ext is "" or file_ext.startswith("."), 'File extension must starts with ".""'
+        assert file_ext == "" or file_ext.startswith("."), 'File extension must starts with ".""'
         # INFO - B.L - 2018/10/11 - If user force the file extension we do.
         first_path = file_path + file_ext if file_ext else file_path
         str_, encoding = mimetypes.guess_type(first_path, strict=False)

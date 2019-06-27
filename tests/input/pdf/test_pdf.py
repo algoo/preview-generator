@@ -30,7 +30,7 @@ def test_to_jpeg():
     path_to_file = manager.get_jpeg_preview(
         file_path=IMAGE_FILE_PATH, height=512, width=321, force=True
     )
-    assert os.path.exists(path_to_file) == True
+    assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
 
@@ -50,7 +50,7 @@ def test_to_jpeg__encrypted_pdf():
         file_path=IMAGE_FILE_PATH__ENCRYPTED, height=512, width=321, force=True
     )
 
-    assert os.path.exists(path_to_file) == True
+    assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
 
@@ -63,7 +63,7 @@ def test_to_jpeg_no_size():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_jpeg_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_jpeg_preview(file_path=IMAGE_FILE_PATH, force=True)
-    assert os.path.exists(path_to_file) == True
+    assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
 
@@ -76,20 +76,20 @@ def test_to_text():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_text_preview(file_path=IMAGE_FILE_PATH) is False
     with pytest.raises(UnavailablePreviewType):
-        path_to_file = manager.get_text_preview(file_path=IMAGE_FILE_PATH, force=True)
+        manager.get_text_preview(file_path=IMAGE_FILE_PATH, force=True)
 
 
 def test_to_json():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_json_preview(file_path=IMAGE_FILE_PATH) is True
-    path_to_file = manager.get_json_preview(file_path=IMAGE_FILE_PATH, force=True)
+    manager.get_json_preview(file_path=IMAGE_FILE_PATH, force=True)
     # TODO - G.M - 2018-11-06 - To be completed
 
 
 def test_to_pdf():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH) is True
-    path_to_file = manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, force=True)
+    manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, force=True)
     # TODO - G.M - 2018-11-06 - To be completed
 
 

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from io import BytesIO
-import logging
 import mimetypes
 import typing
 

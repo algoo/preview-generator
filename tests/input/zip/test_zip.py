@@ -19,7 +19,7 @@ def test_zip_to_text():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_text_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_text_preview(file_path=IMAGE_FILE_PATH)
-    assert os.path.exists(path_to_file) == True
+    assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
 
 
@@ -27,7 +27,7 @@ def test_zip_to_json():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_json_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_json_preview(file_path=IMAGE_FILE_PATH)
-    assert os.path.exists(path_to_file) == True
+    assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
 
     data = json.load(open(path_to_file))
@@ -53,7 +53,6 @@ def test_zip_to_json():
 
 def test_zip_to_html():
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
-    input_filename = "the_zip.zip"
     assert manager.has_html_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_html_preview(file_path=IMAGE_FILE_PATH)
     assert os.path.exists(path_to_file)
