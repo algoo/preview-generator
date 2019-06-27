@@ -173,8 +173,14 @@ class PillowImageConvertStrategyFactory(object):
         :param mode: pillow image mode
         :return:
         """
+
+        # INFO - G.M - 2019-06-27 - support for color RGB + Alpha transparent image
         if image.mode == 'RGBA':
             return ImageConvertStrategyRGBA(self.logger)
+        # INFO - G.M - 2019-06-27 - RGBa are similar as RGBA but alpha is premultiplied.
+        if image.mode == 'RGBa':
+            return ImageConvertStrategyRGBA(self.logger)
+        # INFO - G.M - 2019-06-27 - LA are L (black and white 8 bit) + alpha layer
         elif image.mode == 'LA':
             return ImageConvertStrategyLA(self.logger)
         else:
