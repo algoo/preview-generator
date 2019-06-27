@@ -15,12 +15,12 @@ def test_builder_folder_modules_found():
     folder_path = builder_factory.get_builder_folder_name()
     modules = builder_factory.get_builder_modules(folder_path)
     assert len(modules) >= 6
-    assert 'image__wand' in modules
-    assert 'image__pillow' in modules
-    assert 'office__libreoffice' in modules
-    assert 'pdf__pypdf2' in modules
-    assert 'plain_text' in modules
-    assert 'archive__zip' in modules
+    assert "image__wand" in modules
+    assert "image__pillow" in modules
+    assert "office__libreoffice" in modules
+    assert "pdf__pypdf2" in modules
+    assert "plain_text" in modules
+    assert "archive__zip" in modules
 
 
 def test_builder_modules_import_working():

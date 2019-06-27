@@ -1,35 +1,27 @@
 # -*- coding: utf-8 -*-
 
-from io import BytesIO
-
 import json
 import logging
 import typing
-from preview_generator.utils import LOGGER_NAME
 
 import pyexifinfo
 
 from preview_generator.exception import UnavailablePreviewType
+from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import ImgDims
 
 
 class PreviewBuilderMeta(type):
-    def __new__(
-            mcs,
-            *args: str,
-            **kwargs: int
-    ) -> typing.Type['PreviewBuilder']:
+    def __new__(mcs, *args: str, **kwargs: int) -> typing.Type["PreviewBuilder"]:
         cls = super().__new__(mcs, *args, **kwargs)
-        cls = typing.cast(typing.Type['PreviewBuilder'], cls)
+        cls = typing.cast(typing.Type["PreviewBuilder"], cls)
         return cls
 
 
 class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
-    def __init__(
-            self,
-    ) -> None:
+    def __init__(self,) -> None:
         self.logger = logging.getLogger(LOGGER_NAME)
-        self.logger.info('New Preview builder of class' + str(self.__class__))
+        self.logger.info("New Preview builder of class" + str(self.__class__))
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
@@ -44,11 +36,11 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         return True
 
     def get_page_number(
-            self,
-            file_path: str,
-            preview_name: str,
-            cache_path: str,
-            mimetype: typing.Optional[str] = None,
+        self,
+        file_path: str,
+        preview_name: str,
+        cache_path: str,
+        mimetype: typing.Optional[str] = None,
     ) -> int:
         """
         Get the number of page of the document
@@ -56,14 +48,14 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         raise UnavailablePreviewType()
 
     def build_jpeg_preview(
-            self,
-            file_path: str,
-            preview_name: str,
-            cache_path: str,
-            page_id: int,
-            extension: str = '.jpg',
-            size: ImgDims=None,
-            mimetype: str = ''
+        self,
+        file_path: str,
+        preview_name: str,
+        cache_path: str,
+        page_id: int,
+        extension: str = ".jpg",
+        size: ImgDims = None,
+        mimetype: str = "",
     ) -> None:
         """
         generate the jpg preview
@@ -102,27 +94,23 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         return False
 
     def build_pdf_preview(
-            self,
-            file_path: str,
-            preview_name: str,
-            cache_path: str,
-            extension: str = '.pdf',
-            page_id: int = -1,
-            mimetype: str = ''
+        self,
+        file_path: str,
+        preview_name: str,
+        cache_path: str,
+        extension: str = ".pdf",
+        page_id: int = -1,
+        mimetype: str = "",
     ) -> None:
         """
         generate pdf preview. No default implementation
         """
         raise UnavailablePreviewType(
-            'No builder registered for PDF preview of {}'.format(file_path)
+            "No builder registered for PDF preview of {}".format(file_path)
         )
 
     def build_html_preview(
-            self,
-            file_path: str,
-            preview_name: str,
-            cache_path: str,
-            extension: str = '.html'
+        self, file_path: str, preview_name: str, cache_path: str, extension: str = ".html"
     ) -> None:
         """
         generate the html preview. No default implementation
@@ -130,28 +118,28 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         raise UnavailablePreviewType()
 
     def build_json_preview(
-            self,
-            file_path: str,
-            preview_name: str,
-            cache_path: str,
-            page_id: int = 0,
-            extension: str = '.json'
+        self,
+        file_path: str,
+        preview_name: str,
+        cache_path: str,
+        page_id: int = 0,
+        extension: str = ".json",
     ) -> None:
         """
         generate the json preview. Default implementation is based on ExifTool
         """
         metadata = pyexifinfo.get_json(file_path)[0]
 
-        with open(cache_path + preview_name + extension, 'w') as jsonfile:
+        with open(cache_path + preview_name + extension, "w") as jsonfile:
             json.dump(metadata, jsonfile)
 
     def build_text_preview(
-            self,
-            file_path: str,
-            preview_name: str,
-            cache_path: str,
-            page_id: int = 0,
-            extension: str = '.txt'
+        self,
+        file_path: str,
+        preview_name: str,
+        cache_path: str,
+        page_id: int = 0,
+        extension: str = ".txt",
     ) -> None:
         """
         generate the text preview. No default implementation
@@ -178,5 +166,6 @@ class ImagePreviewBuilder(OnePagePreviewBuilder):
     """
     Generic preview handler for image preview_builder
     """
+
     def has_jpeg_preview(self):
         return True

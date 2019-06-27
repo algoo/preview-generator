@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
-from abc import ABC, abstractmethod
+from abc import ABC
+from abc import abstractmethod
 from io import BytesIO
 import logging
+import typing
 
 import PIL
 from PIL import Image
-import typing
 
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
-from preview_generator.utils import compute_resize_dims
 from preview_generator.utils import ImgDims
+from preview_generator.utils import compute_resize_dims
 
 # INFO - G.M - 2019-06-25 - some configuration for jpeg saved,
 # see https://pillow.readthedocs.io/en/latest/handbook/image-file-formats.html?highlight=JPEG#jpeg
@@ -32,27 +33,27 @@ DEFAULT_JPEG_RESAMPLE_ALGORITHM = PIL.Image.BILINEAR
 # RGBA is RGB + Alpha channel
 # LA is L (8-bit pixels, black and white) + Alpha channel
 # color for
-DEFAULT_RGB_BACKGROUND_COLOR = (255, 255, 255) # This means white background
+DEFAULT_RGB_BACKGROUND_COLOR = (255, 255, 255)  # This means white background
 DEFAULT_BW_BACKGROUND_COLOR = 1
-DEFAULT_SAVING_MODE = 'RGB'
+DEFAULT_SAVING_MODE = "RGB"
 
 
 class ImageConvertStrategy(ABC):
-
     def __init__(self, logger: logging.Logger):
         assert logger is not None
         self.logger = logger
 
     @abstractmethod
     def save(
-            self,
-            origin_image: PIL.Image,
-            file_output: BytesIO,
-            optimize: bool = DEFAULT_JPEG_OPTIMIZE,
-            quality: int = DEFAULT_JPEG_QUALITY,
-            progressive: bool= DEFAULT_JPEG_PROGRESSIVE
+        self,
+        origin_image: PIL.Image,
+        file_output: BytesIO,
+        optimize: bool = DEFAULT_JPEG_OPTIMIZE,
+        quality: int = DEFAULT_JPEG_QUALITY,
+        progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
     ) -> BytesIO:
         pass
+
 
 class ImageConvertStrategyNotTransparent(ImageConvertStrategy):
     """
@@ -60,24 +61,35 @@ class ImageConvertStrategyNotTransparent(ImageConvertStrategy):
     """
 
     def save(
-            self,
-            origin_image: PIL.Image,
-            file_output: BytesIO,
-            optimize: bool = DEFAULT_JPEG_OPTIMIZE,
-            quality: int = DEFAULT_JPEG_QUALITY,
-            progressive: bool= DEFAULT_JPEG_PROGRESSIVE
+        self,
+        origin_image: PIL.Image,
+        file_output: BytesIO,
+        optimize: bool = DEFAULT_JPEG_OPTIMIZE,
+        quality: int = DEFAULT_JPEG_QUALITY,
+        progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
     ) -> BytesIO:
         try:
-            origin_image.save(fp=file_output, format='jpeg', optimize=optimize, quality=quality,
-                              progressive=progressive)
-        except OSError as exc:
+            origin_image.save(
+                fp=file_output,
+                format="jpeg",
+                optimize=optimize,
+                quality=quality,
+                progressive=progressive,
+            )
+        except OSError:
             # INFO - G.M - in some case image mode cannot be directly convert to JPEG, in those
             # case, it raise OSError, we should fallback to a working mode and retry saving.
             origin_image = origin_image.convert(DEFAULT_SAVING_MODE)
-            origin_image.save(fp=file_output, format='jpeg', optimize=optimize, quality=quality,
-                              progressive=progressive)
+            origin_image.save(
+                fp=file_output,
+                format="jpeg",
+                optimize=optimize,
+                quality=quality,
+                progressive=progressive,
+            )
         file_output.seek(0, 0)
         return file_output
+
 
 class ImageConvertStrategyTransparent(ImageConvertStrategy):
     """
@@ -85,33 +97,40 @@ class ImageConvertStrategyTransparent(ImageConvertStrategy):
     """
 
     def _save_transparent_image(
-            self,
-            origin_image: PIL.Image,
-            file_output: BytesIO,
-            optimize: bool = DEFAULT_JPEG_OPTIMIZE,
-            quality: int = DEFAULT_JPEG_QUALITY,
-            progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
-            saving_mode: str = DEFAULT_SAVING_MODE,
-            background_color: typing.Union[int, typing.Tuple[int, int, int]] = DEFAULT_BW_BACKGROUND_COLOR
+        self,
+        origin_image: PIL.Image,
+        file_output: BytesIO,
+        optimize: bool = DEFAULT_JPEG_OPTIMIZE,
+        quality: int = DEFAULT_JPEG_QUALITY,
+        progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
+        saving_mode: str = DEFAULT_SAVING_MODE,
+        background_color: typing.Union[
+            int, typing.Tuple[int, int, int]
+        ] = DEFAULT_BW_BACKGROUND_COLOR,
     ) -> BytesIO:
         # INFO - G.M - 2019-06-25 - create uniform base image
         temp_image = Image.new(
-            mode=saving_mode,
-            size=(origin_image.width, origin_image.height),
-            color=background_color,
+            mode=saving_mode, size=(origin_image.width, origin_image.height), color=background_color
         )
         # INFO - G.M - 2019-06-25 - apply current image with transparency on top of the base image
         try:
             temp_image.paste(im=origin_image, box=(0, 0), mask=origin_image)
         except ValueError:
             self.logger.warning(
-                'Failed the transparency mask superposition. '
-                'Maybe your image does not contain a transparency mask')
+                "Failed the transparency mask superposition. "
+                "Maybe your image does not contain a transparency mask"
+            )
             temp_image.paste(origin_image)
-        temp_image.save(fp=file_output, format='jpeg', optimize=optimize, quality=quality,
-                          progressive=progressive)
+        temp_image.save(
+            fp=file_output,
+            format="jpeg",
+            optimize=optimize,
+            quality=quality,
+            progressive=progressive,
+        )
         file_output.seek(0, 0)
         return file_output
+
 
 class ImageConvertStrategyRGBA(ImageConvertStrategyTransparent):
     """
@@ -119,12 +138,12 @@ class ImageConvertStrategyRGBA(ImageConvertStrategyTransparent):
     """
 
     def save(
-            self,
-            origin_image: PIL.Image,
-            file_output: BytesIO,
-            optimize: bool = DEFAULT_JPEG_OPTIMIZE,
-            quality: int = DEFAULT_JPEG_QUALITY,
-            progressive: bool= DEFAULT_JPEG_PROGRESSIVE
+        self,
+        origin_image: PIL.Image,
+        file_output: BytesIO,
+        optimize: bool = DEFAULT_JPEG_OPTIMIZE,
+        quality: int = DEFAULT_JPEG_QUALITY,
+        progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
     ) -> BytesIO:
         return self._save_transparent_image(
             origin_image=origin_image,
@@ -132,21 +151,23 @@ class ImageConvertStrategyRGBA(ImageConvertStrategyTransparent):
             optimize=optimize,
             quality=quality,
             progressive=progressive,
-            saving_mode='RGB',
+            saving_mode="RGB",
             background_color=DEFAULT_RGB_BACKGROUND_COLOR,
         )
+
 
 class ImageConvertStrategyLA(ImageConvertStrategyTransparent):
     """
     Image converter for LA image
     """
+
     def save(
-            self,
-            origin_image: PIL.Image,
-            file_output: BytesIO,
-            optimize: bool = DEFAULT_JPEG_OPTIMIZE,
-            quality: int = DEFAULT_JPEG_QUALITY,
-            progressive: bool= DEFAULT_JPEG_PROGRESSIVE
+        self,
+        origin_image: PIL.Image,
+        file_output: BytesIO,
+        optimize: bool = DEFAULT_JPEG_OPTIMIZE,
+        quality: int = DEFAULT_JPEG_QUALITY,
+        progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
     ) -> BytesIO:
         return self._save_transparent_image(
             origin_image=origin_image,
@@ -154,9 +175,10 @@ class ImageConvertStrategyLA(ImageConvertStrategyTransparent):
             optimize=optimize,
             quality=quality,
             progressive=progressive,
-            saving_mode='L',
+            saving_mode="L",
             background_color=DEFAULT_BW_BACKGROUND_COLOR,
         )
+
 
 class PillowImageConvertStrategyFactory(object):
     """
@@ -175,26 +197,25 @@ class PillowImageConvertStrategyFactory(object):
         """
 
         # INFO - G.M - 2019-06-27 - support for color RGB + Alpha transparent image
-        if image.mode == 'RGBA':
+        if image.mode == "RGBA":
             return ImageConvertStrategyRGBA(self.logger)
         # INFO - G.M - 2019-06-27 - RGBa are similar as RGBA but alpha is premultiplied.
-        if image.mode == 'RGBa':
+        if image.mode == "RGBa":
             return ImageConvertStrategyRGBA(self.logger)
         # INFO - G.M - 2019-06-27 - LA are L (black and white 8 bit) + alpha layer
-        elif image.mode == 'LA':
+        elif image.mode == "LA":
             return ImageConvertStrategyLA(self.logger)
         else:
             return ImageConvertStrategyNotTransparent(self.logger)
 
 
 class ImagePreviewBuilderPillow(ImagePreviewBuilder):
-
     def __init__(
-            self,
-            optimize: bool = DEFAULT_JPEG_OPTIMIZE,
-            quality: int = DEFAULT_JPEG_QUALITY,
-            progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
-            resample_filter_algorithm: int = DEFAULT_JPEG_RESAMPLE_ALGORITHM
+        self,
+        optimize: bool = DEFAULT_JPEG_OPTIMIZE,
+        quality: int = DEFAULT_JPEG_QUALITY,
+        progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
+        resample_filter_algorithm: int = DEFAULT_JPEG_RESAMPLE_ALGORITHM,
     ):
         super().__init__()
 
@@ -205,53 +226,54 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
 
     @classmethod
     def get_label(cls) -> str:
-        return 'Bitmap images - based on Pillow'
+        return "Bitmap images - based on Pillow"
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
-        return [
-            'image/png',
-            'application/postscript',
-            'image/x-eps',
-        ]
+        return ["image/png", "application/postscript", "image/x-eps"]
 
     def build_jpeg_preview(
-        self, file_path: str,
+        self,
+        file_path: str,
         preview_name: str,
         cache_path: str,
         page_id: int,
-        extension: str='.jpeg',
-        size: ImgDims=None,
-        mimetype: str = ''
+        extension: str = ".jpeg",
+        size: ImgDims = None,
+        mimetype: str = "",
     ) -> None:
         """
         generate the jpg preview
         """
-        with open(file_path, 'rb') as img:
+        with open(file_path, "rb") as img:
             result = self.image_to_jpeg_pillow(img, size)
-            preview_file_path = '{path}{extension}'.format(
-                path=cache_path + preview_name,
-                extension=extension
+            preview_file_path = "{path}{extension}".format(
+                path=cache_path + preview_name, extension=extension
             )
-            with open(preview_file_path, 'wb') as jpeg:
+            with open(preview_file_path, "wb") as jpeg:
                 buffer = result.read(1024)
                 while buffer:
                     jpeg.write(buffer)
                     buffer = result.read(1024)
 
     def image_to_jpeg_pillow(
-            self,
-            png: typing.Union[str, typing.IO[bytes]],
-            preview_dims: ImgDims
-    ) ->  BytesIO:
-        self.logger.info('Converting image to jpeg using Pillow')
+        self, png: typing.Union[str, typing.IO[bytes]], preview_dims: ImgDims
+    ) -> BytesIO:
+        self.logger.info("Converting image to jpeg using Pillow")
 
         with Image.open(png) as image:
             resize_dim = compute_resize_dims(
-                dims_in=ImgDims(width=image.size[0], height=image.size[1]),
-                dims_out=preview_dims
+                dims_in=ImgDims(width=image.size[0], height=image.size[1]), dims_out=preview_dims
             )
             output = BytesIO()
-            image = image.resize((resize_dim.width, resize_dim.height), resample=self.resample_filter_algorithm)
+            image = image.resize(
+                (resize_dim.width, resize_dim.height), resample=self.resample_filter_algorithm
+            )
             image_converter = PillowImageConvertStrategyFactory(self.logger).get_strategy(image)
-            return image_converter.save(image, output, optimize=self.optimize, progressive=self.progressive, quality=self.quality)
+            return image_converter.save(
+                image,
+                output,
+                optimize=self.optimize,
+                progressive=self.progressive,
+                quality=self.quality,
+            )

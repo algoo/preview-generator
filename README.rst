@@ -561,7 +561,7 @@ Basic Usage
 
 Most basic usage, create a jpeg from a png, default size 256x256
 
-.. code:: python    
+.. code:: python
 
   from preview_generator.manager import PreviewManager
 
@@ -577,7 +577,7 @@ Preview an image with a specific size
 
 You can choose the size of your image using params width and height.
 
-.. code:: python    
+.. code:: python
 
   from preview_generator.manager import PreviewManager
 
@@ -591,7 +591,7 @@ You can choose the size of your image using params width and height.
 Preview a pdf or an office document as a jpeg
 ---------------------------------------------
 
-.. code:: python    
+.. code:: python
 
   from preview_generator.manager import PreviewManager
 
@@ -602,11 +602,11 @@ Preview a pdf or an office document as a jpeg
   path_to_preview_image = manager.get_jpeg_preview(pdf_or_odt_to_preview_path)
 
 By default it will generate the preview of the first page of the document.
-Using params `page`, you can you pick the page you want to preview.  
+Using params `page`, you can you pick the page you want to preview.
 
 **page number starts at 0, if you want to preview the second page of your document then the argument will be 1 `page=1`**
 
-.. code:: python    
+.. code:: python
 
   from preview_generator.manager import PreviewManager
 
@@ -872,17 +872,54 @@ of the generic abstract class. For example:
 
     ImagePreviewBuilderIMConvert(ImagePreviewBuilder)
 
-Running Pytest :
+Running Tests :
 ----------------
  Pytest is a motor for unit testing
 
-* `pip install pytest`
+* `pip install -e [testing]`
 * go into the "tests" directory : `cd path/to/you/project/directory/tests`
-* run `py.test`
+* run `pytest`
+
+
+Others checks :
+-------------------
+
+Run mypy checks:
+
+     mypy --ignore-missing-imports --disallow-untyped-defs .
+
+Code formatting using black:
+
+     black -l 100 preview_generator setup.py build_supported_mimetypes_table_rst.py tests
+
+Sorting of import:
+
+     isort tests/**/*.py preview_generator/**/*.py setup.py build_supported_mimetypes_table_rst.py
+
+Flake8 check(unused import, variable and many other checks):
+
+    flake8 preview_generator setup.py build_supported_mimetypes_table_rst.py tests
+
+
+Contribute :
+----------------
+install preview_generator with dev dependencies (contains tests dependencies)
+
+   pip install -e '.[dev]
+
+install pre-commit hooks:
+
+  pre-commit install
+
+Launch test :
+
+  pytest
+
+You now can commit and see if pre-commit is ok with your change.
+
 
 ------------
 License
 ------------
 
 MIT licensed. https://opensource.org/licenses/MIT
-

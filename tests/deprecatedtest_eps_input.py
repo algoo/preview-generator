@@ -1,22 +1,19 @@
 # -*- coding: utf-8 -*-
 
-import json
 import os
-from PIL import Image
-import pytest
 import shutil
 
-from preview_generator.exception import UnavailablePreviewType
-from preview_generator.manager import PreviewManager
-
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-CACHE_DIR = '/tmp/preview-generator-tests/cache'
-IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, 'tt.html')
-IMAGE_FILE_PATH = '/home/damien/a_bouger_sur_tracim/ALGOOsas/01_LOGOS/EPS/ALGOO_LOGO_H_seul.eps'
-IMAGE_FILE_PATH = '/tmp/mozilla.ps'
+CACHE_DIR = "/tmp/preview-generator-tests/cache"
+IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "tt.html")
+IMAGE_FILE_PATH = "/home/damien/a_bouger_sur_tracim/ALGOOsas/01_LOGOS/EPS/ALGOO_LOGO_H_seul.eps"
+IMAGE_FILE_PATH = "/tmp/mozilla.ps"
+
 
 def setup_function(function):
-    shutil.rmtree(CACHE_DIR )
+    shutil.rmtree(CACHE_DIR)
+
+
 #
 # def test_to_jpeg():
 #     manager = PreviewManager(
