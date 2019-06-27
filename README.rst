@@ -864,7 +864,13 @@ Download the last AppImage from the official website https://www.scribus.net/dow
   mv /path/to/image/scribus-x.y.appimage /usr/local/bin/scribus
   chmod +x /usr/local/bin/scribus
 
+Code Convention :
+-----------------
 
+When using subclass of generic abstract class, convention is to prefix it with name
+of the generic abstract class. For example:
+
+    ImagePreviewBuilderIMConvert(ImagePreviewBuilder)
 
 Running Pytest :
 ----------------
