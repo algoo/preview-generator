@@ -894,7 +894,7 @@ Code formatting using black:
 
 Sorting of import:
 
-     isort tests/**/*.py preview_generator/**/*.py setup.py build_supported_mimetypes_table_rst.py
+     `isort tests/**/*.py preview_generator/**/*.py setup.py build_supported_mimetypes_table_rst.py`
 
 Flake8 check(unused import, variable and many other checks):
 
