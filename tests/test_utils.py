@@ -5,13 +5,13 @@ from preview_generator.utils import ImgDims
 from preview_generator.utils import compute_resize_dims
 
 
-def test_imgdims():
+def test_imgdims() -> None:
     dims = ImgDims(123, 456)
     assert dims.width == 123
     assert dims.height == 456
 
 
-def test_cropdims():
+def test_cropdims() -> None:
     dims = CropDims(12, 34, 56, 78)
     assert dims.left == 12
     assert dims.top == 34
@@ -19,7 +19,7 @@ def test_cropdims():
     assert dims.bottom == 78
 
 
-def test_compute_resize_dims_same_ratio():
+def test_compute_resize_dims_same_ratio() -> None:
     dims_in = ImgDims(100, 50)
     dims_out = ImgDims(200, 100)
 
@@ -28,7 +28,7 @@ def test_compute_resize_dims_same_ratio():
     assert dims_resize.height == 100
 
 
-def test_compute_resize_dims_same_format():
+def test_compute_resize_dims_same_format() -> None:
     dims_in = ImgDims(100, 50)
     dims_out = ImgDims(90, 30)
 
@@ -37,7 +37,7 @@ def test_compute_resize_dims_same_format():
     assert dims_resize.height == 30
 
 
-def test_compute_resize_dims_different_ratio():
+def test_compute_resize_dims_different_ratio() -> None:
     dims_in = ImgDims(100, 50)  # horizontal
     dims_out = ImgDims(200, 400)  # vertical
 
@@ -46,7 +46,7 @@ def test_compute_resize_dims_different_ratio():
     assert dims_resize.height == 100
 
 
-def test_compute_resize_dims_different_ratio_inverted():
+def test_compute_resize_dims_different_ratio_inverted() -> None:
     dims_in = ImgDims(198, 600)  # vertical
     dims_out = ImgDims(400, 100)  # horizontal
 
@@ -55,7 +55,7 @@ def test_compute_resize_dims_different_ratio_inverted():
     assert dims_resize.height == 100
 
 
-def test_compute_resize_dims_right_limits():
+def test_compute_resize_dims_right_limits() -> None:
     dims_in = ImgDims(520, 206)  # vertical
     dims_out = ImgDims(512, 256)  # horizontal
 
@@ -64,7 +64,7 @@ def test_compute_resize_dims_right_limits():
     assert dims_resize.height == 203
 
 
-def test_check_dependencies():
+def test_check_dependencies() -> None:
     from preview_generator.preview.builder.office__libreoffice import (
         OfficePreviewBuilderLibreoffice,
     )

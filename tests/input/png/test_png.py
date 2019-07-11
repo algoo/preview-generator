@@ -4,6 +4,7 @@ import json
 import os
 import re
 import shutil
+import typing
 
 from PIL import Image
 import pytest
@@ -17,11 +18,11 @@ CACHE_DIR = "/tmp/preview-generator-tests/cache"
 IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "the_png.png")
 
 
-def setup_function(function):
+def setup_function(function: typing.Callable) -> None:
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
 
 
-def test_to_jpeg():
+def test_to_jpeg() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_jpeg_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_jpeg_preview(
@@ -36,7 +37,7 @@ def test_to_jpeg():
         assert jpeg.width in range(288, 290)
 
 
-def test_get_nb_page():
+def test_get_nb_page() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     nb_page = manager.get_page_nb(
         file_path=IMAGE_FILE_PATH
@@ -44,7 +45,7 @@ def test_get_nb_page():
     assert nb_page == 1
 
 
-def test_to_jpeg__default_size():
+def test_to_jpeg__default_size() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_jpeg_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_jpeg_preview(file_path=IMAGE_FILE_PATH, force=True)
@@ -57,7 +58,7 @@ def test_to_jpeg__default_size():
         assert jpeg.width == 256
 
 
-def test_to_json():
+def test_to_json() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_json_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_json_preview(file_path=IMAGE_FILE_PATH, force=True)
@@ -90,14 +91,14 @@ def test_to_json():
     assert "SourceFile" in data.keys()
 
 
-def test_to_pdf():
+def test_to_pdf() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH) is False
     with pytest.raises(UnavailablePreviewType):
         manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, force=True)
 
 
-def test_to_text():
+def test_to_text() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_text_preview(file_path=IMAGE_FILE_PATH) is False
     with pytest.raises(UnavailablePreviewType):

@@ -143,20 +143,17 @@ class DocumentPreviewBuilder(PreviewBuilder):
         if page_id < 0:
             return  # in this case, the intermediate file is the requested one
 
-        pdf_in = utils.get_decrypted_pdf(intermediate_pdf_file_path)
-        output_file_path = os.path.join(cache_path, "{}{}".format(preview_name, extension))
         pdf_out = PdfFileWriter()
-        pdf_out.addPage(pdf_in.getPage(page_id))
+        with open(intermediate_pdf_file_path, "rb") as pdf_stream:
+            pdf_in = utils.get_decrypted_pdf(pdf_stream)
+            output_file_path = os.path.join(cache_path, "{}{}".format(preview_name, extension))
+            pdf_out.addPage(pdf_in.getPage(page_id))
 
         with open(output_file_path, "wb") as output_file:
             pdf_out.write(output_file)
 
     def get_page_number(
-        self,
-        file_path: str,
-        preview_name: str,
-        cache_path: str,
-        mimetype: typing.Optional[str] = None,
+        self, file_path: str, preview_name: str, cache_path: str, mimetype: str = ""
     ) -> int:
 
         page_nb_file_path = cache_path + preview_name + "_page_nb"

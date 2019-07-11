@@ -145,7 +145,12 @@ class PreviewGeneratorJsonEncoder(JSONEncoder):
         return JSONEncoder.default(self, obj)
 
 
-def get_decrypted_pdf(stream, strict=True, warndest=None, overwriteWarnings=True):
+def get_decrypted_pdf(
+    stream: typing.BinaryIO,
+    strict: bool = True,
+    warndest: typing.TextIO = None,
+    overwriteWarnings: bool = True,
+) -> PdfFileReader:
     """
     Return a PdfFileReader object decrypted with default empty key (if file is encrypted)
     The signature is taken from PdfFileReader.__init__

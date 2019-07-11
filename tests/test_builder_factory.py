@@ -5,13 +5,13 @@ import os
 from preview_generator.preview import builder_factory
 
 
-def test_builder_folder_name_exists():
+def test_builder_folder_name_exists() -> None:
     folder_path = builder_factory.get_builder_folder_name()
     assert os.path.exists(folder_path)
     assert os.path.isdir(folder_path)
 
 
-def test_builder_folder_modules_found():
+def test_builder_folder_modules_found() -> None:
     folder_path = builder_factory.get_builder_folder_name()
     modules = builder_factory.get_builder_modules(folder_path)
     assert len(modules) >= 6
@@ -23,7 +23,7 @@ def test_builder_folder_modules_found():
     assert "archive__zip" in modules
 
 
-def test_builder_modules_import_working():
+def test_builder_modules_import_working() -> None:
     folder_path = builder_factory.get_builder_folder_name()
     modules = builder_factory.get_builder_modules(folder_path)
     for module in modules:

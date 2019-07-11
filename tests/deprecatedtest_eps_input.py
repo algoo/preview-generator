@@ -2,6 +2,7 @@
 
 import os
 import shutil
+from typing import Callable
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = "/tmp/preview-generator-tests/cache"
@@ -10,7 +11,7 @@ IMAGE_FILE_PATH = "/home/damien/a_bouger_sur_tracim/ALGOOsas/01_LOGOS/EPS/ALGOO_
 IMAGE_FILE_PATH = "/tmp/mozilla.ps"
 
 
-def setup_function(function):
+def setup_function(function: Callable) -> None:
     shutil.rmtree(CACHE_DIR)
 
 

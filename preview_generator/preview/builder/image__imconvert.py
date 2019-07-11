@@ -3,11 +3,11 @@
 
 import mimetypes
 import os
+from shutil import which
 from subprocess import DEVNULL
 from subprocess import STDOUT
 from subprocess import check_call
 from subprocess import check_output
-from shutil import which
 import tempfile
 import typing
 import uuid
@@ -90,9 +90,11 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         if not size:
             size = self.default_size
         # inkscape tesselation-P3.svg  -e
-        tempfolder = tempfile.tempdir
         tmp_filename = "{}.png".format(str(uuid.uuid4()))
-        tmp_filepath = os.path.join(tempfolder, tmp_filename)
+        if tempfile.tempdir:
+            tmp_filepath = os.path.join(tempfile.tempdir, tmp_filename)
+        else:
+            tmp_filepath = tmp_filename
         build_png_result_code = check_call(
             ["convert", file_path, "-layers", "merge", tmp_filepath], stdout=DEVNULL, stderr=STDOUT
         )

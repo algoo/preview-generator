@@ -11,7 +11,7 @@ from preview_generator.preview.builder.office__libreoffice import convert_office
 CACHE_DIR = "/tmp/preview-generator-tests/cache"
 
 
-def test_convert_office_document_to_pdf__ok__with_input_extension_and_mimetype():
+def test_convert_office_document_to_pdf__ok__with_input_extension_and_mimetype() -> None:
     content = io.BytesIO(b"Test content")
     output_filepath = CACHE_DIR + "/test.pdf"
     _file = Path(output_filepath)
@@ -29,7 +29,7 @@ def test_convert_office_document_to_pdf__ok__with_input_extension_and_mimetype()
     os.remove(output_filepath)
 
 
-def test_convert_office_document_to_pdf__err__input_extension_not_found():
+def test_convert_office_document_to_pdf__err__input_extension_not_found() -> None:
     content = io.BytesIO(b"Test content")
     output_filepath = CACHE_DIR + "/test.pdf"
     _file = Path(output_filepath)

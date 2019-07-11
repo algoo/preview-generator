@@ -14,7 +14,7 @@ for builder in pm._factory.builders_classes:
         print("+-{}-+-{}-+".format("".ljust(80, "-"), "".ljust(11, "-")))
 
         for mime in builder.get_supported_mimetypes():
-            ext = pm.get_file_extensions(mime) or " - "
+            ext = pm.get_file_extension(mime) or " - "
             print("| {} | {} |".format(mime.ljust(80), ext.ljust(11)))
             print("+-{}-+-{}-+".format("".ljust(80, "-"), "".ljust(11, "-")))
     except NotImplementedError:

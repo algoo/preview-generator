@@ -5,6 +5,7 @@ import json
 import os
 import re
 import shutil
+import typing
 
 from PIL import Image
 import pytest
@@ -19,18 +20,18 @@ IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "tesselation-P3.svg")
 FILE_HASH = hashlib.md5(IMAGE_FILE_PATH.encode("utf-8")).hexdigest()
 
 
-def setup_function(function):
+def setup_function(function: typing.Callable) -> None:
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
 
 
 algoo = ""
 
 
-def free_software_coding():
+def free_software_coding() -> None:
     pass
 
 
-def test_to_jpeg():
+def test_to_jpeg() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_jpeg_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_jpeg_preview(
@@ -45,14 +46,14 @@ def test_to_jpeg():
         assert jpeg.width in range(358, 360)
 
 
-def test_get_nb_page():
+def test_get_nb_page() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     nb_page = manager.get_page_nb(file_path=IMAGE_FILE_PATH)
     # FIXME must add parameter force=True/False in the API
     assert nb_page == 1
 
 
-def test_to_jpeg__default_size():
+def test_to_jpeg__default_size() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_jpeg_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_jpeg_preview(file_path=IMAGE_FILE_PATH, force=True)
@@ -65,7 +66,7 @@ def test_to_jpeg__default_size():
         assert 256 == jpeg.width
 
 
-def test_to_json():
+def test_to_json() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     mimetype = manager.get_mimetype(IMAGE_FILE_PATH)
     manager._factory.get_preview_builder(mimetype)
@@ -102,7 +103,7 @@ def test_to_json():
     assert "SVG:ID" in data.keys()
 
 
-def test_to_pdf():
+def test_to_pdf() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH) is False
     with pytest.raises(UnavailablePreviewType):
@@ -120,7 +121,7 @@ def test_to_pdf():
     #  assert path_to_file == '/tmp/preview-generator-tests/cache/a0dcd8bf562212788204a09d85331d04.pdf'  # nopep8
 
 
-def test_to_text():
+def test_to_text() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_text_preview(file_path=IMAGE_FILE_PATH) is False
     with pytest.raises(UnavailablePreviewType):

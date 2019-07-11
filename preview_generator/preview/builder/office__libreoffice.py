@@ -4,11 +4,11 @@ from io import BytesIO
 import logging
 import mimetypes
 import os
+from shutil import which
 from subprocess import DEVNULL
 from subprocess import STDOUT
 from subprocess import check_call
 from subprocess import check_output
-from shutil import which
 import threading
 import typing
 
@@ -63,7 +63,7 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
 
 def convert_office_document_to_pdf(
     file_content: typing.IO[bytes],
-    input_extension: str,  # example: '.dxf'
+    input_extension: typing.Optional[str],  # example: '.dxf'
     cache_path: str,
     output_filepath: str,
     mimetype: str,
