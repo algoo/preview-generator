@@ -32,7 +32,7 @@ class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
 
     @classmethod
     def dependencies_versions(cls) -> str:
-        return check_output(["inkscape", "--version"])
+        return check_output(["inkscape", "--version"], universal_newlines=True).strip()
 
     def build_jpeg_preview(
         self,

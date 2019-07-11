@@ -71,7 +71,7 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
 
     @classmethod
     def dependencies_versions(cls) -> str:
-        return check_output(["convert", "--version"])
+        return check_output(["convert", "--version"], universal_newlines=True).split("\n")[0]
 
     def build_jpeg_preview(
         self,

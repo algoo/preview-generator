@@ -20,9 +20,9 @@ def parse_args():
     )
     parser.add_argument("input_files", nargs="*", help="File to preview")
     parser.add_argument("--check-dependencies", action="store_true")
-    parser.add_argument("--version", action="store_true")
+    parser.add_argument("--version", action="version", version="%(prog)s " + __version__)
     args = parser.parse_args()
-    if not args.input_files and not args.check_dependencies and not args.version:
+    if not args.input_files and not args.check_dependencies:
         parser.print_usage(file=sys.stderr)
         exit(1)
     return args
@@ -37,14 +37,14 @@ def check_dependencies():
 
     for builder in get_subclasses_recursively(PreviewBuilder):
         try:
-            builder.check_dependencies()
+            if builder.check_dependencies():
+                print("✓", builder.__name__, builder.dependencies_versions())
+            else:
+                print("✗", builder.__name__, "is missing a dependency.")
         except (BuilderDependencyNotFound, ExecutableNotFound) as e:
-            print("Builder {} is missing a dependency: {}".format(builder.__name__, e.__str__()))
+            print("✗", builder.__name__, "is missing a dependency: ", e.__str__())
         except NotImplementedError:
-            print(
-                "Skipping builder class [{}]: method get_supported_mimetypes "
-                "is not implemented".format(builder.__name__)
-            )
+            print("✗", builder.__name__, "Skipped: not implemented")
 
 
 def main():
@@ -52,16 +52,6 @@ def main():
     logging.getLogger(LOGGER_NAME).setLevel(logging.ERROR)
     if args.check_dependencies:
         check_dependencies()
-    if args.version:
-        print("preview_generator", __version__)
-        for builder in get_subclasses_recursively(PreviewBuilder):
-            try:
-                if builder.check_dependencies():
-                    version = builder.dependencies_versions()
-                    if version:
-                        print(version)
-            except (BuilderDependencyNotFound, ExecutableNotFound, NotImplementedError):
-                pass
     if args.input_files:
         manager = PreviewManager("./")
         for input_file in args.input_files:

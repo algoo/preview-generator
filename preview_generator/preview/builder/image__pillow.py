@@ -229,6 +229,10 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
         return "Bitmap images - based on Pillow"
 
     @classmethod
+    def dependencies_versions(cls) -> str:
+        return PIL.__version__
+
+    @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
         return ["image/png", "application/postscript", "image/x-eps"]
 
