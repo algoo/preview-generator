@@ -38,7 +38,9 @@ def check_dependencies():
     for builder in get_subclasses_recursively(PreviewBuilder):
         try:
             if builder.check_dependencies():
-                print("✓", builder.__name__, builder.dependencies_versions())
+                dependencies = builder.dependencies_versions()
+                if dependencies is not None:
+                    print("✓", builder.__name__, dependencies)
             else:
                 print("✗", builder.__name__, "is missing a dependency.")
         except (BuilderDependencyNotFound, ExecutableNotFound) as e:

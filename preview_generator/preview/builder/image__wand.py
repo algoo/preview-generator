@@ -60,7 +60,7 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
         return "Images - based on WAND (image magick)"
 
     @classmethod
-    def dependencies_versions(cls) -> str:
+    def dependencies_versions(cls) -> typing.Optional[str]:
         return wand.version.VERSION
 
     @classmethod

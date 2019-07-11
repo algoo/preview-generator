@@ -229,7 +229,7 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
         return "Bitmap images - based on Pillow"
 
     @classmethod
-    def dependencies_versions(cls) -> str:
+    def dependencies_versions(cls) -> typing.Optional[str]:
         return PIL.__version__
 
     @classmethod

@@ -31,7 +31,7 @@ class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
         return check_executable_is_available("inkscape")
 
     @classmethod
-    def dependencies_versions(cls) -> str:
+    def dependencies_versions(cls) -> typing.Optional[str]:
         return check_output(["inkscape", "--version"], universal_newlines=True).strip()
 
     def build_jpeg_preview(

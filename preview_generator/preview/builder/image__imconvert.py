@@ -70,7 +70,7 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         return check_executable_is_available("convert")
 
     @classmethod
-    def dependencies_versions(cls) -> str:
+    def dependencies_versions(cls) -> typing.Optional[str]:
         return check_output(["convert", "--version"], universal_newlines=True).split("\n")[0]
 
     def build_jpeg_preview(

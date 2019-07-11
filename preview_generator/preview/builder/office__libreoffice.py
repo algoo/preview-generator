@@ -40,7 +40,7 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
             raise BuilderDependencyNotFound("this builder requires libreoffice to be available")
 
     @classmethod
-    def dependencies_versions(cls) -> str:
+    def dependencies_versions(cls) -> typing.Optional[str]:
         return check_output(["libreoffice", "--version"], universal_newlines=True).strip()
 
     def _convert_to_pdf(
