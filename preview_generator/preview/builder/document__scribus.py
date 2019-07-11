@@ -47,6 +47,13 @@ class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
             return True
 
     @classmethod
+    def dependencies_versions(cls) -> str:
+        try:
+            return check_output(["scribus", "-v"], stderr=STDOUT)
+        except CalledProcessError:  # Can happen for 'scribus: cannot connect to X server'
+            return ""
+
+    @classmethod
     def get_label(cls) -> str:
         return "application/vnd.scribus - based on Scribus"
 

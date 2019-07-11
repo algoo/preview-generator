@@ -5,6 +5,7 @@ import os
 from subprocess import DEVNULL
 from subprocess import STDOUT
 from subprocess import check_call
+from subprocess import check_output
 import tempfile
 import typing
 import uuid
@@ -28,6 +29,10 @@ class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
     @classmethod
     def check_dependencies(cls) -> bool:
         return check_executable_is_available("inkscape")
+
+    @classmethod
+    def dependencies_versions(cls) -> str:
+        return check_output(["inkscape", "--version"])
 
     def build_jpeg_preview(
         self,

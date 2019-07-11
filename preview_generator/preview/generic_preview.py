@@ -35,6 +35,10 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
     def check_dependencies(cls) -> bool:
         return True
 
+    @classmethod
+    def dependencies_versions(cls) -> str:
+        return ""
+
     def get_page_number(
         self,
         file_path: str,
