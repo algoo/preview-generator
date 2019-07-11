@@ -124,9 +124,9 @@ def check_executable_is_available(executable_name: str) -> bool:
     try:
         check_call([executable_name, "--version"], stdout=DEVNULL, stderr=STDOUT)
         return True
-    except Exception as e:
+    except Exception:
         logger = logging.getLogger(LOGGER_NAME)
-        logger.error("Error while checking dependencies: ", e)
+        logger.exception("Error while checking dependencies: ")
         raise ExecutableNotFound
 
 
