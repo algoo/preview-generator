@@ -51,8 +51,8 @@ def check_dependencies():
 
 def main():
     args = parse_args()
-    logging.getLogger(LOGGER_NAME).setLevel(logging.ERROR)
     if args.check_dependencies:
+        logging.getLogger(LOGGER_NAME).setLevel(logging.CRITICAL + 1)
         check_dependencies()
     if args.input_files:
         manager = PreviewManager("./")
