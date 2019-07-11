@@ -7,6 +7,7 @@ from subprocess import DEVNULL
 from subprocess import STDOUT
 from subprocess import check_call
 from subprocess import check_output
+from shutil import which
 import tempfile
 import typing
 import uuid
@@ -71,7 +72,10 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
 
     @classmethod
     def dependencies_versions(cls) -> typing.Optional[str]:
-        return check_output(["convert", "--version"], universal_newlines=True).split("\n")[0]
+        return "{} from {}".format(
+            check_output(["convert", "--version"], universal_newlines=True).split("\n")[0],
+            which("convert"),
+        )
 
     def build_jpeg_preview(
         self,

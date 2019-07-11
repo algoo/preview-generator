@@ -6,6 +6,7 @@ from subprocess import DEVNULL
 from subprocess import STDOUT
 from subprocess import check_call
 from subprocess import check_output
+from shutil import which
 import tempfile
 import typing
 import uuid
@@ -32,7 +33,10 @@ class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
 
     @classmethod
     def dependencies_versions(cls) -> typing.Optional[str]:
-        return check_output(["inkscape", "--version"], universal_newlines=True).strip()
+        return "{} from {}".format(
+            check_output(["inkscape", "--version"], universal_newlines=True).strip(),
+            which("inkscape"),
+        )
 
     def build_jpeg_preview(
         self,
