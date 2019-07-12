@@ -182,7 +182,7 @@ def get_decrypted_pdf(stream, strict=True, warndest=None, overwriteWarnings=True
             tf.write(stream.read())
             tf.close()
             if password:
-                check_call(["qpdf", "--password=''" % password, "--decrypt", tf.name, tfoname])
+                check_call(["qpdf", "--password=" + password, "--decrypt", tf.name, tfoname])
             else:
                 check_call(["qpdf", "--decrypt", tf.name, tfoname])
             pdf = PdfFileReader(tfoname, strict, warndest, overwriteWarnings)
