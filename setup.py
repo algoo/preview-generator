@@ -80,4 +80,5 @@ setup(
     test_suite="py.test",  # TODO : change test_suite
     tests_require=testpkgs,
     package_data={"preview_generator": ["i18n/*/LC_MESSAGES/*.mo", "templates/*/*", "public/*/*"]},
+    entry_points={"console_scripts": ["preview = preview_generator.__main__:main"]},
 )

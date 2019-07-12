@@ -9,6 +9,7 @@ from subprocess import STDOUT
 from subprocess import CalledProcessError
 from subprocess import check_call
 from subprocess import check_output
+from shutil import which
 import typing
 
 from xvfbwrapper import Xvfb
@@ -45,6 +46,15 @@ class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
                 )
             )
             return True
+
+    @classmethod
+    def dependencies_versions(cls) -> typing.Optional[str]:
+        try:
+            lines = check_output(["scribus", "-v"], stderr=STDOUT, universal_newlines=True)
+            version = " ".join(line for line in lines.split("\n") if "version" in line.lower())
+            return "{} from {}".format(version, which("scribus"))
+        except CalledProcessError:  # Can happen for 'scribus: cannot connect to X server'
+            return ""
 
     @classmethod
     def get_label(cls) -> str:

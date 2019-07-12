@@ -539,15 +539,20 @@ At the moment there are issues with the exiftool package on debian, so you'll ne
   perl Makefile.PL
   sudo make install
 
-After installing dependencies, you can install preview-generator using ``pip``:
+After installing dependencies, you can install preview-generator using ``pip``::
 
-``pip install preview-generator``
+  pip install preview-generator
 
 Optional dependencies:
 
-To handle previews for office documents you will need ``LibreOffice``, if you don't have it already:
+To handle previews for office documents you will need ``LibreOffice``, if you don't have it already::
 
-``apt-get install libreoffice``
+  apt-get install libreoffice
+
+
+To check dependencies, you can run::
+
+  preview --check-dependencies
 
 
 -----
@@ -684,6 +689,17 @@ The principle is the same as above
 
 **Text to text :** mainly just a copy stored in the cache
 
+Command Line
+~~~~~~~~~~~~
+
+For test purposes, you can use ``preview`` from the command line,
+giving the file to preview as a parameter::
+
+  preview demo.pdf
+
+Or multiple files::
+
+  preview *.pdf
 
 ---------------
 Cache mechanism

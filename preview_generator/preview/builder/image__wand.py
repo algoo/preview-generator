@@ -60,6 +60,10 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
         return "Images - based on WAND (image magick)"
 
     @classmethod
+    def dependencies_versions(cls) -> typing.Optional[str]:
+        return "wand {} from {}".format(wand.version.VERSION, ", ".join(wand.__path__))
+
+    @classmethod
     def __load_mimetypes(cls) -> typing.List[str]:
         """
         Load supported mimetypes from WAND library

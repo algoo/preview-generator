@@ -35,6 +35,13 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
     def check_dependencies(cls) -> bool:
         return True
 
+    @classmethod
+    def dependencies_versions(cls) -> typing.Optional[str]:
+        """Tell about the version of dependencies. Returns None if there is
+        this builder has no dependencies.
+        """
+        return None
+
     def get_page_number(
         self,
         file_path: str,

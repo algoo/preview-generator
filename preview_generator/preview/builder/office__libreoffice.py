@@ -7,6 +7,8 @@ import os
 from subprocess import DEVNULL
 from subprocess import STDOUT
 from subprocess import check_call
+from subprocess import check_output
+from shutil import which
 import threading
 import typing
 
@@ -37,6 +39,13 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
             return check_executable_is_available("libreoffice")
         except ExecutableNotFound:
             raise BuilderDependencyNotFound("this builder requires libreoffice to be available")
+
+    @classmethod
+    def dependencies_versions(cls) -> typing.Optional[str]:
+        return "{} from {}".format(
+            check_output(["libreoffice", "--version"], universal_newlines=True).strip(),
+            which("libreoffice"),
+        )
 
     def _convert_to_pdf(
         self,
