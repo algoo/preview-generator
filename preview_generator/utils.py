@@ -122,16 +122,12 @@ def check_executable_is_available(executable_name: str) -> bool:
     :return:
     """
     try:
-        result = check_call([executable_name, "--version"], stdout=DEVNULL, stderr=STDOUT)
-        if result == 0:
-            return True
-
+        check_call([executable_name, "--version"], stdout=DEVNULL, stderr=STDOUT)
+        return True
     except Exception as e:
         logger = logging.getLogger(LOGGER_NAME)
         logger.error("Error while checking dependencies: ", e)
         raise ExecutableNotFound
-
-    return False
 
 
 class PreviewGeneratorJsonEncoder(JSONEncoder):
