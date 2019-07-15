@@ -87,6 +87,8 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         size: ImgDims = None,
         mimetype: str = "",
     ) -> None:
+        if not size:
+            size = self.default_size
         # inkscape tesselation-P3.svg  -e
         tempfolder = tempfile.tempdir
         tmp_filename = "{}.png".format(str(uuid.uuid4()))

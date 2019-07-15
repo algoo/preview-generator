@@ -34,7 +34,7 @@ class PdfPreviewBuilderPyPDF2(PreviewBuilder):
         generate the pdf small preview
         """
         if not size:
-            size = utils.ImgDims(256, 256)
+            size = self.default_size
 
         with open(file_path, "rb") as pdf:
             # HACK - D.A. - 2017-08-11 Deactivate strict mode

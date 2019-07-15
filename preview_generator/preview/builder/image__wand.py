@@ -99,7 +99,8 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
         size: ImgDims = None,
         mimetype: str = "",
     ) -> None:
-
+        if not size:
+            size = self.default_size
         with open(file_path, "rb") as img:
             result = self.image_to_jpeg_wand(img, ImgDims(width=size.width, height=size.height))
 
