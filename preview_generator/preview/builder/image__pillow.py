@@ -249,6 +249,8 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
         """
         generate the jpg preview
         """
+        if not size:
+            size = self.default_size
         with open(file_path, "rb") as img:
             result = self.image_to_jpeg_pillow(img, size)
             preview_file_path = "{path}{extension}".format(

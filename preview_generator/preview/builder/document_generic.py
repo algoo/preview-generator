@@ -51,7 +51,8 @@ class DocumentPreviewBuilder(PreviewBuilder):
         mimetype: str = "",
         attempt: int = 0,
     ) -> None:
-
+        if not size:
+            size = self.default_size
         cache_file = os.path.join(cache_path, preview_name)
 
         if self._cache_file_process_already_running(cache_file):
