@@ -2,6 +2,7 @@
 
 import os
 import shutil
+import typing
 
 from preview_generator.manager import PreviewManager
 
@@ -11,11 +12,11 @@ IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "the_text.txt")
 IMAGE_FILE_PATH_NO_EXTENSION = os.path.join(CURRENT_DIR, "the_text_no_extension")  # nopep8
 
 
-def setup_function(function):
+def setup_function(function: typing.Callable) -> None:
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
 
 
-def test_text_to_jpeg():
+def test_text_to_jpeg() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     image_file_path = IMAGE_FILE_PATH
     assert manager.has_jpeg_preview(file_path=image_file_path) is True
@@ -24,7 +25,7 @@ def test_text_to_jpeg():
     assert os.path.getsize(path_to_file) > 0
 
 
-def test_to_pdf():
+def test_to_pdf() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     image_file_path = IMAGE_FILE_PATH
     assert manager.has_jpeg_preview(file_path=image_file_path) is True
@@ -32,13 +33,13 @@ def test_to_pdf():
     assert os.path.exists(path_to_file) is True
 
 
-def test_page_number():
+def test_page_number() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     page_number = manager.get_page_nb(file_path=IMAGE_FILE_PATH)
     assert page_number == 1
 
 
-def test_to_pdf_no_extension():
+def test_to_pdf_no_extension() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     image_file_path = IMAGE_FILE_PATH_NO_EXTENSION
     assert manager.has_jpeg_preview(file_path=image_file_path) is True
@@ -46,7 +47,7 @@ def test_to_pdf_no_extension():
     assert os.path.exists(path_to_file) is True
 
 
-def test_to_pdf_no_extension_extension_forced():
+def test_to_pdf_no_extension_extension_forced() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     image_file_path = IMAGE_FILE_PATH_NO_EXTENSION
     assert manager.has_pdf_preview(file_path=image_file_path, file_ext=".txt") is True
@@ -54,7 +55,7 @@ def test_to_pdf_no_extension_extension_forced():
     assert os.path.exists(path_to_file) is True
 
 
-def test_to_jpeg_no_extension():
+def test_to_jpeg_no_extension() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     image_file_path = IMAGE_FILE_PATH_NO_EXTENSION
     assert manager.has_jpeg_preview(file_path=image_file_path) is True
@@ -62,7 +63,7 @@ def test_to_jpeg_no_extension():
     assert os.path.exists(path_to_file) is True
 
 
-def test_to_jpeg_no_extension_extension_forced():
+def test_to_jpeg_no_extension_extension_forced() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     image_file_path = IMAGE_FILE_PATH_NO_EXTENSION
     assert manager.has_jpeg_preview(file_path=image_file_path, file_ext=".txt") is True
@@ -70,26 +71,26 @@ def test_to_jpeg_no_extension_extension_forced():
     assert os.path.exists(path_to_file) is True
 
 
-def test_page_number__no_extension():
+def test_page_number__no_extension() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     page_number = manager.get_page_nb(file_path=IMAGE_FILE_PATH_NO_EXTENSION)
     assert page_number == 1
 
 
-def test_page_number__extension_forced():
+def test_page_number__extension_forced() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     page_number = manager.get_page_nb(file_path=IMAGE_FILE_PATH_NO_EXTENSION, file_ext=".txt")
     assert page_number == 1
 
 
-def test_to_text():
+def test_to_text() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_text_preview(file_path=IMAGE_FILE_PATH) is True
     manager.get_text_preview(file_path=IMAGE_FILE_PATH, force=True)
     # TODO - G.M - 2018-11-06 - To be completed
 
 
-def test_to_json():
+def test_to_json() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_json_preview(file_path=IMAGE_FILE_PATH) is True
     manager.get_json_preview(file_path=IMAGE_FILE_PATH, force=True)

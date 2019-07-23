@@ -4,12 +4,12 @@ from io import BytesIO
 import logging
 import mimetypes
 import os
+from shutil import which
 from subprocess import DEVNULL
 from subprocess import STDOUT
 from subprocess import CalledProcessError
 from subprocess import check_call
 from subprocess import check_output
-from shutil import which
 import typing
 
 from xvfbwrapper import Xvfb
@@ -80,7 +80,7 @@ class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
 
 def convert_sla_to_pdf(
     file_content: typing.IO[bytes],
-    input_extension: str,  # example: '.dxf'
+    input_extension: typing.Optional[str],  # example: '.dxf'
     cache_path: str,
     output_filepath: str,
     mimetype: str,
@@ -91,7 +91,9 @@ def convert_sla_to_pdf(
     )  # nopep8
     if not input_extension:
         input_extension = mimetypes.guess_extension(mimetype)
-    temporary_input_content_path = output_filepath + input_extension  # nopep8
+    temporary_input_content_path = output_filepath
+    if input_extension:
+        temporary_input_content_path += input_extension
     flag_file_path = create_flag_file(output_filepath)
 
     logger.debug(

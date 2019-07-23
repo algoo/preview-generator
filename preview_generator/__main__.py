@@ -14,7 +14,7 @@ from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import get_subclasses_recursively
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="preview_generator", description="Generates previews of files"
     )
@@ -28,7 +28,7 @@ def parse_args():
     return args
 
 
-def check_dependencies():
+def check_dependencies() -> None:
     builder_folder = get_builder_folder_name()
     builder_modules = get_builder_modules(builder_folder)
 
@@ -49,7 +49,7 @@ def check_dependencies():
             print("✗", builder.__name__, "Skipped: not implemented")
 
 
-def main():
+def main() -> None:
     args = parse_args()
     if args.check_dependencies:
         logging.getLogger(LOGGER_NAME).setLevel(logging.CRITICAL + 1)

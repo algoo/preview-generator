@@ -37,10 +37,10 @@ from preview_generator.utils import compute_resize_dims
 #         return output
 
 
-def convert_pdf_to_jpeg(pdf: typing.Union[str, typing.IO[bytes]], preview_size: ImgDims) -> BytesIO:
+def convert_pdf_to_jpeg(pdf: typing.IO[bytes], preview_size: ImgDims) -> BytesIO:
 
-    pdf = pdf.read()
-    images = convert_from_bytes(pdf)
+    pdf_content = pdf.read()
+    images = convert_from_bytes(pdf_content)
 
     output = BytesIO()
     for image in images:
@@ -114,7 +114,7 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
                     buffer = result.read(1024)
 
     def image_to_jpeg_wand(
-        self, jpeg: typing.Union[str, typing.IO[bytes]], preview_dims: ImgDims = None
+        self, jpeg: typing.Union[str, typing.IO[bytes]], preview_dims: ImgDims
     ) -> BytesIO:
         """
         for jpeg, gif and bmp

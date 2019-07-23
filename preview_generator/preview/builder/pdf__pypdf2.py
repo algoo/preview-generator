@@ -116,11 +116,10 @@ class PdfPreviewBuilderPyPDF2(PreviewBuilder):
         else:
             with open(cache_path + preview_name + "_page_nb", "r") as count:
                 count.seek(0, 0)
-                count = count.read()
-                return int(count)
+                return int(count.read())
 
-    def has_jpeg_preview(self):
+    def has_jpeg_preview(self) -> bool:
         return True
 
-    def has_pdf_preview(self):
+    def has_pdf_preview(self) -> bool:
         return True

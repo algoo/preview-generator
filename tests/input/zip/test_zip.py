@@ -3,6 +3,7 @@
 import json
 import os
 import shutil
+import typing
 
 from preview_generator.manager import PreviewManager
 
@@ -11,11 +12,11 @@ CACHE_DIR = "/tmp/preview-generator-tests/cache"
 IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "the_zip.zip")
 
 
-def setup_function(function):
+def setup_function(function: typing.Callable) -> None:
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
 
 
-def test_zip_to_text():
+def test_zip_to_text() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_text_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_text_preview(file_path=IMAGE_FILE_PATH)
@@ -23,7 +24,7 @@ def test_zip_to_text():
     assert os.path.getsize(path_to_file) > 0
 
 
-def test_zip_to_json():
+def test_zip_to_json() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_json_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_json_preview(file_path=IMAGE_FILE_PATH)
@@ -51,7 +52,7 @@ def test_zip_to_json():
         assert _file["sizeCompressed"] > 0
 
 
-def test_zip_to_html():
+def test_zip_to_html() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_html_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_html_preview(file_path=IMAGE_FILE_PATH)
@@ -59,7 +60,7 @@ def test_zip_to_html():
     assert os.path.getsize(path_to_file) > 0
 
 
-def test_zip_to_html__no_original_name():
+def test_zip_to_html__no_original_name() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_html_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_html_preview(file_path=IMAGE_FILE_PATH)

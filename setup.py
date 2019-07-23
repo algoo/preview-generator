@@ -4,6 +4,7 @@
 
 import os
 import sys
+from typing import List
 
 from preview_generator import infos
 
@@ -26,7 +27,7 @@ except IOError:
 except UnicodeDecodeError:
     documentation = ""
 
-testpkgs = []
+testpkgs = []  # type: List[str]
 
 install_requires = [
     "python-magic",

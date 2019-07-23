@@ -45,11 +45,7 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         return None
 
     def get_page_number(
-        self,
-        file_path: str,
-        preview_name: str,
-        cache_path: str,
-        mimetype: typing.Optional[str] = None,
+        self, file_path: str, preview_name: str, cache_path: str, mimetype: str = ""
     ) -> int:
         """
         Get the number of page of the document
@@ -176,5 +172,5 @@ class ImagePreviewBuilder(OnePagePreviewBuilder):
     Generic preview handler for image preview_builder
     """
 
-    def has_jpeg_preview(self):
+    def has_jpeg_preview(self) -> bool:
         return True

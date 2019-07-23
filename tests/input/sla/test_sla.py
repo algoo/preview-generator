@@ -4,6 +4,7 @@ import hashlib
 import os
 import re
 import shutil
+import typing
 
 from PIL import Image
 import pytest
@@ -24,13 +25,13 @@ JPEG_FILE_HASH = hashlib.md5(
 ).hexdigest()
 
 
-def setup_function(function):
+def setup_function(function: typing.Callable) -> None:
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
     if "TRAVIS" in os.environ:
         pytest.skip("Experimental feature -- skipping test in travis environnement")
 
 
-def test_to_pdf_full_export():
+def test_to_pdf_full_export() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, page=-1, force=True)
@@ -39,7 +40,7 @@ def test_to_pdf_full_export():
     assert path_to_file == (os.path.join(CACHE_DIR, PDF_FILE_HASH + ".pdf"))
 
 
-def test_to_pdf_one_page():
+def test_to_pdf_one_page() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH) is True
     path_0 = manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, page=0, force=True)
@@ -53,7 +54,7 @@ def test_to_pdf_one_page():
     assert path_1 == os.path.join(CACHE_DIR, PDF_FILE_HASH + "-page1.pdf")
 
 
-def test_to_pdf_no_page():
+def test_to_pdf_no_page() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, force=True)
@@ -68,7 +69,7 @@ def test_to_pdf_no_page():
         pytest.skip("You must update ImageMagic policy file to allow PDF files")
 
 
-def test_to_jpeg():
+def test_to_jpeg() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_jpeg_preview(file_path=IMAGE_FILE_PATH) is True
     path0 = manager.get_jpeg_preview(
@@ -94,7 +95,7 @@ def test_to_jpeg():
         assert jpeg.width == 256
 
 
-def test_to_jpeg_no_size():
+def test_to_jpeg_no_size() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_jpeg_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_jpeg_preview(file_path=IMAGE_FILE_PATH, page=0, force=True)
@@ -107,7 +108,7 @@ def test_to_jpeg_no_size():
         assert jpeg.width in range(182, 185)
 
 
-def test_to_jpeg_no_page():
+def test_to_jpeg_no_page() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_jpeg_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_jpeg_preview(
@@ -122,7 +123,7 @@ def test_to_jpeg_no_page():
         assert jpeg.width == 367
 
 
-def test_to_jpeg_no_size_no_page():
+def test_to_jpeg_no_size_no_page() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_jpeg_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_jpeg_preview(file_path=IMAGE_FILE_PATH, force=True)
@@ -135,14 +136,14 @@ def test_to_jpeg_no_size_no_page():
         assert jpeg.width in range(182, 185)
 
 
-def test_to_text():
+def test_to_text() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_text_preview(file_path=IMAGE_FILE_PATH) is False
     with pytest.raises(UnavailablePreviewType):
         manager.get_text_preview(file_path=IMAGE_FILE_PATH, force=True)
 
 
-def test_to_json():
+def test_to_json() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_json_preview(file_path=IMAGE_FILE_PATH) is True
     manager.get_json_preview(file_path=IMAGE_FILE_PATH, force=True)

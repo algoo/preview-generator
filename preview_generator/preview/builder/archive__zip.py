@@ -18,7 +18,7 @@ class FileInfo(object):
     UNDEFINED = "undefined"
 
     def __init__(self) -> None:
-        self.last_modification = None  # type: datetime
+        self.last_modification = None  # type: typing.Optional[datetime]
         self.name = ""
         self.type = FileInfo.UNDEFINED
         self.size = 0
@@ -38,7 +38,7 @@ class ArchiveInfo(object):
         self.files = []  # type: typing.List[FileInfo]
         self.size = 0
         self.size__compressed = 0
-        self.last_modification = None  # type: datetime
+        self.last_modification = None  # type: typing.Optional[datetime]
 
     @property
     def compression_rate(self) -> float:
@@ -206,13 +206,13 @@ class ZipPreviewBuilder(OnePagePreviewBuilder):
 
         return archive_info
 
-    def has_html_preview(self):
+    def has_html_preview(self) -> bool:
         return True
 
-    def has_json_preview(self):
+    def has_json_preview(self) -> bool:
         return True
 
-    def has_text_preview(self):
+    def has_text_preview(self) -> bool:
         return True
 
 

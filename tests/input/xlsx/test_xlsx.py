@@ -2,6 +2,7 @@
 
 import os
 import shutil
+import typing
 
 import pytest
 
@@ -14,11 +15,11 @@ IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "the_xlsx.xlsx")
 IMAGE_FILE_PATH_NO_EXTENSION = os.path.join(CURRENT_DIR, "the_xlsx_no_extension")  # nopep8
 
 
-def setup_function(function):
+def setup_function(function: typing.Callable) -> None:
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
 
 
-def test_text_to_jpeg():
+def test_text_to_jpeg() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_jpeg_preview(file_path=IMAGE_FILE_PATH, force=True)
@@ -26,14 +27,14 @@ def test_text_to_jpeg():
     assert os.path.getsize(path_to_file) > 0
 
 
-def test_to_pdf():
+def test_to_pdf() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH) is True
     path_to_file = manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, force=True)
     assert os.path.exists(path_to_file) is True
 
 
-def test_to_pdf_no_extension_extension_forced():
+def test_to_pdf_no_extension_extension_forced() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH_NO_EXTENSION, file_ext=".xlsx") is True
     path_to_file = manager.get_pdf_preview(
@@ -42,21 +43,21 @@ def test_to_pdf_no_extension_extension_forced():
     assert os.path.exists(path_to_file) is True
 
 
-def test_to_pdf_no_extension():
+def test_to_pdf_no_extension() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH_NO_EXTENSION) is False
     with pytest.raises(UnavailablePreviewType):
         manager.get_pdf_preview(file_path=IMAGE_FILE_PATH_NO_EXTENSION)
 
 
-def test_to_text():
+def test_to_text() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_text_preview(file_path=IMAGE_FILE_PATH) is False
     with pytest.raises(UnavailablePreviewType):
         manager.get_text_preview(file_path=IMAGE_FILE_PATH, force=True)
 
 
-def test_to_json():
+def test_to_json() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_json_preview(file_path=IMAGE_FILE_PATH) is True
     manager.get_json_preview(file_path=IMAGE_FILE_PATH, force=True)

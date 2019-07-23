@@ -38,7 +38,7 @@ class PreviewBuilderFactory(object):
         self._builder_classes = {}  # type: typing.Dict[str, type]
         self.logger = logging.getLogger(LOGGER_NAME)
 
-    def get_preview_builder(self, mimetype: str) -> PB:
+    def get_preview_builder(self, mimetype: str) -> PreviewBuilder:
 
         if not self.builders_loaded:
             raise BuilderNotLoaded()
@@ -70,6 +70,10 @@ class PreviewBuilderFactory(object):
                 stderr=PIPE,
             ).communicate()[0]
             str_ = raw_mime.decode("utf-8").replace("\n", "")
+
+        if not str_:
+            # Should never happen.
+            raise ValueError("Cannot determine type of " + file_path)
 
         return str_
 
