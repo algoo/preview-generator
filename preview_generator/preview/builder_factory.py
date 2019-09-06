@@ -16,7 +16,6 @@ import magic
 
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import BuilderNotLoaded
-from preview_generator.exception import ExecutableNotFound
 from preview_generator.exception import UnsupportedMimeType
 from preview_generator.preview.generic_preview import PreviewBuilder
 from preview_generator.utils import LOGGER_NAME
@@ -126,7 +125,7 @@ class PreviewBuilderFactory(object):
                     self.logger.debug(
                         "register builder for {}: {}".format(mimetype, builder.__name__)
                     )
-        except (BuilderDependencyNotFound, ExecutableNotFound) as e:
+        except BuilderDependencyNotFound as e:
             self.logger.error("Builder {} is missing a dependency: {}".format(builder, e.__str__()))
         except NotImplementedError:
             self.logger.info(

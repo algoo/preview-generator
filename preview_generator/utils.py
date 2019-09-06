@@ -4,6 +4,7 @@ from datetime import datetime
 from json import JSONEncoder
 import logging
 import os
+import shutil
 from subprocess import DEVNULL
 from subprocess import STDOUT
 from subprocess import check_call
@@ -11,8 +12,6 @@ import tempfile
 import typing
 
 from PyPDF2 import PdfFileReader
-
-from preview_generator.exception import ExecutableNotFound
 
 LOGGER_NAME = "PreviewGenerator"
 
@@ -113,21 +112,9 @@ def compute_crop_dims(dims_in: ImgDims, dims_out: ImgDims) -> CropDims:
 
 
 def check_executable_is_available(executable_name: str) -> bool:
+    """Check if an executable is available in execution environment.
     """
-    Check if an executable is available in execution environment.
-    Exemple:
-      - try to execute 'pdf2jpeg --version',
-      - raises ExecutableNotFound if the call fails
-    :param executable_name:
-    :return:
-    """
-    try:
-        check_call([executable_name, "--version"], stdout=DEVNULL, stderr=STDOUT)
-        return True
-    except Exception:
-        logger = logging.getLogger(LOGGER_NAME)
-        logger.exception("Error while checking dependencies: ")
-        raise ExecutableNotFound
+    return shutil.which(executable_name) is not None
 
 
 class PreviewGeneratorJsonEncoder(JSONEncoder):

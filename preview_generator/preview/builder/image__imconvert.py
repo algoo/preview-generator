@@ -14,6 +14,7 @@ import uuid
 
 import wand
 
+from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import IntermediateFileBuildingFailed
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
@@ -67,8 +68,9 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         return ImagePreviewBuilderIMConvert.MIMETYPES
 
     @classmethod
-    def check_dependencies(cls) -> bool:
-        return check_executable_is_available("convert")
+    def check_dependencies(cls) -> None:
+        if not check_executable_is_available("convert"):
+            raise BuilderDependencyNotFound("this builder requires convert to be available")
 
     @classmethod
     def dependencies_versions(cls) -> typing.Optional[str]:

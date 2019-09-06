@@ -28,13 +28,12 @@ SCRIPT_PATH = os.path.join(parent_dir, SCRIPT_FOLDER_NAME, SCRIPT_NAME)
 
 class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
     @classmethod
-    def check_dependencies(cls) -> bool:
+    def check_dependencies(cls) -> None:
         logger = logging.getLogger(LOGGER_NAME)
         try:
             # INFO - G.M - 2019-01-17 - stderr is redirected to devnull because
             # scribus print normal information to stderr instead of stdout.
             check_output(["scribus", "-v"], stderr=STDOUT)
-            return True
         except FileNotFoundError:
             raise BuilderDependencyNotFound("this builder requires scribus to be available")
         except CalledProcessError as exc:
@@ -45,7 +44,6 @@ class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
                     exc.output
                 )
             )
-            return True
 
     @classmethod
     def dependencies_versions(cls) -> typing.Optional[str]:

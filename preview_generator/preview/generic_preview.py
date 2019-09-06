@@ -34,8 +34,10 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
         return cls.__name__  # default label is the class name
 
     @classmethod
-    def check_dependencies(cls) -> bool:
-        return True
+    def check_dependencies(cls) -> None:
+        """Raises a BuilderDependencyNotFound in case a dependency is missing
+        with an appropriate message.
+        """
 
     @classmethod
     def dependencies_versions(cls) -> typing.Optional[str]:

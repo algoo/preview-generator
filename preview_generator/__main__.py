@@ -3,7 +3,6 @@ import logging
 import sys
 
 from preview_generator.exception import BuilderDependencyNotFound
-from preview_generator.exception import ExecutableNotFound
 from preview_generator.infos import __version__
 from preview_generator.manager import PreviewManager
 from preview_generator.preview.builder_factory import get_builder_folder_name
@@ -37,13 +36,11 @@ def check_dependencies() -> None:
 
     for builder in get_subclasses_recursively(PreviewBuilder):
         try:
-            if builder.check_dependencies():
-                dependencies = builder.dependencies_versions()
-                if dependencies is not None:
-                    print("✓", builder.__name__, dependencies)
-            else:
-                print("✗", builder.__name__, "is missing a dependency.")
-        except (BuilderDependencyNotFound, ExecutableNotFound) as e:
+            builder.check_dependencies()
+            dependencies = builder.dependencies_versions()
+            if dependencies is not None:
+                print("✓", builder.__name__, dependencies)
+        except BuilderDependencyNotFound as e:
             print("✗", builder.__name__, "is missing a dependency: ", e.__str__())
         except NotImplementedError:
             print("✗", builder.__name__, "Skipped: not implemented")
