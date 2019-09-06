@@ -16,7 +16,7 @@ from preview_generator.exception import IntermediateFileBuildingFailed
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
-from preview_generator.utils import check_executable_is_available
+from preview_generator.utils import executable_is_available
 
 
 class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
@@ -30,7 +30,7 @@ class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
 
     @classmethod
     def check_dependencies(cls) -> None:
-        if not check_executable_is_available("inkscape"):
+        if not executable_is_available("inkscape"):
             raise BuilderDependencyNotFound("this builder requires inkscape to be available")
 
     @classmethod

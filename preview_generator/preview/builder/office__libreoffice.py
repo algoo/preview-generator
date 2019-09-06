@@ -18,7 +18,7 @@ from preview_generator.preview.builder.document_generic import DocumentPreviewBu
 from preview_generator.preview.builder.document_generic import create_flag_file
 from preview_generator.preview.builder.document_generic import write_file_content
 from preview_generator.utils import LOGGER_NAME
-from preview_generator.utils import check_executable_is_available
+from preview_generator.utils import executable_is_available
 
 LIBREOFFICE_CALL_LOCK = threading.Lock()
 
@@ -34,7 +34,7 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
 
     @classmethod
     def check_dependencies(cls) -> None:
-        if not check_executable_is_available("libreoffice"):
+        if not executable_is_available("libreoffice"):
             raise BuilderDependencyNotFound("this builder requires libreoffice to be available")
 
     @classmethod

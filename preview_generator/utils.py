@@ -111,7 +111,7 @@ def compute_crop_dims(dims_in: ImgDims, dims_out: ImgDims) -> CropDims:
     return CropDims(left=left, top=upper, right=right, bottom=lower)
 
 
-def check_executable_is_available(executable_name: str) -> bool:
+def executable_is_available(executable_name: str) -> bool:
     """Check if an executable is available in execution environment.
     """
     return shutil.which(executable_name) is not None
@@ -161,7 +161,7 @@ def get_decrypted_pdf(
             # If not supported, try and use qpdf to decrypt with '' first.
             # See https://github.com/mstamy2/PyPDF2/issues/378
             # Workaround for the "NotImplementedError: only algorithm code 1 and 2 are supported" issue.
-            check_executable_is_available("qpdf")
+            executable_is_available("qpdf")
             tf = tempfile.NamedTemporaryFile(
                 prefix="preview-generator-", suffix=".pdf", delete=False
             )

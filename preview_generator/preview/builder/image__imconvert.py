@@ -19,7 +19,7 @@ from preview_generator.exception import IntermediateFileBuildingFailed
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
-from preview_generator.utils import check_executable_is_available
+from preview_generator.utils import executable_is_available
 
 
 class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
@@ -69,7 +69,7 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
 
     @classmethod
     def check_dependencies(cls) -> None:
-        if not check_executable_is_available("convert"):
+        if not executable_is_available("convert"):
             raise BuilderDependencyNotFound("this builder requires convert to be available")
 
     @classmethod
