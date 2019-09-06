@@ -14,6 +14,7 @@ import typing
 
 from xvfbwrapper import Xvfb
 
+from preview_generator.utils import executable_is_available
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.preview.builder.document_generic import DocumentPreviewBuilder
 from preview_generator.preview.builder.document_generic import create_flag_file
@@ -29,21 +30,8 @@ SCRIPT_PATH = os.path.join(parent_dir, SCRIPT_FOLDER_NAME, SCRIPT_NAME)
 class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
     @classmethod
     def check_dependencies(cls) -> None:
-        logger = logging.getLogger(LOGGER_NAME)
-        try:
-            # INFO - G.M - 2019-01-17 - stderr is redirected to devnull because
-            # scribus print normal information to stderr instead of stdout.
-            check_output(["scribus", "-v"], stderr=STDOUT)
-        except FileNotFoundError:
+        if not executable_is_available("scribus"):
             raise BuilderDependencyNotFound("this builder requires scribus to be available")
-        except CalledProcessError as exc:
-            # TODO - 2018/09/26 - Basile - using '-v' on scribus >= 1.5 gives
-            # the version then crash, using FileNotFoundError to make the diff
-            logger.warning(
-                "Scribus like missing (Note: scribus >= 1.5 can produce false error on this check): {}".format(
-                    exc.output
-                )
-            )
 
     @classmethod
     def dependencies_versions(cls) -> typing.Optional[str]:
