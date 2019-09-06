@@ -35,8 +35,8 @@ class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
 
     @classmethod
     def check_dependencies(cls) -> None:
-        """Raises a BuilderDependencyNotFound in case a dependency is missing
-        with an appropriate message.
+        """Raises a BuilderDependencyNotFound with an appropriate message
+        if a dependency is missing.
         """
 
     @classmethod
