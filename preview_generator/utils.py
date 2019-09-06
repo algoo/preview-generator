@@ -2,11 +2,8 @@
 from datetime import date
 from datetime import datetime
 from json import JSONEncoder
-import logging
 import os
 import shutil
-from subprocess import DEVNULL
-from subprocess import STDOUT
 from subprocess import check_call
 import tempfile
 import typing
