@@ -161,7 +161,6 @@ def get_decrypted_pdf(
             # If not supported, try and use qpdf to decrypt with '' first.
             # See https://github.com/mstamy2/PyPDF2/issues/378
             # Workaround for the "NotImplementedError: only algorithm code 1 and 2 are supported" issue.
-            executable_is_available("qpdf")
             tf = tempfile.NamedTemporaryFile(
                 prefix="preview-generator-", suffix=".pdf", delete=False
             )

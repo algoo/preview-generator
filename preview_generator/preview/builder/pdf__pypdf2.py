@@ -7,6 +7,8 @@ import typing
 from PyPDF2 import PdfFileWriter
 
 from preview_generator import utils
+from preview_generator.utils import executable_is_available
+from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
 from preview_generator.preview.generic_preview import PreviewBuilder
 
@@ -15,6 +17,11 @@ class PdfPreviewBuilderPyPDF2(PreviewBuilder):
     @classmethod
     def get_label(cls) -> str:
         return "PDF documents - based on PyPDF2"
+
+    @classmethod
+    def check_dependencies(cls) -> None:
+        if not executable_is_available("qpdf"):
+            raise BuilderDependencyNotFound("this builder requires qpdf to be available")
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
