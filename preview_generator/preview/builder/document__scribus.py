@@ -7,7 +7,6 @@ import os
 from shutil import which
 from subprocess import DEVNULL
 from subprocess import STDOUT
-from subprocess import CalledProcessError
 from subprocess import check_call
 from subprocess import check_output
 import typing
@@ -29,32 +28,23 @@ SCRIPT_PATH = os.path.join(parent_dir, SCRIPT_FOLDER_NAME, SCRIPT_NAME)
 class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
     @classmethod
     def check_dependencies(cls) -> bool:
-        logger = logging.getLogger(LOGGER_NAME)
         try:
             # INFO - G.M - 2019-01-17 - stderr is redirected to devnull because
             # scribus print normal information to stderr instead of stdout.
-            check_output(["scribus", "-v"], stderr=STDOUT)
+            with Xvfb():
+                check_output(["scribus", "-v"], stderr=STDOUT)
             return True
+        except EnvironmentError as err:
+            raise BuilderDependencyNotFound(str(err))
         except FileNotFoundError:
             raise BuilderDependencyNotFound("this builder requires scribus to be available")
-        except CalledProcessError as exc:
-            # TODO - 2018/09/26 - Basile - using '-v' on scribus >= 1.5 gives
-            # the version then crash, using FileNotFoundError to make the diff
-            logger.warning(
-                "Scribus like missing (Note: scribus >= 1.5 can produce false error on this check): {}".format(
-                    exc.output
-                )
-            )
-            return True
 
     @classmethod
     def dependencies_versions(cls) -> typing.Optional[str]:
-        try:
+        with Xvfb():
             lines = check_output(["scribus", "-v"], stderr=STDOUT, universal_newlines=True)
-            version = " ".join(line for line in lines.split("\n") if "version" in line.lower())
-            return "{} from {}".format(version, which("scribus"))
-        except CalledProcessError:  # Can happen for 'scribus: cannot connect to X server'
-            return ""
+        version = " ".join(line for line in lines.split("\n") if "version" in line.lower())
+        return "{} from {}".format(version, which("scribus"))
 
     @classmethod
     def get_label(cls) -> str:
