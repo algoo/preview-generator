@@ -13,6 +13,8 @@ from wand.image import Image as WandImage
 
 from preview_generator.exception import UnavailablePreviewType
 from preview_generator.manager import PreviewManager
+from preview_generator.preview.builder.document__scribus import DocumentPreviewBuilderScribus
+from preview_generator.exception import BuilderDependencyNotFound
 from tests import test_utils
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -29,6 +31,10 @@ def setup_function(function: typing.Callable) -> None:
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
     if "TRAVIS" in os.environ:
         pytest.skip("Experimental feature -- skipping test in travis environnement")
+    try:
+        DocumentPreviewBuilderScribus.check_dependencies()
+    except BuilderDependencyNotFound as err:
+        pytest.skip("skipping scribus: {!s}".format(err))
 
 
 def test_to_pdf_full_export() -> None:
