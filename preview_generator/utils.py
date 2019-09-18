@@ -2,17 +2,13 @@
 from datetime import date
 from datetime import datetime
 from json import JSONEncoder
-import logging
 import os
-from subprocess import DEVNULL
-from subprocess import STDOUT
+import shutil
 from subprocess import check_call
 import tempfile
 import typing
 
 from PyPDF2 import PdfFileReader
-
-from preview_generator.exception import ExecutableNotFound
 
 LOGGER_NAME = "PreviewGenerator"
 
@@ -112,22 +108,10 @@ def compute_crop_dims(dims_in: ImgDims, dims_out: ImgDims) -> CropDims:
     return CropDims(left=left, top=upper, right=right, bottom=lower)
 
 
-def check_executable_is_available(executable_name: str) -> bool:
+def executable_is_available(executable_name: str) -> bool:
+    """Check if an executable is available in execution environment.
     """
-    Check if an executable is available in execution environment.
-    Exemple:
-      - try to execute 'pdf2jpeg --version',
-      - raises ExecutableNotFound if the call fails
-    :param executable_name:
-    :return:
-    """
-    try:
-        check_call([executable_name, "--version"], stdout=DEVNULL, stderr=STDOUT)
-        return True
-    except Exception:
-        logger = logging.getLogger(LOGGER_NAME)
-        logger.exception("Error while checking dependencies: ")
-        raise ExecutableNotFound
+    return shutil.which(executable_name) is not None
 
 
 class PreviewGeneratorJsonEncoder(JSONEncoder):
@@ -174,7 +158,6 @@ def get_decrypted_pdf(
             # If not supported, try and use qpdf to decrypt with '' first.
             # See https://github.com/mstamy2/PyPDF2/issues/378
             # Workaround for the "NotImplementedError: only algorithm code 1 and 2 are supported" issue.
-            check_executable_is_available("qpdf")
             tf = tempfile.NamedTemporaryFile(
                 prefix="preview-generator-", suffix=".pdf", delete=False
             )

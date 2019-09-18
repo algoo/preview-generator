@@ -55,9 +55,5 @@ class BuilderNotLoaded(PreviewGeneratorException):
     pass
 
 
-class ExecutableNotFound(PreviewGeneratorException):
-    pass
-
-
 class BuilderDependencyNotFound(PreviewGeneratorException):
     pass

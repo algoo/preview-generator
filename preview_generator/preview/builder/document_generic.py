@@ -9,6 +9,8 @@ import typing
 from PyPDF2 import PdfFileWriter
 
 from preview_generator import utils
+from preview_generator.utils import executable_is_available
+from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import PreviewAbortedMaxAttempsExceeded
 from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
 from preview_generator.preview.generic_preview import PreviewBuilder
@@ -33,6 +35,11 @@ class DocumentPreviewBuilder(PreviewBuilder):
         """
 
         raise NotImplementedError
+
+    @classmethod
+    def check_dependencies(cls) -> None:
+        if not executable_is_available("qpdf"):
+            raise BuilderDependencyNotFound("this builder requires qpdf to be available")
 
     def _cache_file_process_already_running(self, file_name: str) -> bool:
         if os.path.exists(file_name + "_flag"):

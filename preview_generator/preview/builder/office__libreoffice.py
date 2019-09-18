@@ -13,13 +13,12 @@ import threading
 import typing
 
 from preview_generator.exception import BuilderDependencyNotFound
-from preview_generator.exception import ExecutableNotFound
 from preview_generator.exception import InputExtensionNotFound
 from preview_generator.preview.builder.document_generic import DocumentPreviewBuilder
 from preview_generator.preview.builder.document_generic import create_flag_file
 from preview_generator.preview.builder.document_generic import write_file_content
 from preview_generator.utils import LOGGER_NAME
-from preview_generator.utils import check_executable_is_available
+from preview_generator.utils import executable_is_available
 
 LIBREOFFICE_CALL_LOCK = threading.Lock()
 
@@ -34,10 +33,8 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
         return [k for k in typing.cast(str, LO_MIMETYPES.keys())]
 
     @classmethod
-    def check_dependencies(cls) -> bool:
-        try:
-            return check_executable_is_available("libreoffice")
-        except ExecutableNotFound:
+    def check_dependencies(cls) -> None:
+        if not executable_is_available("libreoffice"):
             raise BuilderDependencyNotFound("this builder requires libreoffice to be available")
 
     @classmethod

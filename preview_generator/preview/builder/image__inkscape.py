@@ -11,11 +11,12 @@ import tempfile
 import typing
 import uuid
 
+from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import IntermediateFileBuildingFailed
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
-from preview_generator.utils import check_executable_is_available
+from preview_generator.utils import executable_is_available
 
 
 class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
@@ -28,8 +29,9 @@ class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
         return ["image/svg+xml"]
 
     @classmethod
-    def check_dependencies(cls) -> bool:
-        return check_executable_is_available("inkscape")
+    def check_dependencies(cls) -> None:
+        if not executable_is_available("inkscape"):
+            raise BuilderDependencyNotFound("this builder requires inkscape to be available")
 
     @classmethod
     def dependencies_versions(cls) -> typing.Optional[str]:

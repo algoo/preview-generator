@@ -13,6 +13,7 @@ import typing
 
 from xvfbwrapper import Xvfb
 
+from preview_generator.utils import executable_is_available
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.preview.builder.document_generic import DocumentPreviewBuilder
 from preview_generator.preview.builder.document_generic import create_flag_file
@@ -27,16 +28,8 @@ SCRIPT_PATH = os.path.join(parent_dir, SCRIPT_FOLDER_NAME, SCRIPT_NAME)
 
 class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
     @classmethod
-    def check_dependencies(cls) -> bool:
-        try:
-            # INFO - G.M - 2019-01-17 - stderr is redirected to devnull because
-            # scribus print normal information to stderr instead of stdout.
-            with Xvfb():
-                check_output(["scribus", "-v"], stderr=STDOUT)
-            return True
-        except EnvironmentError as err:
-            raise BuilderDependencyNotFound(str(err))
-        except FileNotFoundError:
+    def check_dependencies(cls) -> None:
+        if not executable_is_available("scribus"):
             raise BuilderDependencyNotFound("this builder requires scribus to be available")
 
     @classmethod
