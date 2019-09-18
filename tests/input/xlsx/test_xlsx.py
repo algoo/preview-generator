@@ -43,13 +43,6 @@ def test_to_pdf_no_extension_extension_forced() -> None:
     assert os.path.exists(path_to_file) is True
 
 
-def test_to_pdf_no_extension() -> None:
-    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
-    assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH_NO_EXTENSION) is False
-    with pytest.raises(UnavailablePreviewType):
-        manager.get_pdf_preview(file_path=IMAGE_FILE_PATH_NO_EXTENSION)
-
-
 def test_to_text() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_text_preview(file_path=IMAGE_FILE_PATH) is False
