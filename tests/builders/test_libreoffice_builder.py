@@ -7,8 +7,12 @@ import pytest
 
 from preview_generator.exception import InputExtensionNotFound
 from preview_generator.preview.builder.office__libreoffice import convert_office_document_to_pdf
+from preview_generator.utils import executable_is_available
 
 CACHE_DIR = "/tmp/preview-generator-tests/cache"
+
+if not executable_is_available("libreoffice"):
+    pytest.skip("libreoffice is not available.", allow_module_level=True)
 
 
 def test_convert_office_document_to_pdf__ok__with_input_extension_and_mimetype() -> None:

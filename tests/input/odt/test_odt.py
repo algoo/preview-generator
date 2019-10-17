@@ -12,12 +12,16 @@ import pytest
 
 from preview_generator.exception import UnavailablePreviewType
 from preview_generator.manager import PreviewManager
+from preview_generator.utils import executable_is_available
 from tests import test_utils
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = "/tmp/preview-generator-tests/cache"
 IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "the_odt.odt")
 FILE_HASH = hashlib.md5(IMAGE_FILE_PATH.encode("utf-8")).hexdigest()
+
+if not executable_is_available("libreoffice"):
+    pytest.skip("libreoffice is not available.", allow_module_level=True)
 
 
 def setup_function(function: typing.Callable) -> None:
