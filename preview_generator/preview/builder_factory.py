@@ -120,10 +120,28 @@ class PreviewBuilderFactory(object):
                         "register builder for {}: {} - SKIPPED".format(mimetype, builder.__name__)
                     )
                 else:
-                    self._builder_classes[mimetype] = builder
-                    self.logger.debug(
-                        "register builder for {}: {}".format(mimetype, builder.__name__)
-                    )
+                    if mimetype not in self._builder_classes:
+                        self._builder_classes[mimetype] = builder
+                        self.logger.debug(
+                            "register builder for {}: {}".format(mimetype, builder.__name__)
+                        )
+
+                    else:
+                        # We're having two builders for the same mimetype,
+                        # let's check if one of them has missing
+                        # dependencies.
+                        try:
+                            self._builder_classes[mimetype].check_dependencies()
+                        except BuilderDependencyNotFound:
+                            self.logger.debug(
+                                "register builder for {}: {} (instead of {})".format(
+                                    mimetype,
+                                    builder.__name__,
+                                    self._builder_classes[mimetype].__name__,
+                                )
+                            )
+                            self._builder_classes[mimetype] = builder
+
         except NotImplementedError:
             self.logger.info(
                 "Skipping builder class [{}]: method get_supported_mimetypes "
