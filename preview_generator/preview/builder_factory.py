@@ -108,7 +108,6 @@ class PreviewBuilderFactory(object):
 
     def register_builder(self, builder: typing.Type["PreviewBuilder"]) -> None:
         try:
-            builder.check_dependencies()
             self.builders_classes.append(builder)
             # FIXME - G.M - 2018-10-18 - Fix issue with application/octet-stream
             # and builder which happened in some conditions
@@ -125,8 +124,6 @@ class PreviewBuilderFactory(object):
                     self.logger.debug(
                         "register builder for {}: {}".format(mimetype, builder.__name__)
                     )
-        except BuilderDependencyNotFound as e:
-            self.logger.error("Builder {} is missing a dependency: {}".format(builder, e.__str__()))
         except NotImplementedError:
             self.logger.info(
                 "Skipping builder class [{}]: method get_supported_mimetypes "
