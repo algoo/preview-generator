@@ -9,7 +9,6 @@ from preview_generator.preview.builder_factory import get_builder_folder_name
 from preview_generator.preview.builder_factory import get_builder_modules
 from preview_generator.preview.builder_factory import import_builder_module
 from preview_generator.preview.generic_preview import PreviewBuilder
-from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import get_subclasses_recursively
 
 
@@ -20,6 +19,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("input_files", nargs="*", help="File to preview")
     parser.add_argument("--check-dependencies", action="store_true")
     parser.add_argument("--version", action="version", version="%(prog)s " + __version__)
+    parser.add_argument("-v", action="count", help="Verbosity (-v, -vv, or -vvv).", default=0)
     args = parser.parse_args()
     if not args.input_files and not args.check_dependencies:
         parser.print_usage(file=sys.stderr)
@@ -48,8 +48,8 @@ def check_dependencies() -> None:
 
 def main() -> None:
     args = parse_args()
+    logging.basicConfig(level=logging.ERROR - 10 * args.v)
     if args.check_dependencies:
-        logging.getLogger(LOGGER_NAME).setLevel(logging.CRITICAL + 1)
         check_dependencies()
     if args.input_files:
         manager = PreviewManager("./")
