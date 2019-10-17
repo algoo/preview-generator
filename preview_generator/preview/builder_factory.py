@@ -34,7 +34,7 @@ class PreviewBuilderFactory(object):
     def __init__(self) -> None:
         self.builders_loaded = False
         self.builders_classes = []  # type: typing.List[typing.Any]
-        self._builder_classes = {}  # type: typing.Dict[str, type]
+        self._builder_classes = {}  # type: typing.Dict[str, typing.Type[PreviewBuilder]]
         self.logger = logging.getLogger(LOGGER_NAME)
 
     def get_preview_builder(self, mimetype: str) -> PreviewBuilder:
