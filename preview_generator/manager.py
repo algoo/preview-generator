@@ -6,6 +6,7 @@ import mimetypes
 import os
 import typing
 
+from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.preview.builder.document__scribus import DocumentPreviewBuilderScribus
 from preview_generator.preview.builder.office__libreoffice import OfficePreviewBuilderLibreoffice
 from preview_generator.preview.builder_factory import PreviewBuilderFactory
@@ -166,15 +167,25 @@ class PreviewManager(object):
         preview_file_path = os.path.join(self.cache_path, preview_name + extension)  # nopep8
         page = max(page, 0)  # if page is -1 then return preview of first page
         if force or not os.path.exists(preview_file_path):
-            builder.build_jpeg_preview(
-                file_path=file_path,
-                preview_name=preview_name,
-                cache_path=self.cache_path,
-                page_id=page,
-                extension=extension,
-                size=size,
-                mimetype=mimetype,
-            )
+            try:
+                builder.build_jpeg_preview(
+                    file_path=file_path,
+                    preview_name=preview_name,
+                    cache_path=self.cache_path,
+                    page_id=page,
+                    extension=extension,
+                    size=size,
+                    mimetype=mimetype,
+                )
+            except Exception as base_error:
+                """The builder failed.
+                Did it failed because of a missing dependency or something else?
+                """
+                try:
+                    builder.check_dependencies()
+                except BuilderDependencyNotFound as err:
+                    raise err from base_error
+                raise
 
         return preview_file_path
 

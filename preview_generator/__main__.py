@@ -54,8 +54,12 @@ def main() -> None:
     if args.input_files:
         manager = PreviewManager("./")
         for input_file in args.input_files:
-            path_to_preview_image = manager.get_jpeg_preview(input_file)
-            print(input_file, "→", path_to_preview_image)
+            try:
+                path_to_preview_image = manager.get_jpeg_preview(input_file)
+            except BuilderDependencyNotFound as err:
+                print(err)
+            else:
+                print(input_file, "→", path_to_preview_image)
 
 
 if __name__ == "__main__":
