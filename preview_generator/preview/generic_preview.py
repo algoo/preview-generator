@@ -11,14 +11,7 @@ from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import ImgDims
 
 
-class PreviewBuilderMeta(type):
-    def __new__(mcs, *args: str, **kwargs: int) -> typing.Type["PreviewBuilder"]:
-        cls = super().__new__(mcs, *args, **kwargs)
-        cls = typing.cast(typing.Type["PreviewBuilder"], cls)
-        return cls
-
-
-class PreviewBuilder(object, metaclass=PreviewBuilderMeta):
+class PreviewBuilder(object):
     default_size = ImgDims(256, 256)
 
     def __init__(self,) -> None:
