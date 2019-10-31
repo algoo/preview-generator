@@ -2,11 +2,11 @@
 
 import pytest
 
+from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.utils import CropDims
 from preview_generator.utils import ImgDims
 from preview_generator.utils import compute_resize_dims
 from preview_generator.utils import executable_is_available
-from preview_generator.exception import BuilderDependencyNotFound
 
 
 def test_imgdims() -> None:
