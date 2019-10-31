@@ -4,7 +4,6 @@ language: python
 dist: xenial
 
 install:
-  - cd ..
   - sudo rm -f /etc/ImageMagick-6/policy.xml
   - sudo apt-get install xvfb libreoffice libfile-mimeinfo-perl inkscape poppler-utils qpdf imagemagick libimage-exiftool-perl -y
   - pip install xvfbwrapper
