@@ -55,14 +55,9 @@ class PdfPreviewBuilderPyPDF2(PreviewBuilder):
             output_stream.seek(0, 0)
             result = convert_pdf_to_jpeg(output_stream, size)
 
-            if page_id == -1:
-                preview_path = "{path}{file_name}{extension}".format(
-                    file_name=preview_name, path=cache_path, extension=extension
-                )
-            else:
-                preview_path = "{path}{file_name}{extension}".format(
-                    file_name=preview_name, path=cache_path, page_id=page_id, extension=extension
-                )
+            preview_path = "{path}{file_name}{extension}".format(
+                file_name=preview_name, path=cache_path, extension=extension
+            )
             with open(preview_path, "wb") as jpeg:
                 buffer = result.read(1024)
                 while buffer:
