@@ -7,10 +7,10 @@ import typing
 from PyPDF2 import PdfFileWriter
 
 from preview_generator import utils
-from preview_generator.utils import executable_is_available
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
 from preview_generator.preview.generic_preview import PreviewBuilder
+from preview_generator.utils import executable_is_available
 
 
 class PdfPreviewBuilderPyPDF2(PreviewBuilder):
@@ -60,8 +60,10 @@ class PdfPreviewBuilderPyPDF2(PreviewBuilder):
                     file_name=preview_name, path=cache_path, extension=extension
                 )
             else:
+                # FIXME - G.M - 2019-10-31 change preview path if possible without breaking compatibility
+                # to explictly explain page_id obtained
                 preview_path = "{path}{file_name}{extension}".format(
-                    file_name=preview_name, path=cache_path, page_id=page_id, extension=extension
+                    file_name=preview_name, path=cache_path, extension=extension
                 )
             with open(preview_path, "wb") as jpeg:
                 buffer = result.read(1024)

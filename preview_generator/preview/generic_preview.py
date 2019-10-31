@@ -12,7 +12,8 @@ from preview_generator.utils import ImgDims
 
 
 class PreviewBuilderMeta(type):
-    def __new__(mcs, *args: str, **kwargs: int) -> typing.Type["PreviewBuilder"]:
+    # FIXME - G.M - 2019-10-31 restore better typing
+    def __new__(mcs, *args: str, **kwargs: int) -> typing.Any:
         cls = super().__new__(mcs, *args, **kwargs)
         cls = typing.cast(typing.Type["PreviewBuilder"], cls)
         return cls
