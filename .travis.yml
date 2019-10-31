@@ -5,7 +5,7 @@ dist: xenial
 
 install:
   - sudo rm -f /etc/ImageMagick-6/policy.xml
-  - sudo apt-get install xvfb libreoffice libfile-mimeinfo-perl inkscape poppler-utils qpdf imagemagick libimage-exiftool-perl -y
+  - sudo apt-get install xvfb libreoffice libfile-mimeinfo-perl inkscape poppler-utils qpdf imagemagick libimage-exiftool-perl ufraw-batch -y
   - pip install xvfbwrapper
   - python setup.py install
   - pip install pytest
@@ -52,7 +52,7 @@ jobs:
     - stage: tests
       python: "3.7"
     - stage: tests
-      python: "3.8-dev"
+      python: "3.8"
 
 stages:
   - static-tests

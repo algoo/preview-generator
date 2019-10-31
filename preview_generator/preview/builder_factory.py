@@ -23,7 +23,13 @@ from preview_generator.utils import get_subclasses_recursively
 
 PB = typing.TypeVar("PB", bound=PreviewBuilder)
 
-AMBIGUOUS_MIMES = ["text/xml", "text/plain", "application/xml", "application/octet-stream"]
+AMBIGUOUS_MIMES = [
+    "text/xml",
+    "text/plain",
+    "application/xml",
+    "application/octet-stream",
+    "image/tiff",
+]
 
 
 class PreviewBuilderFactory(object):

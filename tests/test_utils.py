@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import pytest
+
+from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.utils import CropDims
 from preview_generator.utils import ImgDims
 from preview_generator.utils import compute_resize_dims
+from preview_generator.utils import executable_is_available
 
 
 def test_imgdims() -> None:
@@ -69,7 +73,11 @@ def test_check_dependencies() -> None:
         OfficePreviewBuilderLibreoffice,
     )
 
-    OfficePreviewBuilderLibreoffice.check_dependencies()
+    if executable_is_available("libreoffice"):
+        OfficePreviewBuilderLibreoffice.check_dependencies()
+    else:
+        with pytest.raises(BuilderDependencyNotFound):
+            OfficePreviewBuilderLibreoffice.check_dependencies()
 
 
 CACHE_FILE_PATH_PATTERN__JPEG = (
