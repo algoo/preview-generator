@@ -25,6 +25,26 @@ from preview_generator.utils import executable_is_available
 class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
 
     MIMETYPES = []  # type: typing.List[str]
+    SUPPORTED_RAW_CAMERA_MIMETYPE = [
+        "image/x-sony-arw",
+        "image/x-adobe-dng",
+        "image/x-sony-sr2",
+        "image/x-sony-srf",
+        "image/x-sigma-x3f",
+        "image/x-canon-crw",
+        "image/x-canon-cr2",
+        "image/x-epson-erf",
+        "image/x-fuji-raf",
+        "image/x-nikon-nef",
+        "image/x-olympus-orf",
+        "image/x-panasonic-raw",
+        "image/x-panasonic-rw2",
+        "image/x-pentax-pef",
+        "image/x-kodak-dcr",
+        "image/x-kodak-k25",
+        "image/x-kodak-kdc",
+        "image/x-minolta-mrw",
+    ]
 
     """ IM means Image Magick"""
 
@@ -48,7 +68,6 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
                 if "video" not in mime:
                     # TODO - D.A. - 2018-09-24 - Do not skip video if supported
                     mimes.append(mime)
-
         svg_mime = "image/svg+xml"
         if svg_mime in mimes:
             # HACK - D.A. - 2018-11-07 do not convert SVG using convert
@@ -56,6 +75,11 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
             # (need to remove the mimetype on Ubuntu but useless on Debian
             mimes.remove("image/svg+xml")
 
+        # HACK - G.M - 2019-10-31 - Handle raw format only if ufraw-batch is installed as most common
+        # default imagemagick configuration delegate raw format to ufraw-batch.
+        if executable_is_available("ufraw-batch"):
+            for mimetype in cls.SUPPORTED_RAW_CAMERA_MIMETYPE:
+                mimes.append(mimetype)
         return mimes
 
     @classmethod
