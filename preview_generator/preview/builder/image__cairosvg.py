@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from io import BytesIO
-import os
-from pathlib import Path
-import time
 import typing
 import tempfile
 
 from preview_generator.utils import ImgDims
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
+from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
 
 import cairosvg
 import PIL
@@ -43,9 +40,7 @@ class ImagePreviewBuilderCairoSVG(ImagePreviewBuilder):
 
         with tempfile.NamedTemporaryFile('w+b', prefix="preview-generator", suffix="png") as tmp_png:
             cairosvg.svg2png(url=file_path, write_to=tmp_png.name, dpi=96)
-            png_img = (PIL.Image
-                .open(tmp_png.name)
-                .resize((size.width, size.height))
-                .convert("RGB")
-                .save(preview_name + extension, "JPEG")
-            )
+
+            return ImagePreviewBuilderPillow().build_jpeg_preview(
+                tmp_png.name, preview_name, cache_path, page_id, extension, size, mimetype
+            )   
