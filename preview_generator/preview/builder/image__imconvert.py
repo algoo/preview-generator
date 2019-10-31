@@ -44,6 +44,7 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         "image/x-kodak-k25",
         "image/x-kodak-kdc",
         "image/x-minolta-mrw",
+        "image/x-kde-raw",
     ]
 
     """ IM means Image Magick"""
