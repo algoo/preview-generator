@@ -48,7 +48,7 @@ def check_dependencies() -> None:
 
 def main() -> None:
     args = parse_args()
-    logging.basicConfig(level=logging.ERROR - 10 * args.v)
+    logging.basicConfig(level=logging.ERROR - 10 * args.v)  # In logging, levels are 40, 30, 20, 10.
     if args.check_dependencies:
         check_dependencies()
     if args.input_files:
