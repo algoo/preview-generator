@@ -54,7 +54,7 @@ def free_software_coding() -> None:
 def test_get_nb_page() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     for test_file in TEST_FILES:
-        image_file_path = os.path.join(CURRENT_DIR, test_file["name"])
+        image_file_path = os.path.join(CURRENT_DIR, str(test_file["name"]))
         nb_page = manager.get_page_nb(file_path=image_file_path)
         # FIXME must add parameter force=True/False in the API
         assert nb_page == 1
@@ -63,7 +63,7 @@ def test_get_nb_page() -> None:
 def test_to_jpeg() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     for test_file in TEST_FILES:
-        image_file_path = os.path.join(CURRENT_DIR, test_file["name"])
+        image_file_path = os.path.join(CURRENT_DIR, str(test_file["name"]))
         assert manager.has_jpeg_preview(file_path=image_file_path) is True
         path_to_file = manager.get_jpeg_preview(
             file_path=image_file_path, height=256, width=512, force=True
@@ -80,7 +80,7 @@ def test_to_jpeg() -> None:
 def test_to_jpeg__default_size() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     for test_file in TEST_FILES:
-        image_file_path = os.path.join(CURRENT_DIR, test_file["name"])
+        image_file_path = os.path.join(CURRENT_DIR, str(test_file["name"]))
         assert manager.has_jpeg_preview(file_path=image_file_path) is True
         path_to_file = manager.get_jpeg_preview(file_path=image_file_path, force=True)
         assert os.path.exists(path_to_file)
@@ -95,7 +95,7 @@ def test_to_jpeg__default_size() -> None:
 def test_to_json() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     for test_file in TEST_FILES:
-        image_file_path = os.path.join(CURRENT_DIR, test_file["name"])
+        image_file_path = os.path.join(CURRENT_DIR, str(test_file["name"]))
         mimetype = manager.get_mimetype(image_file_path)
         manager._factory.get_preview_builder(mimetype)
 
@@ -126,14 +126,14 @@ def test_to_json() -> None:
 def test_to_pdf() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     for test_file in TEST_FILES:
-        image_file_path = os.path.join(CURRENT_DIR, test_file["name"])
+        image_file_path = os.path.join(CURRENT_DIR, str(test_file["name"]))
         manager.get_pdf_preview(file_path=image_file_path, force=True)
 
 
 def test_to_text() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     for test_file in TEST_FILES:
-        image_file_path = os.path.join(CURRENT_DIR, test_file["name"])
+        image_file_path = os.path.join(CURRENT_DIR, str(test_file["name"]))
         assert manager.has_text_preview(file_path=image_file_path) is False
         with pytest.raises(UnavailablePreviewType):
             manager.get_text_preview(file_path=image_file_path, force=True)
