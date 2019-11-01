@@ -526,18 +526,7 @@ Installation
 
 Dependencies:
 
-``apt-get install zlib1g-dev libjpeg-dev python3-pythonmagick inkscape xvfb poppler-utils libfile-mimeinfo-perl qpdf ufraw-batch``
-
-At the moment there are issues with the exiftool package on debian, so you'll need to install it manually:
-
-.. code:: console
-
-  # Exiftool
-  wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz
-  gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf -
-  cd Image-ExifTool-11.11
-  perl Makefile.PL
-  sudo make install
+``apt-get install zlib1g-dev libjpeg-dev python3-pythonmagick inkscape xvfb poppler-utils libfile-mimeinfo-perl qpdf libimage-exiftool-perl ufraw-batch``
 
 After installing dependencies, you can install preview-generator using ``pip``::
 
@@ -837,7 +826,7 @@ From scratch on a terminal :
      * if it's not already, activate it : `source myenv/bin/activate`. (`deactivate` to deactivate)
   - install dependencies :
 
-     * Exiftool - Follow instruction on the main website: https://sno.phy.queensu.ca/~phil/exiftool/
+     * `apt-get install libimage-exiftool-perl`
      * `apt-get install zlib1g-dev`
      * `apt-get install libjpeg-dev`
      * `apt-get install python3-pythonmagick`
@@ -862,14 +851,8 @@ From scratch on a terminal :
 .. code:: console
 
   # general dependencies
-  apt-get install zlib1g-dev libjpeg-dev python3-pythonmagick inkscape xvfb poppler-utils qpdf libfile-mimeinfo-perl
+  apt-get install zlib1g-dev libjpeg-dev python3-pythonmagick inkscape xvfb poppler-utils qpdf libfile-mimeinfo-perl libimage-exiftool-perl
   pip install wand Pillow PyPDF2 python-magic pyexifinfo packaging xvfbwrapper pdf2image pathlib
-  # Exiftool
-  wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz
-  gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf -
-  cd Image-ExifTool-11.11
-  perl Makefile.PL
-  sudo make install
 
 If you need to preview scribus `.sla` files you will need scribus >= 1.5.
 If it's not available in your distribution you can use an AppImage.

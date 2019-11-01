@@ -69,7 +69,6 @@ def test_to_json() -> None:
     assert "File:Planes" in data.keys()
     assert "File:FileTypeExtension" in data.keys()
     assert "File:ImageLength" in data.keys()
-    assert "File:BMPVersion" in data.keys()
     assert "File:FilePermissions" in data.keys()
     assert "File:Compression" in data.keys()
     assert "File:ImageHeight" in data.keys()
