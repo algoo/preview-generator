@@ -36,10 +36,6 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
         ]
 
     @classmethod
-    def check_dependencies(cls) -> None:
-        pass  # needed?
-
-    @classmethod
     def dependencies_versions(cls) -> typing.Optional[str]:
         vtk_version = vtkVersion()
         return "VTK version :{}".format(vtk_version.GetVTKVersion())
