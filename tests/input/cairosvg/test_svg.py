@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import hashlib
 import json
 import os
 import re
-import shutil
 import typing
 
 from PIL import Image
@@ -18,32 +16,33 @@ CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = "/tmp/preview-generator-tests/cache"
 TEST_FILES = [
     {
-        "name": "tesselation-P3.svg", 
-        "width_512": 181, 
-        "height_512": 256, 
-        "width_256": 181, 
-        "height_256": 256
-        }, 
+        "name": "tesselation-P3.svg",
+        "width_512": 181,
+        "height_512": 256,
+        "width_256": 181,
+        "height_256": 256,
+    },
     {
-        "name": "Ghostscript_Tiger.svg", 
-        "width_512": 256, 
-        "height_512": 256, 
-        "width_256": 256, 
-        "height_256": 256
-        }, 
+        "name": "Ghostscript_Tiger.svg",
+        "width_512": 256,
+        "height_512": 256,
+        "width_256": 256,
+        "height_256": 256,
+    },
     {
-        "name": "14224-tiger-svg.svg", 
-        "width_512": 419, 
-        "height_512": 256, 
-        "width_256": 256, 
-        "height_256": 156
-    }
+        "name": "14224-tiger-svg.svg",
+        "width_512": 419,
+        "height_512": 256,
+        "width_256": 256,
+        "height_256": 156,
+    },
 ]
 
 
 def setup_function(function: typing.Callable) -> None:
     # shutil.rmtree(CACHE_DIR, ignore_errors=True)
     pass
+
 
 algoo = ""
 
@@ -122,7 +121,7 @@ def test_to_json() -> None:
         assert "File:FileModifyDate" in data.keys()
         assert "File:FileType" in data.keys()
         assert "File:MIMEType" in data.keys()
-        
+
         # frague: Those keys are not in the SVG files
         # assert "SVG:MetadataID" in data.keys()
         # assert "XMP:WorkType" in data.keys()
@@ -138,21 +137,7 @@ def test_to_pdf() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     for test_file in TEST_FILES:
         image_file_path = os.path.join(CURRENT_DIR, test_file["name"])
-
-        assert manager.has_pdf_preview(file_path=image_file_path) is False
-        with pytest.raises(UnavailablePreviewType):
-            manager.get_pdf_preview(file_path=image_file_path, force=True)
-
-        # INFO - D.A. - 2018-07-05
-        #  The following test case is working with libreoffice preview engine
-        #  manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
-        #  path_to_file = manager.get_pdf_preview(
-        #     file_path=IMAGE_FILE_PATH,
-        #      force=True
-        #  )
-        #  assert os.path.exists(path_to_file) == True
-        #  assert os.path.getsize(path_to_file) > 0
-        #  assert path_to_file == '/tmp/preview-generator-tests/cache/a0dcd8bf562212788204a09d85331d04.pdf'  # nopep8
+        manager.get_pdf_preview(file_path=image_file_path, force=True)
 
 
 def test_to_text() -> None:
