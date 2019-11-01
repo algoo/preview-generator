@@ -17,24 +17,24 @@ CACHE_DIR = "/tmp/preview-generator-tests/cache"
 TEST_FILES = [
     {
         "name": "tesselation-P3.svg",
-        "width_512": 181,
-        "height_512": 256,
-        "width_256": 181,
-        "height_256": 256,
+        "width": 181,
+        "height": 256,
+        "width_default": 181,
+        "height_default": 256,
     },
     {
         "name": "Ghostscript_Tiger.svg",
-        "width_512": 256,
-        "height_512": 256,
-        "width_256": 256,
-        "height_256": 256,
+        "width": 256,
+        "height": 256,
+        "width_default": 256,
+        "height_default": 256,
     },
     {
         "name": "14224-tiger-svg.svg",
-        "width_512": 419,
-        "height_512": 256,
-        "width_256": 256,
-        "height_256": 156,
+        "width": 419,
+        "height": 256,
+        "width_default": 256,
+        "height_default": 156,
     },
 ]
 
@@ -73,8 +73,8 @@ def test_to_jpeg() -> None:
         assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
 
         with Image.open(path_to_file) as jpeg:
-            assert jpeg.height == test_file["height_512"]
-            assert jpeg.width == test_file["width_512"]
+            assert jpeg.height == test_file["height"]
+            assert jpeg.width == test_file["width"]
 
 
 def test_to_jpeg__default_size() -> None:
@@ -88,8 +88,8 @@ def test_to_jpeg__default_size() -> None:
         assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
 
         with Image.open(path_to_file) as jpeg:
-            assert jpeg.height == test_file["height_256"]
-            assert jpeg.width == test_file["width_256"]
+            assert jpeg.height == test_file["height_default"]
+            assert jpeg.width == test_file["width_default"]
 
 
 def test_to_json() -> None:
@@ -121,16 +121,6 @@ def test_to_json() -> None:
         assert "File:FileModifyDate" in data.keys()
         assert "File:FileType" in data.keys()
         assert "File:MIMEType" in data.keys()
-
-        # frague: Those keys are not in the SVG files
-        # assert "SVG:MetadataID" in data.keys()
-        # assert "XMP:WorkType" in data.keys()
-        # assert "SVG:Docname" in data.keys()
-        # assert "SVG:ImageHeight" in data.keys()
-        # assert "SVG:Version" in data.keys()
-        # assert "SVG:ImageWidth" in data.keys()
-        # assert "XMP:WorkFormat" in data.keys()
-        # assert "SVG:ID" in data.keys()
 
 
 def test_to_pdf() -> None:
