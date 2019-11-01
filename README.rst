@@ -25,7 +25,7 @@ Supported mimetypes depends on builders and dependencies installed.
 
 full supported list file format here: `supported mimetypes list`_ .
 
-Preview-generator do have builders for:
+Preview-generator has builders for:
 
 Images
 ~~~~~~
@@ -51,7 +51,7 @@ Future format support
 
 We expect to support preview for 3D file and video file soon.
 
-.. _`Supported mimetypes list`: docs/supported_mimetypes.rst
+.. _`Supported mimetypes list`: doc/supported_mimetypes.rst
 
 ------------
 Installation
