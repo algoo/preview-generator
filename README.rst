@@ -856,7 +856,6 @@ From scratch on a terminal :
      * `pip install xvfbwrapper`
      * `pip install pdf2image`
      * `pip install pathlib`
-     * `pip install cairosvg`
      * if you use python 3.5 or less `pip install typing`
 
 
