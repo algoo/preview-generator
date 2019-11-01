@@ -128,7 +128,7 @@ Contribute :
 
 install preview_generator with dev dependencies (contains tests dependencies)
 
-   pip install -e '.[dev]
+   pip install -e '.[dev]'
 
 install pre-commit hooks:
 
