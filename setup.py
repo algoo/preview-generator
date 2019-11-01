@@ -39,6 +39,7 @@ install_requires = [
     "xvfbwrapper",
     "pathlib",
     "pdf2image",
+    "vtk",
 ]
 tests_require = ["pytest"]
 

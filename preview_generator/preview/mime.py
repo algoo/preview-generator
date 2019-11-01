@@ -101,6 +101,7 @@ application/sdp sdp
 application/set-payment-initiation setpay
 application/set-registration-initiation setreg
 application/shf+xml shf
+application/sla stl
 application/smil+xml smi smil
 application/sparql-query rq
 application/sparql-results+xml srx
@@ -545,6 +546,7 @@ application/x-mspublisher pub
 application/x-msschedule scd
 application/x-msterminal trm
 application/x-mswrite wri
+application/x-navistyle
 application/x-netcdf nc cdf
 application/x-nzb nzb
 application/x-pkcs12 p12 pfx
@@ -679,6 +681,7 @@ image/x-xwindowdump xwd
 message/rfc822 eml mime
 model/iges igs iges
 model/mesh msh mesh silo
+model/stl stl
 model/vnd.collada+xml dae
 model/vnd.dwf dwf
 model/vnd.gdl gdl
