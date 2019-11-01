@@ -108,9 +108,20 @@ def compute_crop_dims(dims_in: ImgDims, dims_out: ImgDims) -> CropDims:
     return CropDims(left=left, top=upper, right=right, bottom=lower)
 
 
-def executable_is_available(executable_name: str) -> bool:
+def executable_is_available(
+    executable_name: typing.Union[str, typing.List[str], typing.Tuple[str]]
+) -> bool:
     """Check if an executable is available in execution environment.
+
+    :param executable_name: List or Tuple, or single command name
+    :return: `True` if the exec if found, `False` otherwize
     """
+    if isinstance(executable_name, (list, tuple)):
+        for _exec_name in executable_name:
+            print("_exec_name =", _exec_name)
+            if shutil.which(_exec_name) is not None:
+                return True
+        return False
     return shutil.which(executable_name) is not None
 
 

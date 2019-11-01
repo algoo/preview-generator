@@ -96,3 +96,15 @@ CACHE_FILE_PATH_PATTERN__JSON = "/tmp/preview-generator-tests/cache/[abcdef01234
 CACHE_FILE_PATH_PATTERN_WITH_PAGE__JSON = (
     "/tmp/preview-generator-tests/cache/[abcdef0123456789]{32}-page[[0-9]*.json"
 )
+
+
+EXECS = (
+    {"test": ["sh", "python"], "result": True},
+    {"test": "zzzzzz", "result": False},
+    {"test": ("foo", "test"), "result": True},
+)
+
+
+def test_executable_is_available():
+    for _exec in EXECS:
+        assert executable_is_available(_exec.get("test")) == _exec.get("result")
