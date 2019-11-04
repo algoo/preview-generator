@@ -39,6 +39,7 @@ install_requires = [
     "xvfbwrapper",
     "pathlib",
     "pdf2image",
+    "ffmpeg-python",
 ]
 tests_require = ["pytest"]
 
@@ -72,6 +73,7 @@ setup(
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
     ],
     packages=find_packages(exclude=["ez_setup"]),
     install_requires=install_requires,
