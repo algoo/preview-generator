@@ -6,19 +6,25 @@ import tempfile
 import typing
 import uuid
 
-from vtk import vtkActor
-from vtk import vtkNamedColors
-from vtk import vtkPNGWriter
-from vtk import vtkPolyDataMapper
-from vtk import vtkRenderer
-from vtk import vtkRenderWindow
-from vtk import vtkSTLReader
-from vtk import vtkVersion
-from vtk import vtkWindowToImageFilter
-
+from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
 from preview_generator.preview.generic_preview import PreviewBuilder
 from preview_generator.utils import ImgDims
+
+# HACK - G.M - 2019-11-05 - Hack to allow load of module without vtk installed
+vtk_installed = True
+try:
+    from vtk import vtkActor
+    from vtk import vtkNamedColors
+    from vtk import vtkPNGWriter
+    from vtk import vtkPolyDataMapper
+    from vtk import vtkRenderer
+    from vtk import vtkRenderWindow
+    from vtk import vtkSTLReader
+    from vtk import vtkVersion
+    from vtk import vtkWindowToImageFilter
+except ImportError:
+    vtk_installed = False
 
 
 class ImagePreviewBuilderVtk(PreviewBuilder):
@@ -34,6 +40,11 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
             "application/vnd.ms-pki.stl",
             "application/x-navistyle",
         ]
+
+    @classmethod
+    def check_dependencies(cls) -> None:
+        if not vtk_installed:
+            raise BuilderDependencyNotFound("this builder requires vtk to be available")
 
     @classmethod
     def dependencies_versions(cls) -> typing.Optional[str]:

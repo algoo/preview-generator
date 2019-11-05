@@ -2,9 +2,11 @@
 
 import os
 import shutil
+import sys
 import typing
 
 from PIL import Image
+import pytest
 
 from preview_generator.preview.builder.cad__vtk import ImagePreviewBuilderVtk
 from preview_generator.utils import ImgDims
@@ -20,14 +22,21 @@ def setup_function(function: typing.Callable) -> None:
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
 
 
+@pytest.mark.xfail(sys.version_info[:2] == (3, 8), reason="vtk support for python 3.8 broken")
 def test_to_jpeg() -> None:
     os.makedirs(CACHE_DIR)
     builder = ImagePreviewBuilderVtk()
     assert builder.has_jpeg_preview() is True
-    size=ImgDims(height=256, width=512)
-    preview_name='stl_whale_test_vtk'
-    builder.build_jpeg_preview(file_path=IMAGE_FILE_PATH, size=size, page_id=0, cache_path=CACHE_DIR, preview_name=preview_name)
-    path_to_file = os.path.join(CACHE_DIR, '{}.jpg'.format(preview_name))
+    size = ImgDims(height=256, width=512)
+    preview_name = "stl_whale_test_vtk"
+    builder.build_jpeg_preview(
+        file_path=IMAGE_FILE_PATH,
+        size=size,
+        page_id=0,
+        cache_path=CACHE_DIR,
+        preview_name=preview_name,
+    )
+    path_to_file = os.path.join(CACHE_DIR, "{}.jpg".format(preview_name))
     assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
 
@@ -35,10 +44,14 @@ def test_to_jpeg() -> None:
         assert jpeg.height == 256
         assert jpeg.width == 256
 
+
+@pytest.mark.xfail(sys.version_info[:2] == (3, 8), reason="vtk support for python 3.8 broken")
 def test_get_nb_page() -> None:
     os.makedirs(CACHE_DIR)
     builder = ImagePreviewBuilderVtk()
-    preview_name='stl_whale_test_vtk'
-    nb_page = builder.get_page_number(file_path=IMAGE_FILE_PATH, cache_path=CACHE_DIR, preview_name=preview_name)
+    preview_name = "stl_whale_test_vtk"
+    nb_page = builder.get_page_number(
+        file_path=IMAGE_FILE_PATH, cache_path=CACHE_DIR, preview_name=preview_name
+    )
     # FIXME must add parameter force=True/False in the API
     assert nb_page == 1
