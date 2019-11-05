@@ -62,3 +62,6 @@ class ImagePreviewBuilderCairoSVG(ImagePreviewBuilder):
             path=cache_path + preview_name, extension=extension
         )
         cairosvg.svg2pdf(url=file_path, write_to=preview_file_path)
+
+    def has_pdf_preview(self) -> bool:
+        return True
