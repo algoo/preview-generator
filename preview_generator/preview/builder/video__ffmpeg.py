@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import typing
-import ffmpeg
 import json
+import typing
+
+import ffmpeg
 
 from preview_generator import utils
-from preview_generator.preview.generic_preview import (
-    PreviewBuilder,
-)
-
 from preview_generator.exception import PreviewGeneratorException
+from preview_generator.preview.generic_preview import PreviewBuilder
 
 
 class NoVideoStream(PreviewGeneratorException):
@@ -63,12 +61,12 @@ class VideoPreviewBuilderFFMPEG(PreviewBuilder):
         ]
 
     def get_dims_from_ffmpeg_probe(
-        self, probe_result: dict
+        self, probe_result: typing.Dict[str, typing.Any]
     ) -> utils.ImgDims:
         """
         Extract the width and height of the video stream from probe dict and return it
         """
-        video_stream_data = {}
+        video_stream_data = {}  # type:typing.Dict[str,typing.Any]
         for stream_data in probe_result["streams"]:
             if stream_data["codec_type"] == "video":
                 video_stream_data = stream_data
@@ -76,17 +74,9 @@ class VideoPreviewBuilderFFMPEG(PreviewBuilder):
         if not video_stream_data:
             raise NoVideoStream
 
-        return utils.ImgDims(
-            width=video_stream_data["width"],
-            height=video_stream_data["height"],
-        )
+        return utils.ImgDims(width=video_stream_data["width"], height=video_stream_data["height"])
 
-    def _get_frame_time(
-        self,
-        page_id: int,
-        page_nb: int,
-        video_duration: float,
-    ) -> float:
+    def _get_frame_time(self, page_id: int, page_nb: int, video_duration: float) -> float:
         """
         Compute time of frame #page_id
         The algorithm is:
@@ -105,26 +95,14 @@ class VideoPreviewBuilderFFMPEG(PreviewBuilder):
             # - we take first frame at 2% of full duration
             # - we take last frame at 2% of end of movie
             # - we split the 96% remaining for all frames
-            delta_between_two_frames_in_percent = (
-                100 - 4
-            ) / (page_nb - 1)
+            delta_between_two_frames_in_percent = (100 - 4) / (page_nb - 1)
         else:
             delta_between_two_frames_in_percent = 0
 
-        return (
-            video_duration
-            * (
-                2
-                + delta_between_two_frames_in_percent
-                * page_id
-            )
-            / 100
-        )
+        return video_duration * (2 + delta_between_two_frames_in_percent * page_id) / 100
 
     def _get_extraction_size(
-        self,
-        video_dims: utils.ImgDims,
-        preview_dims: utils.ImgDims,
+        self, video_dims: utils.ImgDims, preview_dims: utils.ImgDims
     ) -> utils.ImgDims:
         """
         Compute extraction dimensions.
@@ -161,36 +139,20 @@ class VideoPreviewBuilderFFMPEG(PreviewBuilder):
             size = self.default_size
 
         preview_path = "{path}{file_name}{extension}".format(
-            file_name=preview_name,
-            path=cache_path,
-            extension=extension,
+            file_name=preview_name, path=cache_path, extension=extension
         )
 
         video_probe_data = ffmpeg.probe(file_path)
-        video_size = self.get_dims_from_ffmpeg_probe(
-            video_probe_data
-        )
-        extraction_size = self._get_extraction_size(
-            video_size, size
-        )
+        video_size = self.get_dims_from_ffmpeg_probe(video_probe_data)
+        extraction_size = self._get_extraction_size(video_size, size)
 
-        video_duration = float(
-            video_probe_data["format"]["duration"]
-        )
-        page_nb = self.get_page_number(
-            file_path, preview_name, cache_path
-        )
-        frame_time = self._get_frame_time(
-            page_id, page_nb, video_duration
-        )
+        video_duration = float(video_probe_data["format"]["duration"])
+        page_nb = self.get_page_number(file_path, preview_name, cache_path)
+        frame_time = self._get_frame_time(page_id, page_nb, video_duration)
 
         (
             ffmpeg.input(file_path, ss=frame_time)
-            .filter(
-                "scale",
-                extraction_size.width,
-                extraction_size.height,
-            )
+            .filter("scale", extraction_size.width, extraction_size.height)
             .output(preview_path, vframes=1)
             .run()
         )
@@ -208,9 +170,7 @@ class VideoPreviewBuilderFFMPEG(PreviewBuilder):
         """
         metadata = ffmpeg.probe(file_path)
 
-        with open(
-            cache_path + preview_name + extension, "w"
-        ) as jsonfile:
+        with open(cache_path + preview_name + extension, "w") as jsonfile:
             json.dump(metadata, jsonfile)
 
     def set_page_nb(self, page_nb: int) -> int:
