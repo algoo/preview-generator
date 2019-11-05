@@ -9,9 +9,7 @@ from preview_generator.preview.generic_preview import (
     PreviewBuilder,
 )
 
-from preview_generator.exception import (
-    PreviewGeneratorException,
-)
+from preview_generator.exception import PreviewGeneratorException
 
 
 class NoVideoStream(PreviewGeneratorException):
