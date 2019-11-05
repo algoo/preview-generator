@@ -101,3 +101,11 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
         return ImagePreviewBuilderPillow().build_jpeg_preview(
             tmp_filepath, preview_name, cache_path, page_id, extension, size, mimetype
         )
+
+    def has_jpeg_preview(self) -> bool:
+        return True
+
+    def get_page_number(
+        self, file_path: str, preview_name: str, cache_path: str, mimetype: str = ""
+    ) -> int:
+        return 1
