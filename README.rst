@@ -526,7 +526,7 @@ Installation
 
 Dependencies:
 
-``apt-get install zlib1g-dev libjpeg-dev python3-pythonmagick inkscape xvfb poppler-utils libfile-mimeinfo-perl qpdf libimage-exiftool-perl ufraw-batch``
+``apt-get install zlib1g-dev libjpeg-dev python3-pythonmagick inkscape xvfb poppler-utils libfile-mimeinfo-perl qpdf libimage-exiftool-perl ufraw-batch ffmpeg``
 
 After installing dependencies, you can install preview-generator using ``pip``::
 
@@ -836,6 +836,7 @@ From scratch on a terminal :
      * `apt-get install qpdf`
      * `apt-get install libfile-mimeinfo-perl`
      * `apt-get install ufraw-batch`
+     * `apt-get install ffmpeg`
      * `pip install wand`
      * `pip install Pillow`
      * `pip install PyPDF2`
