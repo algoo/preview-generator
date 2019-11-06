@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import typing
+
 import pytest
 
 from preview_generator.exception import BuilderDependencyNotFound
@@ -105,6 +107,7 @@ EXECS = (
 )
 
 
-def test_executable_is_available() -> None:
-    for _exec in EXECS:
-        assert executable_is_available(list(_exec.get("test"))) == _exec.get("result")
+@pytest.mark.parametrize("exec", EXECS)
+def test_executable_is_available(exec: typing.Dict[str, typing.Any]) -> None:
+    executable_list = exec.get("test")  # type: typing.Any
+    assert executable_is_available(executable_list) == exec.get("result")
