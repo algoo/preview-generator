@@ -105,6 +105,6 @@ EXECS = (
 )
 
 
-def test_executable_is_available():
+def test_executable_is_available() -> None:
     for _exec in EXECS:
-        assert executable_is_available(_exec.get("test")) == _exec.get("result")
+        assert executable_is_available(str(_exec.get("test"))) == _exec.get("result")

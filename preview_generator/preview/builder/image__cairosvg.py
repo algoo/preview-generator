@@ -43,7 +43,7 @@ class ImagePreviewBuilderCairoSVG(ImagePreviewBuilder):
             cairosvg.svg2png(url=file_path, write_to=tmp_png.name, dpi=96)
 
             return ImagePreviewBuilderPillow().build_jpeg_preview(
-                tmp_png.name, preview_name, cache_path, page_id, extension, size, mimetype,
+                tmp_png.name, preview_name, cache_path, page_id, extension, size, mimetype
             )
 
     def build_pdf_preview(

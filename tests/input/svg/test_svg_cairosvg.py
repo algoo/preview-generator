@@ -3,6 +3,7 @@
 import json
 import os
 import shutil
+import typing
 
 from PIL import Image
 import pytest
@@ -38,12 +39,12 @@ TEST_FILES = [
 ]
 
 
-def setup_function(function):
+def setup_function(function: typing.Callable) -> None:
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
 
 
 @pytest.mark.parametrize("file", TEST_FILES)
-def test_to_jpeg(file) -> None:
+def test_to_jpeg(file: typing.Dict[str, typing.Any]) -> None:
     os.makedirs(CACHE_DIR)
     builder = ImagePreviewBuilderCairoSVG()
     assert builder.has_jpeg_preview() is True
@@ -66,7 +67,7 @@ def test_to_jpeg(file) -> None:
 
 
 @pytest.mark.parametrize("file", TEST_FILES)
-def test_get_nb_page(file):
+def test_get_nb_page(file: typing.Dict[str, typing.Any]) -> None:
     os.makedirs(CACHE_DIR)
     builder = ImagePreviewBuilderCairoSVG()
     preview_name = "svg_tesselation_test_cairosvg"
@@ -79,7 +80,7 @@ def test_get_nb_page(file):
 
 
 @pytest.mark.parametrize("file", TEST_FILES)
-def test_to_json(file):
+def test_to_json(file: typing.Dict[str, typing.Any]) -> None:
     os.makedirs(CACHE_DIR)
     builder = ImagePreviewBuilderCairoSVG()
     preview_name = "svg_tesselation_test_cairosvg"
@@ -111,7 +112,7 @@ def test_to_json(file):
 
 
 @pytest.mark.parametrize("file", TEST_FILES)
-def test_to_pdf(file):
+def test_to_pdf(file: typing.Dict[str, typing.Any]) -> None:
     os.makedirs(CACHE_DIR)
     builder = ImagePreviewBuilderCairoSVG()
     preview_name = "svg_tesselation_test_cairosvg"
@@ -127,7 +128,7 @@ def test_to_pdf(file):
 
 
 @pytest.mark.parametrize("file", TEST_FILES)
-def test_to_text(file):
+def test_to_text(file: typing.Dict[str, typing.Any]) -> None:
     os.makedirs(CACHE_DIR)
     builder = ImagePreviewBuilderCairoSVG()
     preview_name = "svg_tesselation_test_cairosvg"
