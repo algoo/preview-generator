@@ -21,7 +21,7 @@ class ImagePreviewBuilderCairoSVG(ImagePreviewBuilder):
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
-        return ["image/svg+xml"]
+        return ["image/svg+xml", "image/svg"]
 
     def build_jpeg_preview(
         self,

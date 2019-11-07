@@ -26,7 +26,7 @@ class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
-        return ["image/svg+xml"]
+        return ["image/svg+xml", "image/svg"]
 
     @classmethod
     def check_dependencies(cls) -> None:
