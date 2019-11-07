@@ -39,6 +39,7 @@ install_requires = [
     "xvfbwrapper",
     "pathlib",
     "pdf2image",
+    "cairosvg",
     "ffmpeg-python",
 ]
 tests_require = ["pytest"]
