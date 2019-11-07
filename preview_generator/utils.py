@@ -61,6 +61,9 @@ class ImgDims(object):
         self.width = width
         self.height = height
 
+    def ratio(self) -> float:
+        return self.width / self.height
+
     def __str__(self) -> str:
         return "{}x{}".format(self.width, self.height)
 

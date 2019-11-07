@@ -4,7 +4,7 @@
 
 # cache
 __pycache__
-
+/pip-wheel-metadata
 # IDE
 .idea/
 
@@ -17,3 +17,5 @@ PyPreviewGenerator/.mypy_cache/
 preview_generator.egg-info/
 /tgenv*
 /venv*
+/env*
+/myenv

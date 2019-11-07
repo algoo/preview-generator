@@ -55,6 +55,7 @@ From scratch on a terminal :
      * `apt-get install qpdf`
      * `apt-get install libfile-mimeinfo-perl`
      * `apt-get install ufraw-batch`
+     * `apt-get install ffmpeg`
      * `pip install wand`
      * `pip install Pillow`
      * `pip install PyPDF2`
