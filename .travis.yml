@@ -8,12 +8,12 @@ install:
   - sudo apt-get install xvfb libreoffice libfile-mimeinfo-perl inkscape poppler-utils qpdf imagemagick libimage-exiftool-perl ufraw-batch -y
   - pip install xvfbwrapper
   - python setup.py install
-  - pip install pytest pytest-faulthandler
+  - pip install pytest
   - python3 -m pip install -U mypy
 
 # command to run tests
 script:
-  - "cd ${TRAVIS_BUILD_DIR} && pytest tests -v"
+  - "cd ${TRAVIS_BUILD_DIR} && py.test tests"
 
 #  - "cd ${TRAVIS_BUILD_DIR} && mypy preview_generator --ignore-missing-imports --disallow-untyped-defs"
 
