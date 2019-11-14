@@ -6,6 +6,9 @@ import tempfile
 import typing
 import uuid
 
+from vtk.vtkIOKitPython import vtkOBJReader
+from vtk.vtkIOKitPython import vtkPLYReader
+
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
 from preview_generator.preview.generic_preview import PreviewBuilder
@@ -28,18 +31,22 @@ except ImportError:
 
 
 class ImagePreviewBuilderVtk(PreviewBuilder):
+    PLY_MIMETYPES = ["application/ply"]
+    OBJ_MIMETYPES = ["application/object", "application/wobj"]
+    STL_MIMETYPES = [
+        "model/stl",
+        "application/sla",
+        "application/vnd.ms-pki.stl",
+        "application/x-navistyle",
+    ]
+
     @classmethod
     def get_label(cls) -> str:
         return "Images generator from 3d file - based on Vtk"
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
-        return [
-            "model/stl",
-            "application/sla",
-            "application/vnd.ms-pki.stl",
-            "application/x-navistyle",
-        ]
+        return cls.STL_MIMETYPES + cls.OBJ_MIMETYPES + cls.PLY_MIMETYPES
 
     @classmethod
     def check_dependencies(cls) -> None:
@@ -50,6 +57,17 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
     def dependencies_versions(cls) -> typing.Optional[str]:
         vtk_version = vtkVersion()
         return "VTK version :{}".format(vtk_version.GetVTKVersion())
+
+    @classmethod
+    def _get_vtk_reader(cls, mimetype):
+        if mimetype in cls.STL_MIMETYPES:
+            return vtkSTLReader()
+        elif mimetype in cls.OBJ_MIMETYPES:
+            return vtkOBJReader()
+        elif mimetype in cls.PLY_MIMETYPES:
+            return vtkPLYReader()
+        else:
+            raise Exception()
 
     def build_jpeg_preview(
         self,
@@ -72,7 +90,7 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
 
         colors = vtkNamedColors()
 
-        reader = vtkSTLReader()  # TODO analyse wich file format is use
+        reader = self._get_vtk_reader(mimetype)
         reader.SetFileName(file_path)
 
         mapper = vtkPolyDataMapper()
