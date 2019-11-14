@@ -68,6 +68,15 @@ class ImgDims(object):
         return "{}x{}".format(self.width, self.height)
 
 
+class MimetypeMapping(object):
+    def __init__(self, mimetype: str, file_extension: str) -> None:
+        self.mimetype = mimetype
+        self.file_extension = file_extension
+
+    def __str__(self) -> str:
+        return "MimetypeMapping:{}:{}".format(self.mimetype, self.file_extension)
+
+
 class CropDims(object):
     def __init__(self, left: int, top: int, right: int, bottom: int) -> None:
         self.left = left
