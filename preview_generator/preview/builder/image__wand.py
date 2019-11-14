@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from io import BytesIO
-import mimetypes
 import typing
 
 from pdf2image import convert_from_bytes
@@ -9,6 +8,7 @@ from wand.image import Color
 from wand.image import Image as WImage
 import wand.version
 
+from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import compute_resize_dims
@@ -73,7 +73,7 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
         mimes = []  # type: typing.List[str]
         for supported in all_supported:
             url = "./FILE.{0}".format(supported)  # Fake a url
-            mime, enc = mimetypes.guess_type(url)
+            mime, enc = mimetypes_storage.guess_type(url)
             if mime and mime not in mimes:
                 if "video" not in mime:
                     # TODO - D.A. - 2018-09-24 - Do not skip video if supported

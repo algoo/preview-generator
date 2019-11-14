@@ -2,7 +2,6 @@
 import contextlib
 from io import BytesIO
 import logging
-import mimetypes
 import os
 from shutil import which
 from subprocess import DEVNULL
@@ -14,6 +13,7 @@ import typing
 
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import InputExtensionNotFound
+from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.builder.document_generic import DocumentPreviewBuilder
 from preview_generator.preview.builder.document_generic import create_flag_file
 from preview_generator.preview.builder.document_generic import write_file_content
@@ -70,7 +70,7 @@ def convert_office_document_to_pdf(
         "converting file bytes {} to pdf file {}".format(file_content, output_filepath)
     )  # nopep8
     if not input_extension:
-        input_extension = mimetypes.guess_extension(mimetype)
+        input_extension = mimetypes_storage.guess_extension(mimetype)
     if not input_extension:
         raise InputExtensionNotFound("unable to found input extension from mimetype")  # nopep8
     temporary_input_content_path = output_filepath + input_extension  # nopep8

@@ -2,7 +2,6 @@
 
 import glob
 import logging
-import mimetypes
 import os
 from os.path import basename
 from os.path import dirname
@@ -17,6 +16,7 @@ import magic
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import BuilderNotLoaded
 from preview_generator.exception import UnsupportedMimeType
+from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.generic_preview import PreviewBuilder
 from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import get_subclasses_recursively
@@ -61,7 +61,7 @@ class PreviewBuilderFactory(object):
         assert file_ext == "" or file_ext.startswith("."), 'File extension must starts with ".""'
         # INFO - B.L - 2018/10/11 - If user force the file extension we do.
         first_path = file_path + file_ext if file_ext else file_path
-        str_, encoding = mimetypes.guess_type(first_path, strict=False)
+        str_, encoding = mimetypes_storage.guess_type(first_path, strict=False)
 
         if not str_ or str_ == "application/octet-stream":
             mime = magic.Magic(mime=True)
