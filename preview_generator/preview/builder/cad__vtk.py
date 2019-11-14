@@ -92,6 +92,7 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
         renWin = vtkRenderWindow()
         renWin.OffScreenRenderingOn()
         renWin.AddRenderer(ren)
+        renWin.SetSize(size.width, size.height)
         ren.SetBackground(colors.GetColor3d("white"))
 
         # Assign actor to the renderer
