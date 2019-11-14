@@ -160,7 +160,7 @@ class PreviewManager(object):
             file_path = self.get_pdf_preview(file_path=file_path, force=force)
 
         preview_name = self._get_file_hash(file_path, size, page)
-        mimetype = self._factory.get_file_mimetype(file_path)
+        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
         builder = self._factory.get_preview_builder(mimetype)
 
         preview_file_path = os.path.join(self.cache_path, preview_name + extension)  # nopep8
