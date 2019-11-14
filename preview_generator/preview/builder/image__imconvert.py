@@ -81,6 +81,9 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         if executable_is_available("ufraw-batch"):
             for mimetype_mapping in cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING:
                 mimes.append(mimetype_mapping[0])
+        # HACK - G.M - 2019-11-14 - disable support for postscript file in imagemagick to use
+        # pillow instead
+        mimes.remove("application/postscript")
         return mimes
 
     @classmethod
