@@ -151,9 +151,9 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
 
         # INFO - G.M - 2019-11-14 - use explicit input type to clarify conversion for imagemagick
         do_an_explicit_convert = False
-        input_file_extension = ""
+        input_file_extension = ""  # type: str
         if mimetype:
-            input_file_extension = mimetypes_storage.guess_extension(mimetype, strict=False)
+            input_file_extension = mimetypes_storage.guess_extension(mimetype, strict=False) or ""
             if input_file_extension:
                 do_an_explicit_convert = True
 

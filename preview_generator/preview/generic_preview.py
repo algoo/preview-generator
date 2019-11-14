@@ -51,7 +51,7 @@ class PreviewBuilder(object):
         mimetypes_storage
         """
         for mimetypes_mapping in cls.get_mimetypes_mapping():
-            mimetypes_storage.add_type(
+            mimetypes_storage.add_type(  # type: ignore
                 type=mimetypes_mapping.mimetype, ext=mimetypes_mapping.file_extension, strict=False
             )
 
