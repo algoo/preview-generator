@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-import mimetypes
 import os
 from shutil import which
 from subprocess import DEVNULL
@@ -12,14 +11,13 @@ import tempfile
 import typing
 import uuid
 
-import wand
-
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import IntermediateFileBuildingFailed
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import executable_is_available
+from preview_generator.utils import imagemagick_supported_mimes
 
 
 class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
@@ -60,22 +58,7 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         :return: list of supported mime types
         """
 
-        all_supported = wand.version.formats("*")
-        mimes = []  # type: typing.List[str]
-        for supported in all_supported:
-            url = "./FILE.{0}".format(supported)  # Fake a url
-            mime, enc = mimetypes.guess_type(url)
-            if mime and mime not in mimes:
-                if "video" not in mime:
-                    # TODO - D.A. - 2018-09-24 - Do not skip video if supported
-                    mimes.append(mime)
-        svg_mime = "image/svg+xml"
-        if svg_mime in mimes:
-            # HACK - D.A. - 2018-11-07 do not convert SVG using convert
-            #  The optionnal behavior is related to different configurations on Debian and Ubuntu
-            # (need to remove the mimetype on Ubuntu but useless on Debian
-            mimes.remove("image/svg+xml")
-
+        mimes = imagemagick_supported_mimes()  # type: typing.List[str]
         # HACK - G.M - 2019-10-31 - Handle raw format only if ufraw-batch is installed as most common
         # default imagemagick configuration delegate raw format to ufraw-batch.
         if executable_is_available("ufraw-batch"):

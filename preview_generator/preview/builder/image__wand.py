@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from io import BytesIO
-import mimetypes
 import typing
 
 from pdf2image import convert_from_bytes
@@ -12,29 +11,7 @@ import wand.version
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import compute_resize_dims
-
-# def convert_pdf_to_jpeg(
-#         pdf: typing.Union[str, typing.IO[bytes]],
-#         preview_size: ImgDims
-# ) -> BytesIO:
-#     with WImage(file=pdf) as img:
-#         # HACK - D.A. - 2017-08-01
-#         # The following 2 lines avoid black background in case of transparent
-#         # objects found on the page. As we save to JPEG, this is not a problem
-#         img.background_color = Color('white')
-#         img.alpha_channel = 'remove'
-
-#         resize_dims = compute_resize_dims(
-#             ImgDims(img.width, img.height),
-#             preview_size
-#         )
-
-#         img.resize(resize_dims.width, resize_dims.height)
-#         content_as_bytes = img.make_blob('jpeg')
-#         output = BytesIO()
-#         output.write(content_as_bytes)
-#         output.seek(0, 0)
-#         return output
+from preview_generator.utils import imagemagick_supported_mimes
 
 
 def convert_pdf_to_jpeg(pdf: typing.IO[bytes], preview_size: ImgDims) -> BytesIO:
@@ -69,16 +46,7 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
         Load supported mimetypes from WAND library
         :return: list of supported mime types
         """
-        all_supported = wand.version.formats("*")
-        mimes = []  # type: typing.List[str]
-        for supported in all_supported:
-            url = "./FILE.{0}".format(supported)  # Fake a url
-            mime, enc = mimetypes.guess_type(url)
-            if mime and mime not in mimes:
-                if "video" not in mime:
-                    # TODO - D.A. - 2018-09-24 - Do not skip video if supported
-                    mimes.append(mime)
-        return mimes
+        return imagemagick_supported_mimes()
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
