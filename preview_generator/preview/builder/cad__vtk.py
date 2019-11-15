@@ -6,9 +6,6 @@ import tempfile
 import typing
 import uuid
 
-from vtk.vtkIOKitPython import vtkOBJReader
-from vtk.vtkIOKitPython import vtkPLYReader
-
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
 from preview_generator.preview.generic_preview import PreviewBuilder
@@ -24,6 +21,8 @@ try:
     from vtk import vtkRenderer
     from vtk import vtkRenderWindow
     from vtk import vtkSTLReader
+    from vtk.vtkIOKitPython import vtkOBJReader
+    from vtk.vtkIOKitPython import vtkPLYReader
     from vtk import vtkVersion
     from vtk import vtkWindowToImageFilter
 except ImportError:
