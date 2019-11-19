@@ -18,6 +18,7 @@ from preview_generator.preview.builder.document_generic import DocumentPreviewBu
 from preview_generator.preview.builder.document_generic import create_flag_file
 from preview_generator.preview.builder.document_generic import write_file_content
 from preview_generator.utils import LOGGER_NAME
+from preview_generator.utils import MimetypeMapping
 from preview_generator.utils import executable_is_available
 
 LIBREOFFICE_CALL_LOCK = threading.Lock()
@@ -31,6 +32,14 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
         return [k for k in typing.cast(str, LO_MIMETYPES.keys())]
+
+    @classmethod
+    def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
+        return [
+            MimetypeMapping(
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".xlsx"
+            )
+        ]
 
     @classmethod
     def check_dependencies(cls) -> None:
