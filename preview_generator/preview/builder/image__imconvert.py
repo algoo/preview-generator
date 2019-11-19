@@ -85,6 +85,7 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         # pillow instead
         mimes.remove("application/postscript")
         mimes.append("application/x-xcf")
+        mimes.append("image/x-xcf")
         return mimes
 
     @classmethod
