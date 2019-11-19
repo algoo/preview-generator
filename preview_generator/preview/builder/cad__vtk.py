@@ -7,6 +7,7 @@ import typing
 import uuid
 
 from preview_generator.exception import BuilderDependencyNotFound
+from preview_generator.exception import UnsupportedMimeType
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
 from preview_generator.preview.generic_preview import PreviewBuilder
 from preview_generator.utils import ImgDims
@@ -21,7 +22,7 @@ try:
     from vtk import vtkRenderer
     from vtk import vtkRenderWindow
     from vtk import vtkSTLReader
-    from vtk.vtkIOKitPython import vtkOBJReader
+    from vtk.vtkIOKitPython import vtkOBJReader, vtkAbstractPolyDataReader
     from vtk.vtkIOKitPython import vtkPLYReader
     from vtk import vtkVersion
     from vtk import vtkWindowToImageFilter
@@ -58,7 +59,7 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
         return "VTK version :{}".format(vtk_version.GetVTKVersion())
 
     @classmethod
-    def _get_vtk_reader(cls, mimetype):
+    def _get_vtk_reader(cls, mimetype: str) -> vtkAbstractPolyDataReader:
         if mimetype in cls.STL_MIMETYPES:
             return vtkSTLReader()
         elif mimetype in cls.OBJ_MIMETYPES:
@@ -66,7 +67,7 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
         elif mimetype in cls.PLY_MIMETYPES:
             return vtkPLYReader()
         else:
-            raise Exception()
+            raise UnsupportedMimeType("Unsupported mimetype: {}".format(mimetype))
 
     def build_jpeg_preview(
         self,
