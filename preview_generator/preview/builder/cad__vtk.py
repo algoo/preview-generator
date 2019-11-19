@@ -22,8 +22,9 @@ try:
     from vtk import vtkRenderer
     from vtk import vtkRenderWindow
     from vtk import vtkSTLReader
-    from vtk.vtkIOKitPython import vtkOBJReader, vtkAbstractPolyDataReader
+    from vtk.vtkIOKitPython import vtkOBJReader
     from vtk.vtkIOKitPython import vtkPLYReader
+    from vtk.vtkIOKitPython import vtkAbstractPolyDataReader
     from vtk import vtkVersion
     from vtk import vtkWindowToImageFilter
 except ImportError:
@@ -59,7 +60,7 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
         return "VTK version :{}".format(vtk_version.GetVTKVersion())
 
     @classmethod
-    def _get_vtk_reader(cls, mimetype: str) -> vtkAbstractPolyDataReader:
+    def _get_vtk_reader(cls, mimetype: str) -> "vtkAbstractPolyDataReader":
         if mimetype in cls.STL_MIMETYPES:
             return vtkSTLReader()
         elif mimetype in cls.OBJ_MIMETYPES:
