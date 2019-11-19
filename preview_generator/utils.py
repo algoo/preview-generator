@@ -200,7 +200,7 @@ def get_decrypted_pdf(
 def imagemagick_supported_mimes() -> typing.List[str]:
     all_supported = wand_supported_format("*")
     valid_mime = []  # type: typing.List[str]
-    all_imagemagick_mime_supported = []
+    all_imagemagick_mime_supported = []  # type: typing.List[str]
 
     for supported in all_supported:
         url = "./FILE.{0}".format(supported)  # Fake a url
