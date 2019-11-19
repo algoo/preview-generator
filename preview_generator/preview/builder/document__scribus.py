@@ -73,7 +73,7 @@ def convert_sla_to_pdf(
         "converting file bytes {} to pdf file {}".format(file_content, output_filepath)
     )  # nopep8
     if not input_extension:
-        input_extension = mimetypes_storage.guess_extension(mimetype)
+        input_extension = mimetypes_storage.guess_extension(mimetype, strict=False)
     temporary_input_content_path = output_filepath
     if input_extension:
         temporary_input_content_path += input_extension

@@ -79,7 +79,7 @@ def convert_office_document_to_pdf(
         "converting file bytes {} to pdf file {}".format(file_content, output_filepath)
     )  # nopep8
     if not input_extension:
-        input_extension = mimetypes_storage.guess_extension(mimetype)
+        input_extension = mimetypes_storage.guess_extension(mimetype, strict=False)
     if not input_extension:
         raise InputExtensionNotFound("unable to found input extension from mimetype")  # nopep8
     temporary_input_content_path = output_filepath + input_extension  # nopep8
