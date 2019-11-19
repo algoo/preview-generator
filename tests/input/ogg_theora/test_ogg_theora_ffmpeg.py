@@ -3,15 +3,19 @@ import shutil
 import typing
 
 from PIL import Image
+import pytest
 
 from preview_generator.preview.builder.video__ffmpeg import VideoPreviewBuilderFFMPEG
-from preview_generator.utils import ImgDims
+from preview_generator.utils import executable_is_available, ImgDims
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = "/tmp/preview-generator-tests/cache/"
 # INFO - G.M - 2019-11-05 - video from https://peach.blender.org/trailer-page/
 # Big buck bunny trailer under licence cc-by
 IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "trailer_400p.ogg")
+
+if not executable_is_available("ffprobe"):
+    pytest.skip("ffprobe is not available.", allow_module_level=True)
 
 
 def setup_function(function: typing.Callable) -> None:
