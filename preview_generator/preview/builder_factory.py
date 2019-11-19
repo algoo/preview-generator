@@ -41,7 +41,7 @@ class PreviewBuilderFactory(object):
     def __init__(self) -> None:
         self.builders_loaded = False
         self.builders_classes = []  # type: typing.List[typing.Any]
-        self._builder_classes = {}  # type: typing.Dict[str, type]
+        self._builder_classes = {}  # type: typing.Dict[str, typing.Type[PreviewBuilder]]
         self.logger = logging.getLogger(LOGGER_NAME)
 
     def get_preview_builder(self, mimetype: str) -> PreviewBuilder:
@@ -115,7 +115,6 @@ class PreviewBuilderFactory(object):
 
     def register_builder(self, builder: typing.Type["PreviewBuilder"]) -> None:
         try:
-            builder.check_dependencies()
             self.builders_classes.append(builder)
             # FIXME - G.M - 2018-10-18 - Fix issue with application/octet-stream
             # and builder which happened in some conditions
@@ -128,12 +127,28 @@ class PreviewBuilderFactory(object):
                         "register builder for {}: {} - SKIPPED".format(mimetype, builder.__name__)
                     )
                 else:
-                    self._builder_classes[mimetype] = builder
-                    self.logger.debug(
-                        "register builder for {}: {}".format(mimetype, builder.__name__)
-                    )
-        except BuilderDependencyNotFound as e:
-            self.logger.error("Builder {} is missing a dependency: {}".format(builder, e.__str__()))
+                    if mimetype not in self._builder_classes:
+                        self._builder_classes[mimetype] = builder
+                        self.logger.debug(
+                            "register builder for {}: {}".format(mimetype, builder.__name__)
+                        )
+
+                    else:
+                        # We're having two builders for the same mimetype,
+                        # let's check if one of them has missing
+                        # dependencies.
+                        try:
+                            self._builder_classes[mimetype].check_dependencies()
+                        except BuilderDependencyNotFound:
+                            self.logger.debug(
+                                "register builder for {}: {} (instead of {})".format(
+                                    mimetype,
+                                    builder.__name__,
+                                    self._builder_classes[mimetype].__name__,
+                                )
+                            )
+                            self._builder_classes[mimetype] = builder
+
         except NotImplementedError:
             self.logger.info(
                 "Skipping builder class [{}]: method get_supported_mimetypes "
