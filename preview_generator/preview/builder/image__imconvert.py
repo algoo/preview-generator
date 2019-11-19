@@ -84,6 +84,7 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         # HACK - G.M - 2019-11-14 - disable support for postscript file in imagemagick to use
         # pillow instead
         mimes.remove("application/postscript")
+        mimes.append("application/x-xcf")
         return mimes
 
     @classmethod
