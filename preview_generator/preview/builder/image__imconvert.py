@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-import os
 from shutil import which
 from subprocess import DEVNULL
 from subprocess import STDOUT
@@ -9,7 +8,6 @@ from subprocess import check_call
 from subprocess import check_output
 import tempfile
 import typing
-import uuid
 
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import IntermediateFileBuildingFailed
@@ -100,21 +98,21 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         if not size:
             size = self.default_size
         # inkscape tesselation-P3.svg  -e
-        tmp_filename = "{}.png".format(str(uuid.uuid4()))
-        if tempfile.tempdir:
-            tmp_filepath = os.path.join(tempfile.tempdir, tmp_filename)
-        else:
-            tmp_filepath = tmp_filename
-        build_png_result_code = check_call(
-            ["convert", file_path, "-layers", "merge", tmp_filepath], stdout=DEVNULL, stderr=STDOUT
-        )
-
-        if build_png_result_code != 0:
-            raise IntermediateFileBuildingFailed(
-                "Building PNG intermediate file using convert "
-                "failed with status {}".format(build_png_result_code)
+        with tempfile.NamedTemporaryFile(
+            "w+b", prefix="preview-generator-", suffix=".png"
+        ) as tmp_png:
+            build_png_result_code = check_call(
+                ["convert", file_path, "-layers", "merge", tmp_png.name],
+                stdout=DEVNULL,
+                stderr=STDOUT,
             )
 
-        return ImagePreviewBuilderPillow().build_jpeg_preview(
-            tmp_filepath, preview_name, cache_path, page_id, extension, size
-        )
+            if build_png_result_code != 0:
+                raise IntermediateFileBuildingFailed(
+                    "Building PNG intermediate file using convert "
+                    "failed with status {}".format(build_png_result_code)
+                )
+
+            return ImagePreviewBuilderPillow().build_jpeg_preview(
+                tmp_png.name, preview_name, cache_path, page_id, extension, size
+            )
