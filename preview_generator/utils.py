@@ -2,6 +2,7 @@
 from datetime import date
 from datetime import datetime
 from json import JSONEncoder
+import mimetypes
 import os
 import shutil
 from subprocess import check_call
@@ -9,8 +10,15 @@ import tempfile
 import typing
 
 from PyPDF2 import PdfFileReader
+from wand.version import formats as wand_supported_format
 
 LOGGER_NAME = "PreviewGenerator"
+BLACKLISTED_IMAGEMAGICK_MIME = [
+    "image/svg+xml",
+    "image/svg",
+    "application/pdf",
+    "application/x-silverlight",
+]
 
 
 def get_subclasses_recursively(_class: type, _seen: set = None) -> typing.Generator:
@@ -187,3 +195,31 @@ def get_decrypted_pdf(
             os.unlink(tf.name)
             os.unlink(tfoname)
     return pdf
+
+
+def imagemagick_supported_mimes() -> typing.List[str]:
+    all_supported = wand_supported_format("*")
+    valid_mime = []  # type: typing.List[str]
+    all_imagemagick_mime_supported = []  # type: typing.List[str]
+
+    for supported in all_supported:
+        url = "./FILE.{0}".format(supported)  # Fake a url
+        mime, enc = mimetypes.guess_type(url)
+        if mime and mime not in all_imagemagick_mime_supported:
+            all_imagemagick_mime_supported.append(mime)
+
+    for mime in all_imagemagick_mime_supported:
+        # INFO - G.M - 2019-11-15 - we drop text file format support (no working correctly)
+        if mime.startswith("text/"):
+            continue
+        # INFO - G.M - 2019-11-15 - we drop video file format support (no working correctly either)
+        if mime.startswith("video/"):
+            continue
+        # HACK - G.M - 2019-11-15 - check if some "chemical" file can be processed as image,
+        # now considered them as not supported.
+        if mime.startswith("chemical/"):
+            continue
+        if mime in BLACKLISTED_IMAGEMAGICK_MIME:
+            continue
+        valid_mime.append(mime)
+    return valid_mime
