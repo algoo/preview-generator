@@ -26,24 +26,24 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
 
     MIMETYPES = []  # type: typing.List[str]
     SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING = [
-        ["image/x-sony-arw", ".arw"],
-        ["image/x-adobe-dng", ".dng"],
-        ["image/x-sony-sr2", ".sr2"],
-        ["image/x-sony-srf", ".srf"],
-        ["image/x-sigma-x3f", ".x3f"],
-        ["image/x-canon-crw", ".crw"],
-        ["image/x-canon-cr2", ".cr2"],
-        ["image/x-epson-erf", ".erf"],
-        ["image/x-fuji-raf", ".raf"],
-        ["image/x-nikon-nef", ".nef"],
-        ["image/x-olympus-orf", ".orf"],
-        ["image/x-panasonic-raw", ".raw"],
-        ["image/x-panasonic-rw2", ".rw2"],
-        ["image/x-pentax-pef", ".pef"],
-        ["image/x-kodak-dcr", ".dcr"],
-        ["image/x-kodak-k25", ".k25"],
-        ["image/x-kodak-kdc", ".kdc"],
-        ["image/x-minolta-mrw", ".mrw"],
+        MimetypeMapping("image/x-sony-arw", ".arw"),
+        MimetypeMapping("image/x-adobe-dng", ".dng"),
+        MimetypeMapping("image/x-sony-sr2", ".sr2"),
+        MimetypeMapping("image/x-sony-srf", ".srf"),
+        MimetypeMapping("image/x-sigma-x3f", ".x3f"),
+        MimetypeMapping("image/x-canon-crw", ".crw"),
+        MimetypeMapping("image/x-canon-cr2", ".cr2"),
+        MimetypeMapping("image/x-epson-erf", ".erf"),
+        MimetypeMapping("image/x-fuji-raf", ".raf"),
+        MimetypeMapping("image/x-nikon-nef", ".nef"),
+        MimetypeMapping("image/x-olympus-orf", ".orf"),
+        MimetypeMapping("image/x-panasonic-raw", ".raw"),
+        MimetypeMapping("image/x-panasonic-rw2", ".rw2"),
+        MimetypeMapping("image/x-pentax-pef", ".pef"),
+        MimetypeMapping("image/x-kodak-dcr", ".dcr"),
+        MimetypeMapping("image/x-kodak-k25", ".k25"),
+        MimetypeMapping("image/x-kodak-kdc", ".kdc"),
+        MimetypeMapping("image/x-minolta-mrw", ".mrw"),
     ]
 
     """ IM means Image Magick"""
@@ -64,7 +64,7 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         # default imagemagick configuration delegate raw format to ufraw-batch.
         if executable_is_available("ufraw-batch"):
             for mimetype_mapping in cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING:
-                mimes.append(mimetype_mapping[0])
+                mimes.append(mimetype_mapping.mimetype)
         # HACK - G.M - 2019-11-14 - disable support for postscript file in imagemagick to use
         # pillow instead
         mimes.remove("application/postscript")
@@ -83,11 +83,7 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
 
     @classmethod
     def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
-        mimetypes_mapping = []
-        for mimetype_mapping in cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING:
-            mimetypes_mapping.append(
-                MimetypeMapping(mimetype=mimetype_mapping[0], file_extension=mimetype_mapping[1])
-            )
+        mimetypes_mapping = [] + cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING
         return mimetypes_mapping
 
     @classmethod
