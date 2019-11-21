@@ -83,7 +83,8 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
 
     @classmethod
     def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
-        mimetypes_mapping = [] + cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING
+        mimetypes_mapping = []  # type: typing.List[MimetypeMapping]
+        mimetypes_mapping = mimetypes_mapping + cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING
         return mimetypes_mapping
 
     @classmethod
