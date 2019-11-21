@@ -2,10 +2,10 @@
 
 import hashlib
 import logging
-import mimetypes
 import os
 import typing
 
+from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.builder.document__scribus import DocumentPreviewBuilderScribus
 from preview_generator.preview.builder.office__libreoffice import OfficePreviewBuilderLibreoffice
 from preview_generator.preview.builder_factory import PreviewBuilderFactory
@@ -323,12 +323,12 @@ class PreviewManager(object):
         return self._factory.get_supported_mimetypes()
 
     def get_file_extension(self, mime: str) -> typing.Optional[str]:
-        return mimetypes.guess_extension(mime)
+        return mimetypes_storage.guess_extension(mime, strict=False)
 
     def get_supported_file_extensions(self) -> typing.List[str]:
         supported_file_extensions = []
         for mime in self.get_supported_mimetypes():
-            extension = mimetypes.guess_extension(mime)
+            extension = mimetypes_storage.guess_extension(mime, strict=False)
             if extension:
                 supported_file_extensions.append(extension)
         return supported_file_extensions

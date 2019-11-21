@@ -7,8 +7,10 @@ import typing
 import pyexifinfo
 
 from preview_generator.exception import UnavailablePreviewType
+from preview_generator.extension import mimetypes_storage
 from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import ImgDims
+from preview_generator.utils import MimetypeMapping
 
 
 class PreviewBuilder(object):
@@ -31,6 +33,27 @@ class PreviewBuilder(object):
         """Raises a BuilderDependencyNotFound with an appropriate message
         if a dependency is missing.
         """
+
+    @classmethod
+    def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
+        """
+        Get specific mimetypes mappings (mimetype/file_extension) related to
+        builder, this allow to update mimetypes mapping use by preview_generator
+        to help preview_generator to determine more correctly type or file_extension
+        :return:
+        """
+        return []
+
+    @classmethod
+    def update_mimetypes_mapping(cls) -> None:
+        """
+        Update mimetypes mapping with file extension in preview_generator
+        mimetypes_storage
+        """
+        for mimetypes_mapping in cls.get_mimetypes_mapping():
+            mimetypes_storage.add_type(  # type: ignore
+                type=mimetypes_mapping.mimetype, ext=mimetypes_mapping.file_extension, strict=False
+            )
 
     @classmethod
     def dependencies_versions(cls) -> typing.Optional[str]:

@@ -2,7 +2,6 @@
 from datetime import date
 from datetime import datetime
 from json import JSONEncoder
-import mimetypes
 import os
 import shutil
 from subprocess import check_call
@@ -11,6 +10,8 @@ import typing
 
 from PyPDF2 import PdfFileReader
 from wand.version import formats as wand_supported_format
+
+from preview_generator.extension import mimetypes_storage
 
 LOGGER_NAME = "PreviewGenerator"
 BLACKLISTED_IMAGEMAGICK_MIME = [
@@ -74,6 +75,15 @@ class ImgDims(object):
 
     def __str__(self) -> str:
         return "{}x{}".format(self.width, self.height)
+
+
+class MimetypeMapping(object):
+    def __init__(self, mimetype: str, file_extension: str) -> None:
+        self.mimetype = mimetype
+        self.file_extension = file_extension
+
+    def __str__(self) -> str:
+        return "MimetypeMapping:{}:{}".format(self.mimetype, self.file_extension)
 
 
 class CropDims(object):
@@ -203,8 +213,8 @@ def imagemagick_supported_mimes() -> typing.List[str]:
     all_imagemagick_mime_supported = []  # type: typing.List[str]
 
     for supported in all_supported:
-        url = "./FILE.{0}".format(supported)  # Fake a url
-        mime, enc = mimetypes.guess_type(url)
+        fake_url = "./FILE.{0}".format(supported)  # Fake a url
+        mime, enc = mimetypes_storage.guess_type(fake_url)
         if mime and mime not in all_imagemagick_mime_supported:
             all_imagemagick_mime_supported.append(mime)
 

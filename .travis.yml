@@ -5,7 +5,7 @@ dist: xenial
 
 install:
   - sudo rm -f /etc/ImageMagick-6/policy.xml
-  - sudo apt-get install xvfb libreoffice libfile-mimeinfo-perl inkscape poppler-utils qpdf imagemagick libimage-exiftool-perl ufraw-batch ffmpeg -y
+  - sudo apt-get install xvfb libreoffice libfile-mimeinfo-perl inkscape poppler-utils qpdf imagemagick libimage-exiftool-perl ufraw-batch ffmpeg ghostscript -y
   - pip install xvfbwrapper
   - python setup.py install
   - pip install pytest

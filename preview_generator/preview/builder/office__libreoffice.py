@@ -2,7 +2,6 @@
 import contextlib
 from io import BytesIO
 import logging
-import mimetypes
 import os
 from shutil import which
 from subprocess import DEVNULL
@@ -14,10 +13,12 @@ import typing
 
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import InputExtensionNotFound
+from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.builder.document_generic import DocumentPreviewBuilder
 from preview_generator.preview.builder.document_generic import create_flag_file
 from preview_generator.preview.builder.document_generic import write_file_content
 from preview_generator.utils import LOGGER_NAME
+from preview_generator.utils import MimetypeMapping
 from preview_generator.utils import executable_is_available
 
 LIBREOFFICE_CALL_LOCK = threading.Lock()
@@ -31,6 +32,14 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
         return [k for k in typing.cast(str, LO_MIMETYPES.keys())]
+
+    @classmethod
+    def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
+        return [
+            MimetypeMapping(
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".xlsx"
+            )
+        ]
 
     @classmethod
     def check_dependencies(cls) -> None:
@@ -70,7 +79,7 @@ def convert_office_document_to_pdf(
         "converting file bytes {} to pdf file {}".format(file_content, output_filepath)
     )  # nopep8
     if not input_extension:
-        input_extension = mimetypes.guess_extension(mimetype)
+        input_extension = mimetypes_storage.guess_extension(mimetype, strict=False)
     if not input_extension:
         raise InputExtensionNotFound("unable to found input extension from mimetype")  # nopep8
     temporary_input_content_path = output_filepath + input_extension  # nopep8
