@@ -213,8 +213,8 @@ def imagemagick_supported_mimes() -> typing.List[str]:
     all_imagemagick_mime_supported = []  # type: typing.List[str]
 
     for supported in all_supported:
-        url = "./FILE.{0}".format(supported)  # Fake a url
-        mime, enc = mimetypes_storage.guess_type(url)
+        fake_url = "./FILE.{0}".format(supported)  # Fake a url
+        mime, enc = mimetypes_storage.guess_type(fake_url)
         if mime and mime not in all_imagemagick_mime_supported:
             all_imagemagick_mime_supported.append(mime)
 
