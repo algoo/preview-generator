@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
 
-import os
 import tempfile
 import typing
-import uuid
 
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
@@ -64,12 +62,6 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
         if not size:
             size = self.default_size
 
-        tmp_filename = "{}.png".format(str(uuid.uuid4()))
-        if tempfile.tempdir:
-            tmp_filepath = os.path.join(tempfile.tempdir, tmp_filename)
-        else:
-            tmp_filepath = tmp_filename
-
         colors = vtkNamedColors()
 
         reader = vtkSTLReader()  # TODO analyse wich file format is use
@@ -104,14 +96,18 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
         windowto_image_filter.SetInput(renWin)
         # windowto_image_filter.SetScale(scale)  # image scale
         windowto_image_filter.SetInputBufferTypeToRGBA()
-        writer = vtkPNGWriter()
-        writer.SetFileName(tmp_filepath)
-        writer.SetInputConnection(windowto_image_filter.GetOutputPort())
-        writer.Write()
 
-        return ImagePreviewBuilderPillow().build_jpeg_preview(
-            tmp_filepath, preview_name, cache_path, page_id, extension, size, mimetype
-        )
+        with tempfile.NamedTemporaryFile(
+            "w+b", prefix="preview-generator-", suffix=".png"
+        ) as tmp_png:
+            writer = vtkPNGWriter()
+            writer.SetFileName(tmp_png.name)
+            writer.SetInputConnection(windowto_image_filter.GetOutputPort())
+            writer.Write()
+
+            return ImagePreviewBuilderPillow().build_jpeg_preview(
+                tmp_png.name, preview_name, cache_path, page_id, extension, size, mimetype
+            )
 
     def has_jpeg_preview(self) -> bool:
         return True
