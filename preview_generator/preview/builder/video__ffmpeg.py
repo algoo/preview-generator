@@ -32,7 +32,7 @@ class VideoPreviewBuilderFFMPEG(PreviewBuilder):
             "video/fli",
             "video/gl",
             "video/mpeg",
-            "video/MP2T",
+            "video/mp2t",
             "video/mp4",
             "video/quicktime",
             "video/mp4v-es",
@@ -58,6 +58,8 @@ class VideoPreviewBuilderFFMPEG(PreviewBuilder):
             "video/x-msvideo",
             "video/x-sgi-movie",
             "video/x-matroska",
+            "video/x-theora+ogg",
+            "video/x-m4v",
         ]
 
     def get_dims_from_ffmpeg_probe(

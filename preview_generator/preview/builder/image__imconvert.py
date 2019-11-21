@@ -11,8 +11,6 @@ import tempfile
 import typing
 import uuid
 
-import wand
-
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import IntermediateFileBuildingFailed
 from preview_generator.extension import mimetypes_storage
@@ -21,6 +19,7 @@ from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import MimetypeMapping
 from preview_generator.utils import executable_is_available
+from preview_generator.utils import imagemagick_supported_mimes
 
 
 class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
@@ -60,24 +59,9 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         :return: list of supported mime types
         """
 
-        all_supported = wand.version.formats("*")
-        mimes = []  # type: typing.List[str]
-        for supported in all_supported:
-            url = "./FILE.{0}".format(supported)  # Fake a url
-            mime, enc = mimetypes_storage.guess_type(url)
-            if mime and mime not in mimes:
-                if "video" not in mime:
-                    # TODO - D.A. - 2018-09-24 - Do not skip video if supported
-                    mimes.append(mime)
-        svg_mime = "image/svg+xml"
-        if svg_mime in mimes:
-            # HACK - D.A. - 2018-11-07 do not convert SVG using convert
-            #  The optionnal behavior is related to different configurations on Debian and Ubuntu
-            # (need to remove the mimetype on Ubuntu but useless on Debian
-            mimes.remove("image/svg+xml")
-
-        # HACK - G.M - 2019-10-31 - Handle raw format only if ufraw-batch is installed
-        # as most common default imagemagick configuration delegate raw format to ufraw-batch.
+        mimes = imagemagick_supported_mimes()  # type: typing.List[str]
+        # HACK - G.M - 2019-10-31 - Handle raw format only if ufraw-batch is installed as most common
+        # default imagemagick configuration delegate raw format to ufraw-batch.
         if executable_is_available("ufraw-batch"):
             for mimetype_mapping in cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING:
                 mimes.append(mimetype_mapping[0])

@@ -29,6 +29,7 @@ AMBIGUOUS_MIMES = [
     "application/xml",
     "application/octet-stream",
     "image/tiff",
+    "audio/ogg",
 ]
 
 
