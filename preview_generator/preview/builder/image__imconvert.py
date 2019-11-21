@@ -117,7 +117,7 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
             "w+b", prefix="preview-generator-", suffix=".png"
         ) as tmp_png:
             build_png_result_code = self._imagemagick_convert(
-                source_path=file_path, dest_path=tmp_png, mimetype=mimetype
+                source_path=file_path, dest_path=tmp_png.name, mimetype=mimetype
             )
 
             if build_png_result_code != 0:
