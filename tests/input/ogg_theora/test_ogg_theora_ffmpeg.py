@@ -6,7 +6,8 @@ from PIL import Image
 import pytest
 
 from preview_generator.preview.builder.video__ffmpeg import VideoPreviewBuilderFFMPEG
-from preview_generator.utils import executable_is_available, ImgDims
+from preview_generator.utils import ImgDims
+from preview_generator.utils import executable_is_available
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = "/tmp/preview-generator-tests/cache/"
