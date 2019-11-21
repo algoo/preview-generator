@@ -25,6 +25,9 @@ from preview_generator.utils import imagemagick_supported_mimes
 class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
 
     MIMETYPES = []  # type: typing.List[str]
+    # TODO - G.M - 2019-11-21 - find better storage solution for mimetype mapping
+    # dict and/or list.
+    # see https://github.com/algoo/preview-generator/pull/148#discussion_r346381508
     SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING = [
         MimetypeMapping("image/x-sony-arw", ".arw"),
         MimetypeMapping("image/x-adobe-dng", ".dng"),
