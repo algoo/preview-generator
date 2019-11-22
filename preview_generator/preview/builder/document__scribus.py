@@ -2,7 +2,6 @@
 
 from io import BytesIO
 import logging
-import mimetypes
 import os
 from shutil import which
 from subprocess import DEVNULL
@@ -13,12 +12,13 @@ import typing
 
 from xvfbwrapper import Xvfb
 
-from preview_generator.utils import executable_is_available
 from preview_generator.exception import BuilderDependencyNotFound
+from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.builder.document_generic import DocumentPreviewBuilder
 from preview_generator.preview.builder.document_generic import create_flag_file
 from preview_generator.preview.builder.document_generic import write_file_content
 from preview_generator.utils import LOGGER_NAME
+from preview_generator.utils import executable_is_available
 
 SCRIPT_FOLDER_NAME = "scripts"
 SCRIPT_NAME = "scribus_sla_to_pdf.py"
@@ -73,7 +73,7 @@ def convert_sla_to_pdf(
         "converting file bytes {} to pdf file {}".format(file_content, output_filepath)
     )  # nopep8
     if not input_extension:
-        input_extension = mimetypes.guess_extension(mimetype)
+        input_extension = mimetypes_storage.guess_extension(mimetype, strict=False)
     temporary_input_content_path = output_filepath
     if input_extension:
         temporary_input_content_path += input_extension
