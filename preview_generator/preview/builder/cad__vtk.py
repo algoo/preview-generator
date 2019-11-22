@@ -6,9 +6,11 @@ import typing
 
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import UnsupportedMimeType
+from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
 from preview_generator.preview.generic_preview import PreviewBuilder
 from preview_generator.utils import ImgDims
+from preview_generator.utils import MimetypeMapping
 
 # HACK - G.M - 2019-11-05 - Hack to allow load of module without vtk installed
 vtk_installed = True
@@ -30,13 +32,17 @@ except ImportError:
 
 
 class ImagePreviewBuilderVtk(PreviewBuilder):
-    PLY_MIMETYPES = ["application/ply"]
-    OBJ_MIMETYPES = ["application/object", "application/wobj"]
-    STL_MIMETYPES = [
-        "model/stl",
-        "application/sla",
-        "application/vnd.ms-pki.stl",
-        "application/x-navistyle",
+    PLY_MIMETYPES_MAPPING = [MimetypeMapping("application/ply", ".ply")]
+    OBJ_MIMETYPES_MAPPING = [
+        MimetypeMapping("application/wobj", ".obj"),
+        MimetypeMapping("application/object", ".obj"),
+        MimetypeMapping("model/obj", ".obj"),
+    ]
+    STL_MIMETYPES_MAPPING = [
+        MimetypeMapping("application/sla", ".stl"),
+        MimetypeMapping("application/vnd.ms-pki.stl", ".stl"),
+        MimetypeMapping("application/x-navistyle", ".stl"),
+        MimetypeMapping("model/stl", ".stl"),
     ]
 
     @classmethod
@@ -45,7 +51,14 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
-        return cls.STL_MIMETYPES + cls.OBJ_MIMETYPES + cls.PLY_MIMETYPES
+        mimetypes = []
+        for mimetype_mapping in cls.get_mimetypes_mapping():
+            mimetypes.append(mimetype_mapping.mimetype)
+        return mimetypes
+
+    @classmethod
+    def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
+        return cls.STL_MIMETYPES_MAPPING + cls.OBJ_MIMETYPES_MAPPING + cls.PLY_MIMETYPES_MAPPING
 
     @classmethod
     def check_dependencies(cls) -> None:
@@ -59,11 +72,11 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
 
     @classmethod
     def _get_vtk_reader(cls, mimetype: str) -> "vtkAbstractPolyDataReader":
-        if mimetype in cls.STL_MIMETYPES:
+        if mimetype in [mapping.mimetype for mapping in cls.STL_MIMETYPES_MAPPING]:
             return vtkSTLReader()
-        elif mimetype in cls.OBJ_MIMETYPES:
+        elif mimetype in [mapping.mimetype for mapping in cls.OBJ_MIMETYPES_MAPPING]:
             return vtkOBJReader()
-        elif mimetype in cls.PLY_MIMETYPES:
+        elif mimetype in [mapping.mimetype for mapping in cls.PLY_MIMETYPES_MAPPING]:
             return vtkPLYReader()
         else:
             raise UnsupportedMimeType("Unsupported mimetype: {}".format(mimetype))
@@ -83,6 +96,8 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
 
         colors = vtkNamedColors()
 
+        if not mimetype:
+            mimetype, _ = mimetypes_storage.guess_type(file_path, strict=False)
         reader = self._get_vtk_reader(mimetype)
         reader.SetFileName(file_path)
 

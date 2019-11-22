@@ -29,6 +29,7 @@ def test_to_jpeg() -> None:
     assert builder.has_jpeg_preview() is True
     size = ImgDims(height=256, width=512)
     preview_name = "stl_cube_test_vtk"
+    builder.update_mimetypes_mapping()
     builder.build_jpeg_preview(
         file_path=IMAGE_FILE_PATH,
         size=size,
@@ -42,7 +43,7 @@ def test_to_jpeg() -> None:
 
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
-        assert jpeg.width == 256
+        assert jpeg.width == 512
 
 
 @pytest.mark.xfail(sys.version_info[:2] == (3, 8), reason="vtk support for python 3.8 broken")
