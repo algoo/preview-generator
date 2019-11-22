@@ -97,7 +97,9 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
         colors = vtkNamedColors()
 
         if not mimetype:
-            mimetype, _ = mimetypes_storage.guess_type(file_path, strict=False)
+            guessed_mimetype, _ = mimetypes_storage.guess_type(file_path, strict=False)
+            # INFO - G.M - 2019-11-22 - guessed_mimetype can be None
+            mimetype = guessed_mimetype or ""
         reader = self._get_vtk_reader(mimetype)
         reader.SetFileName(file_path)
 
