@@ -1,22 +1,26 @@
 from preview_generator.manager import PreviewManager
+import pytablewriter
 
 pm = PreviewManager("/tmp/cache")
 
+writer = pytablewriter.RstGridTableWriter()
+writer.table_name = "Supported mimetypes table"
+writer.headers = ["MIME type", "Extension"]
+matrix = []
 
-print("+-{}-+-{}-+".format("".ljust(80, "-"), "".ljust(11, "-")))
-print("+ {} + {} +".format("MIME type".ljust(80, " "), "Extension".ljust(11, " ")))
-print("+={}=+={}=+".format("".ljust(80, "="), "".ljust(11, "=")))
+
 
 for builder in pm._factory.builders_classes:
     try:
-        builder.get_supported_mimetypes()
-
-        print("| {} |".format("**{}**".format(builder.get_label()).ljust(94)))
-        print("+-{}-+-{}-+".format("".ljust(80, "-"), "".ljust(11, "-")))
-
-        for mime in builder.get_supported_mimetypes():
-            ext = ", ".join(pm.get_file_extensions(mime)) or " - "
-            print("| {} | {} |".format(mime.ljust(80), ext.ljust(11)))
-            print("+-{}-+-{}-+".format("".ljust(80, "-"), "".ljust(11, "-")))
+        mimetypes = builder.get_supported_mimetypes()
+        if not mimetypes:
+            continue
+        matrix.append(['**{}**'.format(builder.get_label())])
+        for mimetype in mimetypes:
+            extensions = ", ".join(pm.get_file_extensions(mimetype)) or " - "
+            matrix.append([mimetype, extensions])
     except NotImplementedError:
         pass  # probably abstract class, so ignore it
+
+writer.value_matrix = matrix
+writer.write_table()
