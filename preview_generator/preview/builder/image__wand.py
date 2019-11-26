@@ -99,6 +99,7 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
             resize_dim = compute_resize_dims(
                 dims_in=ImgDims(width=image.size[0], height=image.size[1]), dims_out=preview_dims
             )
+            image.auto_orient()
             image.resize(resize_dim.width, resize_dim.height)
             # INFO - jumenzel - 2019-03-12 - remove metadata, color-profiles from this image.
             image.strip()

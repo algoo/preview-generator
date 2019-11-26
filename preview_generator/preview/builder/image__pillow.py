@@ -7,6 +7,7 @@ import typing
 
 import PIL
 from PIL import Image
+from PIL import ImageOps
 
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
@@ -272,6 +273,7 @@ class ImagePreviewBuilderPillow(ImagePreviewBuilder):
                 dims_in=ImgDims(width=image.size[0], height=image.size[1]), dims_out=preview_dims
             )
             output = BytesIO()
+            image = ImageOps.exif_transpose(image)
             image = image.resize(
                 (resize_dim.width, resize_dim.height), resample=self.resample_filter_algorithm
             )
