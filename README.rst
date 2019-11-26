@@ -211,7 +211,7 @@ Other conversions :
 
 The principle is the same as above
 
-**Zip to text or html :** will build a list of files into texte/html inside the json
+**Zip to text or html :** will build a list of files into text/html inside the json
 
 **Office to jpeg :** will build the pdf out of the office file and then build the jpeg.
 
