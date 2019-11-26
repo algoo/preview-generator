@@ -51,8 +51,11 @@ class PreviewBuilder(object):
         mimetypes_storage
         """
         for mimetypes_mapping in cls.get_mimetypes_mapping():
+            # INFO - G.M - 2019-11-22 - mimetype are added as strict to force override of default
+            # system/mimetype lib value, which is needed for type like .obj where system type can be
+            # "text/plain" or "application/octet-stream"
             mimetypes_storage.add_type(  # type: ignore
-                type=mimetypes_mapping.mimetype, ext=mimetypes_mapping.file_extension, strict=False
+                type=mimetypes_mapping.mimetype, ext=mimetypes_mapping.file_extension, strict=True
             )
 
     @classmethod

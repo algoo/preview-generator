@@ -46,10 +46,15 @@ Archive file
 
 - zip, tar, …
 
-Future format support
-~~~~~~~~~~~~~~~~~~~~~
+3D File
+~~~~~~~
 
-We expect to support preview for 3D file and video file soon.
+- support for geometric file: .ply, .obj, .stl
+
+Video format
+~~~~~~~~~~~~
+
+- support for multiples image preview of video : .mp4, .flv, .webm, .ogv, .wmv, etc.
 
 .. _`Supported mimetypes list`: doc/supported_mimetypes.rst
 

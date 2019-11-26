@@ -5,9 +5,12 @@ import tempfile
 import typing
 
 from preview_generator.exception import BuilderDependencyNotFound
+from preview_generator.exception import UnsupportedMimeType
+from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
 from preview_generator.preview.generic_preview import PreviewBuilder
 from preview_generator.utils import ImgDims
+from preview_generator.utils import MimetypeMapping
 
 # HACK - G.M - 2019-11-05 - Hack to allow load of module without vtk installed
 vtk_installed = True
@@ -19,6 +22,9 @@ try:
     from vtk import vtkRenderer
     from vtk import vtkRenderWindow
     from vtk import vtkSTLReader
+    from vtk.vtkIOKitPython import vtkOBJReader
+    from vtk.vtkIOKitPython import vtkPLYReader
+    from vtk.vtkIOKitPython import vtkAbstractPolyDataReader
     from vtk import vtkVersion
     from vtk import vtkWindowToImageFilter
 except ImportError:
@@ -26,18 +32,33 @@ except ImportError:
 
 
 class ImagePreviewBuilderVtk(PreviewBuilder):
+    PLY_MIMETYPES_MAPPING = [MimetypeMapping("application/ply", ".ply")]
+    OBJ_MIMETYPES_MAPPING = [
+        MimetypeMapping("application/wobj", ".obj"),
+        MimetypeMapping("application/object", ".obj"),
+        MimetypeMapping("model/obj", ".obj"),
+    ]
+    STL_MIMETYPES_MAPPING = [
+        MimetypeMapping("application/sla", ".stl"),
+        MimetypeMapping("application/vnd.ms-pki.stl", ".stl"),
+        MimetypeMapping("application/x-navistyle", ".stl"),
+        MimetypeMapping("model/stl", ".stl"),
+    ]
+
     @classmethod
     def get_label(cls) -> str:
         return "Images generator from 3d file - based on Vtk"
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
-        return [
-            "model/stl",
-            "application/sla",
-            "application/vnd.ms-pki.stl",
-            "application/x-navistyle",
-        ]
+        mimetypes = []
+        for mimetype_mapping in cls.get_mimetypes_mapping():
+            mimetypes.append(mimetype_mapping.mimetype)
+        return mimetypes
+
+    @classmethod
+    def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
+        return cls.STL_MIMETYPES_MAPPING + cls.OBJ_MIMETYPES_MAPPING + cls.PLY_MIMETYPES_MAPPING
 
     @classmethod
     def check_dependencies(cls) -> None:
@@ -48,6 +69,17 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
     def dependencies_versions(cls) -> typing.Optional[str]:
         vtk_version = vtkVersion()
         return "VTK version :{}".format(vtk_version.GetVTKVersion())
+
+    @classmethod
+    def _get_vtk_reader(cls, mimetype: str) -> "vtkAbstractPolyDataReader":
+        if mimetype in [mapping.mimetype for mapping in cls.STL_MIMETYPES_MAPPING]:
+            return vtkSTLReader()
+        elif mimetype in [mapping.mimetype for mapping in cls.OBJ_MIMETYPES_MAPPING]:
+            return vtkOBJReader()
+        elif mimetype in [mapping.mimetype for mapping in cls.PLY_MIMETYPES_MAPPING]:
+            return vtkPLYReader()
+        else:
+            raise UnsupportedMimeType("Unsupported mimetype: {}".format(mimetype))
 
     def build_jpeg_preview(
         self,
@@ -64,7 +96,11 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
 
         colors = vtkNamedColors()
 
-        reader = vtkSTLReader()  # TODO analyse wich file format is use
+        if not mimetype:
+            guessed_mimetype, _ = mimetypes_storage.guess_type(file_path, strict=False)
+            # INFO - G.M - 2019-11-22 - guessed_mimetype can be None
+            mimetype = guessed_mimetype or ""
+        reader = self._get_vtk_reader(mimetype)
         reader.SetFileName(file_path)
 
         mapper = vtkPolyDataMapper()
@@ -84,6 +120,7 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
         renWin = vtkRenderWindow()
         renWin.OffScreenRenderingOn()
         renWin.AddRenderer(ren)
+        renWin.SetSize(size.width, size.height)
         ren.SetBackground(colors.GetColor3d("white"))
 
         # Assign actor to the renderer
