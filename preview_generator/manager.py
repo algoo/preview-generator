@@ -323,12 +323,24 @@ class PreviewManager(object):
         return self._factory.get_supported_mimetypes()
 
     def get_file_extension(self, mime: str) -> typing.Optional[str]:
+        """
+        Get one valid file extension related to mimetype given.
+        """
         return mimetypes_storage.guess_extension(mime, strict=False)
 
+    def get_file_extensions(self, mime: str) -> typing.List[str]:
+        """
+        get all valid file extensions for one mimetype given
+        """
+        return mimetypes_storage.guess_all_extensions(mime, strict=False)
+
     def get_supported_file_extensions(self) -> typing.List[str]:
+        """
+        Get all supported file_extension by preview_generator
+        :return:
+        """
         supported_file_extensions = []
         for mime in self.get_supported_mimetypes():
-            extension = mimetypes_storage.guess_extension(mime, strict=False)
-            if extension:
-                supported_file_extensions.append(extension)
+            extensions = mimetypes_storage.guess_all_extensions(mime, strict=False)
+            supported_file_extensions.extend(extensions)
         return supported_file_extensions
