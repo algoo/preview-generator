@@ -49,7 +49,7 @@ Archive file
 3D File
 ~~~~~~~
 
-- support for geometric file: ply, obj,stl
+- support for geometric file: .ply, .obj, .stl
 
 Video format
 ~~~~~~~~~~~~
