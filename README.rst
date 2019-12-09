@@ -332,7 +332,7 @@ Support for 3D file on headless server
 Standard vtk library require an X server to run properly.
 To make 3D file preview work on a headless server, you have two option:
 
-1. :warning: Untested: Compile/find a vtk version correctly compiled with flags to disable x requirement (with OSMesa support)
+1. Untested: Compile/find a vtk version correctly compiled with flags to disable x requirement (with OSMesa support)
 2. Use an x framebuffer like xvfb
 
 For the last one, this configuration is known to work:
