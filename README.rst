@@ -321,6 +321,26 @@ will print
 
   Preview created at path : the_zip-a733739af8006558720be26c4dc5569a.txt
 
+------------
+Known Issues
+------------
+
+
+Support for 3D file on headless server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Standard vtk library require an X server to run properly.
+To make 3D file preview work on a headless server, you have two option:
+
+1. Untested: Compile/find a vtk version correctly compiled with flags to disable x requirement (with OSMesa support)
+2. Use an x framebuffer like xvfb
+
+For the last one, this configuration is known to work:
+
+1. install package ``xvfb``.
+2. launch ``Xvfb :99 -screen 0 1x1x16 > /dev/null 2>&1 &`` (note: this use a very small x framebuffer 1x1 pixel in 16 color depth to limit video usage).
+3. run python code with env var ``DISPLAY=:99.0``
+
 ------------------------------
 Contribute and Developer’s Kit
 ------------------------------
