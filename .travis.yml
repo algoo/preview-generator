@@ -14,8 +14,7 @@ install:
 before_script:
   - export DISPLAY=:99.0
   - which Xvfb
-  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-  - sleep 3
+  - Xvfb :99 -screen 0 1x1x16 > /dev/null 2>&1 &
 # command to run tests
 script:
   # FIXME - G.M - 2019-11-07 - Exclude stl file from tests as vtk raised "core dumped" error.
