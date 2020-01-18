@@ -9,11 +9,11 @@ import typing
 from PyPDF2 import PdfFileWriter
 
 from preview_generator import utils
-from preview_generator.utils import executable_is_available
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import PreviewAbortedMaxAttempsExceeded
 from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
 from preview_generator.preview.generic_preview import PreviewBuilder
+from preview_generator.utils import executable_is_available
 
 
 class DocumentPreviewBuilder(PreviewBuilder):

@@ -1,5 +1,6 @@
-from preview_generator.manager import PreviewManager
 import pytablewriter
+
+from preview_generator.manager import PreviewManager
 
 pm = PreviewManager("/tmp/cache")
 

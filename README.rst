@@ -322,6 +322,14 @@ will print
   Preview created at path : the_zip-a733739af8006558720be26c4dc5569a.txt
 
 ------------
+HEIC support
+------------
+
+Building ImageMagick with heic support: `Building ImageMagick with heic support`_ .
+
+.. _`Building ImageMagick with heic support`: doc/build_im_with_heic_support.rst
+
+------------
 Known Issues
 ------------
 

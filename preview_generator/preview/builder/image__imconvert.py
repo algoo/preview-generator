@@ -47,6 +47,11 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         MimetypeMapping("image/x-minolta-mrw", ".mrw"),
     ]
 
+    SUPPORTED_HEIC_MIMETYPE_MAPPING = [
+        MimetypeMapping("image/heic", ".heic"),
+        MimetypeMapping("image/heic", ".heif"),
+    ]
+
     """ IM means Image Magick"""
 
     @classmethod
@@ -66,6 +71,7 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         if executable_is_available("ufraw-batch"):
             for mimetype_mapping in cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING:
                 mimes.append(mimetype_mapping.mimetype)
+
         # HACK - G.M - 2019-11-14 - disable support for postscript file in imagemagick to use
         # pillow instead
         mimes.remove("application/postscript")
@@ -85,7 +91,11 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
     @classmethod
     def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
         mimetypes_mapping = []  # type: typing.List[MimetypeMapping]
-        mimetypes_mapping = mimetypes_mapping + cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING
+        mimetypes_mapping = (
+            mimetypes_mapping
+            + cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING
+            + cls.SUPPORTED_HEIC_MIMETYPE_MAPPING
+        )
         return mimetypes_mapping
 
     @classmethod
