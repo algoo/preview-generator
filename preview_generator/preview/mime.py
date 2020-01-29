@@ -636,6 +636,7 @@ image/bmp bmp
 image/cgm cgm
 image/g3fax g3
 image/gif gif
+image/heic heic
 image/ief ief
 image/jpeg jpeg jpg jpe
 image/ktx ktx
