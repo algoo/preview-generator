@@ -329,6 +329,13 @@ Building ImageMagick with heic support: `Building ImageMagick with heic support`
 
 .. _`Building ImageMagick with heic support`: doc/build_im_with_heic_support.rst
 
+---------------
+Draw.io support
+---------------
+
+1. install package ``xvfb``.
+2. install draw-io package
+
 ------------
 Known Issues
 ------------
