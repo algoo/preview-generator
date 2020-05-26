@@ -62,8 +62,8 @@ def test_to_jpeg(file: typing.Dict[str, typing.Any]) -> None:
     assert os.path.getsize(path_to_file) > 0
 
     with Image.open(path_to_file) as jpeg:
-        assert jpeg.height == file["height"]
-        assert jpeg.width == file["width"]
+        assert jpeg.height == 256
+        assert jpeg.width == 512
 
 
 @pytest.mark.parametrize("file", TEST_FILES)
