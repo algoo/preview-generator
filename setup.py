@@ -41,7 +41,7 @@ install_requires = [
     "pdf2image",
     "cairosvg",
     "ffmpeg-python",
-    "filelock"
+    "filelock",
 ]
 tests_require = ["pytest"]
 
