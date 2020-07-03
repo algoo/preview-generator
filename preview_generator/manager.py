@@ -5,12 +5,35 @@ import logging
 import os
 import typing
 
+from filelock import FileLock
+
 from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.builder.document__scribus import DocumentPreviewBuilderScribus
 from preview_generator.preview.builder.office__libreoffice import OfficePreviewBuilderLibreoffice
 from preview_generator.preview.builder_factory import PreviewBuilderFactory
 from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import ImgDims
+
+LOCKFILE_EXTENSION = ".lock"
+# INFO - G.M - 2020-07-03 if another preview is created for same file,
+# this is the default time preview Manager allow waiting for
+# the other preview to be generated.
+LOCK_DEFAULT_TIMEOUT = 20
+
+
+class PreviewContext(object):
+    def __init__(
+        self,
+        preview_builder_factory: PreviewBuilderFactory,
+        cache_path: str,
+        file_path: str,
+        file_ext: str,
+    ):
+        self.mimetype = preview_builder_factory.get_file_mimetype(file_path, file_ext)
+        self.builder = preview_builder_factory.get_preview_builder(self.mimetype)
+        self.hash = hashlib.md5(file_path.encode("utf-8")).hexdigest()
+        file_lock_path = os.path.join(cache_path, self.hash + LOCKFILE_EXTENSION)
+        self.filelock = FileLock(file_lock_path)
 
 
 class PreviewManager(object):
@@ -36,6 +59,9 @@ class PreviewManager(object):
             except OSError:
                 self.logger.error("cant create cache folder [{}]".format(self.cache_path))
 
+    def get_preview_context(self, file_path: str, file_ext: str) -> PreviewContext:
+        return PreviewContext(self._factory, self.cache_path, file_path, file_ext)
+
     def get_mimetype(self, file_path: str, file_ext: str = "") -> str:
         """
         Return detected mimetype of the file
@@ -57,9 +83,7 @@ class PreviewManager(object):
                 it's usefull if the extension can't be found in file_path
         :return:
         """
-        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
-        builder = self._factory.get_preview_builder(mimetype)
-        return builder.has_pdf_preview()
+        return self.get_preview_context(file_path, file_ext).builder.has_pdf_preview()
 
     def has_jpeg_preview(self, file_path: str, file_ext: str = "") -> bool:
         """
@@ -70,9 +94,7 @@ class PreviewManager(object):
         May be empty - it's usefull if the extension can't be found in file_path
         :return:
         """
-        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
-        builder = self._factory.get_preview_builder(mimetype)
-        return builder.has_jpeg_preview()
+        return self.get_preview_context(file_path, file_ext).builder.has_jpeg_preview()
 
     def has_text_preview(self, file_path: str, file_ext: str = "") -> bool:
         """
@@ -83,9 +105,7 @@ class PreviewManager(object):
         May be empty - it's usefull if the extension can't be found in file_path
         :return:
         """
-        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
-        builder = self._factory.get_preview_builder(mimetype)
-        return builder.has_text_preview()
+        return self.get_preview_context(file_path, file_ext).builder.has_text_preview()
 
     def has_json_preview(self, file_path: str, file_ext: str = "") -> bool:
         """
@@ -96,9 +116,7 @@ class PreviewManager(object):
         May be empty - it's usefull if the extension can't be found in file_path
         :return:
         """
-        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
-        builder = self._factory.get_preview_builder(mimetype)
-        return builder.has_json_preview()
+        return self.get_preview_context(file_path, file_ext).builder.has_json_preview()
 
     def has_html_preview(self, file_path: str, file_ext: str = "") -> bool:
         """
@@ -109,9 +127,7 @@ class PreviewManager(object):
         May be empty - it's usefull if the extension can't be found in file_path
         :return:
         """
-        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
-        builder = self._factory.get_preview_builder(mimetype)
-        return builder.has_html_preview()
+        return self.get_preview_context(file_path, file_ext).builder.has_html_preview()
 
     def get_page_nb(self, file_path: str, file_ext: str = "") -> int:
         """
@@ -121,12 +137,10 @@ class PreviewManager(object):
                 it's usefull if the extension can't be found in file_path
         :return: number of pages. Default is 1 (eg for a JPEG)
         """
-        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
-        builder = self._factory.get_preview_builder(mimetype)
-
-        preview_name = self._get_file_hash(file_path)
-        page_nb = builder.get_page_number(file_path, preview_name, self.cache_path, mimetype)
-        return page_nb
+        preview_context = self.get_preview_context(file_path, file_ext)
+        return preview_context.builder.get_page_number(
+            file_path, preview_context.hash, self.cache_path, preview_context.mimetype
+        )
 
     def get_jpeg_preview(
         self,
@@ -148,32 +162,32 @@ class PreviewManager(object):
                 it's usefull if the extension can't be found in file_path
         :return: path to the generated preview file
         """
+        preview_context = self.get_preview_context(file_path, file_ext)
+
         if width is None:
             width = height
-
         size = ImgDims(width=width, height=height)
-        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
-        builder = self._factory.get_preview_builder(mimetype)
         extension = ".jpeg"
 
-        if type(builder) in [OfficePreviewBuilderLibreoffice, DocumentPreviewBuilderScribus]:
+        preview_name = self._get_preview_name(preview_context.hash, size, page)
+        preview_file_path = os.path.join(self.cache_path, preview_name + extension)  # nopep8
+
+        # INFO - G.M - 2020-07-03 generate jpeg preview from pdf for libreoffice/scribus
+        if type(preview_context.builder) in [
+            OfficePreviewBuilderLibreoffice,
+            DocumentPreviewBuilderScribus,
+        ]:
             file_path = self.get_pdf_preview(file_path=file_path, force=force)
 
-        preview_name = self._get_file_hash(file_path, size, page)
-        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
-        builder = self._factory.get_preview_builder(mimetype)
-
-        preview_file_path = os.path.join(self.cache_path, preview_name + extension)  # nopep8
-        page = max(page, 0)  # if page is -1 then return preview of first page
         if force or not os.path.exists(preview_file_path):
-            builder.build_jpeg_preview(
+            preview_context.builder.build_jpeg_preview(
                 file_path=file_path,
                 preview_name=preview_name,
                 cache_path=self.cache_path,
-                page_id=page,
+                page_id=max(page, 0),  # if page is -1 then return preview of first page,
                 extension=extension,
                 size=size,
-                mimetype=mimetype,
+                mimetype=preview_context.mimetype,
             )
 
         return preview_file_path
@@ -190,21 +204,20 @@ class PreviewManager(object):
                 it's usefull if the extension can't be found in file_path
         :return: path to the generated preview file
         """
-        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
-        builder = self._factory.get_preview_builder(mimetype)
+        preview_context = self.get_preview_context(file_path, file_ext)
         extension = ".pdf"
-        preview_name = self._get_file_hash(file_path=file_path, page=page)
+        preview_name = self._get_preview_name(filehash=preview_context.hash, page=page)
 
         try:
             cache_file_path = self.cache_path + preview_name + extension
             if force or not os.path.exists(cache_file_path):
-                builder.build_pdf_preview(
+                preview_context.builder.build_pdf_preview(
                     file_path=file_path,
                     preview_name=preview_name,
                     cache_path=self.cache_path,
                     extension=extension,
                     page_id=page,
-                    mimetype=mimetype,
+                    mimetype=preview_context.mimetype,
                 )
 
             return cache_file_path
@@ -221,14 +234,13 @@ class PreviewManager(object):
                 it's usefull if the extension can't be found in file_path
         :return: path to the generated preview file
         """
-        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
-        builder = self._factory.get_preview_builder(mimetype)
+        preview_context = self.get_preview_context(file_path, file_ext)
         extension = ".txt"
-        preview_name = self._get_file_hash(file_path=file_path)
+        preview_name = self._get_preview_name(filehash=preview_context.hash)
         try:
             cache_file_path = self.cache_path + preview_name + extension
             if force or not os.path.exists(cache_file_path):
-                builder.build_text_preview(
+                preview_context.builder.build_text_preview(
                     file_path=file_path,
                     preview_name=preview_name,
                     cache_path=self.cache_path,
@@ -248,14 +260,13 @@ class PreviewManager(object):
                 it's usefull if the extension can't be found in file_path
         :return: path to the generated preview file
         """
-        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
-        builder = self._factory.get_preview_builder(mimetype)
+        preview_context = self.get_preview_context(file_path, file_ext)
         extension = ".html"
-        preview_name = self._get_file_hash(file_path)
+        preview_name = self._get_preview_name(filehash=preview_context.hash)
         try:
             cache_file_path = self.cache_path + preview_name + extension
             if force or not os.path.exists(cache_file_path):
-                builder.build_html_preview(
+                preview_context.builder.build_html_preview(
                     file_path=file_path,
                     preview_name=preview_name,
                     cache_path=self.cache_path,
@@ -275,16 +286,13 @@ class PreviewManager(object):
                 it's usefull if the extension can't be found in file_path
         :return: path to the generated preview file
         """
-        mimetype = self._factory.get_file_mimetype(file_path, file_ext)
-        self.logger.info("Mimetype of the document is :" + mimetype)
-        builder = self._factory.get_preview_builder(mimetype)
+        preview_context = self.get_preview_context(file_path, file_ext)
         extension = ".json"
-
-        preview_name = self._get_file_hash(file_path=file_path)
+        preview_name = self._get_preview_name(filehash=preview_context.hash)
         try:
             cache_file_path = self.cache_path + preview_name + extension
             if force or not os.path.exists(cache_file_path):  # nopep8
-                builder.build_json_preview(
+                preview_context.builder.build_json_preview(
                     file_path=file_path,
                     preview_name=preview_name,
                     cache_path=self.cache_path,
@@ -294,7 +302,7 @@ class PreviewManager(object):
         except AttributeError:
             raise Exception("Error while getting the file preview")
 
-    def _get_file_hash(self, file_path: str, size: ImgDims = None, page: int = None) -> str:
+    def _get_preview_name(self, filehash: str, size: ImgDims = None, page: int = None) -> str:
         """
         Build a hash based on the given parameters.
         This hash will be used as key for caching generated previews.
@@ -302,12 +310,11 @@ class PreviewManager(object):
         The hash is something like this:
             720f89890597ec1eb45e7b775898e806-320x139-page32
 
-        :param file_path: the path of the original file
+        :param hash: hash of the original file
         :param size: requested size (width and height)
         :param page: requested page
         :return:
         """
-        hash_str = hashlib.md5(file_path.encode("utf-8")).hexdigest()
 
         page_str = ""
         if page is not None and page > -1:
@@ -317,7 +324,7 @@ class PreviewManager(object):
         if size:
             size_str = "-{width}x{height}".format(width=size.width, height=size.height)
 
-        return "{hash}{size}{page}".format(hash=hash_str, size=size_str, page=page_str)
+        return "{hash}{size}{page}".format(hash=filehash, size=size_str, page=page_str)
 
     def get_supported_mimetypes(self) -> typing.List[str]:
         return self._factory.get_supported_mimetypes()

@@ -26,31 +26,35 @@ def test_cache_dir_is_created() -> None:
     assert os.path.exists(CACHE_DIR)
 
 
-def test_get_file_hash() -> None:
+def test_get_preview_name() -> None:
     pm = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
 
-    hash = pm._get_file_hash("/tmp/image.jpeg")
+    filehash = pm.get_preview_context("/tmp/image.jpeg", file_ext=".jpeg").hash
+    hash = pm._get_preview_name(filehash)
     assert hash == "7f8df7223d8be60a7ac8a9bf7bd1df2a"
 
 
-def test_get_file_hash_with_size() -> None:
+def test_get_preview_name_with_size() -> None:
     pm = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     from preview_generator.utils import ImgDims
 
-    hash = pm._get_file_hash("/tmp/image.jpeg", ImgDims(width=512, height=256))
+    filehash = pm.get_preview_context("/tmp/image.jpeg", file_ext=".jpeg").hash
+    hash = pm._get_preview_name(filehash, ImgDims(width=512, height=256))
     assert hash == "7f8df7223d8be60a7ac8a9bf7bd1df2a-512x256"
 
 
-def test_get_file_hash_with_size_and_page() -> None:
+def test_get_preview_name_with_size_and_page() -> None:
     pm = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     from preview_generator.utils import ImgDims
 
-    hash = pm._get_file_hash("/tmp/image.jpeg", ImgDims(width=512, height=256), page=3)
+    filehash = pm.get_preview_context("/tmp/image.jpeg", file_ext=".jpeg").hash
+    hash = pm._get_preview_name(filehash, ImgDims(width=512, height=256), page=3)
     assert hash == "7f8df7223d8be60a7ac8a9bf7bd1df2a-512x256-page3"
 
 
-def test_get_file_hash_with_page() -> None:
+def test_get_preview_name_with_page() -> None:
     pm = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
 
-    hash = pm._get_file_hash("/tmp/image.jpeg", page=3)
+    filehash = pm.get_preview_context("/tmp/image.jpeg", file_ext=".jpeg").hash
+    hash = pm._get_preview_name(filehash, page=3)
     assert hash == "7f8df7223d8be60a7ac8a9bf7bd1df2a-page3"
