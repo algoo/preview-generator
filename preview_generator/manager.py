@@ -33,7 +33,7 @@ class PreviewContext(object):
         self.builder = preview_builder_factory.get_preview_builder(self.mimetype)
         self.hash = hashlib.md5(file_path.encode("utf-8")).hexdigest()
         file_lock_path = os.path.join(cache_path, self.hash + LOCKFILE_EXTENSION)
-        self.filelock = FileLock(file_lock_path)
+        self.filelock = FileLock(file_lock_path, timeout=LOCK_DEFAULT_TIMEOUT)
 
 
 class PreviewManager(object):
