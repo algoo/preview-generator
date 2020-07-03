@@ -178,17 +178,17 @@ class PreviewManager(object):
             DocumentPreviewBuilderScribus,
         ]:
             file_path = self.get_pdf_preview(file_path=file_path, force=force)
-
-        if force or not os.path.exists(preview_file_path):
-            preview_context.builder.build_jpeg_preview(
-                file_path=file_path,
-                preview_name=preview_name,
-                cache_path=self.cache_path,
-                page_id=max(page, 0),  # if page is -1 then return preview of first page,
-                extension=extension,
-                size=size,
-                mimetype=preview_context.mimetype,
-            )
+        with preview_context.filelock:
+            if force or not os.path.exists(preview_file_path):
+                preview_context.builder.build_jpeg_preview(
+                    file_path=file_path,
+                    preview_name=preview_name,
+                    cache_path=self.cache_path,
+                    page_id=max(page, 0),  # if page is -1 then return preview of first page,
+                    extension=extension,
+                    size=size,
+                    mimetype=preview_context.mimetype,
+                )
 
         return preview_file_path
 
@@ -210,15 +210,16 @@ class PreviewManager(object):
 
         try:
             cache_file_path = self.cache_path + preview_name + extension
-            if force or not os.path.exists(cache_file_path):
-                preview_context.builder.build_pdf_preview(
-                    file_path=file_path,
-                    preview_name=preview_name,
-                    cache_path=self.cache_path,
-                    extension=extension,
-                    page_id=page,
-                    mimetype=preview_context.mimetype,
-                )
+            with preview_context.filelock:
+                if force or not os.path.exists(cache_file_path):
+                    preview_context.builder.build_pdf_preview(
+                        file_path=file_path,
+                        preview_name=preview_name,
+                        cache_path=self.cache_path,
+                        extension=extension,
+                        page_id=page,
+                        mimetype=preview_context.mimetype,
+                    )
 
             return cache_file_path
 
@@ -239,13 +240,14 @@ class PreviewManager(object):
         preview_name = self._get_preview_name(filehash=preview_context.hash)
         try:
             cache_file_path = self.cache_path + preview_name + extension
-            if force or not os.path.exists(cache_file_path):
-                preview_context.builder.build_text_preview(
-                    file_path=file_path,
-                    preview_name=preview_name,
-                    cache_path=self.cache_path,
-                    extension=extension,
-                )
+            with preview_context.filelock:
+                if force or not os.path.exists(cache_file_path):
+                    preview_context.builder.build_text_preview(
+                        file_path=file_path,
+                        preview_name=preview_name,
+                        cache_path=self.cache_path,
+                        extension=extension,
+                    )
             return cache_file_path
 
         except AttributeError:
@@ -265,13 +267,14 @@ class PreviewManager(object):
         preview_name = self._get_preview_name(filehash=preview_context.hash)
         try:
             cache_file_path = self.cache_path + preview_name + extension
-            if force or not os.path.exists(cache_file_path):
-                preview_context.builder.build_html_preview(
-                    file_path=file_path,
-                    preview_name=preview_name,
-                    cache_path=self.cache_path,
-                    extension=extension,
-                )
+            with preview_context.filelock:
+                if force or not os.path.exists(cache_file_path):
+                    preview_context.builder.build_html_preview(
+                        file_path=file_path,
+                        preview_name=preview_name,
+                        cache_path=self.cache_path,
+                        extension=extension,
+                    )
             return cache_file_path
 
         except AttributeError:
@@ -291,13 +294,14 @@ class PreviewManager(object):
         preview_name = self._get_preview_name(filehash=preview_context.hash)
         try:
             cache_file_path = self.cache_path + preview_name + extension
-            if force or not os.path.exists(cache_file_path):  # nopep8
-                preview_context.builder.build_json_preview(
-                    file_path=file_path,
-                    preview_name=preview_name,
-                    cache_path=self.cache_path,
-                    extension=extension,
-                )
+            with preview_context.filelock:
+                if force or not os.path.exists(cache_file_path):  # nopep8
+                    preview_context.builder.build_json_preview(
+                        file_path=file_path,
+                        preview_name=preview_name,
+                        cache_path=self.cache_path,
+                        extension=extension,
+                    )
             return cache_file_path
         except AttributeError:
             raise Exception("Error while getting the file preview")
