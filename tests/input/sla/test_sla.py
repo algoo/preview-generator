@@ -11,10 +11,10 @@ import pytest
 from wand.exceptions import PolicyError
 from wand.image import Image as WandImage
 
+from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import UnavailablePreviewType
 from preview_generator.manager import PreviewManager
 from preview_generator.preview.builder.document__scribus import DocumentPreviewBuilderScribus
-from preview_generator.exception import BuilderDependencyNotFound
 from tests import test_utils
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))

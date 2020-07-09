@@ -14,13 +14,14 @@ def test_builder_folder_name_exists() -> None:
 def test_builder_folder_modules_found() -> None:
     folder_path = builder_factory.get_builder_folder_name()
     modules = builder_factory.get_builder_modules(folder_path)
-    assert len(modules) >= 6
+    assert len(modules) >= 7
     assert "image__wand" in modules
     assert "image__pillow" in modules
     assert "office__libreoffice" in modules
     assert "pdf__pypdf2" in modules
     assert "plain_text" in modules
     assert "archive__zip" in modules
+    assert "document__sketch" in modules
 
 
 def test_builder_modules_import_working() -> None:

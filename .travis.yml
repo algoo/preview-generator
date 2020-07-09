@@ -5,16 +5,21 @@ dist: xenial
 
 install:
   - sudo rm -f /etc/ImageMagick-6/policy.xml
-  - sudo apt-get install xvfb libreoffice libfile-mimeinfo-perl inkscape poppler-utils qpdf imagemagick libimage-exiftool-perl ufraw-batch ffmpeg ghostscript -y
+  - sudo apt-get install xvfb libreoffice libfile-mimeinfo-perl inkscape poppler-utils qpdf imagemagick libimage-exiftool-perl ufraw-batch ffmpeg ghostscript libsecret-1-0 -y
+  - DRAWIO_VERSION="12.6.5" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb && sudo dpkg -i draw.io-amd64-${DRAWIO_VERSION}.deb
   - pip install xvfbwrapper
   - python setup.py install
   - pip install pytest
   - python3 -m pip install -U mypy
 
+before_script:
+  - export DISPLAY=:99.0
+  - which Xvfb
+  - Xvfb :99 -screen 0 1x1x16 > /dev/null 2>&1 &
 # command to run tests
 script:
   # FIXME - G.M - 2019-11-07 - Exclude stl file from tests as vtk raised "core dumped" error.
-  - "cd ${TRAVIS_BUILD_DIR} && pytest tests --ignore tests/input/stl"
+  - "cd ${TRAVIS_BUILD_DIR} && pytest tests"
 
 #  - "cd ${TRAVIS_BUILD_DIR} && mypy preview_generator --ignore-missing-imports --disallow-untyped-defs"
 
