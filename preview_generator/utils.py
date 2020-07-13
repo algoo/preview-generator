@@ -20,6 +20,11 @@ BLACKLISTED_IMAGEMAGICK_MIME = [
     "application/pdf",
     "application/x-silverlight",
 ]
+LOCKFILE_EXTENSION = ".lock"
+# INFO - G.M - 2020-07-03 if another preview is created for same file,
+# this is the default time preview Manager allow waiting for
+# the other preview to be generated.
+LOCK_DEFAULT_TIMEOUT = 20
 
 
 def get_subclasses_recursively(_class: type, _seen: set = None) -> typing.Generator:
