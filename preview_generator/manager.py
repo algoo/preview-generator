@@ -11,10 +11,10 @@ from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.builder.document__scribus import DocumentPreviewBuilderScribus
 from preview_generator.preview.builder.office__libreoffice import OfficePreviewBuilderLibreoffice
 from preview_generator.preview.builder_factory import PreviewBuilderFactory
-from preview_generator.utils import LOCK_DEFAULT_TIMEOUT
-from preview_generator.utils import LOCKFILE_EXTENSION
-from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import ImgDims
+from preview_generator.utils import LOCKFILE_EXTENSION
+from preview_generator.utils import LOCK_DEFAULT_TIMEOUT
+from preview_generator.utils import LOGGER_NAME
 
 
 class PreviewContext(object):
