@@ -3,12 +3,14 @@ from datetime import date
 from datetime import datetime
 from json import JSONEncoder
 import os
+import resource
 import shutil
 from subprocess import check_call
 import tempfile
 import typing
 
 from PyPDF2 import PdfFileReader
+import psutil
 from wand.version import formats as wand_supported_format
 
 from preview_generator.extension import mimetypes_storage
@@ -25,6 +27,41 @@ LOCKFILE_EXTENSION = ".lock"
 # this is the default time preview Manager allow waiting for
 # the other preview to be generated.
 LOCK_DEFAULT_TIMEOUT = 20
+BUILDER_SUBPROCESS_TIMEOUT = 300
+# limit of virtual memory used by subprocess,
+# soft is not blocking but has some drawback if limit is exceeded: highest chance to be kill by
+# OOM Killer.
+BUILDER_SUBPROCESS_NICE_LEVEL = 10
+BUILDER_SUBPROCESS_MAX_SOFT_VIRTUAL_MEMORY = 10 * 1024 * 1024  # 10 MB
+BUILDER_SUBPROCESS_MAX_HARD_VIRTUAL_MEMORY = 100 * 1024 * 1024  # 100 MB
+BUILDER_SUBPROCESS_MAX_SOFT_CPU_TIME = 240  # limit of second of cpu used
+BUILDER_SUBPROCESS_MAX_HARD_CPU_TIME = 300  # limit of second of cpu used
+BUILDER_SUBPROCESS_MAX_SOFT_FILE_CREATED_SIZE = 10 * 1024 * 1024  # 10 MB
+BUILDER_SUBPROCESS_MAX_HARD_FILE_CREATED_SIZE = 10 * 1024 * 1024  # 100 MB
+BUILDER_SUBPROCESS_MAX_SOFT_FILE_OPENED_FILE_DESCRIPTOR = 10
+BUILDER_SUBPROCESS_MAX_HARD_FILE_OPENED_FILE_DESCRIPTOR = 100
+
+
+def limit_resources(
+    nice_level: int,
+    max_cpu_time: typing.Tuple[int, int],
+    max_file_created_size: typing.Tuple[int, int],
+    max_opened_file_descriptor: typing.Tuple[int, int],
+    max_vm: typing.Tuple[int, int] = (resource.RLIM_INFINITY, resource.RLIM_INFINITY),
+):
+    pid = os.getpid()
+    ps = psutil.Process(pid)
+    ps.nice(nice_level)
+
+    resource.setrlimit(resource.RLIMIT_AS, max_vm)
+    if max_cpu_time:
+        resource.setrlimit(resource.RLIMIT_CPU, max_cpu_time)
+    if max_file_created_size:
+        resource.setrlimit(resource.RLIMIT_FSIZE, max_cpu_time)
+    if max_file_created_size:
+        resource.setrlimit(resource.RLIMIT_FSIZE, max_file_created_size)
+    if max_opened_file_descriptor:
+        resource.setrlimit(resource.RLIMIT_NOFILE, max_opened_file_descriptor)
 
 
 def get_subclasses_recursively(_class: type, _seen: set = None) -> typing.Generator:

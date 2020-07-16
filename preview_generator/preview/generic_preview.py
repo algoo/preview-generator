@@ -1,16 +1,28 @@
 # -*- coding: utf-8 -*-
-
+import functools
 import json
 import logging
+import subprocess
 import typing
 
 import pyexifinfo
 
 from preview_generator.exception import UnavailablePreviewType
 from preview_generator.extension import mimetypes_storage
-from preview_generator.utils import LOGGER_NAME
+from preview_generator.utils import BUILDER_SUBPROCESS_MAX_HARD_CPU_TIME
+from preview_generator.utils import BUILDER_SUBPROCESS_MAX_HARD_FILE_CREATED_SIZE
+from preview_generator.utils import BUILDER_SUBPROCESS_MAX_HARD_FILE_OPENED_FILE_DESCRIPTOR
+from preview_generator.utils import BUILDER_SUBPROCESS_MAX_HARD_VIRTUAL_MEMORY
+from preview_generator.utils import BUILDER_SUBPROCESS_MAX_SOFT_CPU_TIME
+from preview_generator.utils import BUILDER_SUBPROCESS_MAX_SOFT_FILE_CREATED_SIZE
+from preview_generator.utils import BUILDER_SUBPROCESS_MAX_SOFT_FILE_OPENED_FILE_DESCRIPTOR
+from preview_generator.utils import BUILDER_SUBPROCESS_MAX_SOFT_VIRTUAL_MEMORY
+from preview_generator.utils import BUILDER_SUBPROCESS_NICE_LEVEL
+from preview_generator.utils import BUILDER_SUBPROCESS_TIMEOUT
 from preview_generator.utils import ImgDims
+from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import MimetypeMapping
+from preview_generator.utils import limit_resources
 
 
 class PreviewBuilder(object):
@@ -19,6 +31,36 @@ class PreviewBuilder(object):
     def __init__(self,) -> None:
         self.logger = logging.getLogger(LOGGER_NAME)
         self.logger.info("New Preview builder of class" + str(self.__class__))
+        self.subprocess_timeout = BUILDER_SUBPROCESS_TIMEOUT
+        self.subprocess_limitations = functools.partial(
+            limit_resources,
+            nice_level=BUILDER_SUBPROCESS_NICE_LEVEL,
+            max_cpu_time=[
+                BUILDER_SUBPROCESS_MAX_SOFT_CPU_TIME,
+                BUILDER_SUBPROCESS_MAX_HARD_CPU_TIME,
+            ],
+            max_vm=[
+                BUILDER_SUBPROCESS_MAX_SOFT_VIRTUAL_MEMORY,
+                BUILDER_SUBPROCESS_MAX_HARD_VIRTUAL_MEMORY,
+            ],
+            max_file_created_size=[
+                BUILDER_SUBPROCESS_MAX_SOFT_FILE_CREATED_SIZE,
+                BUILDER_SUBPROCESS_MAX_HARD_FILE_CREATED_SIZE,
+            ],
+            max_opened_file_descriptor=[
+                BUILDER_SUBPROCESS_MAX_SOFT_FILE_OPENED_FILE_DESCRIPTOR,
+                BUILDER_SUBPROCESS_MAX_HARD_FILE_OPENED_FILE_DESCRIPTOR,
+            ],
+        )
+
+    def run_subprocess(self, *args, **kwargs):
+        if kwargs.get("check") is None:
+            kwargs["check"] = True
+        if kwargs.get("timeout") is None:
+            kwargs["timeout"] = self.subprocess_timeout
+        if kwargs.get("preexec_fn") is None:
+            kwargs["preexec_fn"] = self.subprocess_limitations
+        return subprocess.run(*args, **kwargs)
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:

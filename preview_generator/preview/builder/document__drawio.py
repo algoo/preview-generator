@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from subprocess import DEVNULL
-from subprocess import STDOUT
-from subprocess import check_call
 import tempfile
 import typing
 
@@ -58,7 +55,7 @@ class ImagePreviewBuilderDrawio(PreviewBuilder):
             "w+b", prefix="preview-generator-", suffix=".jpg"
         ) as tmp_jpg:
             with Xvfb():
-                build_jpg_result_code = check_call(
+                build_jpg = self.run_subprocess(
                     [
                         "/usr/bin/drawio",
                         "--no-sandbox",
@@ -68,16 +65,13 @@ class ImagePreviewBuilderDrawio(PreviewBuilder):
                         "-o",
                         tmp_jpg.name,
                         file_path,
-                    ],
-                    stdout=DEVNULL,
-                    stderr=STDOUT,
-                    timeout=30,
+                    ]
                 )
 
-            if build_jpg_result_code != 0:
+            if build_jpg.returncode != 0:
                 raise IntermediateFileBuildingFailed(
                     "Building JPG intermediate file using drawio "
-                    "failed with status {}".format(build_jpg_result_code)
+                    "failed with status {}".format(build_jpg)
                 )
 
             ImagePreviewBuilderPillow().build_jpeg_preview(

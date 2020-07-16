@@ -42,6 +42,7 @@ install_requires = [
     "cairosvg",
     "ffmpeg-python",
     "filelock",
+    "psutil"
 ]
 tests_require = ["pytest"]
 
