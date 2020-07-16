@@ -34,7 +34,7 @@ jobs:
         - black --version
         - echo -n "isort " && isort --version-number
         - black -l 100 --exclude '/(\..*)/' --diff --check preview_generator tests setup.py
-        - isort -df -c **/*.py
+        - isort --df -c **/*.py
     - stage: static-tests
       name: flake8
       python: "3.7"

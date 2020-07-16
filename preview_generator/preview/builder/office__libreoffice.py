@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import contextlib
+import hashlib
 from io import BytesIO
 import logging
 import os
@@ -8,8 +9,9 @@ from subprocess import DEVNULL
 from subprocess import STDOUT
 from subprocess import check_call
 from subprocess import check_output
-import threading
 import typing
+
+from filelock import FileLock
 
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import InputExtensionNotFound
@@ -17,11 +19,13 @@ from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.builder.document_generic import DocumentPreviewBuilder
 from preview_generator.preview.builder.document_generic import create_flag_file
 from preview_generator.preview.builder.document_generic import write_file_content
+from preview_generator.utils import LOCK_DEFAULT_TIMEOUT
+from preview_generator.utils import LOCKFILE_EXTENSION
 from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import MimetypeMapping
 from preview_generator.utils import executable_is_available
 
-LIBREOFFICE_CALL_LOCK = threading.Lock()
+LIBROFFICE_LOCK_NAME = "libreoffice"
 
 
 class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
@@ -62,82 +66,95 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
         mimetype: str,
     ) -> BytesIO:
 
-        return convert_office_document_to_pdf(
+        return self.convert_office_document_to_pdf(
             file_content, input_extension, cache_path, output_filepath, mimetype
         )
 
-
-def convert_office_document_to_pdf(
-    file_content: typing.IO[bytes],
-    input_extension: typing.Optional[str],  # example: '.dxf'
-    cache_path: str,
-    output_filepath: str,
-    mimetype: str,
-) -> BytesIO:
-    logger = logging.getLogger(LOGGER_NAME)
-    logger.debug(
-        "converting file bytes {} to pdf file {}".format(file_content, output_filepath)
-    )  # nopep8
-    if not input_extension:
-        input_extension = mimetypes_storage.guess_extension(mimetype, strict=False)
-    if not input_extension:
-        raise InputExtensionNotFound("unable to found input extension from mimetype")  # nopep8
-    temporary_input_content_path = output_filepath + input_extension  # nopep8
-    flag_file_path = create_flag_file(output_filepath)
-
-    logger.debug(
-        "conversion is based on temporary file {}".format(temporary_input_content_path)
-    )  # nopep8
-
-    if not os.path.exists(output_filepath):
-        write_file_content(file_content, output_filepath=temporary_input_content_path)  # nopep8
-        logger.debug("temporary file written: {}".format(temporary_input_content_path))  # nopep8
-        logger.debug(
-            "converting {} to pdf into folder {}".format(temporary_input_content_path, cache_path)
-        )
+    def _get_libreoffice_lock(self, cache_path: str) -> FileLock:
         # INFO - jumenzel - 2019-03-12 - Do not allow multiple concurrent libreoffice calls to avoid issue.
         # INFO - jumenzel - 2019-03-12 - Should we allow running multiple libreoffice instances ?
-        #   see https://github.com/algoo/preview-generator/issues/77
-        with LIBREOFFICE_CALL_LOCK:
-            check_call(
-                [
-                    "libreoffice",
-                    "--headless",
-                    "--convert-to",
-                    "pdf:writer_pdf_Export",
-                    temporary_input_content_path,
-                    "--outdir",
-                    cache_path,
-                    "-env:UserInstallation=file:///tmp/LibreOffice_Conversion_${USER}",  # nopep8
-                ],
-                stdout=DEVNULL,
-                stderr=STDOUT,
-            )
-    # HACK - D.A. - 2018-05-31 - name is defined by libreoffice
-    # according to input file name, for homogeneity we prefer to rename it
-    # HACK-HACK - B.L - 2018-10-8 - if file is given without its extension
-    # in its name it won't have the double ".pdf"
-    if os.path.exists(output_filepath + ".pdf"):
+        # see https://github.com/algoo/preview-generator/issues/77
+        file_lock_path = os.path.join(cache_path, LIBROFFICE_LOCK_NAME + LOCKFILE_EXTENSION)
+        return FileLock(file_lock_path, timeout=LOCK_DEFAULT_TIMEOUT)
+
+    def convert_office_document_to_pdf(
+        self,
+        file_content: typing.IO[bytes],
+        input_extension: typing.Optional[str],  # example: '.dxf'
+        cache_path: str,
+        output_filepath: str,
+        mimetype: str,
+    ) -> BytesIO:
+        logger = logging.getLogger(LOGGER_NAME)
         logger.debug(
-            "renaming output file {} to {}".format(output_filepath + ".pdf", output_filepath)
-        )
-        os.rename(output_filepath + ".pdf", output_filepath)
-
-    with contextlib.suppress(FileNotFoundError):
-        logger.info(
-            "Removing temporary copy file {}".format(temporary_input_content_path)
+            "converting file bytes {} to pdf file {}".format(file_content, output_filepath)
         )  # nopep8
-        os.remove(temporary_input_content_path)
+        if not input_extension:
+            input_extension = mimetypes_storage.guess_extension(mimetype, strict=False)
+        if not input_extension:
+            raise InputExtensionNotFound("unable to found input extension from mimetype")  # nopep8
+        temporary_input_content_path = output_filepath + input_extension  # nopep8
+        flag_file_path = create_flag_file(output_filepath)
 
-    logger.debug("Removing flag file {}".format(flag_file_path))
-    os.remove(flag_file_path)
+        logger.debug(
+            "conversion is based on temporary file {}".format(temporary_input_content_path)
+        )  # nopep8
 
-    with open(output_filepath, "rb") as pdf_handle:
-        pdf_handle.seek(0, 0)
-        content_as_bytes = pdf_handle.read()
-        output = BytesIO(content_as_bytes)
-        output.seek(0, 0)
-        return output
+        if not os.path.exists(output_filepath):
+            write_file_content(file_content, output_filepath=temporary_input_content_path)  # nopep8
+            logger.debug(
+                "temporary file written: {}".format(temporary_input_content_path)
+            )  # nopep8
+            logger.debug(
+                "converting {} to pdf into folder {}".format(
+                    temporary_input_content_path, cache_path
+                )
+            )
+
+            libreoffice_lock = self._get_libreoffice_lock(cache_path)
+            cache_path_hash = hashlib.md5(cache_path.encode("utf-8")).hexdigest()
+            with libreoffice_lock:
+                check_call(
+                    [
+                        "libreoffice",
+                        "--headless",
+                        "--convert-to",
+                        "pdf:writer_pdf_Export",
+                        temporary_input_content_path,
+                        "--outdir",
+                        cache_path,
+                        "-env:UserInstallation=file:///tmp/LibreOffice-conversion-{}".format(
+                            cache_path_hash
+                        ),  # nopep8
+                    ],
+                    stdout=DEVNULL,
+                    stderr=STDOUT,
+                )
+        # HACK - D.A. - 2018-05-31 - name is defined by libreoffice
+        # according to input file name, for homogeneity we prefer to rename it
+        # HACK-HACK - B.L - 2018-10-8 - if file is given without its extension
+        # in its name it won't have the double ".pdf"
+        if os.path.exists(output_filepath + ".pdf"):
+            logger.debug(
+                "renaming output file {} to {}".format(output_filepath + ".pdf", output_filepath)
+            )
+            os.rename(output_filepath + ".pdf", output_filepath)
+
+        with contextlib.suppress(FileNotFoundError):
+            logger.info(
+                "Removing temporary copy file {}".format(temporary_input_content_path)
+            )  # nopep8
+            os.remove(temporary_input_content_path)
+
+        logger.debug("Removing flag file {}".format(flag_file_path))
+        os.remove(flag_file_path)
+
+        with open(output_filepath, "rb") as pdf_handle:
+            pdf_handle.seek(0, 0)
+            content_as_bytes = pdf_handle.read()
+            output = BytesIO(content_as_bytes)
+            output.seek(0, 0)
+            return output
 
 
 # HACK - D.A. - 2018-05-31

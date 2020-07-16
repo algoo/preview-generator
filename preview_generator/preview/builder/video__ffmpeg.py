@@ -156,6 +156,9 @@ class VideoPreviewBuilderFFMPEG(PreviewBuilder):
             ffmpeg.input(file_path, ss=frame_time)
             .filter("scale", extraction_size.width, extraction_size.height)
             .output(preview_path, vframes=1)
+            # INFO - G.M - 2020-07-03 we do allow overwrite to allow forcing the refresh of
+            # the preview.
+            .overwrite_output()
             .run()
         )
 
