@@ -79,7 +79,7 @@ class PreviewBuilderFactory(object):
 
         if not str_:
             # Should never happen.
-            raise ValueError("Cannot determine type of " + file_path)
+            raise ValueError("Cannot determine the type of " + file_path)
 
         return str_
 
