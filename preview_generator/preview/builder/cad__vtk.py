@@ -19,14 +19,14 @@ try:
     from vtk import vtkNamedColors
     from vtk import vtkPNGWriter
     from vtk import vtkPolyDataMapper
-    from vtk import vtkRenderer
     from vtk import vtkRenderWindow
+    from vtk import vtkRenderer
     from vtk import vtkSTLReader
-    from vtk.vtkIOKitPython import vtkOBJReader
-    from vtk.vtkIOKitPython import vtkPLYReader
-    from vtk.vtkIOKitPython import vtkAbstractPolyDataReader
     from vtk import vtkVersion
     from vtk import vtkWindowToImageFilter
+    from vtk.vtkIOKitPython import vtkAbstractPolyDataReader
+    from vtk.vtkIOKitPython import vtkOBJReader
+    from vtk.vtkIOKitPython import vtkPLYReader
 except ImportError:
     vtk_installed = False
 

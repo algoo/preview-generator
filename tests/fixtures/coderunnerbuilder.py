@@ -8,10 +8,11 @@ This is unsafe and it should not be used in production.
 To enable this builder, put it in the builder folder.
 """
 
-import typing
 import sys
-from preview_generator.preview.generic_preview import PreviewBuilder
+import typing
+
 from preview_generator.extension import mimetypes_storage
+from preview_generator.preview.generic_preview import PreviewBuilder
 
 mimetypes_storage.add_type("application/x-preview-generator-test", ".runpy")
 
