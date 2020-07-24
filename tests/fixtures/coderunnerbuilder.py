@@ -11,10 +11,8 @@ To enable this builder, put it in the builder folder.
 import sys
 import typing
 
-from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.generic_preview import PreviewBuilder
-
-mimetypes_storage.add_type("application/x-preview-generator-test", ".runpy")
+from preview_generator.utils import MimetypeMapping
 
 
 class CodeRunnerPreviewBuilder(PreviewBuilder):
@@ -25,6 +23,10 @@ class CodeRunnerPreviewBuilder(PreviewBuilder):
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
         return ["application/x-preview-generator-test"]
+
+    @classmethod
+    def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
+        return [MimetypeMapping("application/x-preview-generator-test", ".runpy")]
 
     def build_text_preview(
         self,
@@ -37,8 +39,6 @@ class CodeRunnerPreviewBuilder(PreviewBuilder):
         """
         generate the text preview
         """
-        with open("/tmp/totocoderunner", "a") as toto:
-            toto.write(sys.stdout.name + "\n")
         original_stdout = sys.stdout
         sys.stdout = open(cache_path + preview_name + extension, "w")
         with open(file_path, "rb") as f:
