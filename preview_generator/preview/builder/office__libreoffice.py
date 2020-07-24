@@ -19,8 +19,8 @@ from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.builder.document_generic import DocumentPreviewBuilder
 from preview_generator.preview.builder.document_generic import create_flag_file
 from preview_generator.preview.builder.document_generic import write_file_content
-from preview_generator.utils import LOCK_DEFAULT_TIMEOUT
 from preview_generator.utils import LOCKFILE_EXTENSION
+from preview_generator.utils import LOCK_DEFAULT_TIMEOUT
 from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import MimetypeMapping
 from preview_generator.utils import executable_is_available

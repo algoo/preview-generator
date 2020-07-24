@@ -11,12 +11,14 @@ from preview_generator import infos
 py_version = sys.version_info[:2]
 
 try:
-    from setuptools import setup, find_packages
+    from setuptools import find_packages
+    from setuptools import setup
 except ImportError:
     from ez_setup import use_setuptools
 
     use_setuptools()
-    from setuptools import setup, find_packages
+    from setuptools import find_packages
+    from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 

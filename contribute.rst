@@ -99,7 +99,7 @@ Running Tests :
 
  Pytest is a motor for unit testing
 
-* `pip install -e .[testing]`
+* `pip install -e '.[testing]'`
 * go into the "tests" directory : `cd path/to/you/project/directory/tests`
 * run `pytest`
 

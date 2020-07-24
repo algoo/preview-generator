@@ -331,13 +331,13 @@ class PreviewManager(object):
 
     def get_file_extension(self, mime: str) -> typing.Optional[str]:
         """
-        Get one valid file extension related to mimetype given.
+        Get one valid file extension related to the given mimetype.
         """
         return mimetypes_storage.guess_extension(mime, strict=False)
 
     def get_file_extensions(self, mime: str) -> typing.List[str]:
         """
-        get all valid file extensions for one mimetype given
+        get all valid file extensions for one the given mimetype
         """
         return mimetypes_storage.guess_all_extensions(mime, strict=False)
 

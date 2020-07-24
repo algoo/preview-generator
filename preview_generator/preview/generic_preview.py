@@ -8,8 +8,8 @@ import pyexifinfo
 
 from preview_generator.exception import UnavailablePreviewType
 from preview_generator.extension import mimetypes_storage
-from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import ImgDims
+from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import MimetypeMapping
 
 
