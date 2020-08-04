@@ -24,9 +24,9 @@ try:
     from vtk import vtkSTLReader
     from vtk import vtkVersion
     from vtk import vtkWindowToImageFilter
-    from vtk.vtkIOKitPython import vtkAbstractPolyDataReader
-    from vtk.vtkIOKitPython import vtkOBJReader
-    from vtk.vtkIOKitPython import vtkPLYReader
+    from vtk import vtkAbstractPolyDataReader
+    from vtk import vtkOBJReader
+    from vtk import vtkPLYReader
 except ImportError:
     vtk_installed = False
 
