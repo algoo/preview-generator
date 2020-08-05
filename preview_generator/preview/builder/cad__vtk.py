@@ -108,17 +108,15 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
         reader.SetFileName(file_path)
         reader.Update()
 
-        reader = reader.GetOutput()
-        it = reader.NewIterator()
-
-        polys = []
-        while not it.IsDoneWithTraversal():
-          item = it.GetCurrentDataObject()
-          polys.append(item)
-          it.GoToNextItem()
-
         mapper = vtkPolyDataMapper()
-        mapper.SetInputData(polys[0])
+
+        # get parent node for GLTF
+        if mimetype == "model/gltf":
+          mesh = reader.GetOutput()
+          mesh_parent = mesh.GetDataSet(mesh.NewIterator())
+          mapper.SetInputData(mesh_parent)
+        else:
+          mapper.SetInputConnection(reader.GetOutputPort())
 
         actor = vtkActor()
         actor.SetMapper(mapper)
