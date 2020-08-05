@@ -47,7 +47,7 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
     ]
     GLTF_MIMETYPES_MAPPING = [
         MimetypeMapping("model/gltf", ".gltf"),
-        MimetypeMapping("model/gltf", ".glb")
+        MimetypeMapping("model/gltf", ".glb"),
     ]
 
     @classmethod
@@ -63,7 +63,12 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
 
     @classmethod
     def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
-        return cls.STL_MIMETYPES_MAPPING + cls.OBJ_MIMETYPES_MAPPING + cls.PLY_MIMETYPES_MAPPING + cls.GLTF_MIMETYPES_MAPPING
+        return (
+            cls.STL_MIMETYPES_MAPPING
+            + cls.OBJ_MIMETYPES_MAPPING
+            + cls.PLY_MIMETYPES_MAPPING
+            + cls.GLTF_MIMETYPES_MAPPING
+        )
 
     @classmethod
     def check_dependencies(cls) -> None:
@@ -115,11 +120,11 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
 
         # set parent node as output for GLTF
         if mimetype == "model/gltf":
-          mesh = reader.GetOutput()
-          mesh_parent = mesh.GetDataSet(mesh.NewIterator())
-          mapper.SetInputData(mesh_parent)
+            mesh = reader.GetOutput()
+            mesh_parent = mesh.GetDataSet(mesh.NewIterator())
+            mapper.SetInputData(mesh_parent)
         else:
-          mapper.SetInputConnection(reader.GetOutputPort())
+            mapper.SetInputConnection(reader.GetOutputPort())
 
         actor = vtkActor()
         actor.SetMapper(mapper)
