@@ -33,7 +33,6 @@ except ImportError:
 
 
 class ImagePreviewBuilderVtk(PreviewBuilder):
-    GLTF_MIMETYPES_MAPPING = [MimetypeMapping("model/gltf", ".gltf")]
     PLY_MIMETYPES_MAPPING = [MimetypeMapping("application/ply", ".ply")]
     OBJ_MIMETYPES_MAPPING = [
         MimetypeMapping("application/wobj", ".obj"),
@@ -45,6 +44,10 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
         MimetypeMapping("application/vnd.ms-pki.stl", ".stl"),
         MimetypeMapping("application/x-navistyle", ".stl"),
         MimetypeMapping("model/stl", ".stl"),
+    ]
+    GLTF_MIMETYPES_MAPPING = [
+        MimetypeMapping("model/gltf", ".gltf"),
+        MimetypeMapping("model/gltf", ".glb")
     ]
 
     @classmethod
@@ -110,7 +113,7 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
 
         mapper = vtkPolyDataMapper()
 
-        # get parent node for GLTF
+        # set parent node as output for GLTF
         if mimetype == "model/gltf":
           mesh = reader.GetOutput()
           mesh_parent = mesh.GetDataSet(mesh.NewIterator())
