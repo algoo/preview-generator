@@ -27,11 +27,13 @@ try:
     from vtk import vtkAbstractPolyDataReader
     from vtk import vtkOBJReader
     from vtk import vtkPLYReader
+    from vtk import vtkGLTFReader
 except ImportError:
     vtk_installed = False
 
 
 class ImagePreviewBuilderVtk(PreviewBuilder):
+    GLTF_MIMETYPES_MAPPING = [MimetypeMapping("model/gltf", ".gltf")]
     PLY_MIMETYPES_MAPPING = [MimetypeMapping("application/ply", ".ply")]
     OBJ_MIMETYPES_MAPPING = [
         MimetypeMapping("application/wobj", ".obj"),
@@ -58,7 +60,7 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
 
     @classmethod
     def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
-        return cls.STL_MIMETYPES_MAPPING + cls.OBJ_MIMETYPES_MAPPING + cls.PLY_MIMETYPES_MAPPING
+        return cls.STL_MIMETYPES_MAPPING + cls.OBJ_MIMETYPES_MAPPING + cls.PLY_MIMETYPES_MAPPING + cls.GLTF_MIMETYPES_MAPPING
 
     @classmethod
     def check_dependencies(cls) -> None:
@@ -78,6 +80,8 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
             return vtkOBJReader()
         elif mimetype in [mapping.mimetype for mapping in cls.PLY_MIMETYPES_MAPPING]:
             return vtkPLYReader()
+        elif mimetype in [mapping.mimetype for mapping in cls.GLTF_MIMETYPES_MAPPING]:
+            return vtkGLTFReader()
         else:
             raise UnsupportedMimeType("Unsupported mimetype: {}".format(mimetype))
 
@@ -102,9 +106,19 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
             mimetype = guessed_mimetype or ""
         reader = self._get_vtk_reader(mimetype)
         reader.SetFileName(file_path)
+        reader.Update()
+
+        reader = reader.GetOutput()
+        it = reader.NewIterator()
+
+        polys = []
+        while not it.IsDoneWithTraversal():
+          item = it.GetCurrentDataObject()
+          polys.append(item)
+          it.GoToNextItem()
 
         mapper = vtkPolyDataMapper()
-        mapper.SetInputConnection(reader.GetOutputPort())
+        mapper.SetInputData(polys[0])
 
         actor = vtkActor()
         actor.SetMapper(mapper)
