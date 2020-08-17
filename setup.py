@@ -37,7 +37,6 @@ install_requires = [
     "PyPDF2",
     "Pillow",
     "pyexifinfo",
-    "packaging",
     "xvfbwrapper",
     "pathlib",
     "pdf2image",
