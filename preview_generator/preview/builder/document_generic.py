@@ -7,6 +7,7 @@ import time
 import typing
 
 from PyPDF2 import PdfFileWriter
+from PyPDF2.utils import b_
 
 from preview_generator import utils
 from preview_generator.exception import BuilderDependencyNotFound
@@ -152,7 +153,10 @@ class DocumentPreviewBuilder(PreviewBuilder):
 
         pdf_out = PdfFileWriter()
         with open(intermediate_pdf_file_path, "rb") as pdf_stream:
-            pdf_in = utils.get_decrypted_pdf(pdf_stream)
+            # HACK - G.M - 2020-08-19 - Transform stream in a way pypdf2 can handle it
+            # this should be removed with a future pdf builder.
+            stream = BytesIO(b_(pdf_stream.read()))
+            pdf_in = utils.get_decrypted_pdf(stream)
             output_file_path = os.path.join(cache_path, "{}{}".format(preview_name, extension))
             pdf_out.addPage(pdf_in.getPage(page_id))
 

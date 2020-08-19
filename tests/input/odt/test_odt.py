@@ -109,13 +109,17 @@ def test_to_pdf_one_page() -> None:
     assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH) is True
     path_0 = manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, page=0, force=True)
     assert os.path.exists(path_0) is True
-    assert os.path.getsize(path_0) > 0
+    assert os.path.getsize(path_0) > 1000  # verify if the size of the pdf refer to a normal content
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__PDF, path_0)
+    pdf = PdfFileReader(open(path_0, "rb"))
+    assert pdf.getNumPages() == 1
 
     path_1 = manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, page=1, force=True)
     assert os.path.exists(path_1) is True
-    assert os.path.getsize(path_1) > 0
+    assert os.path.getsize(path_1) > 1000  # verify if the size of the pdf refer to a normal content
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__PDF, path_1)
+    pdf = PdfFileReader(open(path_1, "rb"))
+    assert pdf.getNumPages() == 1
 
 
 def test_to_pdf_no_page() -> None:
