@@ -680,6 +680,7 @@ image/x-xbitmap xbm
 image/x-xpixmap xpm
 image/x-xwindowdump xwd
 message/rfc822 eml mime
+model/gltf gltf glb
 model/iges igs iges
 model/mesh msh mesh silo
 model/stl stl
