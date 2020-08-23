@@ -2,11 +2,9 @@
 
 import os
 import shutil
-import sys
 import typing
 
 from PIL import Image
-import pytest
 
 from preview_generator.preview.builder.cad__vtk import ImagePreviewBuilderVtk
 from preview_generator.utils import ImgDims
