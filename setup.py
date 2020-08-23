@@ -44,6 +44,7 @@ install_requires = [
     "cairosvg",
     "ffmpeg-python",
     "filelock",
+    "vtk",
 ]
 tests_require = ["pytest"]
 
@@ -55,11 +56,6 @@ if sys.version_info.major == 3 and sys.version_info.minor >= 6:
 
 if py_version <= (3, 4):
     install_requires.append("typing")
-
-# TODO - G.M - 2019-11-05 - restore vtk as normal requirement, vtk is not compatible
-# with current version of vtk see https://gitlab.kitware.com/vtk/vtk/issues/17670,
-if py_version < (3, 8):
-    install_requires.append("vtk")
 
 setup(
     name="preview_generator",
