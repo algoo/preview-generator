@@ -8,7 +8,7 @@ install:
   - sudo apt-get install xvfb libreoffice libfile-mimeinfo-perl inkscape poppler-utils qpdf imagemagick libimage-exiftool-perl ufraw-batch ffmpeg ghostscript libsecret-1-0 -y
   - DRAWIO_VERSION="12.6.5" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb && sudo dpkg -i draw.io-amd64-${DRAWIO_VERSION}.deb
   - pip install xvfbwrapper
-  - pip list
+  - pip install vtk
   - python setup.py install
   - pip install pytest
   - python3 -m pip install -U mypy
