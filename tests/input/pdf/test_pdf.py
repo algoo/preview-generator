@@ -94,6 +94,24 @@ def test_to_pdf() -> None:
     # TODO - G.M - 2018-11-06 - To be completed
 
 
+def test_to_pdf_one_page() -> None:
+    manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+    assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH) is True
+    path_0 = manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, page=0, force=True)
+    assert os.path.exists(path_0) is True
+    assert os.path.getsize(path_0) > 1000  # verify if the size of the pdf refer to a normal content
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__PDF, path_0)
+    pdf = PdfFileReader(open(path_0, "rb"))
+    assert pdf.getNumPages() == 1
+
+    path_1 = manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, page=1, force=True)
+    assert os.path.exists(path_1) is True
+    assert os.path.getsize(path_1) > 1000  # verify if the size of the pdf refer to a normal content
+    assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__PDF, path_1)
+    pdf = PdfFileReader(open(path_1, "rb"))
+    assert pdf.getNumPages() == 1
+
+
 def test_algorithm4() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_jpeg_preview(file_path=IMAGE_FILE_PATH__A4) is True
