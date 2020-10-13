@@ -146,6 +146,7 @@ class PreviewManager(object):
         height: int = 256,
         force: bool = False,
         file_ext: str = "",
+        dry_run: bool = False,
     ) -> str:
         """
         Return a JPEG preview of given file, according to parameters
@@ -155,7 +156,9 @@ class PreviewManager(object):
         :param height: height of the requested preview image
         :param force: if True, do not use cached preview.
         :param file_ext: extension associated to the file. Eg 'jpg'. May be empty -
-                it's usefull if the extension can't be found in file_path
+                it's useful if the extension can't be found in file_path
+        :param dry_run: Don't actually generate the file, but return its path as
+                if we had
         :return: path to the generated preview file
         """
         preview_context = self.get_preview_context(file_path, file_ext)
@@ -167,6 +170,9 @@ class PreviewManager(object):
 
         preview_name = self._get_preview_name(preview_context.hash, size, page)
         preview_file_path = os.path.join(self.cache_path, preview_name + extension)  # nopep8
+
+        if dry_run:
+            return preview_file_path
 
         # INFO - G.M - 2020-07-03 generate jpeg preview from pdf for libreoffice/scribus
         if type(preview_context.builder) in [
@@ -189,7 +195,12 @@ class PreviewManager(object):
         return preview_file_path
 
     def get_pdf_preview(
-        self, file_path: str, page: int = -1, force: bool = False, file_ext: str = ""
+        self,
+        file_path: str,
+        page: int = -1,
+        force: bool = False,
+        file_ext: str = "",
+        dry_run: bool = False,
     ) -> str:
         """
         Return a PDF preview of given file, according to parameters
@@ -198,6 +209,8 @@ class PreviewManager(object):
         :param force: if True, do not use cached preview.
         :param file_ext: extension associated to the file. Eg 'jpg'. May be empty -
                 it's usefull if the extension can't be found in file_path
+        :param dry_run: Don't actually generate the file, but return its path as
+                if we had
         :return: path to the generated preview file
         """
         preview_context = self.get_preview_context(file_path, file_ext)
@@ -206,6 +219,8 @@ class PreviewManager(object):
 
         try:
             cache_file_path = self.cache_path + preview_name + extension
+            if dry_run:
+                return cache_file_path
             with preview_context.filelock:
                 if force or not os.path.exists(cache_file_path):
                     preview_context.builder.build_pdf_preview(
@@ -222,13 +237,17 @@ class PreviewManager(object):
         except AttributeError:
             raise Exception("Error while getting the file the file preview")
 
-    def get_text_preview(self, file_path: str, force: bool = False, file_ext: str = "") -> str:
+    def get_text_preview(
+        self, file_path: str, force: bool = False, file_ext: str = "", dry_run: bool = False
+    ) -> str:
         """
         Return a TXT preview of given file, according to parameters
         :param file_path: path of the file to preview
         :param force: if True, do not use cached preview.
         :param file_ext: extension associated to the file. Eg 'jpg'. May be empty -
                 it's usefull if the extension can't be found in file_path
+        :param dry_run: Don't actually generate the file, but return its path as
+                if we had
         :return: path to the generated preview file
         """
         preview_context = self.get_preview_context(file_path, file_ext)
@@ -236,6 +255,8 @@ class PreviewManager(object):
         preview_name = self._get_preview_name(filehash=preview_context.hash)
         try:
             cache_file_path = self.cache_path + preview_name + extension
+            if dry_run:
+                return cache_file_path
             with preview_context.filelock:
                 if force or not os.path.exists(cache_file_path):
                     preview_context.builder.build_text_preview(
@@ -249,13 +270,17 @@ class PreviewManager(object):
         except AttributeError:
             raise Exception("Error while getting the file the file preview")
 
-    def get_html_preview(self, file_path: str, force: bool = False, file_ext: str = "") -> str:
+    def get_html_preview(
+        self, file_path: str, force: bool = False, file_ext: str = "", dry_run: bool = False
+    ) -> str:
         """
         Return a HTML preview of given file, according to parameters
         :param file_path: path of the file to preview
         :param force: if True, do not use cached preview.
         :param file_ext: extension associated to the file. Eg 'jpg'. May be empty -
                 it's usefull if the extension can't be found in file_path
+        :param dry_run: Don't actually generate the file, but return its path as
+                if we had
         :return: path to the generated preview file
         """
         preview_context = self.get_preview_context(file_path, file_ext)
@@ -263,6 +288,8 @@ class PreviewManager(object):
         preview_name = self._get_preview_name(filehash=preview_context.hash)
         try:
             cache_file_path = self.cache_path + preview_name + extension
+            if dry_run:
+                return cache_file_path
             with preview_context.filelock:
                 if force or not os.path.exists(cache_file_path):
                     preview_context.builder.build_html_preview(
@@ -276,13 +303,17 @@ class PreviewManager(object):
         except AttributeError:
             raise Exception("Error while getting the file the file preview")
 
-    def get_json_preview(self, file_path: str, force: bool = False, file_ext: str = "") -> str:
+    def get_json_preview(
+        self, file_path: str, force: bool = False, file_ext: str = "", dry_run: bool = False
+    ) -> str:
         """
-        Return a HTML preview of given file, according to parameters
+        Return a JSON preview of given file, according to parameters
         :param file_path: path of the file to preview
         :param force: if True, do not use cached preview.
         :param file_ext: extension associated to the file. Eg 'jpg'. May be empty -
                 it's usefull if the extension can't be found in file_path
+        :param dry_run: Don't actually generate the file, but return its path as
+                if we had
         :return: path to the generated preview file
         """
         preview_context = self.get_preview_context(file_path, file_ext)
@@ -290,6 +321,8 @@ class PreviewManager(object):
         preview_name = self._get_preview_name(filehash=preview_context.hash)
         try:
             cache_file_path = self.cache_path + preview_name + extension
+            if dry_run:
+                return cache_file_path
             with preview_context.filelock:
                 if force or not os.path.exists(cache_file_path):  # nopep8
                     preview_context.builder.build_json_preview(

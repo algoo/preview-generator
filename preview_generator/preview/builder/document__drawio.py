@@ -81,7 +81,7 @@ class ImagePreviewBuilderDrawio(PreviewBuilder):
                 )
 
             ImagePreviewBuilderPillow().build_jpeg_preview(
-                tmp_jpg.name, preview_name, cache_path, page_id, extension, size, mimetype,
+                tmp_jpg.name, preview_name, cache_path, page_id, extension, size, mimetype
             )
 
     def has_jpeg_preview(self) -> bool:
