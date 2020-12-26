@@ -5,8 +5,6 @@ from subprocess import check_call
 import tempfile
 import typing
 
-from xvfbwrapper import Xvfb
-
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import IntermediateFileBuildingFailed
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow
@@ -15,12 +13,20 @@ from preview_generator.utils import ImgDims
 from preview_generator.utils import MimetypeMapping
 from preview_generator.utils import executable_is_available
 
+xvfbwrapper_installed = True
+try:
+    from xvfbwrapper import Xvfb
+except ImportError:
+    xvfbwrapper_installed = False
+
 
 class ImagePreviewBuilderDrawio(PreviewBuilder):
     DRAWIO_MIMETYPES_MAPPING = [MimetypeMapping("application/drawio", ".drawio")]
 
     @classmethod
     def check_dependencies(cls) -> None:
+        if not xvfbwrapper_installed:
+            raise BuilderDependencyNotFound("this builder requires xvfbwrapper")
         if not executable_is_available("xvfb-run"):
             raise BuilderDependencyNotFound("this builder requires xvfb-run to be available")
 

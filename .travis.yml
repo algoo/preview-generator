@@ -5,11 +5,12 @@ dist: xenial
 
 install:
   - sudo rm -f /etc/ImageMagick-6/policy.xml
-  - sudo apt-get install xvfb libreoffice libfile-mimeinfo-perl inkscape poppler-utils qpdf imagemagick libimage-exiftool-perl ufraw-batch ffmpeg ghostscript libsecret-1-0 -y
+  # main requirements
+  - sudo apt-get install -y poppler-utils qpdf libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0
+  # optionals
+  - sudo apt-get install libreoffice inkscape ufraw-batch ffmpeg xvfb
   - DRAWIO_VERSION="12.6.5" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb && sudo dpkg -i draw.io-amd64-${DRAWIO_VERSION}.deb
-  - pip install xvfbwrapper
-  - python setup.py install
-  - pip install pytest
+  - pip install ".[scribus, video, cairosvg, drawio]"
   - python3 -m pip install -U mypy==0.770
 
 before_script:

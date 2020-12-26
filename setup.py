@@ -54,11 +54,12 @@ else:
 tests_require = ["pytest"]
 devtools_require = ["flake8", "isort", "mypy", "pre-commit"]
 cairo_require = ["cairosvg"]
-scribus_require = ["xvfbwrapper"]
+scribus_require = drawio_require = ["xvfbwrapper"]
 video_require = ["ffmpeg-python"]
-all_require = [cairo_require, scribus_require, video_require]
+all_require = [cairo_require, scribus_require, video_require, drawio_require]
 extras_require = {
     "cairosvg": cairo_require,
+    "drawio": drawio_require,
     "scribus": scribus_require,
     "video": video_require,
     "all": all_require,
