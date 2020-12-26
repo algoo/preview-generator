@@ -3,11 +3,17 @@
 import tempfile
 import typing
 
-import cairosvg
-
+# HACK - G.M - 2020-12-26 - Hack to allow load of module without cairosvg installed
+from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
+
+cairosvg_installed = True
+try:
+    import cairosvg
+except ImportError:
+    cairosvg_installed = False
 
 
 class ImagePreviewBuilderCairoSVG(ImagePreviewBuilder):
@@ -22,6 +28,11 @@ class ImagePreviewBuilderCairoSVG(ImagePreviewBuilder):
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
         return ["image/svg+xml", "image/svg"]
+
+    @classmethod
+    def check_dependencies(cls) -> None:
+        if not cairosvg_installed:
+            raise BuilderDependencyNotFound("this builder requires cairosvg to be available")
 
     def build_jpeg_preview(
         self,

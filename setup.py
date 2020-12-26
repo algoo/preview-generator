@@ -32,15 +32,16 @@ except UnicodeDecodeError:
 testpkgs = []  # type: List[str]
 
 install_requires = [
+    # mimetype_guessing
     "python-magic",
+    # wand builder
     "Wand",
+    # commons
+    "pdf2image",
     "PyPDF2",
     "pyexifinfo",
-    "xvfbwrapper",
     "pathlib",
     "pdf2image",
-    "cairosvg",
-    "ffmpeg-python",
     "filelock",
 ]
 
@@ -51,8 +52,20 @@ else:
     install_requires.append("Pillow")
 
 tests_require = ["pytest"]
-
 devtools_require = ["flake8", "isort", "mypy", "pre-commit"]
+cairo_require = ["cairosvg"]
+scribus_require = ["xvfbwrapper"]
+video_require = ["ffmpeg-python"]
+all_require = [cairo_require, scribus_require, video_require]
+extras_require = {
+    "cairosvg": cairo_require,
+    "scribus": scribus_require,
+    "video": video_require,
+    "all": all_require,
+    # specials
+    "testing": tests_require,
+    "dev": tests_require + devtools_require,
+}
 
 # add black for python 3.6+
 if sys.version_info.major == 3 and sys.version_info.minor >= 6:
@@ -94,7 +107,7 @@ setup(
     install_requires=install_requires,
     python_requires=">= 3.5",
     include_package_data=True,
-    extras_require={"testing": tests_require, "dev": tests_require + devtools_require},
+    extras_require=extras_require,
     test_suite="py.test",  # TODO : change test_suite
     tests_require=testpkgs,
     package_data={"preview_generator": ["i18n/*/LC_MESSAGES/*.mo", "templates/*/*", "public/*/*"]},
