@@ -66,6 +66,9 @@ jobs:
     - stage: tests
       python: "3.8"
     - stage: tests
+      install:
+        # remove 3D support as vtk doesn't support 3.9 yet
+        - pip install ".[cairosvg,video,drawio,scribus,testing]"
       python: "3.9"
 
 stages:
