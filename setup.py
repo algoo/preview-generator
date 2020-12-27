@@ -57,7 +57,7 @@ cairo_require = ["cairosvg"]
 scribus_require = drawio_require = ["xvfbwrapper"]
 video_require = ["ffmpeg-python"]
 cad3d_require = ["vtk"]
-all_require = [cairo_require, scribus_require, video_require, drawio_require]
+all_require = [cairo_require, scribus_require, video_require, drawio_require, cad3d_require]
 extras_require = {
     "cairosvg": cairo_require,
     "drawio": drawio_require,
