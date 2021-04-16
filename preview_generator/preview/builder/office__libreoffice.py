@@ -7,7 +7,7 @@ import os
 from shutil import which
 from subprocess import DEVNULL
 from subprocess import STDOUT
-from subprocess import check_call
+from subprocess import Popen
 from subprocess import check_output
 import typing
 
@@ -26,6 +26,7 @@ from preview_generator.utils import MimetypeMapping
 from preview_generator.utils import executable_is_available
 
 LIBROFFICE_LOCK_NAME = "libreoffice"
+LIBRE_OFFICE_PROCESS_TIMEOUT = 30
 
 
 class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
@@ -114,7 +115,7 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
             libreoffice_lock = self._get_libreoffice_lock(cache_path)
             cache_path_hash = hashlib.md5(cache_path.encode("utf-8")).hexdigest()
             with libreoffice_lock:
-                check_call(
+                process = Popen(
                     [
                         "libreoffice",
                         "--headless",
@@ -130,6 +131,27 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
                     stdout=DEVNULL,
                     stderr=STDOUT,
                 )
+                try:
+                    process.communicate(timeout=LIBRE_OFFICE_PROCESS_TIMEOUT)
+                except TimeoutError:
+                    try:
+                        # INFO - SG - 2021-04-16
+                        # we waited long enough, give a little time to the process
+                        # to exit cleanly
+                        logger.warning(
+                            "The preview generation for {} took too long, aborting it".format(
+                                temporary_input_content_path
+                            )
+                        )
+                        process.terminate()
+                        process.communicate(timeout=LIBRE_OFFICE_PROCESS_TIMEOUT / 10)
+                        raise
+                    except TimeoutError:
+                        # too slow to exit… let's kill
+                        process.kill()
+                        process.communicate(timeout=LIBRE_OFFICE_PROCESS_TIMEOUT / 10)
+                        raise
+
         # HACK - D.A. - 2018-05-31 - name is defined by libreoffice
         # according to input file name, for homogeneity we prefer to rename it
         # HACK-HACK - B.L - 2018-10-8 - if file is given without its extension
