@@ -35,7 +35,8 @@ install_requires = [
     "python-magic",
     "Wand",
     "PyPDF2",
-    "Pillow",
+    # NOTE - SG - 2021-04-19 - python 3.5 is dropped starting with 8.0.0
+    "Pillow<8.0.0",
     "pyexifinfo",
     "xvfbwrapper",
     "pathlib",

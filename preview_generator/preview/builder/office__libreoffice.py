@@ -26,7 +26,7 @@ from preview_generator.utils import MimetypeMapping
 from preview_generator.utils import executable_is_available
 
 LIBROFFICE_LOCK_NAME = "libreoffice"
-LIBRE_OFFICE_PROCESS_TIMEOUT = 30
+LIBRE_OFFICE_PROCESS_TIMEOUT = 60
 
 
 class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):

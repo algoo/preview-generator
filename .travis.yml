@@ -10,7 +10,7 @@ install:
   - pip install xvfbwrapper
   - python setup.py install
   - pip install pytest
-  - python3 -m pip install -U mypy
+  - python3 -m pip install -U mypy==0.770
 
 before_script:
   - export DISPLAY=:99.0
