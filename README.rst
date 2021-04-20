@@ -41,6 +41,8 @@ Office/Text Document
 - office document: odt, doc, docx
 - pdf document
 
+Those file formats are generated using libreoffice. The preview generation has a fixed timeout of 60 seconds.
+  
 Archive file
 ~~~~~~~~~~~~
 
