@@ -26,7 +26,22 @@ from preview_generator.utils import MimetypeMapping
 from preview_generator.utils import executable_is_available
 
 LIBROFFICE_LOCK_NAME = "libreoffice"
-LIBRE_OFFICE_PROCESS_TIMEOUT = 60
+# NOTE - SG - 20210420 - The default timeout value is 60 seconds and can be overridden
+# by the LIBRE_OFFICE_PROCESS_TIMEOUT variable.
+# If this variable has a value lesser or equal than 0, the timeout is disabled
+env_var = os.getenv("LIBRE_OFFICE_PROCESS_TIMEOUT", "60")
+try:
+    timeout_from_var = float(env_var)
+except ValueError:
+    raise ValueError(
+        "Invalid value for LIBRE_OFFICE_PROCESS_TIMEOUT: it should be a number, got {}".format(
+            env_var
+        )
+    )
+if timeout_from_var > 0:
+    LIBRE_OFFICE_PROCESS_TIMEOUT = timeout_from_var  # type: typing.Optional[float]
+else:
+    LIBRE_OFFICE_PROCESS_TIMEOUT = None
 
 
 class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
@@ -95,81 +110,84 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
         if not input_extension:
             raise InputExtensionNotFound("unable to found input extension from mimetype")  # nopep8
         temporary_input_content_path = output_filepath + input_extension  # nopep8
-        flag_file_path = create_flag_file(output_filepath)
-
-        logger.debug(
-            "conversion is based on temporary file {}".format(temporary_input_content_path)
-        )  # nopep8
-
-        if not os.path.exists(output_filepath):
-            write_file_content(file_content, output_filepath=temporary_input_content_path)  # nopep8
+        with create_flag_file(output_filepath):
             logger.debug(
-                "temporary file written: {}".format(temporary_input_content_path)
+                "conversion is based on temporary file {}".format(temporary_input_content_path)
             )  # nopep8
-            logger.debug(
-                "converting {} to pdf into folder {}".format(
-                    temporary_input_content_path, cache_path
-                )
-            )
 
-            libreoffice_lock = self._get_libreoffice_lock(cache_path)
-            cache_path_hash = hashlib.md5(cache_path.encode("utf-8")).hexdigest()
-            with libreoffice_lock:
-                process = Popen(
-                    [
-                        "libreoffice",
-                        "--headless",
-                        "--convert-to",
-                        "pdf:writer_pdf_Export",
-                        temporary_input_content_path,
-                        "--outdir",
-                        cache_path,
-                        "-env:UserInstallation=file:///tmp/LibreOffice-conversion-{}".format(
-                            cache_path_hash
-                        ),  # nopep8
-                    ],
-                    stdout=DEVNULL,
-                    stderr=STDOUT,
+            if not os.path.exists(output_filepath):
+                write_file_content(file_content, output_filepath=temporary_input_content_path)
+                logger.debug(
+                    "temporary file written: {}".format(temporary_input_content_path)
+                )  # nopep8
+                logger.debug(
+                    "converting {} to pdf into folder {}".format(
+                        temporary_input_content_path, cache_path
+                    )
                 )
-                try:
-                    process.communicate(timeout=LIBRE_OFFICE_PROCESS_TIMEOUT)
-                except TimeoutError:
+
+                libreoffice_lock = self._get_libreoffice_lock(cache_path)
+                cache_path_hash = hashlib.md5(cache_path.encode("utf-8")).hexdigest()
+                with libreoffice_lock:
+                    process = Popen(
+                        [
+                            "libreoffice",
+                            "--headless",
+                            "--convert-to",
+                            "pdf:writer_pdf_Export",
+                            temporary_input_content_path,
+                            "--outdir",
+                            cache_path,
+                            "-env:UserInstallation=file:///tmp/LibreOffice-conversion-{}".format(
+                                cache_path_hash
+                            ),  # nopep8
+                        ],
+                        stdout=DEVNULL,
+                        stderr=STDOUT,
+                    )
+                    process_timeout = LIBRE_OFFICE_PROCESS_TIMEOUT
+                    if process_timeout is not None:
+                        stop_process_timeout = process_timeout / 10  # type: typing.Optional[float]
+                    else:
+                        stop_process_timeout = None
                     try:
-                        # INFO - SG - 2021-04-16
-                        # we waited long enough, give a little time to the process
-                        # to exit cleanly
-                        logger.warning(
-                            "The preview generation for {} took too long, aborting it".format(
-                                temporary_input_content_path
-                            )
-                        )
-                        process.terminate()
-                        process.communicate(timeout=LIBRE_OFFICE_PROCESS_TIMEOUT / 10)
-                        raise
+                        process.communicate(timeout=process_timeout)
                     except TimeoutError:
-                        # too slow to exit… let's kill
-                        process.kill()
-                        process.communicate(timeout=LIBRE_OFFICE_PROCESS_TIMEOUT / 10)
-                        raise
+                        try:
+                            # INFO - SG - 2021-04-16
+                            # we waited long enough, give a little time to the process
+                            # to exit cleanly
+                            logger.warning(
+                                "The preview generation for {} took too long, aborting it".format(
+                                    temporary_input_content_path
+                                )
+                            )
+                            process.terminate()
+                            process.communicate(timeout=stop_process_timeout)
+                            raise
+                        except TimeoutError:
+                            # too slow to exit… let's kill
+                            process.kill()
+                            process.communicate(timeout=stop_process_timeout)
+                            raise
 
-        # HACK - D.A. - 2018-05-31 - name is defined by libreoffice
-        # according to input file name, for homogeneity we prefer to rename it
-        # HACK-HACK - B.L - 2018-10-8 - if file is given without its extension
-        # in its name it won't have the double ".pdf"
-        if os.path.exists(output_filepath + ".pdf"):
-            logger.debug(
-                "renaming output file {} to {}".format(output_filepath + ".pdf", output_filepath)
-            )
-            os.rename(output_filepath + ".pdf", output_filepath)
+            # HACK - D.A. - 2018-05-31 - name is defined by libreoffice
+            # according to input file name, for homogeneity we prefer to rename it
+            # HACK-HACK - B.L - 2018-10-8 - if file is given without its extension
+            # in its name it won't have the double ".pdf"
+            if os.path.exists(output_filepath + ".pdf"):
+                logger.debug(
+                    "renaming output file {} to {}".format(
+                        output_filepath + ".pdf", output_filepath
+                    )
+                )
+                os.rename(output_filepath + ".pdf", output_filepath)
 
-        with contextlib.suppress(FileNotFoundError):
-            logger.info(
-                "Removing temporary copy file {}".format(temporary_input_content_path)
-            )  # nopep8
-            os.remove(temporary_input_content_path)
-
-        logger.debug("Removing flag file {}".format(flag_file_path))
-        os.remove(flag_file_path)
+            with contextlib.suppress(FileNotFoundError):
+                logger.info(
+                    "Removing temporary copy file {}".format(temporary_input_content_path)
+                )  # nopep8
+                os.remove(temporary_input_content_path)
 
         with open(output_filepath, "rb") as pdf_handle:
             pdf_handle.seek(0, 0)

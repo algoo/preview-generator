@@ -77,42 +77,47 @@ def convert_sla_to_pdf(
     temporary_input_content_path = output_filepath
     if input_extension:
         temporary_input_content_path += input_extension
-    flag_file_path = create_flag_file(output_filepath)
+    with create_flag_file(output_filepath):
 
-    logger.debug(
-        "conversion is based on temporary file {}".format(temporary_input_content_path)
-    )  # nopep8
-
-    if not os.path.exists(output_filepath):
-        write_file_content(file_content, output_filepath=temporary_input_content_path)  # nopep8
-        logger.debug("temporary file written: {}".format(temporary_input_content_path))  # nopep8
         logger.debug(
-            "converting {} to pdf into folder {}".format(temporary_input_content_path, cache_path)
-        )
-        with Xvfb():
-            check_call(
-                [
-                    "scribus",
-                    "-g",
-                    "-py",
-                    SCRIPT_PATH,
-                    output_filepath,
-                    "--",
-                    temporary_input_content_path,
-                ],
-                stdout=DEVNULL,
-                stderr=STDOUT,
+            "conversion is based on temporary file {}".format(temporary_input_content_path)
+        )  # nopep8
+
+        if not os.path.exists(output_filepath):
+            write_file_content(file_content, output_filepath=temporary_input_content_path)  # nopep8
+            logger.debug(
+                "temporary file written: {}".format(temporary_input_content_path)
+            )  # nopep8
+            logger.debug(
+                "converting {} to pdf into folder {}".format(
+                    temporary_input_content_path, cache_path
+                )
             )
+            with Xvfb():
+                check_call(
+                    [
+                        "scribus",
+                        "-g",
+                        "-py",
+                        SCRIPT_PATH,
+                        output_filepath,
+                        "--",
+                        temporary_input_content_path,
+                    ],
+                    stdout=DEVNULL,
+                    stderr=STDOUT,
+                )
 
-    # HACK - D.A. - 2018-05-31 - name is defined by libreoffice
-    # according to input file name, for homogeneity we prefer to rename it
-    logger.debug("renaming output file {} to {}".format(output_filepath + ".pdf", output_filepath))
+        # HACK - D.A. - 2018-05-31 - name is defined by libreoffice
+        # according to input file name, for homogeneity we prefer to rename it
+        logger.debug(
+            "renaming output file {} to {}".format(output_filepath + ".pdf", output_filepath)
+        )
 
-    logger.debug("Removing flag file {}".format(flag_file_path))
-    os.remove(flag_file_path)
-
-    logger.info("Removing temporary copy file {}".format(temporary_input_content_path))  # nopep8
-    os.remove(temporary_input_content_path)
+        logger.info(
+            "Removing temporary copy file {}".format(temporary_input_content_path)
+        )  # nopep8
+        os.remove(temporary_input_content_path)
 
     with open(output_filepath, "rb") as pdf_handle:
         pdf_handle.seek(0, 0)
