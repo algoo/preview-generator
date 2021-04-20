@@ -16,7 +16,7 @@ from preview_generator.utils import MimetypeMapping
 class PreviewBuilder(object):
     default_size = ImgDims(256, 256)
 
-    def __init__(self,) -> None:
+    def __init__(self) -> None:
         self.logger = logging.getLogger(LOGGER_NAME)
         self.logger.info("New Preview builder of class" + str(self.__class__))
 

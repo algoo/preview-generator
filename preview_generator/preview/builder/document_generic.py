@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import contextlib
 from io import BytesIO
 import os
 from pathlib import Path
@@ -116,6 +117,7 @@ class DocumentPreviewBuilder(PreviewBuilder):
         extension: str = ".pdf",
         page_id: int = -1,
         mimetype: str = "",
+        attempt: int = 0,
     ) -> None:
 
         intermediate_pdf_filename = preview_name.split("-page")[0] + ".pdf"
@@ -127,6 +129,9 @@ class DocumentPreviewBuilder(PreviewBuilder):
                 # Info - B.L - 2018/09/28 - Protection for concurent file access
                 # If two person try to preview the same file one will override the file
                 # while the other is reading it.
+                if attempt >= 5:
+                    raise PreviewAbortedMaxAttempsExceeded("Max attempts exceeded aborting preview")
+                attempt += 1
                 time.sleep(2)
                 return self.build_pdf_preview(
                     file_path=file_path,
@@ -135,6 +140,7 @@ class DocumentPreviewBuilder(PreviewBuilder):
                     extension=extension,
                     page_id=page_id,
                     mimetype=mimetype,
+                    attempt=attempt,
                 )
 
             with open(file_path, "rb") as input_stream:
@@ -203,15 +209,19 @@ class DocumentPreviewBuilder(PreviewBuilder):
         return True
 
 
-def create_flag_file(filepath: str) -> str:
+@contextlib.contextmanager
+def create_flag_file(filepath: str) -> typing.Generator[str, None, None]:
     """
     Create a flag file in order to avoid concurrent build of same previews
     :param filepath: file to protect
     :return: flag file path
     """
-    flag_file_path = "{}_flag".format(filepath)
-    Path(flag_file_path).touch()
-    return flag_file_path
+    flag_file_path = Path("{}_flag".format(filepath))
+    flag_file_path.touch()
+    try:
+        yield str(flag_file_path)
+    finally:
+        flag_file_path.unlink()
 
 
 def write_file_content(file_content: typing.IO[bytes], output_filepath: str) -> None:

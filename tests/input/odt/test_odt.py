@@ -4,6 +4,7 @@ import hashlib
 import os
 import re
 import shutil
+import subprocess
 import typing
 
 from PIL import Image
@@ -22,6 +23,16 @@ FILE_HASH = hashlib.md5(IMAGE_FILE_PATH.encode("utf-8")).hexdigest()
 
 if not executable_is_available("libreoffice"):
     pytest.skip("libreoffice is not available.", allow_module_level=True)
+
+
+@pytest.fixture
+def set_small_process_timeout() -> typing.Generator[None, None, None]:
+    import preview_generator.preview.builder.office__libreoffice as lo
+
+    value = lo.LIBREOFFICE_PROCESS_TIMEOUT
+    lo.LIBREOFFICE_PROCESS_TIMEOUT = 0.1
+    yield
+    lo.LIBREOFFICE_PROCESS_TIMEOUT = value
 
 
 def setup_function(function: typing.Callable) -> None:
@@ -153,3 +164,10 @@ def test_to_pdf() -> None:
     assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH) is True
     manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, force=True)
     # TODO - G.M - 2018-11-06 - To be completed
+
+
+@pytest.mark.usefixtures("set_small_process_timeout")
+def test_to_pdf__err_timeout() -> None:
+    with pytest.raises(subprocess.TimeoutExpired):
+        manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+        manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, force=True)

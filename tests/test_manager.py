@@ -58,3 +58,38 @@ def test_get_preview_name_with_page() -> None:
     filehash = pm.get_preview_context("/tmp/image.jpeg", file_ext=".jpeg").hash
     hash = pm._get_preview_name(filehash, page=3)
     assert hash == "7f8df7223d8be60a7ac8a9bf7bd1df2a-page3"
+
+
+def test_dry_run_jpeg() -> None:
+    pm = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+
+    preview_path = pm.get_jpeg_preview("/tmp/image.jpeg", dry_run=True)
+    assert not os.path.exists(preview_path)
+
+
+def test_dry_run_pdf() -> None:
+    pm = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+
+    preview_path = pm.get_pdf_preview("/tmp/image.jpeg", dry_run=True)
+    assert not os.path.exists(preview_path)
+
+
+def test_dry_run_text() -> None:
+    pm = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+
+    preview_path = pm.get_text_preview("/tmp/image.jpeg", dry_run=True)
+    assert not os.path.exists(preview_path)
+
+
+def test_dry_run_html() -> None:
+    pm = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+
+    preview_path = pm.get_html_preview("/tmp/image.jpeg", dry_run=True)
+    assert not os.path.exists(preview_path)
+
+
+def test_dry_run_json() -> None:
+    pm = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+
+    preview_path = pm.get_json_preview("/tmp/image.jpeg", dry_run=True)
+    assert not os.path.exists(preview_path)
