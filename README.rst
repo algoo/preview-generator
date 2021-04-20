@@ -17,7 +17,7 @@ care about preview storage.
 By creating this module, the goal was to delegate the responsibility of building preview
 of files managed by `tracim <https://github.com/tracim/tracim/.>`_.
 
-The changelog is available `here <CHANGELOG.rst>`_.
+The changelog is available `in a separate file <CHANGELOG.rst>`_.
 
 ----------------------
 Supported file formats
