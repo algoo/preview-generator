@@ -25,23 +25,23 @@ from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import MimetypeMapping
 from preview_generator.utils import executable_is_available
 
-LIBROFFICE_LOCK_NAME = "libreoffice"
+LIBREOFFICE_LOCK_NAME = "libreoffice"
 # NOTE - SG - 20210420 - The default timeout value is 60 seconds and can be overridden
-# by the LIBRE_OFFICE_PROCESS_TIMEOUT variable.
+# by the LIBREOFFICE_PROCESS_TIMEOUT variable.
 # If this variable has a value lesser or equal than 0, the timeout is disabled
-env_var = os.getenv("LIBRE_OFFICE_PROCESS_TIMEOUT", "60")
+env_var = os.getenv("LIBREOFFICE_PROCESS_TIMEOUT", "60")
 try:
     timeout_from_var = float(env_var)
 except ValueError:
     raise ValueError(
-        "Invalid value for LIBRE_OFFICE_PROCESS_TIMEOUT: it should be a number, got {}".format(
+        "Invalid value for LIBREOFFICE_PROCESS_TIMEOUT: it should be a number, got {}".format(
             env_var
         )
     )
 if timeout_from_var > 0:
-    LIBRE_OFFICE_PROCESS_TIMEOUT = timeout_from_var  # type: typing.Optional[float]
+    LIBREOFFICE_PROCESS_TIMEOUT = timeout_from_var  # type: typing.Optional[float]
 else:
-    LIBRE_OFFICE_PROCESS_TIMEOUT = None
+    LIBREOFFICE_PROCESS_TIMEOUT = None
 
 
 class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
@@ -90,7 +90,7 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
         # INFO - jumenzel - 2019-03-12 - Do not allow multiple concurrent libreoffice calls to avoid issue.
         # INFO - jumenzel - 2019-03-12 - Should we allow running multiple libreoffice instances ?
         # see https://github.com/algoo/preview-generator/issues/77
-        file_lock_path = os.path.join(cache_path, LIBROFFICE_LOCK_NAME + LOCKFILE_EXTENSION)
+        file_lock_path = os.path.join(cache_path, LIBREOFFICE_LOCK_NAME + LOCKFILE_EXTENSION)
         return FileLock(file_lock_path, timeout=LOCK_DEFAULT_TIMEOUT)
 
     def convert_office_document_to_pdf(
@@ -145,7 +145,7 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
                         stdout=DEVNULL,
                         stderr=STDOUT,
                     )
-                    process_timeout = LIBRE_OFFICE_PROCESS_TIMEOUT
+                    process_timeout = LIBREOFFICE_PROCESS_TIMEOUT
                     if process_timeout is not None:
                         stop_process_timeout = process_timeout / 10  # type: typing.Optional[float]
                     else:

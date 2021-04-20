@@ -29,10 +29,10 @@ if not executable_is_available("libreoffice"):
 def set_small_process_timeout() -> typing.Generator[None, None, None]:
     import preview_generator.preview.builder.office__libreoffice as lo
 
-    value = lo.LIBRE_OFFICE_PROCESS_TIMEOUT
-    lo.LIBRE_OFFICE_PROCESS_TIMEOUT = 0.1
+    value = lo.LIBREOFFICE_PROCESS_TIMEOUT
+    lo.LIBREOFFICE_PROCESS_TIMEOUT = 0.1
     yield
-    lo.LIBRE_OFFICE_PROCESS_TIMEOUT = value
+    lo.LIBREOFFICE_PROCESS_TIMEOUT = value
 
 
 def setup_function(function: typing.Callable) -> None:

@@ -45,8 +45,8 @@ Office/Text Document
 
 Those file formats are generated using libreoffice.
 The preview generation has a default timeout of 60 seconds.
-It is possible to change this timeout by setting the `LIBRE_OFFICE_PROCESS_TIMEOUT` environment variable to any number.
-Negative numbers in this variable will disable this timeout.
+It is possible to change this timeout by setting the `LIBREOFFICE_PROCESS_TIMEOUT` environment variable to a number of seconds.
+Setting a zero or negative value for this variable will disable the timeout.
   
 Archive file
 ~~~~~~~~~~~~
