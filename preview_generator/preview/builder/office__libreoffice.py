@@ -152,10 +152,10 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
                         stop_process_timeout = None
                     try:
                         process.communicate(timeout=process_timeout)
-                    except TimeoutError:
+                    except Exception:
                         try:
                             # INFO - SG - 2021-04-16
-                            # we waited long enough, give a little time to the process
+                            # we waited long enough (or we got another exception), give a little time to the process
                             # to exit cleanly
                             logger.warning(
                                 "The preview generation for {} took too long, aborting it".format(
@@ -165,7 +165,7 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
                             process.terminate()
                             process.communicate(timeout=stop_process_timeout)
                             raise
-                        except TimeoutError:
+                        except Exception:
                             # too slow to exit… let's kill
                             process.kill()
                             process.communicate(timeout=stop_process_timeout)

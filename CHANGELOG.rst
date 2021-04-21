@@ -3,6 +3,16 @@ Change log for Preview-generator
 ================================
 
 -------------------
+0.16.2 / 2021-04-21
+-------------------
+
+Fixed issues
+~~~~~~~~~~~~
+
+- properly terminate libreoffice processes when an exception is caught
+
+
+-------------------
 0.16.1 / 2021-04-20
 -------------------
 
