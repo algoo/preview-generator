@@ -8,6 +8,7 @@ from wand.image import Color
 from wand.image import Image as WImage
 import wand.version
 
+from preview_generator.preview.builder.image__imconvert import ImagePreviewBuilderIMConvert
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import compute_resize_dims
@@ -55,7 +56,24 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
         """
         if len(ImagePreviewBuilderWand.MIMETYPES) == 0:
             ImagePreviewBuilderWand.MIMETYPES = cls.__load_mimetypes()
-        return ImagePreviewBuilderWand.MIMETYPES
+        mimetypes = ImagePreviewBuilderWand.MIMETYPES
+
+        # INFO - G.M - 2021-04-30
+        # Disable support for postscript,xcf and raw image format in wand, to ensure
+        # proper builder is used (either imagemagick convert or pillow)
+
+        invalid_mimetypes = ["application/postscript", "application/x-xcf", "image/x-xcf"]
+        for (
+            mimetype_mapping
+        ) in ImagePreviewBuilderIMConvert().SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING:
+            invalid_mimetypes.append(mimetype_mapping.mimetype)
+
+        for invalid_mimetype in invalid_mimetypes:
+            try:
+                mimetypes.remove(invalid_mimetype)
+            except ValueError:
+                pass
+        return mimetypes
 
     def build_jpeg_preview(
         self,

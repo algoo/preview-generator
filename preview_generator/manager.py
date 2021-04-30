@@ -8,8 +8,7 @@ import typing
 from filelock import FileLock
 
 from preview_generator.extension import mimetypes_storage
-from preview_generator.preview.builder.document__scribus import DocumentPreviewBuilderScribus
-from preview_generator.preview.builder.office__libreoffice import OfficePreviewBuilderLibreoffice
+from preview_generator.preview.builder.document_generic import DocumentPreviewBuilder
 from preview_generator.preview.builder_factory import PreviewBuilderFactory
 from preview_generator.utils import ImgDims
 from preview_generator.utils import LOCKFILE_EXTENSION
@@ -174,12 +173,14 @@ class PreviewManager(object):
         if dry_run:
             return preview_file_path
 
-        # INFO - G.M - 2020-07-03 generate jpeg preview from pdf for libreoffice/scribus
-        if type(preview_context.builder) in [
-            OfficePreviewBuilderLibreoffice,
-            DocumentPreviewBuilderScribus,
-        ]:
+        # INFO - G.M - 2021-04-29 deal with pivot format
+        # jpeg preview from pdf for libreoffice/scribus
+        # - change original file to use to pivot file (pdf preview) of the content instead of the
+        # original file
+        # - use preview context of this pivot pdf file.
+        if isinstance(preview_context.builder, DocumentPreviewBuilder):
             file_path = self.get_pdf_preview(file_path=file_path, force=force)
+            preview_context = self.get_preview_context(file_path, file_ext)
         with preview_context.filelock:
             if force or not os.path.exists(preview_file_path):
                 preview_context.builder.build_jpeg_preview(
