@@ -180,7 +180,7 @@ class PreviewManager(object):
         # - use preview context of this pivot pdf file.
         if isinstance(preview_context.builder, DocumentPreviewBuilder):
             file_path = self.get_pdf_preview(file_path=file_path, force=force)
-            preview_context = self.get_preview_context(file_path, file_ext)
+            preview_context = self.get_preview_context(file_path, file_ext=".pdf")
         with preview_context.filelock:
             if force or not os.path.exists(preview_file_path):
                 preview_context.builder.build_jpeg_preview(
