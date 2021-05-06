@@ -126,28 +126,9 @@ class DocumentPreviewBuilder(PreviewBuilder):
     def get_page_number(
         self, file_path: str, preview_name: str, cache_path: str, mimetype: str = ""
     ) -> int:
-
-        page_nb_file_path = cache_path + preview_name + "_page_nb"
-
-        if not os.path.exists(page_nb_file_path):
-            pdf_version_filepath = cache_path + preview_name + ".pdf"
-            if not os.path.exists(pdf_version_filepath):
-                self.build_pdf_preview(
-                    file_path=file_path,
-                    preview_name=preview_name,
-                    cache_path=cache_path,
-                    mimetype=mimetype,
-                )
-
-            with open(page_nb_file_path, "w") as page_nb_file_stream:
-                page_nb_file_stream.seek(0, 0)
-                with open(pdf_version_filepath, "rb") as pdf_stream:
-                    pdf_reader = utils.get_decrypted_pdf(pdf_stream)
-                    page_nb_file_stream.write(str(pdf_reader.numPages))
-
-        with open(page_nb_file_path, "r") as page_nb_stream:
-            page_nb = int(page_nb_stream.read())
-            return page_nb
+        raise NotImplementedError(
+            "Convert to pdf first and use intermediate file to generate the page number."
+        )
 
     def has_pdf_preview(self) -> bool:
         """

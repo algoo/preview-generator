@@ -132,10 +132,20 @@ class PreviewManager(object):
                 it's usefull if the extension can't be found in file_path
         :return: number of pages. Default is 1 (eg for a JPEG)
         """
+
         preview_context = self.get_preview_context(file_path, file_ext)
-        return preview_context.builder.get_page_number(
-            file_path, preview_context.hash, self.cache_path, preview_context.mimetype
-        )
+        # INFO - G.M - 2021-04-29 deal with pivot format
+        # jpeg preview from pdf for libreoffice/scribus
+        # - change original file to use to pivot file (pdf preview) of the content instead of the
+        # original file
+        # - use preview context of this pivot pdf file.
+        if isinstance(preview_context.builder, DocumentPreviewBuilder):
+            file_path = self.get_pdf_preview(file_path=file_path, force=False)
+            preview_context = self.get_preview_context(file_path, file_ext=".pdf")
+        with preview_context.filelock:
+            return preview_context.builder.get_page_number(
+                file_path, preview_context.hash, self.cache_path, preview_context.mimetype
+            )
 
     def get_jpeg_preview(
         self,
