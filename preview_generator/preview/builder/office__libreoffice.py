@@ -128,11 +128,16 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
 
                 libreoffice_lock = self._get_libreoffice_lock(cache_path)
                 cache_path_hash = hashlib.md5(cache_path.encode("utf-8")).hexdigest()
+
+                default_filters_by_mimetype = {'text/html': '--infilter=writerglobal8_HTML'}
+                infilter = default_filters_by_mimetype.get(mimetype, "")
+
                 with libreoffice_lock:
                     process = Popen(
                         [
                             "libreoffice",
                             "--headless",
+                            infilter,
                             "--convert-to",
                             "pdf:writer_pdf_Export",
                             temporary_input_content_path,
