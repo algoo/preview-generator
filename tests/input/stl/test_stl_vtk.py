@@ -22,7 +22,7 @@ def setup_function(function: typing.Callable) -> None:
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
 
 
-@pytest.mark.xfail(sys.version_info[:2] == (3, 8), reason="vtk support for python 3.8 broken")
+@pytest.mark.xfail(sys.version_info[:2] <= (3, 8), reason="vtk support for python 3.8 broken")
 def test_to_jpeg() -> None:
     os.makedirs(CACHE_DIR)
     builder = ImagePreviewBuilderVtk()
@@ -46,7 +46,7 @@ def test_to_jpeg() -> None:
         assert jpeg.width == 512
 
 
-@pytest.mark.xfail(sys.version_info[:2] == (3, 8), reason="vtk support for python 3.8 broken")
+@pytest.mark.xfail(sys.version_info[:2] <= (3, 8), reason="vtk support for python 3.8 broken")
 def test_get_nb_page() -> None:
     os.makedirs(CACHE_DIR)
     builder = ImagePreviewBuilderVtk()
