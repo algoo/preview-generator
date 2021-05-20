@@ -59,6 +59,8 @@ jobs:
       python: "3.7"
     - stage: tests
       python: "3.8"
+    - stage: tests
+      python: "3.9"
 
 stages:
   - static-tests
