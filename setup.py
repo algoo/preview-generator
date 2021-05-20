@@ -35,8 +35,6 @@ install_requires = [
     "python-magic",
     "Wand",
     "PyPDF2",
-    # NOTE - SG - 2021-04-19 - python 3.5 is dropped starting with 8.0.0
-    "Pillow<8.0.0",
     "pyexifinfo",
     "xvfbwrapper",
     "pathlib",
@@ -45,6 +43,13 @@ install_requires = [
     "ffmpeg-python",
     "filelock",
 ]
+
+if py_version <= (3, 5):
+    # NOTE - SG - 2021-04-19 - python 3.5 is dropped starting with 8.0.0
+    install_requires.append("Pillow<8.0.0")
+else:
+    install_requires.append("Pillow")
+
 tests_require = ["pytest"]
 
 devtools_require = ["flake8", "isort", "mypy", "pre-commit"]
@@ -83,6 +88,7 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
     packages=find_packages(exclude=["ez_setup"]),
     install_requires=install_requires,
