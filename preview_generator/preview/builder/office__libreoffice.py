@@ -129,8 +129,7 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
                 libreoffice_lock = self._get_libreoffice_lock(cache_path)
                 cache_path_hash = hashlib.md5(cache_path.encode("utf-8")).hexdigest()
                 default_filters_by_mimetype = {"text/html": "-infilter=writerglobal8_HTML"}
-                contains_mimetype = default_filters_by_mimetype.keys().__contains__(mimetype)
-                infilter = default_filters_by_mimetype[mimetype] if contains_mimetype else ""
+                infilter = default_filters_by_mimetype.get(mimetype, "")
                 with libreoffice_lock:
                     process = Popen(
                         [
