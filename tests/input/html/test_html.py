@@ -57,8 +57,8 @@ def test_to_pdf_no_extension() -> None:
 def test_to_pdf_no_extension_extension_forced() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     image_file_path = IMAGE_FILE_PATH_NO_EXTENSION
-    assert manager.has_pdf_preview(file_path=image_file_path, file_ext=".txt") is True
-    path_to_file = manager.get_pdf_preview(file_path=image_file_path, force=True, file_ext=".txt")
+    assert manager.has_pdf_preview(file_path=image_file_path, file_ext=".html") is True
+    path_to_file = manager.get_pdf_preview(file_path=image_file_path, force=True, file_ext=".html")
     assert os.path.exists(path_to_file) is True
 
 
@@ -73,8 +73,8 @@ def test_to_jpeg_no_extension() -> None:
 def test_to_jpeg_no_extension_extension_forced() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     image_file_path = IMAGE_FILE_PATH_NO_EXTENSION
-    assert manager.has_jpeg_preview(file_path=image_file_path, file_ext=".txt") is True
-    path_to_file = manager.get_jpeg_preview(file_path=image_file_path, force=True, file_ext=".txt")
+    assert manager.has_jpeg_preview(file_path=image_file_path, file_ext=".html") is True
+    path_to_file = manager.get_jpeg_preview(file_path=image_file_path, force=True, file_ext=".html")
     assert os.path.exists(path_to_file) is True
 
 
@@ -86,5 +86,5 @@ def test_page_number__no_extension() -> None:
 
 def test_page_number__extension_forced() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
-    page_number = manager.get_page_nb(file_path=IMAGE_FILE_PATH_NO_EXTENSION, file_ext=".txt")
+    page_number = manager.get_page_nb(file_path=IMAGE_FILE_PATH_NO_EXTENSION, file_ext=".html")
     assert page_number == 7
