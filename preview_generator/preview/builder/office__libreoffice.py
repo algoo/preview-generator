@@ -5,9 +5,10 @@ from io import BytesIO
 import logging
 import os
 from shutil import which
+import signal
 from subprocess import DEVNULL
-from subprocess import STDOUT
 from subprocess import Popen
+from subprocess import STDOUT
 from subprocess import check_output
 import typing
 
@@ -147,6 +148,7 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
                         ],
                         stdout=DEVNULL,
                         stderr=STDOUT,
+                        start_new_session=True,
                     )
                     process_timeout = LIBREOFFICE_PROCESS_TIMEOUT
                     if process_timeout is not None:
@@ -155,24 +157,29 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
                         stop_process_timeout = None
                     try:
                         process.communicate(timeout=process_timeout)
-                    except Exception:
+                    except Exception as exc:
                         try:
                             # INFO - SG - 2021-04-16
                             # we waited long enough (or we got another exception), give a little time to the process
                             # to exit cleanly
                             logger.warning(
-                                "The preview generation for {} took too long, aborting it".format(
+                                "The preview generation for {} took too long, try aborting it".format(
                                     temporary_input_content_path
                                 )
                             )
-                            process.terminate()
+                            os.killpg(process.pid, signal.SIGTERM)
                             process.communicate(timeout=stop_process_timeout)
-                            raise
                         except Exception:
                             # too slow to exit… let's kill
-                            process.kill()
+                            logger.warning(
+                                "Preview generation process for {} doesn't respond, force stopping it".format(
+                                    temporary_input_content_path
+                                )
+                            )
+                            os.killpg(process.pid, signal.SIGKILL)
                             process.communicate(timeout=stop_process_timeout)
-                            raise
+                        finally:
+                            raise exc
 
             # HACK - D.A. - 2018-05-31 - name is defined by libreoffice
             # according to input file name, for homogeneity we prefer to rename it
