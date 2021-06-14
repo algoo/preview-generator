@@ -3,7 +3,7 @@
 import tempfile
 import typing
 
-# HACK - G.M - 2020-12-26 - Hack to allow load of module without cairosvg installed
+# HACK - G.M - 2020-12-26 - Hack to allow loading modules without cairosvg installed
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
