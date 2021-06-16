@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import json
+from shutil import which
+from subprocess import check_output
 import typing
 
 from preview_generator import utils
@@ -30,6 +32,13 @@ class VideoPreviewBuilderFFMPEG(PreviewBuilder):
     def check_dependencies(cls) -> None:
         if not ffmpeg_installed:
             raise BuilderDependencyNotFound("this builder requires ffmpeg to be available")
+
+    @classmethod
+    def dependencies_versions(cls) -> typing.Optional[str]:
+        return "{} from {}".format(
+            check_output(["ffmpeg", "-version"], universal_newlines=True).strip().split("\n")[0],
+            which("ffmpeg"),
+        )
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:

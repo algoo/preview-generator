@@ -47,7 +47,7 @@ Those file formats are generated using libreoffice.
 The preview generation has a default timeout of 60 seconds.
 It is possible to change this timeout by setting the `LIBREOFFICE_PROCESS_TIMEOUT` environment variable to a number of seconds.
 Setting a zero or negative value for this variable will disable the timeout.
-  
+
 Archive file
 ~~~~~~~~~~~~
 
@@ -69,24 +69,127 @@ Video format
 Installation
 ------------
 
-Dependencies:
 
-``apt-get install zlib1g-dev libjpeg-dev python3-pythonmagick inkscape xvfb poppler-utils libfile-mimeinfo-perl qpdf libimage-exiftool-perl ufraw-batch ffmpeg``
+Mandatory Dependencies:
+~~~~~~~~~~~~~~~~~~~~~~~
 
-After installing dependencies, you can install preview-generator using ``pip``::
+On debian :
 
-  pip install preview-generator
+```bash
+apt-get install poppler-utils qpdf libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0
+```
 
-Optional dependencies:
+install preview_generator without external addons:
 
-To handle previews for office documents you will need ``LibreOffice``, if you don't have it already::
+```bash
+pip install preview-generator
+```
 
-  apt-get install libreoffice
-
+To install alls previews builders dependencies:
+```bash
+pip install preview-generator[all]
+sudo apt-get install libreoffice inkscape ufraw-batch ffmpeg xvfb
+DRAWIO_VERSION="12.6.5" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb && sudo dpkg -i draw.io-amd64-${DRAWIO_VERSION}.deb
+```
 
 To check dependencies, you can run::
 
+# TODO !!! VERIFY THIS
   preview --check-dependencies
+
+Office Files (LibreOffice)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+```bash
+apt-get install libreoffice
+```
+
+DTP(Scribus)
+~~~~~~~~~~~~
+
+On debian :
+
+```bash
+apt-get install scribus xvfb
+pip install preview-generator[scribus]
+```
+
+Vector Images (Inkscape)
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+on debian:
+
+```bash
+apt-get install inkscape
+```
+
+
+Vector Images (cairosvg)
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+```bash
+pip install preview-generator[cairosvg]
+```
+
+Video(ffmpeg)
+~~~~~~~~~~~~~
+
+On debian :
+
+```bash
+apt-get install ffmpeg
+pip install preview-generator[video]
+```
+
+RAW Images(ufraw-batch)
+~~~~~~~~~~~~~
+
+On debian :
+
+```bash
+apt-get install ufraw-batch
+```
+
+Diagram(DrawIO)
+~~~~~~~~~~~~~~~
+
+1. install xvfb
+2.install [draw-io package](https://github.com/jgraph/drawio-desktop/releases):
+3.install python specific dependencies:
+
+on debian:
+
+```bash
+apt install xvfb
+DRAWIO_VERSION="12.6.5" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb && sudo dpkg -i draw.io-amd64-${DRAWIO_VERSION}.deb
+pip install preview-generator[drawio]
+```
+
+
+3D files (VTK)
+~~~~~~~~~~~~~~
+
+:warning: VTK lib provided from pypi may not be builded for latest python version. You
+can either decide to downgrade python version or build VTK yourself to make things work as expected.
+
+On debian :
+
+```bash
+pip install preview-generator[3D]
+```
+
+HEIC support
+~~~~~~~~~~~~
+
+Building ImageMagick with heic support: `Building ImageMagick with heic support`_ .
+
+.. _`Building ImageMagick with heic support`: doc/build_im_with_heic_support.rst
+
+
+## TODO : Check required ?
+zlib1g-dev libjpeg-dev python3-pythonmagick ?
+
+``apt-get install  inkscape xvfb poppler-utils libfile-mimeinfo-perl qpdf libimage-exiftool-perl ufraw-batch ffmpeg``
 
 
 -----
@@ -328,20 +431,7 @@ will print
 
   Preview created at path : the_zip-a733739af8006558720be26c4dc5569a.txt
 
-------------
-HEIC support
-------------
 
-Building ImageMagick with heic support: `Building ImageMagick with heic support`_ .
-
-.. _`Building ImageMagick with heic support`: doc/build_im_with_heic_support.rst
-
----------------
-Draw.io support
----------------
-
-1. install package ``xvfb``.
-2. install draw-io package
 
 ------------
 Known Issues
