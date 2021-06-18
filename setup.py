@@ -57,7 +57,13 @@ cairo_require = ["cairosvg"]
 scribus_require = drawio_require = ["xvfbwrapper"]
 video_require = ["ffmpeg-python"]
 cad3d_require = ["vtk"]
-all_require = [cairo_require, scribus_require, video_require, drawio_require, cad3d_require]
+
+# TODO - G.M - 2021-06-18 - restore vtk as normal requirement, vtk is not compatible
+# with current version of python see https://gitlab.kitware.com/vtk/vtk/-/issues/18074,
+all_require = [cairo_require, scribus_require, video_require, drawio_require]
+if py_version < (3, 9):
+    all_require.append(cad3d_require)
+
 extras_require = {
     "cairosvg": cairo_require,
     "drawio": drawio_require,
