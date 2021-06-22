@@ -98,7 +98,12 @@ class PreviewBuilderFactory(object):
             from preview_generator.preview.generic_preview import PreviewBuilder  # nopep8
 
             for cls in get_subclasses_recursively(PreviewBuilder):
-                self.register_builder(cls)
+                if cls.__name__ == "ImagePreviewBuilderWand":
+                    self.logger.warn(
+                        "ImagePreviewBuilderWand builder deprecated, do not register by default."
+                    )
+                else:
+                    self.register_builder(cls)
 
             self.builders_loaded = True
 
