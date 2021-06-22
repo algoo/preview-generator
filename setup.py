@@ -43,7 +43,6 @@ install_requires = [
     "pathlib",
     "pdf2image",
     "filelock",
-    "vtk",
 ]
 
 if py_version <= (3, 5):
