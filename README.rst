@@ -17,6 +17,8 @@ care about preview storage.
 By creating this module, the goal was to delegate the responsibility of building preview
 of files managed by `tracim <https://github.com/tracim/tracim/.>`_.
 
+The changelog is available `in a separate file <CHANGELOG.rst>`_.
+
 ----------------------
 Supported file formats
 ----------------------
@@ -40,6 +42,11 @@ Office/Text Document
 - simple text file : txt, json, …
 - office document: odt, doc, docx
 - pdf document
+
+Those file formats are generated using libreoffice.
+The preview generation has a default timeout of 60 seconds.
+It is possible to change this timeout by setting the `LIBREOFFICE_PROCESS_TIMEOUT` environment variable to a number of seconds.
+Setting a zero or negative value for this variable will disable the timeout.
 
 Archive file
 ~~~~~~~~~~~~

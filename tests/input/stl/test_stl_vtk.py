@@ -2,9 +2,11 @@
 
 import os
 import shutil
+import sys
 import typing
 
 from PIL import Image
+import pytest
 
 from preview_generator.preview.builder.cad__vtk import ImagePreviewBuilderVtk
 from preview_generator.utils import ImgDims
@@ -20,6 +22,9 @@ def setup_function(function: typing.Callable) -> None:
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
 
 
+@pytest.mark.xfail(
+    sys.version_info[:2] >= (3, 8), reason="vtk support for python 3.8 and later is broken"
+)
 def test_to_jpeg() -> None:
     os.makedirs(CACHE_DIR)
     builder = ImagePreviewBuilderVtk()
@@ -43,6 +48,9 @@ def test_to_jpeg() -> None:
         assert jpeg.width == 512
 
 
+@pytest.mark.xfail(
+    sys.version_info[:2] >= (3, 8), reason="vtk support for python 3.8 and later is broken"
+)
 def test_get_nb_page() -> None:
     os.makedirs(CACHE_DIR)
     builder = ImagePreviewBuilderVtk()

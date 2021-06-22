@@ -3,33 +3,23 @@
 from io import BytesIO
 import typing
 
-from pdf2image import convert_from_bytes
 from wand.image import Color
 from wand.image import Image as WImage
 import wand.version
 
+from preview_generator.preview.builder.image__imconvert import ImagePreviewBuilderIMConvert
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import compute_resize_dims
 from preview_generator.utils import imagemagick_supported_mimes
 
 
-def convert_pdf_to_jpeg(pdf: typing.IO[bytes], preview_size: ImgDims) -> BytesIO:
-
-    pdf_content = pdf.read()
-    images = convert_from_bytes(pdf_content)
-
-    output = BytesIO()
-    for image in images:
-        resize_dims = compute_resize_dims(ImgDims(image.width, image.height), preview_size)
-        resized = image.resize((resize_dims.width, resize_dims.height), resample=True)
-        resized.save(output, format="JPEG")
-
-    output.seek(0, 0)
-    return output
-
-
 class ImagePreviewBuilderWand(ImagePreviewBuilder):
+    """
+    WARNING : This builder is deprecated, prefer ImagePreviewBuilderIMConvert instead which
+    support the same list of format.
+    """
+
     MIMETYPES = []  # type: typing.List[str]
 
     @classmethod
@@ -55,7 +45,24 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
         """
         if len(ImagePreviewBuilderWand.MIMETYPES) == 0:
             ImagePreviewBuilderWand.MIMETYPES = cls.__load_mimetypes()
-        return ImagePreviewBuilderWand.MIMETYPES
+        mimetypes = ImagePreviewBuilderWand.MIMETYPES
+
+        # INFO - G.M - 2021-04-30
+        # Disable support for postscript,xcf and raw image format in wand, to ensure
+        # proper builder is used (either imagemagick convert or pillow)
+
+        invalid_mimetypes = ["application/postscript", "application/x-xcf", "image/x-xcf"]
+        for (
+            mimetype_mapping
+        ) in ImagePreviewBuilderIMConvert().SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING:
+            invalid_mimetypes.append(mimetype_mapping.mimetype)
+
+        for invalid_mimetype in invalid_mimetypes:
+            try:
+                mimetypes.remove(invalid_mimetype)
+            except ValueError:
+                pass
+        return mimetypes
 
     def build_jpeg_preview(
         self,
