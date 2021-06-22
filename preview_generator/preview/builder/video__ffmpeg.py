@@ -1,13 +1,20 @@
 # -*- coding: utf-8 -*-
 
 import json
+from shutil import which
+from subprocess import check_output
 import typing
 
-import ffmpeg
-
 from preview_generator import utils
+from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import PreviewGeneratorException
 from preview_generator.preview.generic_preview import PreviewBuilder
+
+ffmpeg_installed = True
+try:
+    import ffmpeg
+except ImportError:
+    ffmpeg_installed = False
 
 
 class NoVideoStream(PreviewGeneratorException):
@@ -20,6 +27,18 @@ class VideoPreviewBuilderFFMPEG(PreviewBuilder):
     @classmethod
     def get_label(cls) -> str:
         return "Video files - based on ffmpeg"
+
+    @classmethod
+    def check_dependencies(cls) -> None:
+        if not ffmpeg_installed:
+            raise BuilderDependencyNotFound("this builder requires ffmpeg to be available")
+
+    @classmethod
+    def dependencies_versions(cls) -> typing.Optional[str]:
+        return "{} from {}".format(
+            check_output(["ffmpeg", "-version"], universal_newlines=True).strip().split("\n")[0],
+            which("ffmpeg"),
+        )
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:

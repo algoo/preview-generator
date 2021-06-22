@@ -32,15 +32,16 @@ except UnicodeDecodeError:
 testpkgs = []  # type: List[str]
 
 install_requires = [
+    # mimetype_guessing
     "python-magic",
+    # wand builder
     "Wand",
+    # commons
+    "pdf2image",
     "PyPDF2",
     "pyexifinfo",
-    "xvfbwrapper",
     "pathlib",
     "pdf2image",
-    "cairosvg",
-    "ffmpeg-python",
     "filelock",
     "vtk",
 ]
@@ -52,8 +53,29 @@ else:
     install_requires.append("Pillow")
 
 tests_require = ["pytest"]
-
 devtools_require = ["flake8", "isort", "mypy", "pre-commit"]
+cairo_require = ["cairosvg"]
+scribus_require = drawio_require = ["xvfbwrapper"]
+video_require = ["ffmpeg-python"]
+cad3d_require = ["vtk"]
+
+# TODO - G.M - 2021-06-18 - restore vtk as normal requirement, vtk is not compatible
+# with current version of python see https://gitlab.kitware.com/vtk/vtk/-/issues/18074,
+all_require = [cairo_require, scribus_require, video_require, drawio_require]
+if py_version < (3, 9):
+    all_require.append(cad3d_require)
+
+extras_require = {
+    "cairosvg": cairo_require,
+    "drawio": drawio_require,
+    "scribus": scribus_require,
+    "video": video_require,
+    "3D": cad3d_require,
+    "all": all_require,
+    # specials
+    "testing": tests_require,
+    "dev": tests_require + devtools_require,
+}
 
 # add black for python 3.6+
 if sys.version_info.major == 3 and sys.version_info.minor >= 6:
@@ -90,7 +112,7 @@ setup(
     install_requires=install_requires,
     python_requires=">= 3.5",
     include_package_data=True,
-    extras_require={"testing": tests_require, "dev": tests_require + devtools_require},
+    extras_require=extras_require,
     test_suite="py.test",  # TODO : change test_suite
     tests_require=testpkgs,
     package_data={"preview_generator": ["i18n/*/LC_MESSAGES/*.mo", "templates/*/*", "public/*/*"]},
