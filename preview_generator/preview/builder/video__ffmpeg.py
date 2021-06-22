@@ -16,6 +16,7 @@ class NoVideoStream(PreviewGeneratorException):
 
 class VideoPreviewBuilderFFMPEG(PreviewBuilder):
     page_nb = 10
+    weight = 80
 
     @classmethod
     def get_label(cls) -> str:

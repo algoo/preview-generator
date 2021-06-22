@@ -6,7 +6,7 @@ pm = PreviewManager("/tmp/cache")
 
 writer = pytablewriter.RstGridTableWriter()
 writer.table_name = "Supported mimetypes table"
-writer.headers = ["MIME type", "Extension"]
+writer.headers = ["MIME type/Builder Name", "Extension/Weight"]
 matrix = []
 
 
@@ -15,7 +15,7 @@ for builder in pm._factory.builders_classes:
         mimetypes = builder.get_supported_mimetypes()
         if not mimetypes:
             continue
-        matrix.append(["**{}**".format(builder.get_label())])
+        matrix.append(["**{}**".format(builder.get_label()), builder.weight])
         for mimetype in mimetypes:
             extensions = ", ".join(pm.get_file_extensions(mimetype)) or " - "
             matrix.append([mimetype, extensions])

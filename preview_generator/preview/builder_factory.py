@@ -20,6 +20,7 @@ from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.generic_preview import PreviewBuilder
 from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import get_subclasses_recursively
+from preview_generator.utils import is_abstract
 
 PB = typing.TypeVar("PB", bound=PreviewBuilder)
 
@@ -97,8 +98,13 @@ class PreviewBuilderFactory(object):
 
             from preview_generator.preview.generic_preview import PreviewBuilder  # nopep8
 
-            for cls in get_subclasses_recursively(PreviewBuilder):
-                if cls.__name__ == "ImagePreviewBuilderWand":
+            builders = sorted(get_subclasses_recursively(PreviewBuilder), key=lambda x: x.weight)
+
+            for cls in builders:
+                if is_abstract(cls):
+                    # INFO - G.M - 2021-06-22 - Skip abstract classes from loaded builders
+                    pass
+                elif cls.__name__ == "ImagePreviewBuilderWand":
                     self.logger.info(
                         "ImagePreviewBuilderWand builder is deprecated and is not registered by default. Consider using ImagePreviewBuilderIMConvert instead"
                     )

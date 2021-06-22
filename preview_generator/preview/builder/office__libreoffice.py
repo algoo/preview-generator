@@ -46,6 +46,8 @@ else:
 
 
 class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
+    weight = 50
+
     @classmethod
     def get_label(cls) -> str:
         return "Documents - based on LibreOffice"

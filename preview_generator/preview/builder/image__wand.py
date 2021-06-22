@@ -20,6 +20,7 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
     support the same list of format.
     """
 
+    weight = 900
     MIMETYPES = []  # type: typing.List[str]
 
     @classmethod

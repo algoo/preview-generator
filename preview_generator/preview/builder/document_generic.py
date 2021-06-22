@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from abc import ABC
 import contextlib
 from io import BytesIO
 import os
@@ -17,7 +18,7 @@ from preview_generator.preview.generic_preview import PreviewBuilder
 from preview_generator.utils import executable_is_available
 
 
-class DocumentPreviewBuilder(PreviewBuilder):
+class DocumentPreviewBuilder(PreviewBuilder, ABC):
     def _convert_to_pdf(
         self,
         file_content: typing.IO[bytes],
