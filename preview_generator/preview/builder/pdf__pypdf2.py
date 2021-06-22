@@ -5,12 +5,29 @@ import os
 import typing
 
 from PyPDF2 import PdfFileWriter
+from pdf2image import convert_from_bytes
 
 from preview_generator import utils
 from preview_generator.exception import BuilderDependencyNotFound
-from preview_generator.preview.builder.image__wand import convert_pdf_to_jpeg
 from preview_generator.preview.generic_preview import PreviewBuilder
+from preview_generator.utils import ImgDims
+from preview_generator.utils import compute_resize_dims
 from preview_generator.utils import executable_is_available
+
+
+def convert_pdf_to_jpeg(pdf: typing.IO[bytes], preview_size: ImgDims) -> BytesIO:
+
+    pdf_content = pdf.read()
+    images = convert_from_bytes(pdf_content)
+
+    output = BytesIO()
+    for image in images:
+        resize_dims = compute_resize_dims(ImgDims(image.width, image.height), preview_size)
+        resized = image.resize((resize_dims.width, resize_dims.height), resample=True)
+        resized.save(output, format="JPEG")
+
+    output.seek(0, 0)
+    return output
 
 
 class PdfPreviewBuilderPyPDF2(PreviewBuilder):
