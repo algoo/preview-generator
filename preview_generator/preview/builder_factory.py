@@ -99,8 +99,8 @@ class PreviewBuilderFactory(object):
 
             for cls in get_subclasses_recursively(PreviewBuilder):
                 if cls.__name__ == "ImagePreviewBuilderWand":
-                    self.logger.warn(
-                        "ImagePreviewBuilderWand builder deprecated, do not register by default."
+                    self.logger.info(
+                        "ImagePreviewBuilderWand builder is deprecated and is not registered by default. Consider using ImagePreviewBuilderIMConvert instead"
                     )
                 else:
                     self.register_builder(cls)
