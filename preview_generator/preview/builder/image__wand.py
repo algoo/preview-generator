@@ -16,7 +16,8 @@ from preview_generator.utils import imagemagick_supported_mimes
 
 class ImagePreviewBuilderWand(ImagePreviewBuilder):
     """
-    WARNING : This builder is deprecated, prefer ImagePreviewBuilderIMConvert instead.
+    WARNING : This builder is deprecated, prefer ImagePreviewBuilderIMConvert instead which
+    support the same list of format.
     """
 
     MIMETYPES = []  # type: typing.List[str]
