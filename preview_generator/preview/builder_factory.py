@@ -98,7 +98,9 @@ class PreviewBuilderFactory(object):
 
             from preview_generator.preview.generic_preview import PreviewBuilder  # nopep8
 
-            builders = sorted(get_subclasses_recursively(PreviewBuilder), key=lambda x: x.weight)
+            builders = sorted(
+                get_subclasses_recursively(PreviewBuilder), key=lambda x: x.weight, reverse=True
+            )
 
             for cls in builders:
                 if is_abstract(cls):
@@ -109,7 +111,7 @@ class PreviewBuilderFactory(object):
                         "ImagePreviewBuilderWand builder is deprecated and is not registered by default. Consider using ImagePreviewBuilderIMConvert instead"
                     )
                 else:
-                    self.register_builder(cls)
+                    self.register_builder(cls, overwrite=False)
 
             self.builders_loaded = True
 
@@ -124,7 +126,9 @@ class PreviewBuilderFactory(object):
 
         return cls._instance
 
-    def register_builder(self, builder: typing.Type["PreviewBuilder"]) -> None:
+    def register_builder(
+        self, builder: typing.Type["PreviewBuilder"], overwrite: bool = False
+    ) -> None:
         try:
             builder.check_dependencies()
             builder.update_mimetypes_mapping()
@@ -140,10 +144,17 @@ class PreviewBuilderFactory(object):
                         "register builder for {}: {} - SKIPPED".format(mimetype, builder.__name__)
                     )
                 else:
-                    self._builder_classes[mimetype] = builder
-                    self.logger.debug(
-                        "register builder for {}: {}".format(mimetype, builder.__name__)
-                    )
+                    if not overwrite and self._builder_classes.get(mimetype):
+                        self.logger.debug(
+                            "builder for {} already exist, do not handle it with {}".format(
+                                mimetype, builder.__name__
+                            )
+                        )
+                    else:
+                        self._builder_classes[mimetype] = builder
+                        self.logger.debug(
+                            "register builder for {}: {}".format(mimetype, builder.__name__)
+                        )
         except BuilderDependencyNotFound as e:
             self.logger.error("Builder {} is missing a dependency: {}".format(builder, e.__str__()))
         except NotImplementedError:

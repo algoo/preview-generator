@@ -31,7 +31,7 @@ def convert_pdf_to_jpeg(pdf: typing.IO[bytes], preview_size: ImgDims) -> BytesIO
 
 
 class PdfPreviewBuilderPyPDF2(PreviewBuilder):
-    weight = 30
+    weight = 140
 
     @classmethod
     def get_label(cls) -> str:
