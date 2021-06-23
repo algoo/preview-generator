@@ -10,8 +10,6 @@ from subprocess import check_call
 from subprocess import check_output
 import typing
 
-from xvfbwrapper import Xvfb
-
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.builder.document_generic import DocumentPreviewBuilder
@@ -19,6 +17,12 @@ from preview_generator.preview.builder.document_generic import create_flag_file
 from preview_generator.preview.builder.document_generic import write_file_content
 from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import executable_is_available
+
+xvfbwrapper_installed = True
+try:
+    from xvfbwrapper import Xvfb
+except ImportError:
+    xvfbwrapper_installed = False
 
 SCRIPT_FOLDER_NAME = "scripts"
 SCRIPT_NAME = "scribus_sla_to_pdf.py"
@@ -29,6 +33,8 @@ SCRIPT_PATH = os.path.join(parent_dir, SCRIPT_FOLDER_NAME, SCRIPT_NAME)
 class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
     @classmethod
     def check_dependencies(cls) -> None:
+        if not xvfbwrapper_installed:
+            raise BuilderDependencyNotFound("this builder requires xvfbwrapper")
         if not executable_is_available("scribus"):
             raise BuilderDependencyNotFound("this builder requires scribus to be available")
 

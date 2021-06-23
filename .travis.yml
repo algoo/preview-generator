@@ -3,15 +3,15 @@ sudo: true
 language: python
 dist: xenial
 
-install:
+before_install:
   - sudo rm -f /etc/ImageMagick-6/policy.xml
-  - sudo apt-get install xvfb libreoffice libfile-mimeinfo-perl inkscape poppler-utils qpdf imagemagick libimage-exiftool-perl ufraw-batch ffmpeg ghostscript libsecret-1-0 -y
+  # main requirements
+  - sudo apt-get install -y poppler-utils qpdf libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0
+  # optionals
+  - sudo apt-get install libreoffice inkscape ufraw-batch ffmpeg xvfb
   - DRAWIO_VERSION="12.6.5" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb && sudo dpkg -i draw.io-amd64-${DRAWIO_VERSION}.deb
-  - pip install xvfbwrapper
-  - python setup.py install
-  - pip install pytest
-  - python3 -m pip install -U mypy==0.770
-
+install:
+  - pip install ".[all, testing]"
 before_script:
   - export DISPLAY=:99.0
   - which Xvfb
@@ -28,6 +28,8 @@ jobs:
     - stage: static-tests
       name: fmt
       python: "3.7"
+      before_install: skip
+      install: skip
       before_script:
         - pip install black isort
       script:
@@ -38,6 +40,8 @@ jobs:
     - stage: static-tests
       name: flake8
       python: "3.7"
+      before_install: skip
+      install: skip
       before_script:
         - pip install flake8
       script:
@@ -46,8 +50,10 @@ jobs:
     - stage: static-tests
       name: mypy
       python: "3.7"
+      before_install: skip
+      install: skip
       before_script:
-        - pip install mypy
+        - pip install mypy==0.770
       script:
         - mypy --version
         - mypy --ignore-missing-imports --disallow-untyped-defs .
