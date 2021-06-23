@@ -15,8 +15,12 @@ from preview_generator.utils import MimetypeMapping
 # HACK - G.M - 2019-11-05 - Hack to allow load of module without vtk installed
 vtk_installed = True
 try:
+    from vtk import vtkAbstractPolyDataReader
     from vtk import vtkActor
+    from vtk import vtkGLTFReader
     from vtk import vtkNamedColors
+    from vtk import vtkOBJReader
+    from vtk import vtkPLYReader
     from vtk import vtkPNGWriter
     from vtk import vtkPolyDataMapper
     from vtk import vtkRenderWindow
@@ -24,10 +28,6 @@ try:
     from vtk import vtkSTLReader
     from vtk import vtkVersion
     from vtk import vtkWindowToImageFilter
-    from vtk import vtkAbstractPolyDataReader
-    from vtk import vtkOBJReader
-    from vtk import vtkPLYReader
-    from vtk import vtkGLTFReader
 except ImportError:
     vtk_installed = False
 
@@ -46,7 +46,9 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
         MimetypeMapping("model/stl", ".stl"),
     ]
     GLTF_MIMETYPES_MAPPING = [
-        MimetypeMapping("model/gltf", ".gltf"),
+        # TODO - G.M -  2021-06-23 - Restore embedded-only gltf.
+        # Non-embbeded gltf  cause preview-generator to crash (segfault).
+        # MimetypeMapping("model/gltf", ".gltf"),
         MimetypeMapping("model/gltf", ".glb"),
     ]
 
