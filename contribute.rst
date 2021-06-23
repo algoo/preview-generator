@@ -44,45 +44,10 @@ From scratch on a terminal :
      * build your virtual env (env will be called "myenv", you can name it the way you want): `python3 -m venv myenv`
      * if it's not already, activate it : `source myenv/bin/activate`. (`deactivate` to deactivate)
   - install dependencies :
+    * `apt-get install poppler-utils qpdf libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0 zlib1g-dev libjpeg-dev`
+    * `pip install -e ".[dev, all]"`
+    * install external apt dependencies for specific builder (see README.md)
 
-     * `apt-get install libimage-exiftool-perl`
-     * `apt-get install zlib1g-dev`
-     * `apt-get install libjpeg-dev`
-     * `apt-get install python3-pythonmagick`
-     * `apt-get install inkscape`
-     * `apt-get install xvfb`
-     * `apt-get install poppler-utils`
-     * `apt-get install qpdf`
-     * `apt-get install libfile-mimeinfo-perl`
-     * `apt-get install ufraw-batch`
-     * `apt-get install ffmpeg`
-     * `pip install wand`
-     * `pip install Pillow`
-     * `pip install PyPDF2`
-     * `pip install python-magic`
-     * `pip install pyexifinfo`
-     * `pip install packaging`
-     * `pip install xvfbwrapper`
-     * `pip install pdf2image`
-     * `pip install pathlib`
-     * if you use python 3.5 or less `pip install typing`
-
-
-.. code:: console
-
-  # general dependencies
-  apt-get install zlib1g-dev libjpeg-dev python3-pythonmagick inkscape xvfb poppler-utils qpdf libfile-mimeinfo-perl libimage-exiftool-perl
-  pip install wand Pillow PyPDF2 python-magic pyexifinfo packaging xvfbwrapper pdf2image pathlib
-
-If you need to preview scribus `.sla` files you will need scribus >= 1.5.
-If it's not available in your distribution you can use an AppImage.
-
-Download the last AppImage from the official website https://www.scribus.net/downloads/unstable-branch/
-
-.. code:: console
-
-  mv /path/to/image/scribus-x.y.appimage /usr/local/bin/scribus
-  chmod +x /usr/local/bin/scribus
 
 -----------------
 Code Convention :

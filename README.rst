@@ -76,7 +76,7 @@ Mandatory Dependencies:
 On debian :
 
 ```bash
-apt-get install poppler-utils qpdf libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0
+apt-get install poppler-utils qpdf libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0 zlib1g-dev libjpeg-dev
 ```
 
 install preview_generator without external addons:
@@ -85,7 +85,7 @@ install preview_generator without external addons:
 pip install preview-generator
 ```
 
-To install alls previews builders dependencies:
+To install all previews builders dependencies:
 ```bash
 pip install preview-generator[all]
 sudo apt-get install libreoffice inkscape ufraw-batch ffmpeg xvfb
@@ -94,7 +94,6 @@ DRAWIO_VERSION="12.6.5" && curl -LO https://github.com/jgraph/drawio-desktop/rel
 
 To check dependencies, you can run::
 
-# TODO !!! VERIFY THIS
   preview --check-dependencies
 
 Office Files (LibreOffice)
@@ -106,6 +105,7 @@ apt-get install libreoffice
 
 DTP(Scribus)
 ~~~~~~~~~~~~
+If you need to preview scribus `.sla` files you will need scribus >= 1.5.
 
 On debian :
 
@@ -113,6 +113,17 @@ On debian :
 apt-get install scribus xvfb
 pip install preview-generator[scribus]
 ```
+
+
+If scribus >=1.5 is not available in your distribution you can use an AppImage.
+
+Download the last AppImage from the official website https://www.scribus.net/downloads/unstable-branch/
+
+.. code:: console
+
+  mv /path/to/image/scribus-x.y.appimage /usr/local/bin/scribus
+  chmod +x /usr/local/bin/scribus
+
 
 Vector Images (Inkscape)
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -184,12 +195,6 @@ HEIC support
 Building ImageMagick with heic support: `Building ImageMagick with heic support`_ .
 
 .. _`Building ImageMagick with heic support`: doc/build_im_with_heic_support.rst
-
-
-## TODO : Check required ?
-zlib1g-dev libjpeg-dev python3-pythonmagick ?
-
-``apt-get install  inkscape xvfb poppler-utils libfile-mimeinfo-perl qpdf libimage-exiftool-perl ufraw-batch ffmpeg``
 
 
 -----
