@@ -36,7 +36,7 @@ Images
 - Vectorial graphic format: svg
 - Camera raw format: dng, arw, …
 
-Office/Text Document
+Office/Text Document
 ~~~~~~~~~~~~~~~~~~~~
 
 - simple text file : txt, json, …
@@ -75,33 +75,40 @@ Mandatory Dependencies:
 
 On debian :
 
-```bash
-apt-get install poppler-utils qpdf libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0 zlib1g-dev libjpeg-dev
-```
+.. code:: console
+
+  apt-get install poppler-utils qpdf libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0 zlib1g-dev libjpeg-dev
+
 
 install preview_generator without external addons:
 
-```bash
-pip install preview-generator
-```
+.. code:: console
+
+  pip install preview-generator
+
 
 To install all previews builders dependencies:
-```bash
-pip install preview-generator[all]
-sudo apt-get install libreoffice inkscape ufraw-batch ffmpeg xvfb
-DRAWIO_VERSION="12.6.5" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb && sudo dpkg -i draw.io-amd64-${DRAWIO_VERSION}.deb
-```
 
-To check dependencies, you can run::
+.. code:: console
+
+  pip install preview-generator[all]
+  sudo apt-get install libreoffice inkscape ufraw-batch ffmpeg xvfb
+  DRAWIO_VERSION="12.6.5" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb && sudo dpkg -i draw.io-amd64-${DRAWIO_VERSION}.deb
+
+
+To check dependencies, you can run:
+
+.. code:: console
 
   preview --check-dependencies
 
 Office Files (LibreOffice)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-```bash
-apt-get install libreoffice
-```
+.. code:: console
+
+  apt-get install libreoffice
+
 
 DTP(Scribus)
 ~~~~~~~~~~~~
@@ -109,10 +116,11 @@ If you need to preview scribus `.sla` files you will need scribus >= 1.5.
 
 On debian :
 
-```bash
-apt-get install scribus xvfb
-pip install preview-generator[scribus]
-```
+.. code:: console
+
+  apt-get install scribus xvfb
+  pip install preview-generator[scribus]
+
 
 
 If scribus >=1.5 is not available in your distribution you can use an AppImage.
@@ -130,64 +138,72 @@ Vector Images (Inkscape)
 
 on debian:
 
-```bash
-apt-get install inkscape
-```
+.. code:: console
+
+  apt-get install inkscape
+
 
 
 Vector Images (cairosvg)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-```bash
-pip install preview-generator[cairosvg]
-```
+.. code:: console
+
+  pip install preview-generator[cairosvg]
+
 
 Video(ffmpeg)
 ~~~~~~~~~~~~~
 
 On debian :
 
-```bash
-apt-get install ffmpeg
-pip install preview-generator[video]
-```
+.. code:: console
+
+  apt-get install ffmpeg
+  pip install preview-generator[video]
+
 
 RAW Images(ufraw-batch)
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 On debian :
 
-```bash
-apt-get install ufraw-batch
-```
+.. code:: console
+
+  apt-get install ufraw-batch
+
 
 Diagram(DrawIO)
 ~~~~~~~~~~~~~~~
 
 1. install xvfb
-2.install [draw-io package](https://github.com/jgraph/drawio-desktop/releases):
-3.install python specific dependencies:
+2. install `draw-io package`_:
+3. install python specific dependencies:
+
+.. _draw-io package: https://github.com/jgraph/drawio-desktop/releases
 
 on debian:
 
-```bash
-apt install xvfb
-DRAWIO_VERSION="12.6.5" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb && sudo dpkg -i draw.io-amd64-${DRAWIO_VERSION}.deb
-pip install preview-generator[drawio]
-```
+.. code:: console
+
+  apt install xvfb
+  DRAWIO_VERSION="12.6.5" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb && sudo dpkg -i draw.io-amd64-${DRAWIO_VERSION}.deb
+  pip install preview-generator[drawio]
+
 
 
 3D files (VTK)
 ~~~~~~~~~~~~~~
 
-:warning: VTK lib provided from pypi may not be builded for latest python version. You
-can either decide to downgrade python version or build VTK yourself to make things work as expected.
+:warning: VTK lib provided from pypi may not be builded for latest python version. You can either decide to downgrade python version or build VTK yourself to make things work as expected.
+
 
 On debian :
 
-```bash
-pip install preview-generator[3D]
-```
+.. code:: console
+
+  pip install preview-generator[3D]
+
 
 HEIC support
 ~~~~~~~~~~~~
