@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Using Windows / MacOS / a non-Debian Linux Distribution?
+    url: https://github.com/algoo/preview-generator/issues/241
+    about: Metaticket about support for non-Debian/Ubuntu distributions.
