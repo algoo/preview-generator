@@ -34,7 +34,7 @@ except ImportError:
 # TODO - G.M -  2021-06-23 - Restore gltf support out of the box.
 # GLTF support is considered as experimental feature as
 # Non-embbeded gltf are known to cause preview-generator to crash (segfault).
-GLTF_EXPERIMENTAL_SUPPORT_ENABLED = os.environ.get("GLTF_EXPERIMENTAL_SUPPORT") == 1
+GLTF_EXPERIMENTAL_SUPPORT_ENABLED = os.environ.get("GLTF_EXPERIMENTAL_SUPPORT") == "1"
 
 
 class ImagePreviewBuilderVtk(PreviewBuilder):
