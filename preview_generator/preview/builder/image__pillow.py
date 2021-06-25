@@ -210,6 +210,8 @@ class PillowImageConvertStrategyFactory(object):
 
 
 class ImagePreviewBuilderPillow(ImagePreviewBuilder):
+    weight = 20
+
     def __init__(
         self,
         optimize: bool = DEFAULT_JPEG_OPTIMIZE,

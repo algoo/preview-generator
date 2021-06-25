@@ -21,6 +21,8 @@ class ImagePreviewBuilderCairoSVG(ImagePreviewBuilder):
     Build preview for SVG files using cairosvg and PIL libs
     """
 
+    weight = 60
+
     @classmethod
     def get_label(cls) -> str:
         return "Vector images - based on Cairo"

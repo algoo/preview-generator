@@ -21,6 +21,7 @@ from preview_generator.utils import imagemagick_supported_mimes
 
 
 class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
+    """ IM means Image Magick"""
 
     MIMETYPES = []  # type: typing.List[str]
     # TODO - G.M - 2019-11-21 - find better storage solution for mimetype mapping
@@ -52,7 +53,7 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         MimetypeMapping("image/heic", ".heif"),
     ]
 
-    """ IM means Image Magick"""
+    weight = 30
 
     @classmethod
     def get_label(cls) -> str:

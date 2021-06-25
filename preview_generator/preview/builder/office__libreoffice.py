@@ -46,6 +46,8 @@ else:
 
 
 class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
+    weight = 40
+
     @classmethod
     def get_label(cls) -> str:
         return "Documents - based on LibreOffice"
@@ -329,8 +331,9 @@ LO_MIMETYPES = {
     # relatively uncommon image mimetypes
     "image/x-freehand": "fh",
     "image/cgm": "cgm",
-    "image/tif": "tiff",
-    "image/tiff": "tiff",
+    # INFO - G.M - 2021-06-23 Prefer imagemagick for this format
+    # "image/tif": "tiff",
+    # "image/tiff": "tiff",
     "image/vnd.dxf": "dxf",
     "image/emf": "emf",
     "image/x-emf": "emf",
