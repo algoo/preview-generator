@@ -6,6 +6,8 @@ from preview_generator.preview.builder.office__libreoffice import OfficePreviewB
 
 
 class PlainTextPreviewBuilder(OfficePreviewBuilderLibreoffice):
+    weight = 50
+
     @classmethod
     def get_label(cls) -> str:
         return "Plain text files"

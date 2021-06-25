@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from abc import ABC
 import json
 import logging
 import typing
@@ -13,8 +13,9 @@ from preview_generator.utils import LOGGER_NAME
 from preview_generator.utils import MimetypeMapping
 
 
-class PreviewBuilder(object):
+class PreviewBuilder(ABC):
     default_size = ImgDims(256, 256)
+    weight = 999
 
     def __init__(self) -> None:
         self.logger = logging.getLogger(LOGGER_NAME)
@@ -173,7 +174,7 @@ class PreviewBuilder(object):
         raise UnavailablePreviewType()
 
 
-class OnePagePreviewBuilder(PreviewBuilder):
+class OnePagePreviewBuilder(PreviewBuilder, ABC):
     """
     Generic preview handler for single page document
     """
@@ -188,7 +189,7 @@ class OnePagePreviewBuilder(PreviewBuilder):
         return 1
 
 
-class ImagePreviewBuilder(OnePagePreviewBuilder):
+class ImagePreviewBuilder(OnePagePreviewBuilder, ABC):
     """
     Generic preview handler for image preview_builder
     """

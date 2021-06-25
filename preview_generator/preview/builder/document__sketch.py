@@ -11,6 +11,7 @@ from preview_generator.utils import MimetypeMapping
 
 class ImagePreviewBuilderSketch(PreviewBuilder):
     SKETCH_MIMETYPES_MAPPING = [MimetypeMapping("application/sketch", ".sketch")]
+    weight = 130
 
     @classmethod
     def get_label(cls) -> str:

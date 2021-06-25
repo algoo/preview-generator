@@ -1,6 +1,6 @@
-****************************
+*************************************
 Building ImageMagick for HEIC support
-****************************
+*************************************
 
 
 libde265
@@ -18,7 +18,7 @@ libde265
 
 
 libheif
---------
+-------
 
 .. code-block:: bash
 
@@ -34,7 +34,7 @@ libheif
         && make install
 
 imagemagick
---------
+-----------
 
 .. code-block:: bash
 

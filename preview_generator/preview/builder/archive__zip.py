@@ -97,6 +97,8 @@ def archive_info_to_html(archive_info: ArchiveInfo) -> str:
 
 
 class ZipPreviewBuilder(OnePagePreviewBuilder):
+    weight = 100
+
     @classmethod
     def get_label(cls) -> str:
         return "Archive files"

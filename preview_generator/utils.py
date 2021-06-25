@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from abc import ABC
 from datetime import date
 from datetime import datetime
 from json import JSONEncoder
@@ -238,3 +239,11 @@ def imagemagick_supported_mimes() -> typing.List[str]:
             continue
         valid_mime.append(mime)
     return valid_mime
+
+
+def is_abstract(obj) -> bool:
+    """ Check if direct parent class is ABC, so class should be abstract"""
+    try:
+        return ABC in obj.__bases__
+    except AttributeError:
+        return False

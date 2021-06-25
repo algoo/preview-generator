@@ -22,6 +22,7 @@ except ImportError:
 
 class ImagePreviewBuilderDrawio(PreviewBuilder):
     DRAWIO_MIMETYPES_MAPPING = [MimetypeMapping("application/drawio", ".drawio")]
+    weight = 120
 
     @classmethod
     def check_dependencies(cls) -> None:

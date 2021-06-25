@@ -18,6 +18,8 @@ from preview_generator.utils import executable_is_available
 
 
 class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
+    weight = 70
+
     @classmethod
     def get_label(cls) -> str:
         return "Vector images - based on Inkscape"

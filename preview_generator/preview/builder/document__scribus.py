@@ -31,6 +31,9 @@ SCRIPT_PATH = os.path.join(parent_dir, SCRIPT_FOLDER_NAME, SCRIPT_NAME)
 
 
 class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
+
+    weight = 110
+
     @classmethod
     def check_dependencies(cls) -> None:
         if not xvfbwrapper_installed:

@@ -58,6 +58,8 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
     else:
         GLTF_MIMETYPES_MAPPING = []
 
+    weight = 90
+
     @classmethod
     def get_label(cls) -> str:
         return "Images generator from 3d file - based on Vtk"

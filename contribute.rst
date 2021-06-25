@@ -13,11 +13,10 @@ If you want to add a new preview builder to handle documents of type **foo** int
  - **Warning** If you need to look at other builders to find out how to proceed, avoid looking at any of the Office to something. It is a particular case and could misslead you.
  - Create a new class FooPreviewBuilder in a file foo_preview.py in preview_generator/preview
  - Make him inherit from the logical PreviewBuilder class
-
    * if it handles several pages it will be `class FooPreviewBuilder(PreviewBuilder)`
    * for single page it will be `class FooPreviewBuilder(OnePagePreviewBuilder)`
-   * ...
- - define your own `build_jpeg_preview(...)` (in the case we want to make **foo** into **jpeg**) based on the same principle as other build_{type}_preview(...)
+   * etc
+ - define your own `build_jpeg_preview(...)` (in the case we want to make **foo** into **jpeg**) based on the same principle as other build\_{type}_preview(...)
  - Inside this build_jpeg_preview(...) you will call a method file_converter.foo_to_jpeg(...)
  - Define your foo_to_jpeg(...) method in preview_generator.preview.file_converter.py
 
