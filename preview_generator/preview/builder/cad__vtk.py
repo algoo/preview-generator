@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-
-
+import os
 import tempfile
 import typing
 
@@ -32,6 +31,12 @@ except ImportError:
     vtk_installed = False
 
 
+# TODO - G.M -  2021-06-23 - Restore gltf support out of the box.
+# GLTF support is considered as experimental feature as
+# Non-embbeded gltf are known to cause preview-generator to crash (segfault).
+GLTF_EXPERIMENTAL_SUPPORT_ENABLED = os.environ.get("GLTF_EXPERIMENTAL_SUPPORT") == 1
+
+
 class ImagePreviewBuilderVtk(PreviewBuilder):
     PLY_MIMETYPES_MAPPING = [MimetypeMapping("application/ply", ".ply")]
     OBJ_MIMETYPES_MAPPING = [
@@ -45,12 +50,13 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
         MimetypeMapping("application/x-navistyle", ".stl"),
         MimetypeMapping("model/stl", ".stl"),
     ]
-    GLTF_MIMETYPES_MAPPING = [
-        # TODO - G.M -  2021-06-23 - Restore embedded-only gltf.
-        # Non-embbeded gltf  cause preview-generator to crash (segfault).
-        # MimetypeMapping("model/gltf", ".gltf"),
-        MimetypeMapping("model/gltf", ".glb"),
-    ]
+    if GLTF_EXPERIMENTAL_SUPPORT_ENABLED:
+        GLTF_MIMETYPES_MAPPING = [
+            MimetypeMapping("model/gltf", ".gltf"),
+            MimetypeMapping("model/gltf", ".glb"),
+        ]
+    else:
+        GLTF_MIMETYPES_MAPPING = []
 
     @classmethod
     def get_label(cls) -> str:

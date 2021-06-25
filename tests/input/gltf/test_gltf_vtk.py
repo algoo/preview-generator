@@ -8,6 +8,7 @@ import typing
 from PIL import Image
 import pytest
 
+from preview_generator.preview.builder.cad__vtk import GLTF_EXPERIMENTAL_SUPPORT_ENABLED
 from preview_generator.preview.builder.cad__vtk import ImagePreviewBuilderVtk
 from preview_generator.utils import ImgDims
 
@@ -22,6 +23,9 @@ def setup_function(function: typing.Callable) -> None:
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
 
 
+@pytest.mark.skipif(
+    not GLTF_EXPERIMENTAL_SUPPORT_ENABLED, reason="GLTF experimental support disabled"
+)
 @pytest.mark.xfail(
     sys.version_info[:2] >= (3, 9), reason="vtk support for python 3.8 and later is broken"
 )
@@ -48,6 +52,9 @@ def test_to_jpeg() -> None:
         assert jpeg.width == 512
 
 
+@pytest.mark.skipif(
+    not GLTF_EXPERIMENTAL_SUPPORT_ENABLED, reason="GLTF experimental support disabled"
+)
 @pytest.mark.xfail(
     sys.version_info[:2] >= (3, 9), reason="vtk support for python 3.9 and later is broken"
 )
