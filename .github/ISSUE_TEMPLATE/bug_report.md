@@ -20,14 +20,14 @@ assignees: ""
 
 ### Version information
 
-<!-- Optional - describe the environment which reveals the bug: -->
+<!-- describe the environment which reveals the bug: -->
 
 - Version: [e.g. 0.22]
 - Device / System: [e.g. Debian Buster]
 
 ## Diagnostic
 
-<!-- Explain what may cause the bug. -->
+<!-- Optional - explain what may cause the bug. -->
 
 ## Prerequisites
 

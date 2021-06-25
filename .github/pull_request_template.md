@@ -1,4 +1,4 @@
-<!-- Put here the original issue link if exist-->
+<!-- Put here the link to the original issue if there is one -->
 
 ## PR Goal
 
