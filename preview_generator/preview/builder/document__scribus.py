@@ -59,6 +59,7 @@ class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
     def _convert_to_pdf(
         self,
         file_content: typing.IO[bytes],
+        file_path: str,
         input_extension: str,  # example: '.dxf'
         cache_path: str,
         output_filepath: str,

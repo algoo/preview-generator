@@ -18,6 +18,7 @@ class DocumentPreviewBuilder(PreviewBuilder, ABC):
     def _convert_to_pdf(
         self,
         file_content: typing.IO[bytes],
+        file_path: str,
         input_extension: str,
         cache_path: str,
         output_filepath: str,
@@ -99,6 +100,7 @@ class DocumentPreviewBuilder(PreviewBuilder, ABC):
                 # first step is to convert full document to full pdf
                 self._convert_to_pdf(
                     file_content=input_stream,
+                    file_path=file_path,
                     input_extension=input_extension,
                     cache_path=cache_path,
                     output_filepath=intermediate_pdf_file_path,
