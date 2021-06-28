@@ -21,6 +21,7 @@ CACHE_DIR = "/tmp/preview-generator-tests/cache"
 ODT_FILE_PATH = os.path.join(CURRENT_DIR, "the_odt.odt")
 ODT_FILE_PATH_NO_EXTENSION = os.path.join(CURRENT_DIR, "the_odt")
 FILE_HASH = hashlib.md5(ODT_FILE_PATH.encode("utf-8")).hexdigest()
+ODT_FILE_EXT = ".odt"
 
 if not executable_is_available("libreoffice"):
     pytest.skip("libreoffice is not available.", allow_module_level=True)
@@ -66,11 +67,19 @@ def test_to_jpeg() -> None:
         assert jpeg.width == 256
 
 
-def test_to_jpeg_no_extension() -> None:
+def test_odt_to_jpeg_no_extension() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
-    assert manager.has_jpeg_preview(file_path=ODT_FILE_PATH_NO_EXTENSION) is True
+    assert (
+        manager.has_jpeg_preview(file_path=ODT_FILE_PATH_NO_EXTENSION, file_ext=ODT_FILE_EXT)
+        is True
+    )
     path0 = manager.get_jpeg_preview(
-        file_path=ODT_FILE_PATH_NO_EXTENSION, height=512, width=256, page=0, force=True
+        file_path=ODT_FILE_PATH_NO_EXTENSION,
+        file_ext=ODT_FILE_EXT,
+        height=512,
+        width=256,
+        page=0,
+        force=True,
     )
     assert os.path.exists(path0)
     assert os.path.getsize(path0) > 0
@@ -81,7 +90,12 @@ def test_to_jpeg_no_extension() -> None:
         assert jpeg.width == 256
 
     path1 = manager.get_jpeg_preview(
-        file_path=ODT_FILE_PATH_NO_EXTENSION, height=512, width=256, page=1, force=True
+        file_path=ODT_FILE_PATH_NO_EXTENSION,
+        file_ext=ODT_FILE_EXT,
+        height=512,
+        width=256,
+        page=1,
+        force=True,
     )
     assert os.path.exists(path1)
     assert os.path.getsize(path1) > 0
@@ -208,5 +222,5 @@ def test_get_nb_page() -> None:
 
 def test_get_nb_page_no_extension() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
-    nb_page = manager.get_page_nb(file_path=ODT_FILE_PATH_NO_EXTENSION)
+    nb_page = manager.get_page_nb(file_path=ODT_FILE_PATH_NO_EXTENSION, file_ext=ODT_FILE_EXT)
     assert nb_page == 2
