@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-
-
+import os
 import tempfile
 import typing
 
@@ -15,8 +14,12 @@ from preview_generator.utils import MimetypeMapping
 # HACK - G.M - 2019-11-05 - Hack to allow load of module without vtk installed
 vtk_installed = True
 try:
+    from vtk import vtkAbstractPolyDataReader
     from vtk import vtkActor
+    from vtk import vtkGLTFReader
     from vtk import vtkNamedColors
+    from vtk import vtkOBJReader
+    from vtk import vtkPLYReader
     from vtk import vtkPNGWriter
     from vtk import vtkPolyDataMapper
     from vtk import vtkRenderWindow
@@ -24,11 +27,14 @@ try:
     from vtk import vtkSTLReader
     from vtk import vtkVersion
     from vtk import vtkWindowToImageFilter
-    from vtk.vtkIOKitPython import vtkAbstractPolyDataReader
-    from vtk.vtkIOKitPython import vtkOBJReader
-    from vtk.vtkIOKitPython import vtkPLYReader
 except ImportError:
     vtk_installed = False
+
+
+# TODO - G.M -  2021-06-23 - Restore gltf support out of the box.
+# GLTF support is considered as experimental feature as
+# Non-embbeded gltf are known to cause preview-generator to crash (segfault).
+GLTF_EXPERIMENTAL_SUPPORT_ENABLED = os.environ.get("GLTF_EXPERIMENTAL_SUPPORT") == "1"
 
 
 class ImagePreviewBuilderVtk(PreviewBuilder):
@@ -44,6 +50,13 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
         MimetypeMapping("application/x-navistyle", ".stl"),
         MimetypeMapping("model/stl", ".stl"),
     ]
+    if GLTF_EXPERIMENTAL_SUPPORT_ENABLED:
+        GLTF_MIMETYPES_MAPPING = [
+            MimetypeMapping("model/gltf", ".gltf"),
+            MimetypeMapping("model/gltf", ".glb"),
+        ]
+    else:
+        GLTF_MIMETYPES_MAPPING = []
 
     weight = 90
 
@@ -60,7 +73,12 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
 
     @classmethod
     def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
-        return cls.STL_MIMETYPES_MAPPING + cls.OBJ_MIMETYPES_MAPPING + cls.PLY_MIMETYPES_MAPPING
+        return (
+            cls.STL_MIMETYPES_MAPPING
+            + cls.OBJ_MIMETYPES_MAPPING
+            + cls.PLY_MIMETYPES_MAPPING
+            + cls.GLTF_MIMETYPES_MAPPING
+        )
 
     @classmethod
     def check_dependencies(cls) -> None:
@@ -80,6 +98,8 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
             return vtkOBJReader()
         elif mimetype in [mapping.mimetype for mapping in cls.PLY_MIMETYPES_MAPPING]:
             return vtkPLYReader()
+        elif mimetype in [mapping.mimetype for mapping in cls.GLTF_MIMETYPES_MAPPING]:
+            return vtkGLTFReader()
         else:
             raise UnsupportedMimeType("Unsupported mimetype: {}".format(mimetype))
 
@@ -104,9 +124,17 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
             mimetype = guessed_mimetype or ""
         reader = self._get_vtk_reader(mimetype)
         reader.SetFileName(file_path)
+        reader.Update()
 
         mapper = vtkPolyDataMapper()
-        mapper.SetInputConnection(reader.GetOutputPort())
+
+        # set parent node as output for GLTF
+        if mimetype == "model/gltf":
+            mesh = reader.GetOutput()
+            mesh_parent = mesh.GetDataSet(mesh.NewIterator())
+            mapper.SetInputData(mesh_parent)
+        else:
+            mapper.SetInputConnection(reader.GetOutputPort())
 
         actor = vtkActor()
         actor.SetMapper(mapper)

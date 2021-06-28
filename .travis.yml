@@ -2,6 +2,9 @@
 sudo: true
 language: python
 dist: xenial
+env:
+  global:
+    - GLTF_EXPERIMENTAL_SUPPORT_ENABLED=1
 
 before_install:
   - sudo rm -f /etc/ImageMagick-6/policy.xml
