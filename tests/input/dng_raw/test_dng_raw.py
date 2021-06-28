@@ -31,6 +31,7 @@ def setup_function(function: typing.Callable) -> None:
     shutil.rmtree(CACHE_DIR, ignore_errors=True)
 
 
+@pytest.mark.slow
 def test_to_jpeg() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_jpeg_preview(file_path=IMAGE_FILE_PATH) is True
@@ -46,6 +47,7 @@ def test_to_jpeg() -> None:
         assert jpeg.width in range(382, 388)
 
 
+@pytest.mark.slow
 def test_get_nb_page() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     nb_page = manager.get_page_nb(
@@ -54,6 +56,7 @@ def test_get_nb_page() -> None:
     assert nb_page == 1
 
 
+@pytest.mark.slow
 def test_to_jpeg__default_size() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_jpeg_preview(file_path=IMAGE_FILE_PATH) is True
@@ -67,6 +70,7 @@ def test_to_jpeg__default_size() -> None:
         assert jpeg.width == 256
 
 
+@pytest.mark.slow
 def test_to_json() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_json_preview(file_path=IMAGE_FILE_PATH) is True
@@ -99,6 +103,7 @@ def test_to_json() -> None:
     assert "SourceFile" in data.keys()
 
 
+@pytest.mark.slow
 def test_to_pdf() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_pdf_preview(file_path=IMAGE_FILE_PATH) is False
@@ -106,6 +111,7 @@ def test_to_pdf() -> None:
         manager.get_pdf_preview(file_path=IMAGE_FILE_PATH, force=True)
 
 
+@pytest.mark.slow
 def test_to_text() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     assert manager.has_text_preview(file_path=IMAGE_FILE_PATH) is False

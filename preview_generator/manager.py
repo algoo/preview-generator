@@ -140,7 +140,7 @@ class PreviewManager(object):
         # original file
         # - use preview context of this pivot pdf file.
         if isinstance(preview_context.builder, DocumentPreviewBuilder):
-            file_path = self.get_pdf_preview(file_path=file_path, force=False)
+            file_path = self.get_pdf_preview(file_path=file_path, file_ext=file_ext, force=False)
             preview_context = self.get_preview_context(file_path, file_ext=".pdf")
         with preview_context.filelock:
             return preview_context.builder.get_page_number(
@@ -189,7 +189,7 @@ class PreviewManager(object):
         # original file
         # - use preview context of this pivot pdf file.
         if isinstance(preview_context.builder, DocumentPreviewBuilder):
-            file_path = self.get_pdf_preview(file_path=file_path, force=force)
+            file_path = self.get_pdf_preview(file_path=file_path, file_ext=file_ext, force=force)
             preview_context = self.get_preview_context(file_path, file_ext=".pdf")
         with preview_context.filelock:
             if force or not os.path.exists(preview_file_path):
