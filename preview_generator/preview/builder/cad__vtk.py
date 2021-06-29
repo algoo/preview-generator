@@ -12,7 +12,7 @@ from preview_generator.utils import ImgDims
 from preview_generator.utils import MimetypeMapping
 
 # HACK - G.M - 2019-11-05 - Hack to allow load of module without vtk installed
-vtk_installed = True
+vtk_version_installed = 9  # type: typing.Optional[int]
 try:
     from vtk import vtkAbstractPolyDataReader
     from vtk import vtkActor
@@ -28,13 +28,29 @@ try:
     from vtk import vtkVersion
     from vtk import vtkWindowToImageFilter
 except ImportError:
-    vtk_installed = False
-
+    vtk_version_installed = 8
+    try:
+        from vtk import vtkActor
+        from vtk import vtkNamedColors
+        from vtk import vtkPNGWriter
+        from vtk import vtkPolyDataMapper
+        from vtk import vtkRenderWindow
+        from vtk import vtkRenderer
+        from vtk import vtkSTLReader
+        from vtk import vtkVersion
+        from vtk import vtkWindowToImageFilter
+        from vtk.vtkIOKitPython import vtkAbstractPolyDataReader
+        from vtk.vtkIOKitPython import vtkOBJReader
+        from vtk.vtkIOKitPython import vtkPLYReader
+    except ImportError:
+        vtk_version_installed = None
 
 # TODO - G.M -  2021-06-23 - Restore gltf support out of the box.
 # GLTF support is considered as experimental feature as
 # Non-embbeded gltf are known to cause preview-generator to crash (segfault).
-GLTF_EXPERIMENTAL_SUPPORT_ENABLED = os.environ.get("GLTF_EXPERIMENTAL_SUPPORT") == "1"
+GLTF_EXPERIMENTAL_SUPPORT_ENABLED = (
+    os.environ.get("GLTF_EXPERIMENTAL_SUPPORT") == "1" and vtk_version_installed == 9
+)
 
 
 class ImagePreviewBuilderVtk(PreviewBuilder):
@@ -82,7 +98,7 @@ class ImagePreviewBuilderVtk(PreviewBuilder):
 
     @classmethod
     def check_dependencies(cls) -> None:
-        if not vtk_installed:
+        if not vtk_version_installed:
             raise BuilderDependencyNotFound("this builder requires vtk to be available")
 
     @classmethod

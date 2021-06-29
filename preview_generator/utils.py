@@ -241,8 +241,8 @@ def imagemagick_supported_mimes() -> typing.List[str]:
     return valid_mime
 
 
-def is_abstract(obj) -> bool:
-    """ Check if direct parent class is ABC, so class should be abstract"""
+def is_abstract(obj: typing.Type) -> bool:
+    """Check if direct parent class is ABC, so class should be abstract"""
     try:
         return ABC in obj.__bases__
     except AttributeError:
