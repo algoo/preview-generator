@@ -88,10 +88,10 @@ def test_docx_to_jpeg_no_extension() -> None:
 def test_docx_get_nb_page() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     nb_page = manager.get_page_nb(file_path=DOCX_FILE_PATH)
-    assert nb_page == 2
+    assert nb_page in [2, 3]
 
 
 def test_docx_get_nb_page_no_extension() -> None:
     manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
     nb_page = manager.get_page_nb(file_path=DOCX_FILE_PATH_NO_EXTENSION, file_ext=DOCX_FILE_EXT)
-    assert nb_page == 2
+    assert nb_page in [2, 3]
