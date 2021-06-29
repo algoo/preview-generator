@@ -12,7 +12,7 @@ from preview_generator.utils import ImgDims
 from preview_generator.utils import MimetypeMapping
 
 # HACK - G.M - 2019-11-05 - Hack to allow load of module without vtk installed
-vtk_version_installed = 9
+vtk_version_installed = 9  # type: typing.Optional[int]
 try:
     from vtk import vtkAbstractPolyDataReader
     from vtk import vtkActor
