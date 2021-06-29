@@ -205,9 +205,7 @@ On debian :
   pip install preview-generator[3D]
 
 
-:warning: GLTF support is disabled by default due to segfault issues with non-embedded gltf file,
-you must set `GLTF_EXPERIMENTAL_SUPPORT_ENABLED` env var to `1`, to enable it
-
+:warning: GLTF support is disabled by default due to segfault issues with non-embedded gltf file, you must set `GLTF_EXPERIMENTAL_SUPPORT_ENABLED` env var to `1`, to enable it.
 
 HEIC support
 ~~~~~~~~~~~~
