@@ -61,7 +61,8 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
         return [
             MimetypeMapping(
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".xlsx"
-            )
+            ),
+            MimetypeMapping("application/vnd.oasis.opendocument.text", ".odt"),
         ]
 
     @classmethod
