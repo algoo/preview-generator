@@ -210,7 +210,7 @@ class PillowImageConvertStrategyFactory(object):
 
 
 class ImagePreviewBuilderPillow(ImagePreviewBuilder):
-    weight = 20
+    weight = 30
 
     def __init__(
         self,

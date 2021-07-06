@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-
-
+from functools import partial
 from shutil import which
+from subprocess import CalledProcessError
 from subprocess import DEVNULL
 from subprocess import STDOUT
 from subprocess import check_call
@@ -18,6 +18,33 @@ from preview_generator.utils import ImgDims
 from preview_generator.utils import MimetypeMapping
 from preview_generator.utils import executable_is_available
 from preview_generator.utils import imagemagick_supported_mimes
+
+CONVERT_CMD = "convert"
+CONVERT_TO_PNG_OPTIONS = [
+    "-background",
+    "None",
+    "-layers",
+    "merge",
+]
+
+
+def generate_convert_command(
+    input_path: str,
+    output_path: str,
+    options: typing.List[str],
+    input_format: str = None,
+    output_format: str = None,
+):
+    if input_format:
+        input_path = "{}:{}".format(input_format, input_path)
+    if output_format:
+        output_path = "{}:{}".format(output_format, output_path)
+    return [CONVERT_CMD, input_path, *options, output_path]
+
+
+convert_to_png_command = partial(
+    generate_convert_command, options=CONVERT_TO_PNG_OPTIONS, output_format="png"
+)
 
 
 class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
@@ -53,7 +80,7 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         MimetypeMapping("image/heic", ".heif"),
     ]
 
-    weight = 30
+    weight = 20
 
     @classmethod
     def get_label(cls) -> str:
@@ -73,11 +100,14 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
             for mimetype_mapping in cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING:
                 mimes.append(mimetype_mapping.mimetype)
 
-        # HACK - G.M - 2019-11-14 - disable support for postscript file in imagemagick to use
+        # HACK - G.M - 2019-11-14 - disable support for
+        # postscript file and png in imagemagick to use
         # pillow instead
         mimes.remove("application/postscript")
+        mimes.remove("image/png")
         mimes.append("application/x-xcf")
         mimes.append("image/x-xcf")
+
         return mimes
 
     @classmethod
@@ -123,30 +153,28 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
     ) -> None:
         if not size:
             size = self.default_size
-        # inkscape tesselation-P3.svg  -e
         with tempfile.NamedTemporaryFile(
             "w+b", prefix="preview-generator-", suffix=".png"
         ) as tmp_png:
-            build_png_result_code = self._imagemagick_convert(
+            build_png_result_code = self._imagemagick_convert_to_png(
                 source_path=file_path, dest_path=tmp_png.name, mimetype=mimetype
             )
-
             if build_png_result_code != 0:
                 raise IntermediateFileBuildingFailed(
                     "Building PNG intermediate file using convert "
                     "failed with status {}".format(build_png_result_code)
                 )
-
             return ImagePreviewBuilderPillow().build_jpeg_preview(
                 tmp_png.name, preview_name, cache_path, page_id, extension, size
             )
 
-    def _imagemagick_convert(
+    def _imagemagick_convert_to_png(
         self, source_path: str, dest_path: str, mimetype: typing.Optional[str] = None
     ) -> int:
         """
         Try convert using both explicit or implicit input type convert.
         """
+
         assert mimetype != ""
         # INFO - G.M - 2019-11-14 - use explicit input type to clarify conversion for imagemagick
         do_an_explicit_convert = False
@@ -157,23 +185,24 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
                 do_an_explicit_convert = True
 
         if do_an_explicit_convert:
-            explicit_source_path = "{}:{}".format(input_file_extension.lstrip("."), source_path)
-            build_image_result_code = check_call(
-                ["convert", explicit_source_path, "-layers", "merge", dest_path],
-                stdout=DEVNULL,
-                stderr=STDOUT,
-            )
-            # INFO - G.M - 2019-11-14 - if explicit convert failed, fallback to
-            # implicit input type convert
-            if build_image_result_code != 0:
+            input_format = input_file_extension.lstrip(".")
+            try:
                 build_image_result_code = check_call(
-                    ["convert", source_path, "-layers", "merge", dest_path],
+                    convert_to_png_command(
+                        input_path=source_path, input_format=input_format, output_path=dest_path
+                    ),
+                    stdout=DEVNULL,
+                    stderr=STDOUT,
+                )
+            except CalledProcessError:
+                build_image_result_code = check_call(
+                    convert_to_png_command(input_path=source_path, output_path=dest_path),
                     stdout=DEVNULL,
                     stderr=STDOUT,
                 )
         else:
             build_image_result_code = check_call(
-                ["convert", source_path, "-layers", "merge", dest_path],
+                convert_to_png_command(input_path=source_path, output_path=dest_path),
                 stdout=DEVNULL,
                 stderr=STDOUT,
             )
