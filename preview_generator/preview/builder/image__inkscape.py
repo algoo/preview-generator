@@ -34,7 +34,7 @@ def get_inkscape_svg_to_png_options(inkscape_version: float) -> typing.List[str]
 
 
 def generate_inkscape_command(
-    input_path: str, output_path: str, options: typing.List[str],
+    input_path: str, output_path: str, options: typing.List[str]
 ) -> typing.List[str]:
     return [INKSCAPE_EXECUTABLE, input_path, *options, output_path]
 
