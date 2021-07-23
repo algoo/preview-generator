@@ -16,6 +16,17 @@ from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import executable_is_available
 
+INKSCAPE_EXECUTABLE = "inkscape"
+INKSCAPE_092_SVG_TO_PNG_OPTIONS = ["--export-area-drawing", "-e"]
+INKSCAPE_100_SVG_TO_PNG_OPTIONS = ["--export-area-drawing", "--export-type=png", "-o"]
+DEFAULT_INKSCAPE_OPTIONS = INKSCAPE_100_SVG_TO_PNG_OPTIONS
+
+
+def generate_inkscape_command(
+    input_path: str, output_path: str, options: typing.List[str],
+):
+    return [INKSCAPE_EXECUTABLE, input_path, *options, output_path]
+
 
 class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
     weight = 70
@@ -57,7 +68,9 @@ class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
             "w+b", prefix="preview-generator-", suffix=".png"
         ) as tmp_png:
             build_png_result_code = check_call(
-                ["inkscape", file_path, "--export-area-drawing", "-e", tmp_png.name],
+                generate_inkscape_command(
+                    file_path, tmp_png.name, options=DEFAULT_INKSCAPE_OPTIONS
+                ),
                 stdout=DEVNULL,
                 stderr=STDOUT,
             )
