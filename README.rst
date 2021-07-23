@@ -142,6 +142,8 @@ on debian:
 
   apt-get install inkscape
 
+as inkscape 1.0 changed the command line behavior, preview_generator expect inkscape version to be >1.
+If you need to make inkscape builder work with inkscape 0.92, you can do it with env var INKSCAPE_VERSION=0.92.
 
 
 Vector Images (cairosvg)

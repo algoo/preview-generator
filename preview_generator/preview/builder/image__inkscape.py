@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-
-
+import os
 from shutil import which
 from subprocess import DEVNULL
 from subprocess import STDOUT
@@ -17,14 +16,26 @@ from preview_generator.utils import ImgDims
 from preview_generator.utils import executable_is_available
 
 INKSCAPE_EXECUTABLE = "inkscape"
+DEFAULT_INKSCAPE_VERSION = "1.0"
+
 INKSCAPE_092_SVG_TO_PNG_OPTIONS = ["--export-area-drawing", "-e"]
 INKSCAPE_100_SVG_TO_PNG_OPTIONS = ["--export-area-drawing", "--export-type=png", "-o"]
-DEFAULT_INKSCAPE_OPTIONS = INKSCAPE_100_SVG_TO_PNG_OPTIONS
+
+
+def get_inkscape_version() -> float:
+    return float(os.environ.get("INKSCAPE_VERSION", default=DEFAULT_INKSCAPE_VERSION))
+
+
+def get_inkscape_svg_to_png_options(inkscape_version: float) -> typing.List[str]:
+    if inkscape_version < 1:
+        return INKSCAPE_092_SVG_TO_PNG_OPTIONS
+    else:
+        return INKSCAPE_100_SVG_TO_PNG_OPTIONS
 
 
 def generate_inkscape_command(
     input_path: str, output_path: str, options: typing.List[str],
-):
+) -> typing.List[str]:
     return [INKSCAPE_EXECUTABLE, input_path, *options, output_path]
 
 
@@ -67,9 +78,12 @@ class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
         with tempfile.NamedTemporaryFile(
             "w+b", prefix="preview-generator-", suffix=".png"
         ) as tmp_png:
+            inkscape_version = get_inkscape_version()
             build_png_result_code = check_call(
                 generate_inkscape_command(
-                    file_path, tmp_png.name, options=DEFAULT_INKSCAPE_OPTIONS
+                    file_path,
+                    tmp_png.name,
+                    options=get_inkscape_svg_to_png_options(inkscape_version),
                 ),
                 stdout=DEVNULL,
                 stderr=STDOUT,
