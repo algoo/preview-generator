@@ -34,7 +34,7 @@ def generate_convert_command(
     options: typing.List[str],
     input_format: str = None,
     output_format: str = None,
-):
+) -> typing.List[str]:
     if input_format:
         input_path = "{}:{}".format(input_format, input_path)
     if output_format:
