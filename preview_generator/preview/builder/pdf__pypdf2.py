@@ -6,6 +6,7 @@ import typing
 
 from PyPDF2 import PdfFileWriter
 from pdf2image import convert_from_bytes
+from pdf2image import convert_from_path
 
 from preview_generator import utils
 from preview_generator.exception import BuilderDependencyNotFound
@@ -62,26 +63,25 @@ class PdfPreviewBuilderPyPDF2(PreviewBuilder):
         if not size:
             size = self.default_size
 
-        with open(file_path, "rb") as pdf:
-            # HACK - D.A. - 2017-08-11 Deactivate strict mode
-            # This avoid crashes when PDF are not standard
-            # See https://github.com/mstamy2/PyPDF2/issues/244
-            input_pdf = utils.get_decrypted_pdf(pdf, strict=False)
-            output_pdf = PdfFileWriter()
-            output_pdf.addPage(input_pdf.getPage(int(page_id)))
-            output_stream = BytesIO()
-            output_pdf.write(output_stream)
-            output_stream.seek(0, 0)
-            result = convert_pdf_to_jpeg(output_stream, size)
-
-            preview_path = "{path}{file_name}{extension}".format(
-                file_name=preview_name, path=cache_path, extension=extension
-            )
-            with open(preview_path, "wb") as jpeg:
-                buffer = result.read(1024)
-                while buffer:
-                    jpeg.write(buffer)
-                    buffer = result.read(1024)
+        current_path = convert_from_path(
+            file_path,
+            first_page=page_id,
+            last_page=page_id,
+            fmt="jpeg",
+            output_folder=cache_path,
+            single_file=True,
+            output_file="temp_{file_name}{extension}".format(
+                file_name=preview_name, extension=extension
+            ),
+            size=(size.width, size.height),
+            paths_only=True,
+        )[0]
+        os.rename(
+            current_path,
+            "{path}{file_name}{extension}".format(
+                path=cache_path, file_name=preview_name, extension=extension
+            ),
+        )
 
     def build_pdf_preview(
         self,
