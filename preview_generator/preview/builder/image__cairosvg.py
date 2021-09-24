@@ -53,7 +53,13 @@ class ImagePreviewBuilderCairoSVG(ImagePreviewBuilder):
         with tempfile.NamedTemporaryFile(
             "w+b", prefix="preview-generator", suffix="png"
         ) as tmp_png:
-            cairosvg.svg2png(url=file_path, write_to=tmp_png.name, dpi=96)
+            cairosvg.svg2png(
+                url=file_path,
+                write_to=tmp_png.name,
+                dpi=96,
+                output_width=size.width,
+                output_height=size.height,
+            )
 
             return ImagePreviewBuilderPillow().build_jpeg_preview(
                 tmp_png.name, preview_name, cache_path, page_id, extension, size, mimetype

@@ -57,7 +57,17 @@ class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
             "w+b", prefix="preview-generator-", suffix=".png"
         ) as tmp_png:
             build_png_result_code = check_call(
-                ["inkscape", file_path, "--export-area-drawing", "-e", tmp_png.name],
+                [
+                    "inkscape",
+                    file_path,
+                    "--export-area-drawing",
+                    "-w",
+                    "{}px".format(size.width),
+                    "-h",
+                    "{}px".format(size.height),
+                    "-e",
+                    tmp_png.name,
+                ],
                 stdout=DEVNULL,
                 stderr=STDOUT,
             )
