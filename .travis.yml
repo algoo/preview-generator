@@ -5,8 +5,6 @@ dist: xenial
 env:
   global:
     - GLTF_EXPERIMENTAL_SUPPORT_ENABLED=1
-    # use old inkscape version compat
-    - INKSCAPE_VERSION=0.92
 
 before_install:
   - sudo rm -f /etc/ImageMagick-6/policy.xml
