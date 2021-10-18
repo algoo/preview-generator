@@ -143,7 +143,6 @@ on debian:
   apt-get install inkscape
 
 
-
 Vector Images (cairosvg)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
