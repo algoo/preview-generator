@@ -53,7 +53,7 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         MimetypeMapping("image/heic", ".heif"),
     ]
 
-    weight = 30
+    weight = 0
 
     @classmethod
     def get_label(cls) -> str:

@@ -12,7 +12,7 @@ from preview_generator.utils import imagemagick_supported_mimes
 
 class ImagePreviewBuilderWand(ImagePreviewBuilder):
 
-    weight = 100
+    weight = 40
     MIMETYPES = []  # type: typing.List[str]
 
     @classmethod

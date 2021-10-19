@@ -11,7 +11,7 @@ import typing
 
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import IntermediateFileBuildingFailed
-from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
+from preview_generator.preview.builder.image__wand import ImagePreviewBuilderWand  # nopep8
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import executable_is_available
@@ -68,6 +68,6 @@ class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
                     "failed with status {}".format(build_png_result_code)
                 )
 
-            return ImagePreviewBuilderPillow().build_jpeg_preview(
+            return ImagePreviewBuilderWand().build_jpeg_preview(
                 tmp_png.name, preview_name, cache_path, page_id, extension, size, mimetype
             )
