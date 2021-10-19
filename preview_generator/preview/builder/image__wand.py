@@ -1,26 +1,18 @@
 # -*- coding: utf-8 -*-
-
-from io import BytesIO
+import os
 import typing
 
-from wand.image import Color
 from wand.image import Image as WImage
 import wand.version
 
-from preview_generator.preview.builder.image__imconvert import ImagePreviewBuilderIMConvert
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
-from preview_generator.utils import compute_resize_dims
 from preview_generator.utils import imagemagick_supported_mimes
 
 
 class ImagePreviewBuilderWand(ImagePreviewBuilder):
-    """
-    WARNING : This builder is deprecated, prefer ImagePreviewBuilderIMConvert instead which
-    support the same list of format.
-    """
 
-    weight = 10
+    weight = 100
     MIMETYPES = []  # type: typing.List[str]
 
     @classmethod
@@ -48,15 +40,7 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
             ImagePreviewBuilderWand.MIMETYPES = cls.__load_mimetypes()
         mimetypes = ImagePreviewBuilderWand.MIMETYPES
 
-        # INFO - G.M - 2021-04-30
-        # Disable support for postscript,xcf and raw image format in wand, to ensure
-        # proper builder is used (either imagemagick convert or pillow)
-
         invalid_mimetypes = ["application/postscript", "application/x-xcf", "image/x-xcf"]
-        for (
-            mimetype_mapping
-        ) in ImagePreviewBuilderIMConvert().SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING:
-            invalid_mimetypes.append(mimetype_mapping.mimetype)
 
         for invalid_mimetype in invalid_mimetypes:
             try:
@@ -77,41 +61,22 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
     ) -> None:
         if not size:
             size = self.default_size
-        with open(file_path, "rb") as img:
-            result = self.image_to_jpeg_wand(img, ImgDims(width=size.width, height=size.height))
-
-            with open(
-                "{path}{extension}".format(path=cache_path + preview_name, extension=extension),
-                "wb",
-            ) as jpeg:
-                buffer = result.read(1024)
-                while buffer:
-                    jpeg.write(buffer)
-                    buffer = result.read(1024)
-
-    def image_to_jpeg_wand(
-        self, jpeg: typing.Union[str, typing.IO[bytes]], preview_dims: ImgDims
-    ) -> BytesIO:
-        """
-        for jpeg, gif and bmp
-        :param jpeg:
-        :param size:
-        :return:
-        """
-        self.logger.info("Converting image to jpeg using wand")
-
-        with WImage(file=jpeg, background=Color("white")) as image:
-
-            preview_dims = ImgDims(width=preview_dims.width, height=preview_dims.height)
-
-            resize_dim = compute_resize_dims(
-                dims_in=ImgDims(width=image.size[0], height=image.size[1]), dims_out=preview_dims
+        preview_name = preview_name + extension
+        dest_path = os.path.join(cache_path, preview_name)
+        with WImage(filename=file_path) as img:
+            # https://legacy.imagemagick.org/Usage/thumbnails/
+            img.auto_orient()
+            img.merge_layers("merge")
+            img.strip()
+            img.sample()
+            if img.width < size.width and img.height < size.height:
+                flag = "<"
+            else:
+                flag = ">"
+            resize_arg = "{width}x{height}{flag}".format(
+                width=size.width,
+                height=size.height,
+                flag=flag
             )
-            image.resize(resize_dim.width, resize_dim.height)
-            # INFO - jumenzel - 2019-03-12 - remove metadata, color-profiles from this image.
-            image.strip()
-            content_as_bytes = image.make_blob("jpeg")
-            output = BytesIO()
-            output.write(content_as_bytes)
-            output.seek(0, 0)
-            return output
+            img.transform(resize=resize_arg)
+            img.save(filename=dest_path)
