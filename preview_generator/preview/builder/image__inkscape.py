@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from shutil import which
+from subprocess import CalledProcessError
 from subprocess import DEVNULL
 from subprocess import STDOUT
 from subprocess import check_call
@@ -19,7 +20,10 @@ INKSCAPE_EXECUTABLE = "inkscape"
 INKSCAPE_0x_SVG_TO_PNG_OPTIONS = ("--export-area-drawing", "-e")
 INKSCAPE_100_SVG_TO_PNG_OPTIONS = ("--export-area-drawing", "--export-type=png", "-o")
 
-inkscape_version = check_output((INKSCAPE_EXECUTABLE, "--version"))
+try:
+    inkscape_version = check_output((INKSCAPE_EXECUTABLE, "--version"))
+except (FileNotFoundError, CalledProcessError):
+    inkscape_version = b"not_installed"
 INKSCAPE_SVG_TO_PNG_OPTIONS = (
     INKSCAPE_0x_SVG_TO_PNG_OPTIONS
     if inkscape_version.startswith(b"Inkscape 0.")
