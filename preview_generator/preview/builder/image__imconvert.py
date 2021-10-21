@@ -78,6 +78,8 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         mimes.remove("application/postscript")
         mimes.append("application/x-xcf")
         mimes.append("image/x-xcf")
+        if executable_is_available("dwebp"):
+            mimes.append("image/webp")
         return mimes
 
     @classmethod
@@ -91,7 +93,9 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
 
     @classmethod
     def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
-        mimetypes_mapping = []  # type: typing.List[MimetypeMapping]
+        mimetypes_mapping = [
+            MimetypeMapping("image/webp", ".webp")
+        ]  # type: typing.List[MimetypeMapping]
         mimetypes_mapping = (
             mimetypes_mapping
             + cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING
