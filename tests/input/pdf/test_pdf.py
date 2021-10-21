@@ -118,7 +118,7 @@ def test_algorithm4() -> None:
     path_to_file = manager.get_jpeg_preview(file_path=PDF_FILE_PATH__A4, force=True)
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
-        assert jpeg.width in range(180, 182)
+        assert jpeg.width in range(180, 183)
 
 
 def test_get_nb_page() -> None:

@@ -116,7 +116,7 @@ def test_to_jpeg_no_size() -> None:
 
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
-        assert jpeg.width in range(180, 182)
+        assert jpeg.width in range(180, 183)
 
 
 def test_to_jpeg_no_page() -> None:
@@ -131,7 +131,7 @@ def test_to_jpeg_no_page() -> None:
 
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 512
-        assert jpeg.width in range(361, 363)
+        assert jpeg.width in range(361, 364)
 
 
 def test_to_jpeg_no_size_no_page() -> None:
@@ -144,7 +144,7 @@ def test_to_jpeg_no_size_no_page() -> None:
 
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
-        assert jpeg.width in range(180, 182)
+        assert jpeg.width in range(180, 183)
 
 
 def test_to_pdf_full_export() -> None:

@@ -91,7 +91,6 @@ class PreviewBuilderFactory(object):
         if force or not self.builders_loaded:
             builder_folder = get_builder_folder_name()
             builder_modules = get_builder_modules(builder_folder)
-
             for module_name in builder_modules:
                 import_builder_module(module_name)
 
@@ -137,6 +136,7 @@ class PreviewBuilderFactory(object):
             # like automatic travis test with Ubuntu 14.04.5 LTS,
             # where ImagePreviewBuilderIMConvert pretend to
             # be able to deal with application/octet-stream mimetype
+
             for mimetype in builder.get_supported_mimetypes():
                 if mimetype == "application/octet-stream":
                     self.logger.critical(
