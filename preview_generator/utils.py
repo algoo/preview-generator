@@ -3,13 +3,9 @@ from abc import ABC
 from datetime import date
 from datetime import datetime
 from json import JSONEncoder
-import os
 import shutil
-from subprocess import check_call
-import tempfile
 import typing
 
-from PyPDF2 import PdfFileReader
 from wand.version import formats as wand_supported_format
 
 from preview_generator.extension import mimetypes_storage
@@ -168,52 +164,6 @@ class PreviewGeneratorJsonEncoder(JSONEncoder):
             return serial
 
         return JSONEncoder.default(self, obj)
-
-
-def get_decrypted_pdf(
-    stream: typing.BinaryIO,
-    strict: bool = True,
-    warndest: typing.TextIO = None,
-    overwriteWarnings: bool = True,
-) -> PdfFileReader:
-    """
-    Return a PdfFileReader object decrypted with default empty key (if file is encrypted)
-    The signature is taken from PdfFileReader.__init__
-
-    See https://github.com/algoo/preview-generator/issues/52
-    which is related to https://github.com/mstamy2/PyPDF2/issues/51
-
-    :param stream:
-    :param strict:
-    :param warndest:
-    :param overwriteWarnings:
-    :return:
-    """
-    pdf = PdfFileReader(stream, strict, warndest, overwriteWarnings)
-    if pdf.isEncrypted:
-        #  TODO - D.A. - 2018-11-08 - manage password protected PDFs
-        password = ""
-        try:
-            pdf.decrypt(password)
-        except NotImplementedError:
-            # If not supported, try and use qpdf to decrypt with '' first.
-            # See https://github.com/mstamy2/PyPDF2/issues/378
-            # Workaround for the "NotImplementedError: only algorithm code 1 and 2 are supported" issue.
-            tf = tempfile.NamedTemporaryFile(
-                prefix="preview-generator-", suffix=".pdf", delete=False
-            )
-            tfoname = tf.name + "_decrypted.pdf"
-            stream.seek(0)
-            tf.write(stream.read())
-            tf.close()
-            if password:
-                check_call(["qpdf", "--password=" + password, "--decrypt", tf.name, tfoname])
-            else:
-                check_call(["qpdf", "--decrypt", tf.name, tfoname])
-            pdf = PdfFileReader(tfoname, strict, warndest, overwriteWarnings)
-            os.unlink(tf.name)
-            os.unlink(tfoname)
-    return pdf
 
 
 def imagemagick_supported_mimes() -> typing.List[str]:

@@ -19,7 +19,7 @@ PDFINFO_EXECUTABLE = "pdfinfo"
 
 
 class PdfPreviewBuilderPopplerUtils(PreviewBuilder):
-    weight = 150
+    weight = 140
 
     @classmethod
     def get_label(cls) -> str:
