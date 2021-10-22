@@ -2,7 +2,7 @@
 import os
 import typing
 
-from wand.image import Image as WImage
+from wand.image import Image
 import wand.version
 from wand.color import Color
 
@@ -60,13 +60,14 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
             size = self.default_size
         preview_name = preview_name + extension
         dest_path = os.path.join(cache_path, preview_name)
-        with WImage(filename=file_path) as img:
+        with Image(filename=file_path) as img:
             # https://legacy.imagemagick.org/Usage/thumbnails/
             img.auto_orient()
             img.background_color = Color("white")
             img.merge_layers("flatten")
             img.strip()
             img.sample()
+            img.interlace_scheme = "plane"
             if img.width < size.width and img.height < size.height:
                 flag = "<"
             else:
