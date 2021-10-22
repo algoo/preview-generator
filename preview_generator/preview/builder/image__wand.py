@@ -41,13 +41,9 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
             ImagePreviewBuilderWand.MIMETYPES = cls.__load_mimetypes()
         mimetypes = ImagePreviewBuilderWand.MIMETYPES
 
-        invalid_mimetypes = ["application/postscript", "application/x-xcf", "image/x-xcf"]
+        extra_mimetypes = ["application/x-xcf", "image/x-xcf"]
+        mimetypes.extend(extra_mimetypes)
 
-        for invalid_mimetype in invalid_mimetypes:
-            try:
-                mimetypes.remove(invalid_mimetype)
-            except ValueError:
-                pass
         return mimetypes
 
     def build_jpeg_preview(
