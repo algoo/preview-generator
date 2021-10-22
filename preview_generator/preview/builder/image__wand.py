@@ -4,6 +4,7 @@ import typing
 
 from wand.image import Image as WImage
 import wand.version
+from wand.color import Color
 
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
@@ -66,7 +67,8 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
         with WImage(filename=file_path) as img:
             # https://legacy.imagemagick.org/Usage/thumbnails/
             img.auto_orient()
-            img.merge_layers("merge")
+            img.background_color = Color("white")
+            img.merge_layers("flatten")
             img.strip()
             img.sample()
             if img.width < size.width and img.height < size.height:
