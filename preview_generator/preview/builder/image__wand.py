@@ -9,12 +9,25 @@ from wand.color import Color
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import imagemagick_supported_mimes
+from preview_generator.utils import compute_resize_dims
+
+DEFAULT_JPEG_QUALITY = 85
+DEFAULT_JPEG_PROGRESSIVE = True
 
 
 class ImagePreviewBuilderWand(ImagePreviewBuilder):
 
     weight = 40
     MIMETYPES = []  # type: typing.List[str]
+
+    def __init__(
+        self,
+        quality: int = DEFAULT_JPEG_QUALITY,
+        progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
+    ):
+        super().__init__()
+        self.quality = quality
+        self.progressive = progressive
 
     @classmethod
     def get_label(cls) -> str:
@@ -60,22 +73,28 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
             size = self.default_size
         preview_name = preview_name + extension
         dest_path = os.path.join(cache_path, preview_name)
+        self.image_to_jpeg_wand(file_path, size, dest_path)
+
+    def image_to_jpeg_wand(
+        self,
+        file_path: str,
+        preview_dims: ImgDims,
+        dest_path: str,
+    ) -> None:
         with Image(filename=file_path) as img:
             # https://legacy.imagemagick.org/Usage/thumbnails/
             img.auto_orient()
             img.background_color = Color("white")
             img.merge_layers("flatten")
-            img.strip()
-            img.sample()
-            img.interlace_scheme = "plane"
-            if img.width < size.width and img.height < size.height:
-                flag = "<"
-            else:
-                flag = ">"
-            resize_arg = "{width}x{height}{flag}".format(
-                width=size.width,
-                height=size.height,
-                flag=flag
+
+            if self.progressive:
+                img.interlace_scheme = "plane"
+
+            img.compression_quality = self.quality
+
+            resize_dim = compute_resize_dims(
+                dims_in=ImgDims(width=img.width, height=img.height), dims_out=preview_dims
             )
-            img.transform(resize=resize_arg)
+            img.thumbnail(resize_dim.width, resize_dim.height)
+
             img.save(filename=dest_path)
