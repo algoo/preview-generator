@@ -1,7 +1,7 @@
 import os
-import pytest
 from PIL import Image
 from preview_generator.preview.builder.image__wand import ImagePreviewBuilderWand
+from preview_generator.preview.builder.image__imconvert import ImagePreviewBuilderIMConvert
 from preview_generator.utils import ImgDims
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -26,7 +26,6 @@ def test_build_jpeg_preview() -> None:
     )
     preview_name = preview_name + extension
     dest_path = os.path.join(CACHE_DIR, preview_name)
-    print(dest_path)
     assert os.path.exists(dest_path)
     assert os.path.getsize(dest_path) > 0
     with Image.open(dest_path) as jpg:
