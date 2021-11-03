@@ -6,9 +6,12 @@ from wand.color import Color
 from wand.image import Image
 import wand.version
 
+from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
+from preview_generator.utils import MimetypeMapping
 from preview_generator.utils import compute_resize_dims
+from preview_generator.utils import executable_is_available
 from preview_generator.utils import imagemagick_supported_mimes
 
 DEFAULT_JPEG_QUALITY = 85
@@ -19,6 +22,34 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
 
     weight = 30
     MIMETYPES = []  # type: typing.List[str]
+    # TODO - G.M - 2019-11-21 - find better storage solution for mimetype mapping
+    # dict and/or list.
+    # see https://github.com/algoo/preview-generator/pull/148#discussion_r346381508
+    SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING = [
+        MimetypeMapping("image/x-sony-arw", ".arw"),
+        MimetypeMapping("image/x-adobe-dng", ".dng"),
+        MimetypeMapping("image/x-sony-sr2", ".sr2"),
+        MimetypeMapping("image/x-sony-srf", ".srf"),
+        MimetypeMapping("image/x-sigma-x3f", ".x3f"),
+        MimetypeMapping("image/x-canon-crw", ".crw"),
+        MimetypeMapping("image/x-canon-cr2", ".cr2"),
+        MimetypeMapping("image/x-epson-erf", ".erf"),
+        MimetypeMapping("image/x-fuji-raf", ".raf"),
+        MimetypeMapping("image/x-nikon-nef", ".nef"),
+        MimetypeMapping("image/x-olympus-orf", ".orf"),
+        MimetypeMapping("image/x-panasonic-raw", ".raw"),
+        MimetypeMapping("image/x-panasonic-rw2", ".rw2"),
+        MimetypeMapping("image/x-pentax-pef", ".pef"),
+        MimetypeMapping("image/x-kodak-dcr", ".dcr"),
+        MimetypeMapping("image/x-kodak-k25", ".k25"),
+        MimetypeMapping("image/x-kodak-kdc", ".kdc"),
+        MimetypeMapping("image/x-minolta-mrw", ".mrw"),
+    ]
+
+    SUPPORTED_HEIC_MIMETYPE_MAPPING = [
+        MimetypeMapping("image/heic", ".heic"),
+        MimetypeMapping("image/heic", ".heif"),
+    ]
 
     def __init__(
         self, quality: int = DEFAULT_JPEG_QUALITY, progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
@@ -41,7 +72,29 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
         Load supported mimetypes from WAND library
         :return: list of supported mime types
         """
-        return imagemagick_supported_mimes()
+
+        mimes = imagemagick_supported_mimes()  # type: typing.List[str]
+        # HACK - G.M - 2019-10-31 - Handle raw format only if ufraw-batch is installed as most common
+        # default imagemagick configuration delegate raw format to ufraw-batch.
+        if executable_is_available("ufraw-batch"):
+            for mimetype_mapping in cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING:
+                mimes.append(mimetype_mapping.mimetype)
+        return mimes
+
+    @classmethod
+    def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
+        mimetypes_mapping = []  # type: typing.List[MimetypeMapping]
+        mimetypes_mapping = (
+            mimetypes_mapping
+            + cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING
+            + cls.SUPPORTED_HEIC_MIMETYPE_MAPPING
+        )
+        return mimetypes_mapping
+
+    @classmethod
+    def check_dependencies(cls) -> None:
+        if not executable_is_available("convert"):
+            raise BuilderDependencyNotFound("this builder requires convert to be available")
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
