@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-
-
 from shutil import which
+from subprocess import CalledProcessError
 from subprocess import DEVNULL
 from subprocess import STDOUT
 from subprocess import check_call
@@ -15,6 +14,25 @@ from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderP
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import executable_is_available
+
+INKSCAPE_EXECUTABLE = "inkscape"
+
+INKSCAPE_0x_SVG_TO_PNG_OPTIONS = ("--export-area-drawing", "-e")
+INKSCAPE_100_SVG_TO_PNG_OPTIONS = ("--export-area-drawing", "--export-type=png", "-o")
+
+try:
+    inkscape_version = check_output((INKSCAPE_EXECUTABLE, "--version"))
+except (FileNotFoundError, CalledProcessError):
+    inkscape_version = b"not_installed"
+INKSCAPE_SVG_TO_PNG_OPTIONS = (
+    INKSCAPE_0x_SVG_TO_PNG_OPTIONS
+    if inkscape_version.startswith(b"Inkscape 0.")
+    else INKSCAPE_100_SVG_TO_PNG_OPTIONS
+)
+
+
+def get_inkscape_parameters(input_path: str, output_path: str) -> typing.Tuple[str, ...]:
+    return (INKSCAPE_EXECUTABLE, input_path, *INKSCAPE_SVG_TO_PNG_OPTIONS, output_path)
 
 
 class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
@@ -30,15 +48,12 @@ class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
 
     @classmethod
     def check_dependencies(cls) -> None:
-        if not executable_is_available("inkscape"):
+        if not executable_is_available(INKSCAPE_EXECUTABLE):
             raise BuilderDependencyNotFound("this builder requires inkscape to be available")
 
     @classmethod
     def dependencies_versions(cls) -> typing.Optional[str]:
-        return "{} from {}".format(
-            check_output(["inkscape", "--version"], universal_newlines=True).strip(),
-            which("inkscape"),
-        )
+        return "{} from {}".format(inkscape_version.decode(), which(INKSCAPE_EXECUTABLE))
 
     def build_jpeg_preview(
         self,
@@ -57,7 +72,7 @@ class ImagePreviewBuilderInkscape(ImagePreviewBuilder):
             "w+b", prefix="preview-generator-", suffix=".png"
         ) as tmp_png:
             build_png_result_code = check_call(
-                ["inkscape", file_path, "--export-area-drawing", "-e", tmp_png.name],
+                get_inkscape_parameters(file_path, tmp_png.name),
                 stdout=DEVNULL,
                 stderr=STDOUT,
             )
