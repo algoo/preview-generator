@@ -11,7 +11,6 @@ import pytest
 
 from preview_generator.exception import UnavailablePreviewType
 from preview_generator.manager import PreviewManager
-from preview_generator.utils import executable_is_available
 from tests import test_utils
 
 """
@@ -23,8 +22,15 @@ CACHE_DIR = "/tmp/preview-generator-tests/cache"
 IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "L1004235.DNG")
 
 
-if not executable_is_available("ufraw-batch"):
-    pytest.skip("ufraw-batch is not available.", allow_module_level=True)
+rawpy_installed = True
+try:
+    import imageio  # noqa:F401
+    import rawpy  # noqa:F401
+except ImportError:
+    rawpy_installed = False
+
+if not rawpy_installed:
+    pytest.skip("rawpy is not available.", allow_module_level=True)
 
 
 def setup_function(function: typing.Callable) -> None:

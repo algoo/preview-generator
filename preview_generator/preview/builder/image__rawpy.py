@@ -1,41 +1,21 @@
-import os
-import subprocess
+import tempfile
 import typing
 
 from preview_generator.exception import BuilderDependencyNotFound
+from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import MimetypeMapping
-from preview_generator.utils import executable_is_available
 
-DARKTABLE_CLI_EXECUTABLE = "darktable-cli"
-DARKTABLE_RAW_TO_PNG_OPTIONS = [
-    "--apply-custom-presets",
-    "0",
-    "--hq",
-    "0",
-    "--core",
-    "--conf",
-    "plugins/imageio/format/jpeg/quality=75",
-]
+rawpy_installed = True
+try:
+    import imageio
+    import rawpy
+except ImportError:
+    rawpy_installed = False
 
 
-def generate_darktable_command(
-    input_path: str, output_path: str, options: typing.List[str], width: int, height: int
-):
-    return [
-        DARKTABLE_CLI_EXECUTABLE,
-        input_path,
-        output_path,
-        "--width",
-        str(width),
-        "--height",
-        str(height),
-        *options,
-    ]
-
-
-class ImagePreviewBuilderDarktable(ImagePreviewBuilder):
+class ImagePreviewBuilderRawpy(ImagePreviewBuilder):
     weight = 150
 
     SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING = [
@@ -57,11 +37,12 @@ class ImagePreviewBuilderDarktable(ImagePreviewBuilder):
         MimetypeMapping("image/x-kodak-k25", ".k25"),
         MimetypeMapping("image/x-kodak-kdc", ".kdc"),
         MimetypeMapping("image/x-minolta-mrw", ".mrw"),
+        MimetypeMapping("image/x-samsung-srw", ".srw"),
     ]
 
     @classmethod
     def get_label(cls) -> str:
-        return "Darktable Preview Builder"
+        return "Rawpy Preview Builder"
 
     @classmethod
     def get_supported_mimetypes(cls) -> typing.List[str]:
@@ -76,8 +57,8 @@ class ImagePreviewBuilderDarktable(ImagePreviewBuilder):
 
     @classmethod
     def check_dependencies(cls) -> None:
-        if not executable_is_available("darktable-cli"):
-            raise BuilderDependencyNotFound("this builder requires darktable-cli to be available")
+        if not rawpy_installed:
+            raise BuilderDependencyNotFound("this builder requires cairosvg to be available")
 
     def build_jpeg_preview(
         self,
@@ -91,22 +72,12 @@ class ImagePreviewBuilderDarktable(ImagePreviewBuilder):
     ) -> None:
         if not size:
             size = self.default_size
-        preview_file_path = "{path}{extension}".format(
-            path=cache_path + preview_name, extension=extension,
-        )
-        output_preview_file_path = "{path}{extension}".format(
-            path=cache_path + preview_name, extension=".jpg",
-        )
-
-        command = generate_darktable_command(
-            file_path,
-            preview_file_path,
-            options=DARKTABLE_RAW_TO_PNG_OPTIONS,
-            width=size.width,
-            height=size.height,
-        )
-        subprocess.check_call(
-            command, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT,
-        )
-        # FIXME: weird hotfix as file created always end with .jpg for unclear reason
-        os.rename(output_preview_file_path, preview_file_path)
+        with tempfile.NamedTemporaryFile(
+            "w+b", prefix="preview-generator", suffix=".tiff"
+        ) as tmp_tiff:
+            with rawpy.imread(file_path) as raw:
+                processed_image = raw.postprocess()
+                imageio.imsave(tmp_tiff, processed_image, format="tiff")
+            return ImagePreviewBuilderPillow().build_jpeg_preview(
+                tmp_tiff.name, preview_name, cache_path, page_id, extension, size, mimetype
+            )
