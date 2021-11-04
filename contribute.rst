@@ -17,8 +17,6 @@ If you want to add a new preview builder to handle documents of type **foo** int
    * for single page it will be `class FooPreviewBuilder(OnePagePreviewBuilder)`
    * etc
  - define your own `build_jpeg_preview(...)` (in the case we want to make **foo** into **jpeg**) based on the same principle as other build\_{type}_preview(...)
- - Inside this build_jpeg_preview(...) you will call a method file_converter.foo_to_jpeg(...)
- - Define your foo_to_jpeg(...) method in preview_generator.preview.file_converter.py
 
    * inputs must be a stream of bytes and optional informations like a number of pages, a size, ...
    * output must also be a stream of bytes
