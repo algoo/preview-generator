@@ -1,0 +1,8 @@
+# !/bin/bash
+set -e
+
+packages_dir="$(realpath $(dirname $0))/../../system_packages/debian"
+
+apt-get update
+apt-get install -qy $(cat "$packages_dir/build_backend_packages.list" $(cat "$packages_dir/run_backend_packages.list"))
+DRAWIO_VERSION="12.6.5" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb && dpkg -i draw.io-amd64-${DRAWIO_VERSION}.deb
