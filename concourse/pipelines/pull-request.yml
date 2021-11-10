@@ -58,7 +58,8 @@ resources:
 - name: test-image
   type: registry-image
   source:
-    repository: debian:bullseye
+    repository: debian
+    variant: bullseye
 # resource used to abort the running builds before starting our test jobs
 - name: abort-running-builds
   type: abort-running-builds
