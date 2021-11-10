@@ -4,7 +4,6 @@ set -e
 script_dir="$(realpath $(dirname $0))"
 source "$script_dir/util-lib.sh"
 
-"$script_dir/install_pyenv"
 source "$HOME/.bashrc"
 python_version=${1:-3.6.14}
 pyenv shell "$python_version"
