@@ -16,6 +16,7 @@ pyenv shell "$python_version"
 "$script_dir/install_os_packages"
 pip install ".[all, testing]"
 
+# Configuration to get most builder working
 GLTF_EXPERIMENTAL_SUPPORT_ENABLED=1
 rm -f /etc/ImageMagick-6/policy.xml
 export DISPLAY=:99.0
