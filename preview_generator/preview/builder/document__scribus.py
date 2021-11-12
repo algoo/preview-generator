@@ -32,7 +32,7 @@ parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCRIPT_PATH = os.path.join(parent_dir, SCRIPT_FOLDER_NAME, SCRIPT_NAME)
 
 
-@pytest.mark.xfailed(reason="Broken builder ?")
+@pytest.mark.xfail(reason="Broken builder ?")
 class DocumentPreviewBuilderScribus(DocumentPreviewBuilder):
 
     weight = 110
