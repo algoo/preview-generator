@@ -31,7 +31,7 @@ class ImagePreviewBuilderDrawio(PreviewBuilder):
         if not executable_is_available("xvfb-run"):
             raise BuilderDependencyNotFound("this builder requires xvfb-run to be available")
 
-        if not executable_is_available("/usr/bin/drawio"):
+        if not executable_is_available("drawio"):
             raise BuilderDependencyNotFound("this builder requires drawio to be available")
 
     @classmethod
@@ -67,14 +67,17 @@ class ImagePreviewBuilderDrawio(PreviewBuilder):
             with Xvfb():
                 build_jpg_result_code = check_call(
                     [
-                        "/usr/bin/drawio",
-                        "--no-sandbox",
+                        "drawio",
                         "-x",
                         "-f",
                         "jpg",
                         "-o",
                         tmp_jpg.name,
                         file_path,
+                        # INFO - G.M - 12/11/2021 - Add no-sandbox at the end as putting it before
+                        # doesn't work, see:
+                        # https://github.com/jgraph/drawio-desktop/issues/249#issuecomment-695179747
+                        "--no-sandbox",
                     ],
                     stdout=DEVNULL,
                     stderr=STDOUT,

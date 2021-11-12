@@ -1,7 +1,10 @@
 # !/bin/bash
 set -e
-
 packages_dir="$(realpath $(dirname $0))/../../system_packages/debian"
 
 apt-get update
-apt-get install -qy $(cat "$packages_dir/build_os_packages.list" $(cat "$packages_dir/run_os_packages.list"))
+apt-get install -qy $(cat "$packages_dir/os_packages.list")
+apt-get install -qy $(cat "$packages_dir/optional_preview_packages.list")
+echo "install drawio"
+# Custom install of drawio
+DRAWIO_VERSION="15.7.3" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-x86_64-${DRAWIO_VERSION}.AppImage && mv drawio-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/drawio
