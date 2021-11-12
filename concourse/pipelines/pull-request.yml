@@ -58,8 +58,7 @@ resources:
 - name: test-image
   type: registry-image
   source:
-    repository: debian
-    variant: bullseye
+    repository: algooci/preview-generator
 # resource used to abort the running builds before starting our test jobs
 - name: abort-running-builds
   type: abort-running-builds
