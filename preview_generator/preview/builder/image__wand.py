@@ -146,24 +146,25 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
     def _convert_image(self, file_path: str, preview_dims: ImgDims) -> Image:
         """
         refer: https://legacy.imagemagick.org/Usage/thumbnails/
-        like cmd: convert -flatten -background white -thumbnail widthxheight \
+        like cmd: convert -layers merge  -background white -thumbnail widthxheight \
         -auto-orient -quality 85 -interlace plane input.jpeg output.jpeg
         """
 
         img = Image(filename=file_path)
+        resize_dim = compute_resize_dims(
+            dims_in=ImgDims(width=img.width, height=img.height), dims_out=preview_dims
+        )
+
         img.auto_orient()
         img.background_color = Color("white")
-
-        img.merge_layers("flatten")
+        img.iterator_reset()
+        img.merge_layers("merge")
 
         if self.progressive:
             img.interlace_scheme = "plane"
 
         img.compression_quality = self.quality
 
-        resize_dim = compute_resize_dims(
-            dims_in=ImgDims(width=img.width, height=img.height), dims_out=preview_dims
-        )
         img.thumbnail(resize_dim.width, resize_dim.height)
 
         return img
