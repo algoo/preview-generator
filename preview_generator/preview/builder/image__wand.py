@@ -4,8 +4,10 @@ import typing
 
 from wand.color import Color
 from wand.image import Image
+from wand.exceptions import CoderError, CoderFatalError, CoderWarning
 import wand.version
 
+from preview_generator.extension import mimetypes_storage
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
@@ -124,23 +126,44 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
             size = self.default_size
         preview_name = preview_name + extension
         dest_path = os.path.join(cache_path, preview_name)
-        self.image_to_jpeg_wand(file_path, size, dest_path)
+        self.image_to_jpeg_wand(file_path, size, dest_path, mimetype=mimetype)
 
-    def image_to_jpeg_wand(self, file_path: str, preview_dims: ImgDims, dest_path: str,) -> None:
-        with Image(filename=file_path) as img:
-            # https://legacy.imagemagick.org/Usage/thumbnails/
-            img.auto_orient()
-            img.background_color = Color("white")
-            img.merge_layers("flatten")
+    def image_to_jpeg_wand(self, file_path: str, preview_dims: ImgDims, dest_path: str,
+                           mimetype: typing.Optional[str]) -> None:
+        try:
+            with self._convert_image(file_path, preview_dims) as img:
+                img.save(filename=dest_path)
+        except (CoderError, CoderFatalError, CoderWarning) as e:
+            assert mimetype
+            file_ext = mimetypes_storage.guess_extension(mimetype, strict=False) or ""
+            if file_ext:
+                file_path = file_ext.lstrip(".") + ":" + file_path
+                with self._convert_image(file_path, preview_dims) as img:
+                    img.save(filename=dest_path)
+            else:
+                raise e
 
-            if self.progressive:
-                img.interlace_scheme = "plane"
+    def _convert_image(self, file_path: str, preview_dims: ImgDims) -> Image:
+        """
+        refer: https://legacy.imagemagick.org/Usage/thumbnails/
+        like cmd: convert -flatten -background white -thumbnail widthxheight \
+        -auto-orient -quality 85 -interlace plane input.jpeg output.jpeg
+        """
 
-            img.compression_quality = self.quality
+        img = Image(filename=file_path)
+        img.auto_orient()
+        img.background_color = Color("white")
 
-            resize_dim = compute_resize_dims(
-                dims_in=ImgDims(width=img.width, height=img.height), dims_out=preview_dims
-            )
-            img.thumbnail(resize_dim.width, resize_dim.height)
+        img.merge_layers("flatten")
 
-            img.save(filename=dest_path)
+        if self.progressive:
+            img.interlace_scheme = "plane"
+
+        img.compression_quality = self.quality
+
+        resize_dim = compute_resize_dims(
+            dims_in=ImgDims(width=img.width, height=img.height), dims_out=preview_dims
+        )
+        img.thumbnail(resize_dim.width, resize_dim.height)
+
+        return img
