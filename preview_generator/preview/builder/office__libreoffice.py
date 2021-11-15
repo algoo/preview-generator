@@ -58,15 +58,10 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
 
     @classmethod
     def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
-        return [
-            MimetypeMapping(
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".xlsx"
-            ),
-            MimetypeMapping("application/vnd.oasis.opendocument.text", ".odt"),
-            MimetypeMapping(
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".docx"
-            ),
-        ]
+        mimetypes_mapping = []
+        for mimetype, extension in LO_MIMETYPES.items():
+            mimetypes_mapping.append(MimetypeMapping(mimetype, ".{}".format(extension)))
+        return mimetypes_mapping
 
     @classmethod
     def check_dependencies(cls) -> None:
@@ -356,7 +351,8 @@ LO_MIMETYPES = {
     # 'image/x-ms-bmp': 'bmp',
     # 'image/x-MS-bmp': 'bmp',
     "image/x-wpg": "wpg",
-    "image/x-eps": "eps",
+    # INFO - G.M - 2021-11-15 Prefer imagemagick for this format
+    # "image/x-eps": "eps",
     "image/x-met": "met",
     "image/x-portable-bitmap": "pbm",
     "image/x-photo-cd": "pcd",
