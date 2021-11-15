@@ -12,7 +12,7 @@ from preview_generator.manager import PreviewManager
 from preview_generator.utils import executable_is_available
 from tests import test_utils
 
-if not executable_is_available("drawuio"):
+if not executable_is_available("drawio"):
     pytest.skip("drawio is not available.", allow_module_level=True)
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
