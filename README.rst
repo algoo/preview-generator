@@ -463,14 +463,13 @@ Known Issues
 InputExtensionNotFound or UnsupportedMimeType
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The current mimetype/file-extension database of preview-generator may differ between computer which
-mean you can get trouble to get preview depending on your OS or you installed software.
+The current mimetype/file-extension database of preview-generator may differ between systems which
+means you can struggle to get previews depending on your OS or you installed software.
 
-In case you get one of theses exception and the mimetype/extension you tried is marked as
-supported by preview generator
-you should:
-- verify the version of PG you are using.
-- verify you have the proper dependencies to make you're builder work as expected.
+In case you get one of these exceptions and the mimetype/extension you tried is marked as
+supported by preview generator,  you should:
+- check the version of PG you are using.
+- check you have the proper dependencies to make you're builder work as expected.
 - check if the mimetype of the format you are using is handled by preview_generator mimetype_storage (python console):
 
 .. code:: python
@@ -480,14 +479,14 @@ you should:
     mimetypes_storage.guess_type('toto.docx', strict=False)
     ('application/vnd.openxmlformats-officedocument.wordprocessingml.document', None)
 
-In case, you don't get proper result for your file_extension/mimetype, you can bypass the issue this way:
+In case you don't get proper result for your file_extension/mimetype, you can work around the issue this way:
 
 .. code:: python
     from preview_generator.extension import mimetypes_storage
     mimetypes_storage.add_type(
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document', '.docx')
 
-Be free to propose an upstream patch to add the proper MimetypeMapping to the builder you're using.
+Feel free to propose an upstream patch to add the proper MimetypeMapping to the builder you're using.
 
 Support for 3D file on headless server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
