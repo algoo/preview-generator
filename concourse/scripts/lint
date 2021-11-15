@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e
+
+script_dir="$(realpath $(dirname $0))"
+source "$script_dir/util-lib.sh"
+
+source "$HOME/.bashrc"
+python_version=${1:-3.6.14}
+pyenv shell "$python_version"
+
+
+pip install black isort flake8 mypy==0.770 types-filelock
+# black
+black --version
+black -l 100 --exclude '/(\..*)/' --diff --check preview_generator tests setup.py
+# isort
+echo -n "isort " && isort --version-number
+isort --df -c **/*.py
+# flake8
+flake8 --version
+flake8
+# mypy
+mypy --version
+mypy --ignore-missing-imports --disallow-untyped-defs .

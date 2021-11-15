@@ -6,9 +6,14 @@ import shutil
 import typing
 
 from PIL import Image
+import pytest
 
 from preview_generator.manager import PreviewManager
+from preview_generator.utils import executable_is_available
 from tests import test_utils
+
+if not executable_is_available("drawio"):
+    pytest.skip("drawio is not available.", allow_module_level=True)
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = "/tmp/preview-generator-tests/cache"
