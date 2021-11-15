@@ -115,7 +115,10 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
         if not input_extension:
             input_extension = mimetypes_storage.guess_extension(mimetype, strict=False)
         if not input_extension:
-            raise InputExtensionNotFound("unable to found input extension from mimetype")  # nopep8
+            raise InputExtensionNotFound(
+                "unable to found input extension from mimetype {}"
+                "unable convert office document to pdf.".format(mimetype)
+            )  # nopep8
         temporary_input_content_path = output_filepath + input_extension  # nopep8
         with create_flag_file(output_filepath):
             logger.debug(
