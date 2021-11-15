@@ -11,14 +11,14 @@ import pytest
 
 from preview_generator.exception import UnavailablePreviewType
 from preview_generator.manager import PreviewManager
-from preview_generator.utils import imagemagick_supported_mimes
 from tests import test_utils
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = "/tmp/preview-generator-tests/cache"
 IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "test_heic.heic")
 
-if imagemagick_supported_mimes().count("image/heic") == 0:
+manager = PreviewManager(cache_folder_path=CACHE_DIR, create_folder=True)
+if "image/heic" not in manager.get_supported_mimetypes():
     pytest.skip("heif-convert is not available.", allow_module_level=True)
 
 
