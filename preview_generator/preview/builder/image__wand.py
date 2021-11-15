@@ -156,8 +156,8 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
         )
 
         img.auto_orient()
-        img.background_color = Color("white")
         img.iterator_reset()
+        img.background_color = Color("white")
         img.merge_layers("merge")
 
         if self.progressive:

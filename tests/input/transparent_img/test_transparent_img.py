@@ -39,7 +39,7 @@ def test_gif_to_jpeg_with_background_white() -> None:
     with Image(filename=path_to_file) as output_img:
         assert output_img.width == expected_size.width
         assert output_img.height == expected_size.height
-        assert output_img.background_color == Color("white")
+        assert nearest_colour_white(output_img[1][1])
 
 
 def test_png_to_jpeg_with_background_white() -> None:
@@ -62,4 +62,8 @@ def test_png_to_jpeg_with_background_white() -> None:
     with Image(filename=path_to_file) as output_img:
         assert output_img.width == expected_size.width
         assert output_img.height == expected_size.height
-        assert output_img.background_color == Color("white")
+        assert nearest_colour_white(output_img[5][5])
+
+
+def nearest_colour_white(color: Color):
+    return color.red_int8 >= 250 and color.green_int8 >= 250 and color.blue_int8 >= 250
