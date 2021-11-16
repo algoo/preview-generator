@@ -473,6 +473,7 @@ supported by preview generator,  you should:
 - check if the mimetype of the format you are using is handled by preview_generator mimetype_storage (python console):
 
 .. code:: python
+
     from preview_generator.extension import mimetypes_storage
     mimetypes_storage.guess_all_extensions('application/vnd.openxmlformats-officedocument.wordprocessingml.document')
     ['.docx']
@@ -482,6 +483,7 @@ supported by preview generator,  you should:
 In case you don't get proper result for your file_extension/mimetype, you can work around the issue this way:
 
 .. code:: python
+
     from preview_generator.extension import mimetypes_storage
     mimetypes_storage.add_type(
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document', '.docx')
