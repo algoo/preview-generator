@@ -93,7 +93,10 @@ class PreviewBuilderFactory(object):
             builder_modules = get_builder_modules(builder_folder)
 
             for module_name in builder_modules:
-                import_builder_module(module_name)
+                try:
+                    import_builder_module(module_name)
+                except Exception:
+                    self.logger.critical("Builder {} failed to be loaded".format(module_name))
 
             from preview_generator.preview.generic_preview import PreviewBuilder  # nopep8
 
