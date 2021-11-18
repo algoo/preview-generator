@@ -1,15 +1,17 @@
 import tempfile
 import typing
 
+from wand.image import Image
+
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow
+from preview_generator.preview.builder.image__wand import ImagePreviewBuilderWand
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import MimetypeMapping
 
 rawpy_installed = True
 try:
-    import imageio
     import rawpy
 except ImportError:
     rawpy_installed = False
@@ -76,8 +78,10 @@ class ImagePreviewBuilderRawpy(ImagePreviewBuilder):
             "w+b", prefix="preview-generator", suffix=".tiff"
         ) as tmp_tiff:
             with rawpy.imread(file_path) as raw:
-                processed_image = raw.postprocess()
-                imageio.imsave(tmp_tiff, processed_image, format="tiff")
-            return ImagePreviewBuilderPillow().build_jpeg_preview(
+                processed_image = raw.postprocess(use_auto_wb=True)
+                with Image.from_array(processed_image) as img:
+                    img.save(filename=tmp_tiff.name)
+
+            return ImagePreviewBuilderWand().build_jpeg_preview(
                 tmp_tiff.name, preview_name, cache_path, page_id, extension, size, mimetype
             )

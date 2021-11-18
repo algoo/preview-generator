@@ -24,7 +24,6 @@ IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "L1004235.DNG")
 
 rawpy_installed = True
 try:
-    import imageio  # noqa:F401
     import rawpy  # noqa:F401
 except ImportError:
     rawpy_installed = False

@@ -15,12 +15,11 @@ from tests import test_utils
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = "/tmp/preview-generator-tests/cache"
-IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "DSC08523.ARW")
-IMAGE_FILE_PATH_NO_EXTENSION = os.path.join(CURRENT_DIR, "DSC08523")
+IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "DSC03497.ARW")
+IMAGE_FILE_PATH_NO_EXTENSION = os.path.join(CURRENT_DIR, "DSC03497")
 
 rawpy_installed = True
 try:
-    import imageio  # noqa:F401
     import rawpy  # noqa:F401
 except ImportError:
     rawpy_installed = False
