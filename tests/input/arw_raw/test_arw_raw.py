@@ -83,7 +83,7 @@ def test_to_jpeg__default_size() -> None:
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
 
     with Image.open(path_to_file) as jpeg:
-        assert jpeg.height ==256
+        assert jpeg.height == 256
         assert jpeg.width == 171
 
 
