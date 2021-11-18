@@ -45,7 +45,7 @@ def test_to_jpeg() -> None:
 
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
-        assert jpeg.width in range(382, 384)
+        assert jpeg.width == 171
 
 
 @pytest.mark.slow
@@ -61,7 +61,7 @@ def test_to_jpeg_no_extension() -> None:
 
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
-        assert jpeg.width in range(382, 384)
+        assert jpeg.width == 171
 
 
 @pytest.mark.slow
@@ -83,8 +83,8 @@ def test_to_jpeg__default_size() -> None:
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
 
     with Image.open(path_to_file) as jpeg:
-        assert jpeg.height in range(170, 172)
-        assert jpeg.width == 256
+        assert jpeg.height ==256
+        assert jpeg.width == 171
 
 
 @pytest.mark.slow
