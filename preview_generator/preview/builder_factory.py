@@ -108,9 +108,10 @@ class PreviewBuilderFactory(object):
                 if is_abstract(cls):
                     # INFO - G.M - 2021-06-22 - Skip abstract classes from loaded builders
                     pass
-                elif cls.__name__ == "ImagePreviewBuilderWand":
+                elif cls.__name__ in ("ImagePreviewBuilderPillow", "ImagePreviewBuilderIMConvert"):
                     self.logger.info(
-                        "ImagePreviewBuilderWand builder is deprecated and is not registered by default. Consider using ImagePreviewBuilderIMConvert instead"
+                        "%s builder is deprecated and is not registered by default. "
+                        "Consider using ImagePreviewBuilderIMConvert instead".format(cls.__name__)
                     )
                 else:
                     self.register_builder(cls, overwrite=False)

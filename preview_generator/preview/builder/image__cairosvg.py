@@ -5,7 +5,7 @@ import typing
 
 # HACK - G.M - 2020-12-26 - Hack to allow loading modules without cairosvg installed
 from preview_generator.exception import BuilderDependencyNotFound
-from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
+from preview_generator.preview.builder.image__wand import ImagePreviewBuilderWand  # nopep8
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
 
@@ -55,7 +55,7 @@ class ImagePreviewBuilderCairoSVG(ImagePreviewBuilder):
         ) as tmp_png:
             cairosvg.svg2png(url=file_path, write_to=tmp_png.name, dpi=96)
 
-            return ImagePreviewBuilderPillow().build_jpeg_preview(
+            return ImagePreviewBuilderWand().build_jpeg_preview(
                 tmp_png.name, preview_name, cache_path, page_id, extension, size, mimetype
             )
 
