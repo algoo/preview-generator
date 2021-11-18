@@ -7,7 +7,7 @@ import typing
 
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import IntermediateFileBuildingFailed
-from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow
+from preview_generator.preview.builder.image__wand import ImagePreviewBuilderWand
 from preview_generator.preview.generic_preview import PreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import MimetypeMapping
@@ -31,7 +31,7 @@ class ImagePreviewBuilderDrawio(PreviewBuilder):
         if not executable_is_available("xvfb-run"):
             raise BuilderDependencyNotFound("this builder requires xvfb-run to be available")
 
-        if not executable_is_available("/usr/bin/drawio"):
+        if not executable_is_available("drawio"):
             raise BuilderDependencyNotFound("this builder requires drawio to be available")
 
     @classmethod
@@ -67,14 +67,17 @@ class ImagePreviewBuilderDrawio(PreviewBuilder):
             with Xvfb():
                 build_jpg_result_code = check_call(
                     [
-                        "/usr/bin/drawio",
-                        "--no-sandbox",
+                        "drawio",
                         "-x",
                         "-f",
                         "jpg",
                         "-o",
                         tmp_jpg.name,
                         file_path,
+                        # INFO - G.M - 12/11/2021 - Add no-sandbox at the end as putting it before
+                        # doesn't work, see:
+                        # https://github.com/jgraph/drawio-desktop/issues/249#issuecomment-695179747
+                        "--no-sandbox",
                     ],
                     stdout=DEVNULL,
                     stderr=STDOUT,
@@ -87,7 +90,7 @@ class ImagePreviewBuilderDrawio(PreviewBuilder):
                     "failed with status {}".format(build_jpg_result_code)
                 )
 
-            ImagePreviewBuilderPillow().build_jpeg_preview(
+            ImagePreviewBuilderWand().build_jpeg_preview(
                 tmp_jpg.name, preview_name, cache_path, page_id, extension, size, mimetype
             )
 

@@ -7,6 +7,7 @@ import typing
 
 from filelock import FileLock
 
+from preview_generator.exception import UnsupportedMimeType
 from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.builder.document_generic import DocumentPreviewBuilder
 from preview_generator.preview.builder_factory import PreviewBuilderFactory
@@ -55,7 +56,12 @@ class PreviewManager(object):
                 self.logger.error("cant create cache folder [{}]".format(self.cache_path))
 
     def get_preview_context(self, file_path: str, file_ext: str) -> PreviewContext:
-        return PreviewContext(self._factory, self.cache_path, file_path, file_ext)
+        try:
+            return PreviewContext(self._factory, self.cache_path, file_path, file_ext)
+        except UnsupportedMimeType as exc:
+            raise UnsupportedMimeType(
+                "Mimetype guessed for '{}{}' is not supported.".format(file_path, file_ext or "")
+            ) from exc
 
     def get_mimetype(self, file_path: str, file_ext: str = "") -> str:
         """

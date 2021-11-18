@@ -93,7 +93,8 @@ To install all previews builders dependencies:
 
   pip install preview-generator[all]
   sudo apt-get install libreoffice inkscape ffmpeg xvfb
-  DRAWIO_VERSION="12.6.5" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb && sudo dpkg -i draw.io-amd64-${DRAWIO_VERSION}.deb
+  DRAWIO_VERSION="15.7.3" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-x86_64-${DRAWIO_VERSION}.AppImage && mv drawio-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/drawio
+
 
 
 To check dependencies, you can run:
@@ -162,7 +163,7 @@ On debian :
   pip install preview-generator[video]
 
 
-RAW Images(rawpy)
+RAW Images(ufraw-batch)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 On debian :
@@ -186,7 +187,7 @@ on debian:
 .. code:: console
 
   apt install xvfb
-  DRAWIO_VERSION="12.6.5" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb && sudo dpkg -i draw.io-amd64-${DRAWIO_VERSION}.deb
+  DRAWIO_VERSION="15.7.3" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-x86_64-${DRAWIO_VERSION}.AppImage && mv drawio-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/drawio
   pip install preview-generator[drawio]
 
 
@@ -213,6 +214,16 @@ Building ImageMagick with heic support: `Building ImageMagick with heic support`
 
 .. _`Building ImageMagick with heic support`: doc/build_im_with_heic_support.rst
 
+EPS support
+~~~~~~~~~~~~
+
+You need to edit the policies of ImageMagick in /etc/ImageMagick-*/policy.xml.
+
+.. code:: xhtml
+
+  <policy domain="coder" rights="none" pattern="ESP" />
+
+Just wrap it between <!-- and --> to comment it.
 
 -----
 Usage
@@ -459,6 +470,35 @@ will print
 Known Issues
 ------------
 
+InputExtensionNotFound or UnsupportedMimeType
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The current mimetype/file-extension database of preview-generator may differ between systems which
+means you can struggle to get previews depending on your OS or you installed software.
+
+In case you get one of these exceptions and the mimetype/extension you tried is marked as
+supported by preview generator,  you should:
+- check the version of PG you are using.
+- check you have the proper dependencies to make you're builder work as expected.
+- check if the mimetype of the format you are using is handled by preview_generator mimetype_storage (python console):
+
+.. code:: python
+
+    from preview_generator.extension import mimetypes_storage
+    mimetypes_storage.guess_all_extensions('application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    ['.docx']
+    mimetypes_storage.guess_type('toto.docx', strict=False)
+    ('application/vnd.openxmlformats-officedocument.wordprocessingml.document', None)
+
+In case you don't get proper result for your file_extension/mimetype, you can work around the issue this way:
+
+.. code:: python
+
+    from preview_generator.extension import mimetypes_storage
+    mimetypes_storage.add_type(
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document', '.docx')
+
+Feel free to propose an upstream patch to add the proper MimetypeMapping to the builder you're using.
 
 Support for 3D file on headless server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
