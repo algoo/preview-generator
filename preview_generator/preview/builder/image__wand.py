@@ -56,7 +56,9 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
     ]
 
     def __init__(
-        self, quality: int = DEFAULT_JPEG_QUALITY, progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
+        self,
+        quality: int = DEFAULT_JPEG_QUALITY,
+        progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
     ):
         super().__init__()
         self.quality = quality
