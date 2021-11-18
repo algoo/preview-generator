@@ -4,7 +4,6 @@ import typing
 from wand.image import Image
 
 from preview_generator.exception import BuilderDependencyNotFound
-from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow
 from preview_generator.preview.builder.image__wand import ImagePreviewBuilderWand
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
