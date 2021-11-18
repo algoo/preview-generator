@@ -58,7 +58,7 @@ class ImagePreviewBuilderRawpy(ImagePreviewBuilder):
     @classmethod
     def check_dependencies(cls) -> None:
         if not rawpy_installed:
-            raise BuilderDependencyNotFound("this builder requires cairosvg to be available")
+            raise BuilderDependencyNotFound("this builder requires rawpy to be available")
 
     def build_jpeg_preview(
         self,
