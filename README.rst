@@ -92,7 +92,7 @@ To install all previews builders dependencies:
 .. code:: console
 
   pip install preview-generator[all]
-  sudo apt-get install libreoffice inkscape ufraw-batch ffmpeg xvfb
+  sudo apt-get install libreoffice inkscape ffmpeg xvfb
   DRAWIO_VERSION="15.7.3" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-x86_64-${DRAWIO_VERSION}.AppImage && mv drawio-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/drawio
 
 
@@ -170,7 +170,7 @@ On debian :
 
 .. code:: console
 
-  apt-get install ufraw-batch
+  pip install preview-generator[raw]
 
 
 Diagram(DrawIO)

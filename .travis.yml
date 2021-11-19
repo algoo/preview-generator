@@ -11,7 +11,7 @@ before_install:
   # main requirements
   - sudo apt-get install -y poppler-utils qpdf libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0
   # optionals
-  - sudo apt-get install libreoffice inkscape ufraw-batch ffmpeg xvfb
+  - sudo apt-get install libreoffice inkscape ffmpeg xvfb
   - DRAWIO_VERSION="12.6.5" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb && sudo dpkg -i draw.io-amd64-${DRAWIO_VERSION}.deb
 install:
   - pip install ".[all, testing]"
