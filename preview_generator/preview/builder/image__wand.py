@@ -56,9 +56,7 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
     ]
 
     def __init__(
-        self,
-        quality: int = DEFAULT_JPEG_QUALITY,
-        progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
+        self, quality: int = DEFAULT_JPEG_QUALITY, progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
     ):
         super().__init__()
         self.quality = quality
@@ -85,11 +83,15 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
         if executable_is_available("ufraw-batch"):
             for mimetype_mapping in cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING:
                 mimes.append(mimetype_mapping.mimetype)
+        if executable_is_available("dwebp"):
+            mimes.append("image/webp")
         return mimes
 
     @classmethod
     def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
-        mimetypes_mapping = []  # type: typing.List[MimetypeMapping]
+        mimetypes_mapping = [
+            MimetypeMapping("image/webp", ".webp")
+        ]  # type: typing.List[MimetypeMapping]
         mimetypes_mapping = (
             mimetypes_mapping
             + cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING

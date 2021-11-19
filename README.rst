@@ -77,7 +77,7 @@ On debian :
 
 .. code:: console
 
-  apt-get install poppler-utils qpdf libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0 zlib1g-dev libjpeg-dev
+  apt-get install poppler-utils qpdf libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0 zlib1g-dev libjpeg-dev imagemagick libmagic1 webp
 
 
 install preview_generator without external addons:
@@ -92,7 +92,7 @@ To install all previews builders dependencies:
 .. code:: console
 
   pip install preview-generator[all]
-  sudo apt-get install libreoffice inkscape ffmpeg xvfb webp
+  sudo apt-get install libreoffice inkscape ffmpeg xvfb
   DRAWIO_VERSION="15.7.3" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-x86_64-${DRAWIO_VERSION}.AppImage && mv drawio-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/drawio
 
 
