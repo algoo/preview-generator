@@ -58,15 +58,10 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
 
     @classmethod
     def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
-        return [
-            MimetypeMapping(
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".xlsx"
-            ),
-            MimetypeMapping("application/vnd.oasis.opendocument.text", ".odt"),
-            MimetypeMapping(
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".docx"
-            ),
-        ]
+        mimetypes_mapping = []
+        for mimetype, extension in LO_MIMETYPES.items():
+            mimetypes_mapping.append(MimetypeMapping(mimetype, ".{}".format(extension)))
+        return mimetypes_mapping
 
     @classmethod
     def check_dependencies(cls) -> None:
@@ -115,7 +110,10 @@ class OfficePreviewBuilderLibreoffice(DocumentPreviewBuilder):
         if not input_extension:
             input_extension = mimetypes_storage.guess_extension(mimetype, strict=False)
         if not input_extension:
-            raise InputExtensionNotFound("unable to found input extension from mimetype")  # nopep8
+            raise InputExtensionNotFound(
+                "unable to found input extension from mimetype {}"
+                "unable convert office document to pdf.".format(mimetype)
+            )  # nopep8
         temporary_input_content_path = output_filepath + input_extension  # nopep8
         with create_flag_file(output_filepath):
             logger.debug(
@@ -353,7 +351,8 @@ LO_MIMETYPES = {
     # 'image/x-ms-bmp': 'bmp',
     # 'image/x-MS-bmp': 'bmp',
     "image/x-wpg": "wpg",
-    "image/x-eps": "eps",
+    # INFO - G.M - 2021-11-15 Prefer imagemagick for this format
+    # "image/x-eps": "eps",
     "image/x-met": "met",
     "image/x-portable-bitmap": "pbm",
     "image/x-photo-cd": "pcd",

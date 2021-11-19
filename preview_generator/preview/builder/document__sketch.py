@@ -3,7 +3,7 @@ import tempfile
 import typing
 import zipfile
 
-from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow  # nopep8
+from preview_generator.preview.builder.image__wand import ImagePreviewBuilderWand  # nopep8
 from preview_generator.preview.generic_preview import PreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import MimetypeMapping
@@ -46,7 +46,7 @@ class ImagePreviewBuilderSketch(PreviewBuilder):
                 zip.extract("previews/preview.png", tmp_dir)
                 zip.close()
 
-                ImagePreviewBuilderPillow().build_jpeg_preview(
+                ImagePreviewBuilderWand().build_jpeg_preview(
                     tmp_dir + "/previews/preview.png",
                     preview_name,
                     cache_path,

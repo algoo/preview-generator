@@ -210,6 +210,9 @@ class PillowImageConvertStrategyFactory(object):
 
 
 class ImagePreviewBuilderPillow(ImagePreviewBuilder):
+    """WARNING : This builder is deprecated, prefer ImagePreviewBuilderWand instead which
+        support the same list of format."""
+
     weight = 20
 
     def __init__(
