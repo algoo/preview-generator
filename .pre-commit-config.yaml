@@ -26,7 +26,7 @@ repos:
             args: [-l 100]
             files: 'preview_generator'
     - repo: https://github.com/ambv/black
-      rev: stable
+      rev: 21.11b1
       hooks:
           - id: black
             args: [-l 100]
