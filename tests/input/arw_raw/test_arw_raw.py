@@ -11,16 +11,21 @@ import pytest
 
 from preview_generator.exception import UnavailablePreviewType
 from preview_generator.manager import PreviewManager
-from preview_generator.utils import executable_is_available
 from tests import test_utils
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = "/tmp/preview-generator-tests/cache"
-IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "DSC08523.ARW")
-IMAGE_FILE_PATH_NO_EXTENSION = os.path.join(CURRENT_DIR, "DSC08523")
+IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "DSC03497.ARW")
+IMAGE_FILE_PATH_NO_EXTENSION = os.path.join(CURRENT_DIR, "DSC03497")
 
-if not executable_is_available("ufraw-batch"):
-    pytest.skip("ufraw-batch is not available.", allow_module_level=True)
+rawpy_installed = True
+try:
+    import rawpy  # noqa:F401
+except ImportError:
+    rawpy_installed = False
+
+if not rawpy_installed:
+    pytest.skip("rawpy is not available.", allow_module_level=True)
 
 
 def setup_function(function: typing.Callable) -> None:
@@ -40,7 +45,7 @@ def test_to_jpeg() -> None:
 
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
-        assert jpeg.width in range(382, 384)
+        assert jpeg.width == 171
 
 
 @pytest.mark.slow
@@ -56,7 +61,7 @@ def test_to_jpeg_no_extension() -> None:
 
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height == 256
-        assert jpeg.width in range(382, 384)
+        assert jpeg.width == 171
 
 
 @pytest.mark.slow
@@ -78,8 +83,8 @@ def test_to_jpeg__default_size() -> None:
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__JPEG, path_to_file)
 
     with Image.open(path_to_file) as jpeg:
-        assert jpeg.height in range(170, 172)
-        assert jpeg.width == 256
+        assert jpeg.height == 256
+        assert jpeg.width == 171
 
 
 @pytest.mark.slow

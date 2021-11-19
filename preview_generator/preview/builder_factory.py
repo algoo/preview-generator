@@ -110,7 +110,7 @@ class PreviewBuilderFactory(object):
                     pass
                 elif cls.__name__ in ("ImagePreviewBuilderPillow", "ImagePreviewBuilderIMConvert"):
                     self.logger.info(
-                        "%s builder is deprecated and is not registered by default. "
+                        "{} builder is deprecated and is not registered by default. "
                         "Consider using ImagePreviewBuilderIMConvert instead".format(cls.__name__)
                     )
                 else:

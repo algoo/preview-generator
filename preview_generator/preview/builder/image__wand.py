@@ -3,12 +3,14 @@ import os
 import typing
 
 from wand.color import Color
+from wand.exceptions import CoderError
+from wand.exceptions import CoderFatalError
+from wand.exceptions import CoderWarning
 from wand.image import Image
-from wand.exceptions import CoderError, CoderFatalError, CoderWarning
 import wand.version
 
-from preview_generator.extension import mimetypes_storage
 from preview_generator.exception import BuilderDependencyNotFound
+from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.generic_preview import ImagePreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import MimetypeMapping
@@ -54,7 +56,9 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
     ]
 
     def __init__(
-        self, quality: int = DEFAULT_JPEG_QUALITY, progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
+        self,
+        quality: int = DEFAULT_JPEG_QUALITY,
+        progressive: bool = DEFAULT_JPEG_PROGRESSIVE,
     ):
         super().__init__()
         self.quality = quality
@@ -128,8 +132,9 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
         dest_path = os.path.join(cache_path, preview_name)
         self.image_to_jpeg_wand(file_path, size, dest_path, mimetype=mimetype)
 
-    def image_to_jpeg_wand(self, file_path: str, preview_dims: ImgDims, dest_path: str,
-                           mimetype: typing.Optional[str]) -> None:
+    def image_to_jpeg_wand(
+        self, file_path: str, preview_dims: ImgDims, dest_path: str, mimetype: typing.Optional[str]
+    ) -> None:
         try:
             with self._convert_image(file_path, preview_dims) as img:
                 img.save(filename=dest_path)
