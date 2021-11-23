@@ -92,7 +92,10 @@ class PreviewBuilderFactory(object):
             builder_folder = get_builder_folder_name()
             builder_modules = get_builder_modules(builder_folder)
             for module_name in builder_modules:
-                import_builder_module(module_name)
+                try:
+                    import_builder_module(module_name)
+                except Exception:
+                    self.logger.critical("Builder {} failed to be loaded".format(module_name))
 
             from preview_generator.preview.generic_preview import PreviewBuilder  # nopep8
 
@@ -104,9 +107,10 @@ class PreviewBuilderFactory(object):
                 if is_abstract(cls):
                     # INFO - G.M - 2021-06-22 - Skip abstract classes from loaded builders
                     pass
-                elif cls.__name__ == "ImagePreviewBuilderWand":
+                elif cls.__name__ in ("ImagePreviewBuilderPillow", "ImagePreviewBuilderIMConvert"):
                     self.logger.info(
-                        "ImagePreviewBuilderWand builder is deprecated and is not registered by default. Consider using ImagePreviewBuilderIMConvert instead"
+                        "{} builder is deprecated and is not registered by default. "
+                        "Consider using ImagePreviewBuilderIMConvert instead".format(cls.__name__)
                     )
                 else:
                     self.register_builder(cls, overwrite=False)
