@@ -52,7 +52,7 @@ class PdfPreviewBuilderPopplerUtils(PreviewBuilder):
         """
         generate the pdf small preview
         """
-        # INFO - G.M - 2021-10-21 - Page id in pdftocairo begin at 1 instead of 0
+        # INFO - G.M - 2021-10-21 - Page id in pdftocairo begins at 1 instead of 0
         page_id = page_id + 1
         if not size:
             size = self.default_size
