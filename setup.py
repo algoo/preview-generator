@@ -40,7 +40,6 @@ install_requires = [
     "pdf2image",
     "PyPDF2",
     "pyexifinfo",
-    "pathlib",
     "pdf2image",
     "filelock",
 ]
