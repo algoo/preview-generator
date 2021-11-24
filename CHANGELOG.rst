@@ -113,7 +113,7 @@ Fixed issues
 Fixed issues
 ~~~~~~~~~~~~
 
-- improve performances by using pivot in the manager: #222
+- improve performance by using pivot in the manager: #222
 
 
 -------------------
