@@ -38,7 +38,6 @@ install_requires = [
     "Wand",
     # commons
     "pdf2image",
-    "PyPDF2",
     "pyexifinfo",
     "pdf2image",
     "filelock",

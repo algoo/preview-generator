@@ -8,14 +8,10 @@ from pathlib import Path
 import time
 import typing
 
-from PyPDF2 import PdfFileWriter
-from PyPDF2.utils import b_
-
 from preview_generator import utils
-from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import PreviewAbortedMaxAttempsExceeded
+from preview_generator.preview.builder.pdf__poppler_utils import PdfPreviewBuilderPopplerUtils
 from preview_generator.preview.generic_preview import PreviewBuilder
-from preview_generator.utils import executable_is_available
 
 
 class DocumentPreviewBuilder(PreviewBuilder, ABC):
@@ -40,8 +36,7 @@ class DocumentPreviewBuilder(PreviewBuilder, ABC):
 
     @classmethod
     def check_dependencies(cls) -> None:
-        if not executable_is_available("qpdf"):
-            raise BuilderDependencyNotFound("this builder requires qpdf to be available")
+        PdfPreviewBuilderPopplerUtils().check_dependencies()
 
     def _cache_file_process_already_running(self, file_name: str) -> bool:
         if os.path.exists(file_name + "_flag"):
@@ -74,10 +69,11 @@ class DocumentPreviewBuilder(PreviewBuilder, ABC):
         mimetype: str = "",
         attempt: int = 0,
     ) -> None:
-
         intermediate_pdf_filename = preview_name.split("-page")[0] + ".pdf"
         intermediate_pdf_file_path = os.path.join(cache_path, intermediate_pdf_filename)
 
+        # TODO - G.M - 2021-10-21 Refactor this part with a lock and consider splitting
+        # full and simple page pdf to make intermediate file preview easier.
         if not os.path.exists(intermediate_pdf_file_path):
             if os.path.exists(intermediate_pdf_file_path + "_flag"):
                 # Wait 2 seconds, then retry
@@ -112,17 +108,13 @@ class DocumentPreviewBuilder(PreviewBuilder, ABC):
         if page_id < 0:
             return  # in this case, the intermediate file is the requested one
 
-        pdf_out = PdfFileWriter()
-        with open(intermediate_pdf_file_path, "rb") as pdf_stream:
-            # HACK - G.M - 2020-08-19 - Transform stream in a way pypdf2 can handle it
-            # this should be removed with a future pdf builder.
-            stream = BytesIO(b_(pdf_stream.read()))
-            pdf_in = utils.get_decrypted_pdf(stream)
-            output_file_path = os.path.join(cache_path, "{}{}".format(preview_name, extension))
-            pdf_out.addPage(pdf_in.getPage(page_id))
-
-        with open(output_file_path, "wb") as output_file:
-            pdf_out.write(output_file)
+        PdfPreviewBuilderPopplerUtils().build_pdf_preview(
+            file_path=intermediate_pdf_file_path,
+            preview_name=preview_name,
+            cache_path=cache_path,
+            page_id=page_id,
+            extension=extension,
+        )
 
     def get_page_number(
         self, file_path: str, preview_name: str, cache_path: str, mimetype: str = ""

@@ -8,11 +8,11 @@ import subprocess
 import typing
 
 from PIL import Image
-from PyPDF2 import PdfFileReader
 import pytest
 
 from preview_generator.exception import UnavailablePreviewType
 from preview_generator.manager import PreviewManager
+from preview_generator.preview.builder.pdf__poppler_utils import PdfPreviewBuilderPopplerUtils
 from preview_generator.utils import executable_is_available
 from tests import test_utils
 
@@ -163,15 +163,23 @@ def test_to_pdf_one_page() -> None:
     assert os.path.exists(path_0) is True
     assert os.path.getsize(path_0) > 1000  # verify if the size of the pdf refer to a normal content
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__PDF, path_0)
-    pdf = PdfFileReader(open(path_0, "rb"))
-    assert pdf.getNumPages() == 1
+    assert (
+        PdfPreviewBuilderPopplerUtils().get_page_number(
+            cache_path=CACHE_DIR, preview_name="test", file_path=path_0
+        )
+        == 1
+    )
 
     path_1 = manager.get_pdf_preview(file_path=ODP_FILE_PATH, page=1, force=True)
     assert os.path.exists(path_1) is True
     assert os.path.getsize(path_1) > 1000  # verify if the size of the pdf refer to a normal content
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN_WITH_PAGE__PDF, path_1)
-    pdf = PdfFileReader(open(path_1, "rb"))
-    assert pdf.getNumPages() == 1
+    assert (
+        PdfPreviewBuilderPopplerUtils().get_page_number(
+            cache_path=CACHE_DIR, preview_name="test", file_path=path_0
+        )
+        == 1
+    )
 
 
 def test_to_pdf_no_page() -> None:
@@ -181,9 +189,12 @@ def test_to_pdf_no_page() -> None:
     assert os.path.exists(path_to_file) is True
     assert os.path.getsize(path_to_file) > 0
     assert re.match(test_utils.CACHE_FILE_PATH_PATTERN__PDF, path_to_file)
-
-    pdf = PdfFileReader(open(path_to_file, "rb"))
-    assert pdf.getNumPages() == 5
+    assert (
+        PdfPreviewBuilderPopplerUtils().get_page_number(
+            cache_path=CACHE_DIR, preview_name="test", file_path=path_to_file
+        )
+        == 5
+    )
 
 
 def test_to_text() -> None:
