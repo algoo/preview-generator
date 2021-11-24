@@ -3,7 +3,7 @@ Change log for Preview-generator
 ================================
 
 ----------
-0.27 / TBD
+0.27 / 2021-11-24
 ----------
 
 :warning: This release introduce many changes with two of the basic builders changed (image, pdf) and a new one added (raw).
