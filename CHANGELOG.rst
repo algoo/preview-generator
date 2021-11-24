@@ -11,9 +11,9 @@ Change log for Preview-generator
 Features
 ~~~~~~~~
 
-- deprecate Pillow and Imagemagick command line builder in favor of a new Wand builder #253
-- add Webp format support to the new Wand builder #273
-- replace the old pdf builder by a new poppler-utils based builder #192
+- deprecate Pillow and Imagemagick command line builders in favor of a new Wand builder #253
+- add WebP image format support to the new Wand builder #273
+- replace the old PDF builder by a new poppler-utils based builder #192
 - add a new builder for raw using rawpy
 
 -----------------
@@ -23,7 +23,7 @@ Features
 Fixed issues
 ~~~~~~~~~~~~
 
-- enforce office mimetype supported by libreoffice to avoid unknown mimetype issues related to system specific configuration:  #283
+- enforce office mimetypes supported by LibreOffice to avoid unknown mimetype issues related to system specific configuration:  #283
 
 -----------------
 0.25 / 2021-10-19
@@ -56,7 +56,7 @@ Features
 Fixed issues
 ~~~~~~~~~~~~
 
-- many builders dependencies are now optionals : #235
+- many builders dependencies are now optional: #235
 
 -------------------
 0.22 / 2021-06-23
@@ -74,7 +74,7 @@ Fixed issues
 Fixed issues
 ~~~~~~~~~~~~
 
-- remove wand builder from default builders : #235
+- remove the wand builder from default builders: #235
 
 -------------------
 0.20 / 2021-06-10
@@ -83,7 +83,7 @@ Fixed issues
 Fixed issues
 ~~~~~~~~~~~~
 
-- properly kill libreoffice if timeout reached : #231
+- properly kill LibreOffice if the timeout is reached: #231
 
 
 -------------------
@@ -93,7 +93,7 @@ Fixed issues
 Fixed issues
 ~~~~~~~~~~~~
 
-- add python 3.9 support: #227
+- add Python 3.9 support: #227
 
 
 -------------------
@@ -103,7 +103,7 @@ Fixed issues
 Fixed issues
 ~~~~~~~~~~~~
 
-- fix pdf support with the new pivot code: #224
+- fix PDF support with the new pivot code: #224
 
 
 -------------------
@@ -113,7 +113,7 @@ Fixed issues
 Fixed issues
 ~~~~~~~~~~~~
 
-- improve preview generator by using pivot at the manager: #222
+- improve performances by using pivot in the manager: #222
 
 
 -------------------
