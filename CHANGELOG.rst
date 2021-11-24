@@ -11,10 +11,10 @@ Change log for Preview-generator
 Features
 ~~~~~~~~
 
-- deprecate Pillow and Imagemagick command line builders in favor of a new Wand builder #253
-- add WebP image format support to the new Wand builder #273
-- replace the old PDF builder by a new poppler-utils based builder #192
-- add a new builder for raw using rawpy
+- new Image builder based on Wand (which by the way deprecates Pillow and Imagemagick command line builders): #253
+- WebP image format support added to the new Wand builder: #273
+- new PDF builder based on poppler-utils (which replace old PDF builder): #192
+- new RAW image builder using rawpy: #249
 
 -----------------
 0.26 / 2021-11-16
@@ -50,8 +50,8 @@ Fixed issues
 Features
 ~~~~~~~~
 
-- experimental gltf support : cc69ad08ef67517b04afe62d6ed58b2eb00ce9b8
-- builder have now a weight permitting to know which builder will be used if conflict exist: #237
+- experimental GLTF format support (3d) in vtk builder: cc69ad08ef67517b04afe62d6ed58b2eb00ce9b8
+- builders have now a weight permitting to know which builder will be used in case of conflict: #237
 
 Fixed issues
 ~~~~~~~~~~~~
@@ -65,7 +65,7 @@ Fixed issues
 Fixed issues
 ~~~~~~~~~~~~
 
-- many builders dependencies are now optionals : #235
+- many builders dependencies are now optionals: #235
 
 -------------------
 0.21 / 2021-06-22
