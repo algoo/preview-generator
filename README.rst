@@ -217,7 +217,8 @@ Building ImageMagick with heic support: `Building ImageMagick with heic support`
 EPS support
 ~~~~~~~~~~~~
 
-You need to edit the policies of ImageMagick in /etc/ImageMagick-*/policy.xml.
+You need to edit the policies of ImageMagick in \/etc\/ImageMagick-\*\/policy.xml.
+
 
 .. code:: xhtml
 
