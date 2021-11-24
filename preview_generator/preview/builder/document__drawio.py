@@ -7,7 +7,7 @@ import typing
 
 from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import IntermediateFileBuildingFailed
-from preview_generator.preview.builder.image__pillow import ImagePreviewBuilderPillow
+from preview_generator.preview.builder.image__wand import ImagePreviewBuilderWand
 from preview_generator.preview.generic_preview import PreviewBuilder
 from preview_generator.utils import ImgDims
 from preview_generator.utils import MimetypeMapping
@@ -90,7 +90,7 @@ class ImagePreviewBuilderDrawio(PreviewBuilder):
                     "failed with status {}".format(build_jpg_result_code)
                 )
 
-            ImagePreviewBuilderPillow().build_jpeg_preview(
+            ImagePreviewBuilderWand().build_jpeg_preview(
                 tmp_jpg.name, preview_name, cache_path, page_id, extension, size, mimetype
             )
 

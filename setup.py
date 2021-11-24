@@ -38,9 +38,7 @@ install_requires = [
     "Wand",
     # commons
     "pdf2image",
-    "PyPDF2",
     "pyexifinfo",
-    "pathlib",
     "pdf2image",
     "filelock",
 ]
@@ -57,6 +55,7 @@ cairo_require = ["cairosvg"]
 scribus_require = drawio_require = ["xvfbwrapper"]
 video_require = ["ffmpeg-python"]
 cad3d_require = ["vtk"]
+rawpy_require = ["rawpy"]
 
 # TODO - G.M - 2021-06-18 - restore vtk as normal requirement, vtk is not compatible
 # with current version of python see https://gitlab.kitware.com/vtk/vtk/-/issues/18074,
@@ -71,6 +70,7 @@ extras_require = {
     "video": video_require,
     "3D": cad3d_require,
     "all": all_require,
+    "raw": rawpy_require,
     # specials
     "testing": tests_require,
     "dev": tests_require + devtools_require,

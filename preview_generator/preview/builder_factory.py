@@ -91,7 +91,6 @@ class PreviewBuilderFactory(object):
         if force or not self.builders_loaded:
             builder_folder = get_builder_folder_name()
             builder_modules = get_builder_modules(builder_folder)
-
             for module_name in builder_modules:
                 try:
                     import_builder_module(module_name)
@@ -108,9 +107,10 @@ class PreviewBuilderFactory(object):
                 if is_abstract(cls):
                     # INFO - G.M - 2021-06-22 - Skip abstract classes from loaded builders
                     pass
-                elif cls.__name__ == "ImagePreviewBuilderWand":
+                elif cls.__name__ in ("ImagePreviewBuilderPillow", "ImagePreviewBuilderIMConvert"):
                     self.logger.info(
-                        "ImagePreviewBuilderWand builder is deprecated and is not registered by default. Consider using ImagePreviewBuilderIMConvert instead"
+                        "{} builder is deprecated and is not registered by default. "
+                        "Consider using ImagePreviewBuilderIMConvert instead".format(cls.__name__)
                     )
                 else:
                     self.register_builder(cls, overwrite=False)
@@ -140,6 +140,7 @@ class PreviewBuilderFactory(object):
             # like automatic travis test with Ubuntu 14.04.5 LTS,
             # where ImagePreviewBuilderIMConvert pretend to
             # be able to deal with application/octet-stream mimetype
+
             for mimetype in builder.get_supported_mimetypes():
                 if mimetype == "application/octet-stream":
                     self.logger.critical(

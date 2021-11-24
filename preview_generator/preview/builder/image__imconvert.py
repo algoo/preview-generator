@@ -21,7 +21,8 @@ from preview_generator.utils import imagemagick_supported_mimes
 
 
 class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
-    """IM means Image Magick"""
+    """WARNING : This builder is deprecated, prefer ImagePreviewBuilderWand instead which
+    support the same list of format."""
 
     MIMETYPES = []  # type: typing.List[str]
     # TODO - G.M - 2019-11-21 - find better storage solution for mimetype mapping
@@ -53,7 +54,7 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         MimetypeMapping("image/heic", ".heif"),
     ]
 
-    weight = 30
+    weight = 0
 
     @classmethod
     def get_label(cls) -> str:
@@ -78,6 +79,8 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
         mimes.remove("application/postscript")
         mimes.append("application/x-xcf")
         mimes.append("image/x-xcf")
+        if executable_is_available("dwebp"):
+            mimes.append("image/webp")
         return mimes
 
     @classmethod
@@ -91,7 +94,9 @@ class ImagePreviewBuilderIMConvert(ImagePreviewBuilder):
 
     @classmethod
     def get_mimetypes_mapping(cls) -> typing.List[MimetypeMapping]:
-        mimetypes_mapping = []  # type: typing.List[MimetypeMapping]
+        mimetypes_mapping = [
+            MimetypeMapping("image/webp", ".webp")
+        ]  # type: typing.List[MimetypeMapping]
         mimetypes_mapping = (
             mimetypes_mapping
             + cls.SUPPORTED_RAW_CAMERA_MIMETYPE_MAPPING

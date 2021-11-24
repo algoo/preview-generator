@@ -18,7 +18,7 @@ def test_builder_folder_modules_found() -> None:
     assert "image__imconvert" in modules
     assert "image__pillow" in modules
     assert "office__libreoffice" in modules
-    assert "pdf__pypdf2" in modules
+    assert "pdf__poppler_utils" in modules
     assert "plain_text" in modules
     assert "archive__zip" in modules
     assert "document__sketch" in modules
