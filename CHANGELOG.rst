@@ -3,7 +3,7 @@ Change log for Preview-generator
 ================================
 
 ----------
-0.27 / 2021-11-24
+0.28 / 2021-11-24
 ----------
 
 :warning: This release introduce many changes with two of the basic builders changed (image, pdf) and a new one added (raw).
@@ -15,6 +15,15 @@ Features
 - WebP image format support added to the new Wand builder: #273
 - new PDF builder based on poppler-utils (which replace old PDF builder): #192
 - new RAW image builder using rawpy: #249
+
+-----------------
+0.27 / 2021-11-16
+-----------------
+
+Fixed issues
+~~~~~~~~~~~~
+- Repair loading builders without pytest and make code more explicit/safe about such issue: 47517e5dd2b153f3d541fa95f7e0121a3540a041
+
 
 -----------------
 0.26 / 2021-11-16
