@@ -2,6 +2,120 @@
 Change log for Preview-generator
 ================================
 
+----------
+0.27 / TBD
+----------
+
+:warning: This release introduce many changes with two of the basic builders changed (image, pdf) and a new one added (raw).
+
+Features
+~~~~~~~~
+
+- deprecate Pillow and Imagemagick command line builder in favor of a new Wand builder #253
+- add Webp format support to the new Wand builder #273
+- replace the old pdf builder by a new poppler-utils based builder #192
+- add a new builder for raw using rawpy
+
+-----------------
+0.26 / 2021-11-16
+-----------------
+
+Fixed issues
+~~~~~~~~~~~~
+
+- enforce office mimetype supported by libreoffice to avoid unknown mimetype issues related to system specific configuration:  #283
+
+-----------------
+0.25 / 2021-10-19
+-----------------
+
+Fixed issues
+~~~~~~~~~~~~~
+
+- fix issue with inkscape builder as required:  #263
+
+-----------------
+0.24 / 2021-10-18
+-----------------
+
+Fixed issues
+~~~~~~~~~~~~
+
+- add compatibility with inkscape v1: #263
+
+-------------------
+0.23 / 2021-06-29
+-------------------
+
+Features
+~~~~~~~~
+
+- experimental gltf support : cc69ad08ef67517b04afe62d6ed58b2eb00ce9b8
+- builder have now a weight permitting to know which builder will be used if conflict exist: #237
+
+Fixed issues
+~~~~~~~~~~~~
+
+- many builders dependencies are now optionals : #235
+
+-------------------
+0.22 / 2021-06-23
+-------------------
+
+Fixed issues
+~~~~~~~~~~~~
+
+- many builders dependencies are now optionals : #235
+
+-------------------
+0.21 / 2021-06-22
+-------------------
+
+Fixed issues
+~~~~~~~~~~~~
+
+- remove wand builder from default builders : #235
+
+-------------------
+0.20 / 2021-06-10
+-------------------
+
+Fixed issues
+~~~~~~~~~~~~
+
+- properly kill libreoffice if timeout reached : #231
+
+
+-------------------
+0.19 / 2021-05-24
+-------------------
+
+Fixed issues
+~~~~~~~~~~~~
+
+- add python 3.9 support: #227
+
+
+-------------------
+0.18 / 2021-05-06
+-------------------
+
+Fixed issues
+~~~~~~~~~~~~
+
+- fix pdf support with the new pivot code: #224
+
+
+-------------------
+0.17 / 2021-04-30
+-------------------
+
+Fixed issues
+~~~~~~~~~~~~
+
+- improve preview generator by using pivot at the manager: #222
+
+
 -------------------
 0.16.2 / 2021-04-21
 -------------------
