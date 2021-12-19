@@ -17,8 +17,6 @@ If you want to add a new preview builder to handle documents of type **foo** int
    * for single page it will be `class FooPreviewBuilder(OnePagePreviewBuilder)`
    * etc
  - define your own `build_jpeg_preview(...)` (in the case we want to make **foo** into **jpeg**) based on the same principle as other build\_{type}_preview(...)
- - Inside this build_jpeg_preview(...) you will call a method file_converter.foo_to_jpeg(...)
- - Define your foo_to_jpeg(...) method in preview_generator.preview.file_converter.py
 
    * inputs must be a stream of bytes and optional informations like a number of pages, a size, ...
    * output must also be a stream of bytes
@@ -43,7 +41,7 @@ From scratch on a terminal :
      * build your virtual env (env will be called "myenv", you can name it the way you want): `python3 -m venv myenv`
      * if it's not already, activate it : `source myenv/bin/activate`. (`deactivate` to deactivate)
   - install dependencies :
-    * `apt-get install poppler-utils qpdf libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0 zlib1g-dev libjpeg-dev`
+    * `apt-get install poppler-utils libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0 zlib1g-dev libjpeg-dev`
     * `pip install -e ".[dev, all]"`
     * install external apt dependencies for specific builder (see README.md)
 

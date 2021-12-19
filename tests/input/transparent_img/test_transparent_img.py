@@ -3,11 +3,12 @@ import re
 import shutil
 import typing
 
-from wand.image import Image
 from wand.color import Color
+from wand.image import Image
 
 from preview_generator.manager import PreviewManager
-from preview_generator.utils import compute_resize_dims, ImgDims
+from preview_generator.utils import ImgDims
+from preview_generator.utils import compute_resize_dims
 from tests import test_utils
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -65,5 +66,5 @@ def test_png_to_jpeg_with_background_white() -> None:
         assert nearest_colour_white(output_img[5][5])
 
 
-def nearest_colour_white(color: Color):
+def nearest_colour_white(color: Color) -> bool:
     return color.red_int8 >= 250 and color.green_int8 >= 250 and color.blue_int8 >= 250
