@@ -49,7 +49,7 @@ if py_version <= (3, 5):
 else:
     install_requires.append("Pillow")
 
-tests_require = ["pytest", "pytest-dotenv"]
+tests_require = ["pytest", "pytest-dotenv", "ImageHash"]
 devtools_require = ["flake8", "isort", "mypy", "pre-commit"]
 cairo_require = ["cairosvg"]
 scribus_require = drawio_require = ["xvfbwrapper"]
