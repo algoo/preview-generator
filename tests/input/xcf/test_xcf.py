@@ -7,6 +7,7 @@ import shutil
 import typing
 
 from PIL import Image
+import imagehash
 import pytest
 
 from preview_generator.exception import UnavailablePreviewType
@@ -15,6 +16,7 @@ from preview_generator.manager import PreviewManager
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = "/tmp/preview-generator-tests/cache"
 IMAGE_FILE_PATH = os.path.join(CURRENT_DIR, "the_xcf.xcf")
+EXPECTED_IMAGE_PATH = os.path.join(CURRENT_DIR, "the_xcf_expected.jpeg")
 FILE_HASH = hashlib.md5(IMAGE_FILE_PATH.encode("utf-8")).hexdigest()
 
 
@@ -35,6 +37,8 @@ def test_to_jpeg() -> None:
     with Image.open(path_to_file) as jpeg:
         assert jpeg.height in range(182, 184)
         assert jpeg.width == 512
+        with Image.open(EXPECTED_IMAGE_PATH) as expected_jpeg:
+            assert check_images_almost_same(jpeg, expected_jpeg)
 
 
 def test_get_nb_page() -> None:
@@ -104,3 +108,11 @@ def test_to_text() -> None:
     assert manager.has_text_preview(file_path=IMAGE_FILE_PATH) is False
     with pytest.raises(UnavailablePreviewType):
         manager.get_text_preview(file_path=IMAGE_FILE_PATH, force=True)
+
+
+def check_images_almost_same(image, another_image):
+    hash_size = 256  # control accuracy
+
+    image_hash = imagehash.average_hash(image, hash_size=hash_size)
+    another_image_hash = imagehash.average_hash(another_image, hash_size=hash_size)
+    return another_image_hash == image_hash
