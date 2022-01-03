@@ -110,9 +110,8 @@ def test_to_text() -> None:
         manager.get_text_preview(file_path=IMAGE_FILE_PATH, force=True)
 
 
-def check_images_almost_same(image, another_image):
+def check_images_almost_same(image: Image, another_image: Image):
     hash_size = 256  # control accuracy
-
     image_hash = imagehash.average_hash(image, hash_size=hash_size)
     another_image_hash = imagehash.average_hash(another_image, hash_size=hash_size)
     return another_image_hash == image_hash
