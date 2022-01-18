@@ -5,8 +5,8 @@ import shutil
 import typing
 
 from PIL import Image
-from wand.image import Image as WandImage
 import pytest
+from wand.image import Image as WandImage
 
 from preview_generator.manager import PreviewManager
 from preview_generator.utils import ImgDims
@@ -36,7 +36,7 @@ def test_right_aspect_ratio() -> None:
     assert ratio == pytest.approx(origin_ratio, 1e-3)
 
 
-def compute_image_ratio(filename):
+def compute_image_ratio(filename: str) -> float:
     with WandImage(filename=filename) as img:
         img.auto_orient()
         size = ImgDims(width=img.width, height=img.height)
