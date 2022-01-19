@@ -160,11 +160,11 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
         """
 
         img = Image(filename=file_path)
+        img.auto_orient()
         resize_dim = compute_resize_dims(
             dims_in=ImgDims(width=img.width, height=img.height), dims_out=preview_dims
         )
 
-        img.auto_orient()
         img.iterator_reset()
         img.background_color = Color("white")
         img.merge_layers("merge")
