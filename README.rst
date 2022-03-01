@@ -516,6 +516,16 @@ For the last one, this configuration is known to work:
 2. launch ``Xvfb :99 -screen 0 1x1x16 > /dev/null 2>&1 &`` (note: this use a very small x framebuffer 1x1 pixel in 16 color depth to limit video usage).
 3. run python code with env var ``DISPLAY=:99.0``
 
+Process Stuck during generation of big spreadsheet preview
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+On old libreoffice version like 6.0.7.3, the generation of some big spreadsheet file (like xslx) is stuck, until it reach
+a 1 minutes timeout.
+The solution is to update libreoffice.
+
+In our internal test, the spreadsheet that failed to be generated in 6.0.7.3, is properly generated in 6.4.2.2. We advise you to
+use at least this version to avoid this kind of issues.
+
 ------------------------------
 Contribute and Developer’s Kit
 ------------------------------
