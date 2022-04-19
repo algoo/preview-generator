@@ -37,9 +37,7 @@ install_requires = [
     # wand builder
     "Wand",
     # commons
-    "pdf2image",
     "pyexifinfo",
-    "pdf2image",
     "filelock",
 ]
 
