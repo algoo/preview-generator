@@ -43,12 +43,6 @@ install_requires = [
     "filelock",
 ]
 
-if py_version <= (3, 5):
-    # NOTE - SG - 2021-04-19 - python 3.5 is dropped starting with 8.0.0
-    install_requires.append("Pillow<8.0.0")
-else:
-    install_requires.append("Pillow")
-
 tests_require = ["pytest", "pytest-dotenv", "ImageHash"]
 devtools_require = ["flake8", "isort", "mypy", "pre-commit"]
 cairo_require = ["cairosvg"]
