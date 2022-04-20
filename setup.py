@@ -42,7 +42,7 @@ install_requires = [
 ]
 
 tests_require = ["pytest", "pytest-dotenv", "ImageHash"]
-devtools_require = ["flake8", "isort", "mypy", "pre-commit"]
+devtools_require = ["flake8", "isort", "mypy", "pre-commit", "black"]
 cairo_require = ["cairosvg"]
 scribus_require = drawio_require = ["xvfbwrapper"]
 video_require = ["ffmpeg-python"]
@@ -52,8 +52,8 @@ rawpy_require = ["rawpy"]
 # TODO - G.M - 2021-06-18 - restore vtk as normal requirement, vtk is not compatible
 # with current version of python see https://gitlab.kitware.com/vtk/vtk/-/issues/18074,
 all_require = [cairo_require, scribus_require, video_require, drawio_require]
-if py_version < (3, 9):
-    all_require.append(cad3d_require)
+# if py_version < (3, 9):
+#     all_require.append(cad3d_require)
 
 extras_require = {
     "cairosvg": cairo_require,
@@ -67,13 +67,6 @@ extras_require = {
     "testing": tests_require,
     "dev": tests_require + devtools_require,
 }
-
-# add black for python 3.6+
-if sys.version_info.major == 3 and sys.version_info.minor >= 6:
-    devtools_require.append("black")
-
-if py_version <= (3, 4):
-    install_requires.append("typing")
 
 setup(
     name="preview_generator",
