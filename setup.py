@@ -93,7 +93,6 @@ setup(
     ),
     keywords=["preview", "preview_generator", "thumbnail", "cache"],
     classifiers=[
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
