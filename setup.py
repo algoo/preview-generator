@@ -37,31 +37,18 @@ install_requires = [
     # wand builder
     "Wand",
     # commons
-    "pdf2image",
     "pyexifinfo",
-    "pdf2image",
     "filelock",
 ]
 
-if py_version <= (3, 5):
-    # NOTE - SG - 2021-04-19 - python 3.5 is dropped starting with 8.0.0
-    install_requires.append("Pillow<8.0.0")
-else:
-    install_requires.append("Pillow")
-
 tests_require = ["pytest", "pytest-dotenv", "ImageHash"]
-devtools_require = ["flake8", "isort", "mypy", "pre-commit"]
+devtools_require = ["flake8", "isort", "mypy", "pre-commit", "black"]
 cairo_require = ["cairosvg"]
 scribus_require = drawio_require = ["xvfbwrapper"]
 video_require = ["ffmpeg-python"]
 cad3d_require = ["vtk"]
 rawpy_require = ["rawpy"]
-
-# TODO - G.M - 2021-06-18 - restore vtk as normal requirement, vtk is not compatible
-# with current version of python see https://gitlab.kitware.com/vtk/vtk/-/issues/18074,
 all_require = [cairo_require, scribus_require, video_require, drawio_require]
-if py_version < (3, 9):
-    all_require.append(cad3d_require)
 
 extras_require = {
     "cairosvg": cairo_require,
@@ -75,13 +62,6 @@ extras_require = {
     "testing": tests_require,
     "dev": tests_require + devtools_require,
 }
-
-# add black for python 3.6+
-if sys.version_info.major == 3 and sys.version_info.minor >= 6:
-    devtools_require.append("black")
-
-if py_version <= (3, 4):
-    install_requires.append("typing")
 
 setup(
     name="preview_generator",
@@ -101,15 +81,13 @@ setup(
     ),
     keywords=["preview", "preview_generator", "thumbnail", "cache"],
     classifiers=[
-        "Programming Language :: Python :: 3.5",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ],
     packages=find_packages(exclude=["ez_setup"]),
     install_requires=install_requires,
-    python_requires=">= 3.5",
+    python_requires=">= 3.7",
     include_package_data=True,
     extras_require=extras_require,
     test_suite="py.test",  # TODO : change test_suite

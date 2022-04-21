@@ -15,8 +15,7 @@ def test_builder_folder_modules_found() -> None:
     folder_path = builder_factory.get_builder_folder_name()
     modules = builder_factory.get_builder_modules(folder_path)
     assert len(modules) >= 7
-    assert "image__imconvert" in modules
-    assert "image__pillow" in modules
+    assert "image__wand" in modules
     assert "office__libreoffice" in modules
     assert "pdf__poppler_utils" in modules
     assert "plain_text" in modules

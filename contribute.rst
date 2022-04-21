@@ -53,7 +53,7 @@ Code Convention :
 When using subclass of generic abstract class, convention is to prefix it with name
 of the generic abstract class. For example:
 
-    ImagePreviewBuilderIMConvert(ImagePreviewBuilder)
+    ImagePreviewBuilderWand(ImagePreviewBuilder)
 
 ---------------
 Running Tests :
