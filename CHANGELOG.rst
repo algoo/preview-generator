@@ -3,6 +3,23 @@ Change log for Preview-generator
 ================================
 
 ----------
+0.29 / 2022-21-04
+----------
+
+:warning: Support for python<3.6 is deprecated.
+
+Misc
+~~~~~
+- Remove pillow and imconvert builders
+- Drop support for python3.6
+- Document issue with old version of libreoffice for spreadsheet #296
+- Enhanced the test cases for xcf files
+
+Fixed issues
+~~~~~~~~~~~~
+- fix aspec ratio issue: https://github.com/algoo/preview-generator/issues/293
+
+----------
 0.28 / 2021-11-24
 ----------
 
