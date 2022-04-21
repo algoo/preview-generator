@@ -523,7 +523,7 @@ With libreoffice version like 6.0.7.3, the generation of some big spreadsheet fi
 a 1 minutes timeout.
 The solution is to update libreoffice.
 
-In our internal test, the spreadsheet that failed to be generated in 6.0.7.3, is properly generated in 6.4.2.2. We advise you to
+During our internal tests, we found out that the spreadsheet file that failed to be generated in 6.0.7.3 is properly generated in 6.4.2.2. We advise you to
 use at least this version to avoid this kind of issues.
 
 ------------------------------
