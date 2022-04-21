@@ -520,7 +520,6 @@ Process Stuck during generation of big spreadsheet preview
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 With libreoffice version like 6.0.7.3, the generation of some big spreadsheet files (like xlsx) takes a very long time, until it reaches a 1 minute timeout.
-a 1 minutes timeout.
 The solution is to update libreoffice.
 
 During our internal tests, we found out that the spreadsheet file that failed to be generated in 6.0.7.3 is properly generated in 6.4.2.2. We advise you to
