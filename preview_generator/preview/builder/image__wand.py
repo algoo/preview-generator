@@ -80,6 +80,11 @@ class ImagePreviewBuilderWand(ImagePreviewBuilder):
         """
 
         mimes = imagemagick_supported_mimes()  # type: typing.List[str]
+
+        # Image magick claims to support files of type 'application/json', however we cannot
+        # generate previews for JSON files.
+        mimes.remove('application/json')
+
         # HACK - G.M - 2019-10-31 - Handle raw format only if ufraw-batch is installed as most common
         # default imagemagick configuration delegate raw format to ufraw-batch.
         if executable_is_available("ufraw-batch"):
