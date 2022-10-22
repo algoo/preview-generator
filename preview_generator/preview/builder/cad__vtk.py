@@ -49,7 +49,7 @@ except ImportError:
 # GLTF support is considered as experimental feature as
 # Non-embbeded gltf are known to cause preview-generator to crash (segfault).
 GLTF_EXPERIMENTAL_SUPPORT_ENABLED = (
-    os.environ.get("GLTF_EXPERIMENTAL_SUPPORT") == "1" and vtk_version_installed == 9
+    os.environ.get("GLTF_EXPERIMENTAL_SUPPORT_ENABLED") == "1" and vtk_version_installed == 9
 )
 
 
