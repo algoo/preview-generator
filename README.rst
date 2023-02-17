@@ -535,9 +535,10 @@ see `here`_ .
 .. _`here`: contribute.rst
 
 
-
 -------
 License
 -------
 
-MIT licensed. https://opensource.org/licenses/MIT
+See `LICENSE`_
+
+.. _`LICENSE`: LICENSE
