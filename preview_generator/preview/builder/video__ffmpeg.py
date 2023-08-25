@@ -168,9 +168,12 @@ class VideoPreviewBuilderFFMPEG(PreviewBuilder):
         video_size = self.get_dims_from_ffmpeg_probe(video_probe_data)
         extraction_size = self._get_extraction_size(video_size, size)
 
-        video_duration = float(video_probe_data["format"]["duration"])
-        page_nb = self.get_page_number(file_path, preview_name, cache_path)
-        frame_time = self._get_frame_time(page_id, page_nb, video_duration)
+        try:
+            video_duration = float(video_probe_data["format"]["duration"])
+            page_nb = self.get_page_number(file_path, preview_name, cache_path)
+            frame_time = self._get_frame_time(page_id, page_nb, video_duration)
+        except KeyError:
+            frame_time = 0
 
         (
             ffmpeg.input(file_path, ss=frame_time)
