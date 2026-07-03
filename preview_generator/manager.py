@@ -7,6 +7,7 @@ import typing
 
 from filelock import FileLock
 
+from preview_generator.exception import BuilderDependencyNotFound
 from preview_generator.exception import UnsupportedMimeType
 from preview_generator.extension import mimetypes_storage
 from preview_generator.preview.builder.document_generic import DocumentPreviewBuilder
@@ -199,15 +200,26 @@ class PreviewManager(object):
             preview_context = self.get_preview_context(file_path, file_ext=".pdf")
         with preview_context.filelock:
             if force or not os.path.exists(preview_file_path):
-                preview_context.builder.build_jpeg_preview(
-                    file_path=file_path,
-                    preview_name=preview_name,
-                    cache_path=self.cache_path,
-                    page_id=max(page, 0),  # if page is -1 then return preview of first page,
-                    extension=extension,
-                    size=size,
-                    mimetype=preview_context.mimetype,
-                )
+                try:
+                    preview_context.builder.build_jpeg_preview(
+                        file_path=file_path,
+                        preview_name=preview_name,
+                        cache_path=self.cache_path,
+                        page_id=max(page, 0),  # if page is -1 then return preview of first page,
+                        extension=extension,
+                        size=size,
+                        mimetype=preview_context.mimetype,
+                    )
+                except Exception as base_error:
+                    """The builder failed.
+                    Did it failed because of a missing dependency or something else?
+                    """
+                    try:
+                        preview_context.builder.check_dependencies()
+                    except BuilderDependencyNotFound as err:
+                        raise err from base_error
+                    else:
+                        raise
 
         return preview_file_path
 

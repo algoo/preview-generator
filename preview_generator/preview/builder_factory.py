@@ -127,7 +127,6 @@ class PreviewBuilderFactory(object):
         self, builder: typing.Type["PreviewBuilder"], overwrite: bool = False
     ) -> None:
         try:
-            builder.check_dependencies()
             builder.update_mimetypes_mapping()
             self.builders_classes.append(builder)
             # FIXME - G.M - 2018-10-18 - Fix issue with application/octet-stream
