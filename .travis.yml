@@ -12,7 +12,7 @@ before_install:
   - sudo apt-get install -y poppler-utils libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0
   # optionals
   - sudo apt-get install libreoffice inkscape ffmpeg xvfb webp
-  - DRAWIO_VERSION="12.6.5" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb && sudo dpkg -i draw.io-amd64-${DRAWIO_VERSION}.deb
+  - DRAWIO_VERSION="30.2.6" && curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb && sudo dpkg -i draw.io-amd64-${DRAWIO_VERSION}.deb
 install:
   - pip install ".[all, testing]"
 before_script:
@@ -70,6 +70,14 @@ jobs:
       python: "3.8"
     - stage: tests
       python: "3.9"
+    - stage: tests
+      python: "3.10"
+    - stage: tests
+      python: "3.11"
+    - stage: tests
+      python: "3.12"
+    - stage: tests
+      python: "3.13"
     - stage: slow-tests
       python: "3.5"
       script:
