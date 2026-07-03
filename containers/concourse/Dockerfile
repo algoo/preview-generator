@@ -1,6 +1,6 @@
 # This image should be built from the root of tracim repository, e.g.:
 # docker build -f containers/concourse/Dockerfile -t algooci/preview-generator:latest .
-FROM debian:bullseye AS base_install
+FROM debian:trixie AS base_install
 
 # HOME, used by pyenv scripts
 ENV HOME=/root
@@ -17,4 +17,4 @@ RUN ./concourse/scripts/install_os_packages && \
 
 FROM base_install AS main
     # tested python versions
-RUN ./concourse/scripts/install_python_packages 3.6.14 3.7.11 3.8.11 3.9.6
+RUN ./concourse/scripts/install_python_packages 3.6.14 3.7.11 3.8.11 3.9.6 3.13.5
